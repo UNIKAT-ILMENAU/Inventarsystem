@@ -1,6 +1,6 @@
 #  Inventarsystem / inventory system
 
-### Introduce
+### Introduction
 Here you can see an open-source project from UNIKAT and TU-Ilmenau. We want to develop an inventory system as a single page application to organize items in medium large storages.
 
 ### Documentation
