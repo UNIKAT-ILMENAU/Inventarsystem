@@ -1,0 +1,32 @@
+<!-- 
+Controller: DetailCtrl - controllers.js
+Additionally needed scripts: none 
+-->
+<div class="container">
+  <h1>{{detailData.name}}</h1>
+  <hr>
+  <p>{{detailData.description}}</p>
+
+
+  <ul class="specs">
+    <li>
+      <span>Availability and Networks</span>
+      <dl>
+        <dt>Availability</dt>
+        <dd ng-repeat="availability in detailData.availability">{{$index}} | {{availability}}</dd>
+      </dl>
+      	<dl>Test [2]: {{detailData.availability[2]}}</dl>
+    </li>
+      <dl>{{detailData.display.screenSize}} | {{detailData.display.touchScreen | checkmark}} + {{detailData.display.screenResolution}}</dl>
+    <li>
+      <span>Additional Features</span>
+      <dd>{{detailData.additionalFeatures}}</dd>
+    </li>
+  </ul>
+  <hr>
+  <div class="text-center">
+  <a href="#/" class="btn btn-primary">Back to the menu</a>
+  </div>
+  <hr>
+</div>
+<!-- Daten umschreiben##### WORK IN PROGRESS #####-->
