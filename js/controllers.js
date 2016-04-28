@@ -39,7 +39,7 @@ invControllers.controller('indexCtrl', function ($scope, REST, $location, $ancho
   $scope.scrollTo = function(id) {
       // set the location.hash to the id of
       // the element you wish to scroll to.
-      $location.hash(id);
+      $location.hash();			//id workInProgress
 
       // call $anchorScroll() to use the scroll
       $anchorScroll();
