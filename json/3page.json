@@ -1,0 +1,16 @@
+{
+    "name": "TEST3",
+    "additionalFeatures": "Something different"
+    ,  
+    "availability": [
+        "AT&T,", 
+        "KT,", 
+        "T-Mobile"
+    ],   
+    "description": "The Venue is the perfect one-touch, Smart Phone providing instant access to everything you love. All of Venue's features make it perfect for on-the-go students, mobile professionals, and active social communicators who love style and performance.\n\nElegantly designed, the Venue offers a vibrant, curved glass display that\u2019s perfect for viewing all types of content. The Venue\u2019s slender form factor feels great in your hand and also slips easily into your pocket.  A mobile entertainment powerhouse that lets you download the latest tunes from Amazon MP3 or books from Kindle, watch video, or stream your favorite radio stations.  All on the go, anytime, anywhere.", 
+    "display": {
+        "screenResolution": "WVGA (1800 x 1480)", 
+        "screenSize": "14.1 inches", 
+        "touchScreen": true
+    }  
+}
