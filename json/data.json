@@ -1,415 +1,327 @@
 [
  {
-  "age": 13,
   "id": "1page",
-  "name": "KEVIN DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
+  "typ": "Device",
+  "category": "Kat1",
+  "shape": "Shape2",
+  "value": 22,
+  "name": "name1",
+  "location": "B2",
+  "note": "Blue color",
+  "age": 1,
+  "state": "new"
  },
  {
-  "age": 3,
-  "id": "2page",
-  "name": "ZZZZ1 DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
+ "id": "2page",
+ "typ": "Device",
+  "category": "Kat1",
+  "shape": "Shape3",
+  "value": 20,
+  "name": "name2",
+  "location": "B2",
+  "note": "Damaged",
+  "age": 4,
+  "state": "broken"
  },
  {
-  "age": 2,
-  "id": "3page",
-  "name": "DDDDert DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
+ "id": "3page",
+ "typ": "Device",
+  "category": "Kat4",
+  "shape": "Shape1",
+  "value": 27,
+  "name": "name3",
+  "location": "B2",
+  "note": "Red color",
+  "age": 13,
+  "state": "used"
  },
  {
-  "age": 3,
-  "id": "2page",
-  "name": "231 DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 2,
-  "id": "3page",
-  "name": "ertert DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 3,
-  "id": "2page",
-  "name": "231 DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 2,
-  "id": "3page",
-  "name": "ertert DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 3,
-  "id": "2page",
-  "name": "231 DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 2,
-  "id": "3page",
-  "name": "ertert DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 3,
-  "id": "2page",
-  "name": "231 DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 2,
-  "id": "3page",
-  "name": "ertert DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 3,
-  "id": "2page",
-  "name": "231 DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 2,
-  "id": "3page",
-  "name": "ertert DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 3,
-  "id": "2page",
-  "name": "231 DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 2,
   "id": "4page",
-  "name": "bookiertert DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
+  "typ": "Device",
+  "category": "Kat6",
+  "shape": "Shape2",
+  "value": 4,
+  "name": "name4",
+  "location": "B9",
+  "note": "color unkown",
+  "age": 5,
+  "state": "new"
  },
  {
-  "age": 3,
-  "id": "2page",
-  "name": "231 DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
+ "id": "2page",
+ "typ": "Device",
+  "category": "Kat1",
+  "shape": "Shape3",
+  "value": 10,
+  "name": "name5",
+  "location": "B2",
+  "note": "Damaged",
+  "age": 9,
+  "state": "broken"
  },
  {
-  "age": 2,
+ "id": "3page",
+ "typ": "Device",
+  "category": "Kat4",
+  "shape": "Shape1",
+  "value": 27,
+  "name": "name6",
+  "location": "B2",
+  "note": "Red color",
+  "age": 13,
+  "state": "used"
+ },
+ {
+  "id": "4page",
+  "typ": "Device",
+  "category": "Kat6",
+  "shape": "Shape2",
+  "value": 4,
+  "name": "name7",
+  "location": "B9",
+  "note": "color unkown",
+  "age": 5,
+  "state": "new"
+ },
+ {
+ "id": "2page",
+ "typ": "Device",
+  "category": "Kat1",
+  "shape": "Shape3",
+  "value": 10,
+  "name": "name8",
+  "location": "B2",
+  "note": "Damaged",
+  "age": 9,
+  "state": "broken"
+ },
+ {
+ "id": "3page",
+ "typ": "Device",
+  "category": "Kat4",
+  "shape": "Shape1",
+  "value": 27,
+  "name": "name9",
+  "location": "C2",
+  "note": "Red color",
+  "age": 13,
+  "state": "used"
+ },
+ {
+  "id": "4page",
+  "typ": "Device",
+  "category": "Kat4",
+  "shape": "Shape5",
+  "value": 3,
+  "name": "name10",
+  "location": "A9",
+  "note": "color unkown",
+  "age": 15,
+  "state": "new"
+ },
+ {
+ "id": "2page",
+ "typ": "Device",
+  "category": "Kat3",
+  "shape": "Shape3",
+  "value": 13,
+  "name": "name11",
+  "location": "B2",
+  "note": "Damaged",
+  "age": 19,
+  "state": "broken"
+ },
+ {
+ "id": "3page",
+ "typ": "Device",
+  "category": "Kat4",
+  "shape": "Shape1",
+  "value": 28,
+  "name": "name12",
+  "location": "A2",
+  "note": "White color",
+  "age": 23,
+  "state": "used"
+ },
+ {
+  "id": "4page",
+  "typ": "Device",
+  "category": "Kat6",
+  "shape": "Shape2",
+  "value": 4,
+  "name": "name13",
+  "location": "B9",
+  "note": "color unkown",
+  "age": 5,
+  "state": "new"
+ },
+ {
+ "id": "2page",
+ "typ": "Material",
+  "category": "Kat1",
+  "shape": "Shape3",
+  "value": 10,
+  "name": "name14",
+  "location": "B2",
+  "note": "Damaged",
+  "age": 9,
+  "state": "broken"
+ },
+ {
+ "id": "3page",
+ "typ": "Material",
+  "category": "Kat4",
+  "shape": "Shape1",
+  "value": 27,
+  "name": "name15",
+  "location": "C2",
+  "note": "Red color",
+  "age": 13,
+  "state": "used"
+ },
+ {
+  "id": "4page",
+  "typ": "Material",
+  "category": "Kat4",
+  "shape": "Shape5",
+  "value": 3,
+  "name": "name16",
+  "location": "A9",
+  "note": "color unkown",
+  "age": 15,
+  "state": "new"
+ },
+ {
+ "id": "2page",
+ "typ": "Material",
+  "category": "Kat3",
+  "shape": "Shape3",
+  "value": 13,
+  "name": "name17",
+  "location": "B2",
+  "note": "Damaged",
+  "age": 19,
+  "state": "broken"
+ },
+ {
+ "id": "3page",
+ "typ": "Material",
+  "category": "Kat4",
+  "shape": "Shape1",
+  "value": 18,
+  "name": "name6",
+  "location": "A2",
+  "note": "White color",
+  "age": 13,
+  "state": "used"
+ },
+ {
+  "id": "4page",
+  "typ": "Material",
+  "category": "Kat4",
+  "shape": "Shape5",
+  "value": 3,
+  "name": "name10",
+  "location": "A9",
+  "note": "color unkown",
+  "age": 15,
+  "state": "new"
+ },
+ {
+ "id": "2page",
+ "typ": "Material",
+  "category": "Kat3",
+  "shape": "Shape3",
+  "value": 13,
+  "name": "name11",
+  "location": "B2",
+  "note": "Damaged",
+  "age": 19,
+  "state": "broken"
+ },
+ {
+ "id": "3page",
+ "typ": "Material",
+  "category": "Kat4",
+  "shape": "Shape1",
+  "value": 28,
+  "name": "name12",
+  "location": "A2",
+  "note": "White color",
+  "age": 23,
+  "state": "used"
+ },
+ {
+  "id": "4page",
+  "typ": "Material",
+  "category": "Kat6",
+  "shape": "Shape2",
+  "value": 4,
+  "name": "name13",
+  "location": "B9",
+  "note": "color unkown",
+  "age": 5,
+  "state": "new"
+ },
+ {
+ "id": "2page",
+ "typ": "Material",
+  "category": "Kat1",
+  "shape": "Shape3",
+  "value": 10,
+  "name": "name14",
+  "location": "B2",
+  "note": "Damaged",
+  "age": 9,
+  "state": "broken"
+ },
+ {
   "id": "3page",
-  "name": "ertert DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
+  "typ": "Material",
+  "category": "Kat4",
+  "shape": "Shape1",
+  "value": 27,
+  "name": "name15",
+  "location": "C2",
+  "note": "Red color",
+  "age": 1,
+  "state": "used"
  },
  {
-  "age": 3,
-  "id": "2page",
-  "name": "231 DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
+  "id": "4page",
+  "typ": "Material",
+  "category": "Kat4",
+  "shape": "Shape5",
+  "value": 3,
+  "name": "name16",
+  "location": "A9",
+  "note": "color unkown",
+  "age": 9,
+  "state": "new"
  },
  {
+ "id": "2page",
+ "typ": "Material",
+  "category": "Kat3",
+  "shape": "Shape3",
+  "value": 8,
+  "name": "name17",
+  "location": "B2",
+  "note": "Damaged",
+  "age": 19,
+  "state": "broken"
+ },
+ {
+ "id": "3page",
+  "typ": "Material",
+  "category": "Kat4",
+  "shape": "Shape1",
+  "value": 28,
+  "name": "name6",
+  "location": "A2",
+  "note": "White color",
   "age": 2,
-  "id": "3page",
-  "name": "ertert DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 3,
-  "id": "2page",
-  "name": "231 DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 2,
-  "id": "3page",
-  "name": "ertert DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 3,
-  "id": "2page",
-  "name": "231 DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 2,
-  "id": "3page",
-  "name": "ertert DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 3,
-  "id": "2page",
-  "name": "231 DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 2,
-  "id": "3page",
-  "name": "ertert DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 3,
-  "id": "2page",
-  "name": "231 DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 2,
-  "id": "3page",
-  "name": "ertert DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 3,
-  "id": "2page",
-  "name": "231 DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 2,
-  "id": "3page",
-  "name": "ertert DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 3,
-  "id": "2page",
-  "name": "231 DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 2,
-  "id": "3page",
-  "name": "ertert DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 3,
-  "id": "2page",
-  "name": "231 DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 2,
-  "id": "3page",
-  "name": "ertert DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 3,
-  "id": "2page",
-  "name": "231 DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 2,
-  "id": "3page",
-  "name": "ertert DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready  Material for everything life throws your way?"
- 
- },
- {
-  "age": 3,
-  "id": "2page",
-  "name": "231 DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 2,
-  "id": "3page",
-  "name": "aaAAAAertert DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 3,
-  "id": "2page",
-  "name": "231 DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way? Test"
- 
- },
- {
-  "age": 2,
-  "id": "3page",
-  "name": "ertert DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 3,
-  "id": "2page",
-  "name": "231 DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 2,
-  "id": "3page",
-  "name": "ertert DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 3,
-  "id": "2page",
-  "name": "231 DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 2,
-  "id": "3page",
-  "name": "ertert DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 3,
-  "id": "2page",
-  "name": "231 DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 2,
-  "id": "3page",
-  "name": "ertert DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 3,
-  "id": "2page",
-  "name": "231 DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 2,
-  "id": "3page",
-  "name": "ertert DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 3,
-  "id": "2page",
-  "name": "231 DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 2,
-  "id": "3page",
-  "name": "ertert DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 3,
-  "id": "2page",
-  "name": "231 DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 2,
-  "id": "3page",
-  "name": "ertert DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 3,
-  "id": "2page",
-  "name": "231 DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 2,
-  "id": "3page",
-  "name": "ertert DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 3,
-  "id": "2page",
-  "name": "231 DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 2,
-  "id": "3page",
-  "name": "ertert DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 3,
-  "id": "2page",
-  "name": "231 DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 2,
-  "id": "3page",
-  "name": "ertert DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 3,
-  "id": "2page",
-  "name": "231 DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
- },
- {
-  "age": 2,
-  "id": "3page",
-  "name": "ertert DEFY\u2122 with MOTOBLUR\u2122",
-  "snippet": "Are you ready for everything life throws your way?"
- 
+  "state": "used"
  }
+
 ]
