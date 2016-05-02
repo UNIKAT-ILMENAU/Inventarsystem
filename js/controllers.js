@@ -12,8 +12,8 @@ invControllers.controller('ListCtrl', function ($scope, $location, REST) {
    REST.query(function(data){		//list request via rest-factory
 	$scope.listData = data;
 });
-
-  $scope.pageSize = 10;				//default Item limit per page
+   var d_pageSize = 10;               //default pageSize limit
+  $scope.pageSize = d_pageSize;				//Item limit per page
 
   $scope.sort = function(keyname){	//sort option on click, call by reference
         $scope.sortKey = keyname;   //set the sortKey to the param passed
@@ -23,6 +23,11 @@ invControllers.controller('ListCtrl', function ($scope, $location, REST) {
 
 	$scope.viewDetail = function(listID) { 		//tr clickable, change to detailview view, activated via double click
         $location.path('/listData/' + listID); 
+    };
+
+    $scope.resetFilter = function(){
+      $scope.search = "";   //resets the filter options
+      $scope.pageSize = d_pageSize; //resets the items per page size to default
     };
 
 });
