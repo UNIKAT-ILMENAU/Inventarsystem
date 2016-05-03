@@ -118,7 +118,7 @@ Additionally needed scripts: js/dirPagination.js
 				  </tr>
 				</thead>
 				<tbody>	<!--##### NEEDS TO GET CONFIGURED #####-->
-				  <tr ng-dblclick="viewDetail(listItem.id);" dir-paginate="listItem in listData| orderBy:sortKey:reverse | filter: search | itemsPerPage:pageSize">	<!-- items are clickable via double click, so we have the benefit of copy/paste/mark  -->
+				  <tr ng-click="viewDetail(listItem.id);" dir-paginate="listItem in listData| orderBy:sortKey:reverse | filter: search | itemsPerPage:pageSize">	<!-- items are clickable via click, so we have the benefit of copy/paste/mark  -->
 				    <td>{{listItem.id}}</td>
 				    <td>{{listItem.typ}}</td>
 				    <td>{{listItem.category}}</td>

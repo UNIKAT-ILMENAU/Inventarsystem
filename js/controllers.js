@@ -21,7 +21,7 @@ invControllers.controller('ListCtrl', function ($scope, $location, REST) {
     }
 
 
-	$scope.viewDetail = function(listID) { 		//tr clickable, change to detailview view, activated via double click
+	$scope.viewDetail = function(listID) { 		//tr clickable, change to detailview view, activated via 1click
         $location.path('/listData/' + listID); 
     };
 
