@@ -1,9 +1,16 @@
 <!--
-DESCRIPTION: public user interface and mainpage from the application
+Mainpage: public user interface and mainpage from the application
+Controller:  indexCtrl - controllers.js / ng-view handles all controller
 -->
 <!doctype html>
-<html>
+<html xmlns:ng="http://angularjs.org" class="ng-app:app" id="ng-app" lang="en">
 	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">	<!-- mobile support -->
+		<!-- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"> -->
+		<title>UNIKAT</title>
+
 		<!-- Angular include-->
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-resource.min.js"></script>
@@ -16,11 +23,13 @@ DESCRIPTION: public user interface and mainpage from the application
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 		<!-- Latest compiled JavaScript -->
 		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+
 		<!-- CSS -->
 		<link rel="stylesheet" type="text/css" href="css/style.css">		
 	</head>
 	<body ng-app="invApp">
-
+		
 		<div ng-controller="indexCtrl">
 			<!-- Header include -->
 			<div ng-include="'html/header.html'"></div>

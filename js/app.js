@@ -1,12 +1,14 @@
+
 'use strict';
 
 /* App Module */
 
 var invApp = angular.module('invApp', [
-  'ngRoute', 'invControllers', 'invFilters', 'invServices'
+  'ngRoute', 'invControllers', 'invServices'
 ]);
 
-invApp.config(['$routeProvider',    //route definitions
+//Route definition
+invApp.config(['$routeProvider',  
   function($routeProvider) {
     $routeProvider.
       when('/', {

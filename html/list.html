@@ -4,20 +4,9 @@ Additionally needed scripts: js/dirPagination.js
 -->
 
 
-<!-- WORK IN PROGRESS - will be later loaded by db -->
+<!-- Typeahead List, loaded from the db -->
 <datalist id="mylist">
-	<option>1page</option>
-	<option>2page</option>
-	<option>3page</option>
-	<option>4page</option>
-	<option>Kat</option>
-	<option>Shape</option>
-	<option>Material</option>
-	<option>Device</option>
-	<option>new</option>
-	<option>broken</option>
-	<option>used</option>
-	<option>Damaged</option>
+	<option ng-repeat="x in typeaheadData">{{x.data}}</option>
 </datalist>
 
 <!-- Basic Common Filter -->
@@ -79,7 +68,7 @@ Additionally needed scripts: js/dirPagination.js
 
 <!-- Inventory List--> 
 <div class="container" >
-	<div class="col-lg-12">       
+	<div class="col-md-12">       
 		<!-- Table -->
 		<div class="container table-responsive">        <!-- responsive, striped table-->  
 			<table  class="table table-hover table-striped">			
@@ -118,7 +107,7 @@ Additionally needed scripts: js/dirPagination.js
 				  </tr>
 				</thead>
 				<tbody>	<!--##### NEEDS TO GET CONFIGURED #####-->
-				  <tr ng-click="viewDetail(listItem.id);" dir-paginate="listItem in listData| orderBy:sortKey:reverse | filter: search | itemsPerPage:pageSize">	<!-- items are clickable via click, so we have the benefit of copy/paste/mark  -->
+				  <tr ng-click="viewDetail(listItem.id);" dir-paginate="listItem in listData| orderBy:sortKey:reverse | filter: search | itemsPerPage:pageSize">	<!-- items are clickable via one click-->
 				    <td>{{listItem.id}}</td>
 				    <td>{{listItem.typ}}</td>
 				    <td>{{listItem.category}}</td>

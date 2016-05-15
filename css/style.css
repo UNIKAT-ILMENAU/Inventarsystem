@@ -1,36 +1,62 @@
-hr {
-  display: block;
-  height: 1px;
-  border: 0;
-  border-top: 1px solid #04B4AE;
-  margin: 1em 0;
-  padding: 0; 
+body{
+  background-color: #151515;
 }
 
+#sc_mid {
+  background-color: white;
+  padding-top: 5px;
+}
+
+/* ==== HEADER STYLE ==== */
 .navbar {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  border: 0;
-  border-radius: 0;
-  margin-bottom: 0;   
   letter-spacing: 2px;
+  margin-bottom: 0px;
+  border-radius: 0 !important;
 }
 /*Logo*/
 .logo-box{
   background-color: #008080; /* Orange */
   color: #ffffff;
-  margin-bottom: 5px;
-  margin-top: 0px;
 }
 
 .logo{
-  width: 45%; height: 20%; 
+  margin: auto;
+  /*if height should been changed to specific height logo-box need width/height values*/
 }
 
 /* Testing */
 .no-space{
   margin: 0px;
 }
+
+/* =========================== */
+
+/* ==== FOOTER STYLE ==== */
+footer{
+  color: #f5f5f5; padding: 20px;
+}
+
+/* Color Styles */
+.maincolor{
+  color:#04B4AE !important;     /*IN THE END THIS SHOULD BE IN THE CONFIG*/
+}
+
+/* Scroll To Top Glyphicon */
+span.glyphicon-large {
+    font-size: 3.2em;
+}
+
+/* Spacemaker */
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #04B4AE;    /* needs to be in the config*/
+  margin: 1em 0;
+  padding: 0; 
+}
+
+/* =========================== */
 
 /* Table Header Styles */
 .sort-icon {
@@ -43,7 +69,3 @@ th {
 }
 
 
-
-span.glyphicon-large {
-    font-size: 3.2em;
-}

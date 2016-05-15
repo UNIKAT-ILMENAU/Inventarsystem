@@ -9,9 +9,14 @@ Description: The mainsite controller, loads the list and controls the pagination
 Used in: list.html
 */
 invControllers.controller('ListCtrl', function ($scope, $location, REST) {
-   REST.query(function(data){		//list request via rest-factory
+  REST.query(function(data){		//list request via rest-factory
 	$scope.listData = data;
-});
+  });
+
+  REST.typload(function(data){   //typeaheadlist request via rest-factory
+  $scope.typeaheadData = data;
+  });
+  
    var d_pageSize = 10;               //default pageSize limit
   $scope.pageSize = d_pageSize;				//Item limit per page
 
@@ -38,13 +43,12 @@ invControllers.controller('DetailCtrl', ['$scope', '$routeParams', 'REST', funct
   /* $scope.detailData = REST.get({ListItemId: $routeParams.ListItemId}); works aswell*/
 }]);
 
-/*DUMMY CONTROLLER FOR TESTING NESTING*/
+/*main-controller over all other controller*/
 invControllers.controller('indexCtrl', function ($scope, REST, $location, $anchorScroll) {
 
-  $scope.scrollTo = function(id) {
-      // set the location.hash to the id of
-      // the element you wish to scroll to.
-      $location.hash();			//id workInProgress
+  $scope.scrollTo = function() {
+      // set the location.hash to null/top
+      $location.hash();			
 
       // call $anchorScroll() to use the scroll
       $anchorScroll();
