@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="panel panel-default">
+        <div class="panel-heading">Create new device</div>
+        <div class="panel-body">
+
+        <div id="messages" class="hide" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <div id="messages_content"></div>
+            </div>
+        	
+          <!--Begin form-->
+          <form id="itemForm" class="form-horizontal">
+
+           	<!--Name input-->
+            <div class="form-group" id="formName">
+              <label class="col-md-2 control-label" for="name">Name</label>
+              <div class="col-md-4">
+                <input type="text" class="form-control" id="name" name="name" placeholder="LM258" />
+              </div>
+            </div>
+
+            <!--Description input-->
+            <div class="form-group" id="formDescription">
+              <label class="col-md-2 control-label" for="description">Description</label>  
+              <div class="col-md-4">
+                <textarea class="form-control" id="description" name="description" placeholder="Mf: B1"></textarea>
+              </div>
+            </div>
+
+            <!--Category input-->
+            <div class="form-group" id="formCategory">
+              <label class="col-md-2 control-label" for="category">Category</label>
+              <div class="col-md-4">
+                <input type="search" class="form-control" id="category" name="category" placeholder="Search for category..." /> 
+              </div>
+            </div>
+
+            <!--Place input-->
+            <div class="form-group" id="formPlace">
+              <label class="col-md-2 control-label" for="place">Place</label>
+              <div class="col-md-4">
+                <input type="search" class="form-control" id="place" name="place" placeholder="Search for place..." /> 
+              </div>
+            </div>
+
+            <!--State input-->
+            <div class="form-group" id="formState">
+              <label class="col-md-2 control-label" for="state">State</label>
+              <div class="col-md-4">
+                <input type="text" value="new" class="form-control" id="state" name="state" placeholder="new" />
+              </div>
+            </div>
+
+            <!--Purchase price input-->
+            <div class="form-group" id="formCost">
+              <label class="col-md-2 control-label" for="cost">Purchase price</label>
+              <div class="col-md-4">
+                <input type="number" min="0.00" step="0.01" class="form-control" id="cost" name="cost" placeholder="42.00" />
+              </div>
+            </div>
+
+            <!--File input-->
+            <div class="form-group" id="formFile">
+              <label class="col-md-2 control-label" for="file">Upload file(s)</label>
+              <div class="col-md-4">
+                <input type="file" class="input-file" id="file" name="file" multiple>
+              </div>
+            </div>
+            
+             <!--Buttons: link for 'Back to menu' has to be set--> 
+             <div class="form-group">
+              <div class="col-md-6 col-md-offset-2">
+                <button id="buttonSubmit" name="buttonSubmit"type="submit" class="btn btn-success btn-sm">Create material</button>
+                <button id="buttonReset" name="buttonReset" type="reset" form="itemForm" class="btn btn-danger btn-sm">Reset form</button>
+                 <a href="">
+                  <button id="buttonMenu" name="buttonMenu" type="button" class="btn btn-primary btn-sm">Back to menu</button>
+                </a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!--JS-file is necessary for form validtion by using JQuery-->
+    <!--script might has to be changed when the submission is handled via Angular-->
+    <script type="text/javascript" src="formValidation.js"></script>
+
+  </body>
+</html>
