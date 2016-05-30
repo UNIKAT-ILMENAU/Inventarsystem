@@ -1,0 +1,15 @@
+{
+    "name": "TEST3 Item",
+    "additionalFeatures": "Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+    ,  
+    "availability": [
+        "Test1,", 
+        "Test2,", 
+        "Test3"
+    ],   
+    "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium nostrum debitis minus porro, consectetur, et officia qui voluptatem placeat numquam illo aspernatur quaerat dolorem eaque fugiat repellat laboriosam veniam temporibus.", 
+    "info": {
+        "status": "new", 
+        "available": true
+    }  
+}

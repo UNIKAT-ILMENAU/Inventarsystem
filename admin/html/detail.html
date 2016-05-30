@@ -1,0 +1,41 @@
+<!-- 
+Controller: DetailCtrl - controllers.js
+Additionally needed scripts: none 
+-->
+<div class="container">
+  <button class="btn btn-primary" style="float:right">Edit</button>
+  <h1>{{detailData.name}}</h1>  
+  <hr>
+  <p>{{detailData.description}}</p>
+
+
+  <ul class="specs">
+    <li>
+      <dl>
+        <dt>Informations:</dt>
+        <dd ng-repeat="availability in detailData.availability">{{$index}} | {{availability}}</dd>
+      </dl>
+      	<dl>Test [2]: {{detailData.availability[2]}}</dl>
+    </li>
+      <dl>StateInfo: {{detailData.info.status}} | Available: {{detailData.info.available}}</dl>
+    <li>
+      <span>Additionaly Info:</span>
+      <dd>{{detailData.additionalFeatures}}</dd>
+    </li>
+  </ul>
+  <hr>
+  <div class="text-center">
+  <a href="#/list" class="btn btn-primary">Back to the menu</a>
+  <button class="btn btn-danger" ng-click="borrowAdd(detailData);">BorrowAdd</button>
+  <button class="btn btn-warning" ng-click="copyItem(detailData, 'Device')">Copy Item</button>  <!-- Hier wird bei 'Device' eine Variable von dem jeweiligen Item eingefügt-->
+  <div ng-repeat="news in alert">
+    <div class="alert alert-info">
+      <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      {{news.msg}}
+    </div>
+  </div>
+
+  </div>
+  <hr>
+</div>
+<!-- Daten umschreiben##### WORK IN PROGRESS #####-->

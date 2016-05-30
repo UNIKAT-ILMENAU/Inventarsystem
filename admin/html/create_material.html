@@ -1,0 +1,120 @@
+<!--
+HIER NOCH VERBESSERN - KOMMENTARE ETC.
+-->
+
+    <div class="container">
+      <div class="panel panel-default">
+        <div class="panel-heading">Create new material</div>
+        <div class="panel-body">
+        	
+          <!--Begin form-->
+          <form id="itemForm" class="form-horizontal">
+
+           	<!--Name input-->
+            <div class="form-group" id="formName">
+              <label class="col-md-2 control-label" for="name">Name</label>
+              <div class="col-md-4">
+                <input type="text" class="form-control" id="name" name="name" placeholder="LM258" />
+              </div>
+            </div>
+
+            <!--Description input-->
+            <div class="form-group" id="formDescription">
+              <label class="col-md-2 control-label" for="description">Description</label>  
+              <div class="col-md-4">
+                <textarea class="form-control" id="description" name="description" placeholder="Mf: B1"></textarea>
+              </div>
+            </div>
+
+            <!--Category input-->
+            <div class="form-group" id="formCategory">
+              <label class="col-md-2 control-label" for="category">Category</label>
+              <div class="col-md-4">
+                <input type="search" class="form-control" id="category" name="category" placeholder="Search for category..." /> 
+              </div>
+            </div>
+
+            <!--Place input-->
+            <div class="form-group" id="formPlace">
+              <label class="col-md-2 control-label" for="place">Place</label>
+              <div class="col-md-4">
+                <input type="search" class="form-control" id="place" name="place" placeholder="Search for place..." /> 
+              </div>
+            </div>
+
+            <!--Purchase price input-->
+            <div class="form-group" id="formCost">
+              <label class="col-md-2 control-label" for="cost">Purchase price</label>
+              <div class="col-md-4">
+                <input type="number" min="0.00" step="0.01" class="form-control" id="cost" name="cost" placeholder="42.00" />
+              </div>
+            </div>
+
+            <!--Retail price input-->
+            <div class="form-group" id="formPrice">
+              <label class="col-md-2 control-label" for="price">Retail price</label>
+              <div class="col-md-4">
+                <input type="number" min="0.00" step="0.01" class="form-control" id="price" name="price" placeholder="42.00" />
+              </div>
+            </div>
+
+             <!--Stock input-->
+            <div class="form-group" id="formStock">
+              <label class="col-md-2 control-label" for="stock">In stock</label>
+              <div class="col-md-4">
+                <input type="number" min="0" class="form-control" id="stock" name="stock" placeholder="42" />
+              </div>
+            </div>
+
+            <!--Critical stock input-->
+            <div class="form-group" id="formCritical">
+              <label class="col-md-2 control-label" for="criticalStock">Critical stock amount</label>
+              <div class="col-md-4">
+                <input type="number" value="0" min="0" class="form-control" id="criticalStock" name="criticalStock" placeholder="0" />
+              </div>
+            </div>
+
+            <!--Type input-->
+            <div class="form-group" id="formType">
+              <label class="col-md-2 control-label" for="type">Type</label>
+              <div class="col-md-4">
+                <input type="text" class="form-control" id="type" name="type" placeholder="THT" />
+              </div>
+            </div>
+
+            <!--Value input-->
+            <div class="form-group" id="formMeasure">
+              <label class="col-md-2 control-label" for="measure">Value</label>
+              <div class="col-md-4">
+                <input type="text" class="form-control" id="measure" name="measure" placeholder="20 Ohm" />
+              </div>
+            </div>
+
+            <!--File input-->
+            <div class="form-group" id="formFile">
+              <label class="col-md-2 control-label" for="file">Upload file(s)</label>
+              <div class="col-md-4">
+                <input type="file" class="input-file" id="file" name="file" multiple>
+              </div>
+            </div>
+
+            <!--Buttons: link for 'Back to menu' has to be set-->
+            <div class="form-group">
+              <div class="col-md-6 col-md-offset-2">
+                <button id="buttonSubmit" name="buttonSubmit" type="submit" class="btn btn-success btn-sm">Create material</button>
+                <button id="buttonReset" name="buttonReset" type="reset" form="itemForm" class="btn btn-danger btn-sm">Reset form</button>
+                <a href="">
+                	<a href="#/list" id="buttonMenu" name="buttonMenu" type="button" class="btn btn-primary btn-sm">Back to list</a>
+                </a>	
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!--JS-file is necessary for form validtion by using JQuery-->
+    <!--script might has to be changed when the submission is handled via Angular-->
+    <script type="text/javascript" src="formValidation.js"></script>
+
+    <!-- DAS HIERMUSS AUCH UNBEDINGT AUSGELAGERT WERDEN ODER ANDERS GEHANDHABT WERDEN-->

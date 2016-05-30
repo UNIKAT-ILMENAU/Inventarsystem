@@ -1,0 +1,172 @@
+<!-- 
+Controller: ListCtrl - controllers.js
+Additionally needed scripts: js/dirPagination.js 
+-->
+
+
+<!-- Typeahead List, loaded from the db -->
+<datalist id="mylist">
+	<option ng-repeat="x in typeaheadData">{{x.data}}</option>
+</datalist>
+
+
+<div class="container top-space bot-space">
+	<div class="row">
+		<div class="col-md-12">
+			<a href="#/create_device"><button class="btn btn-success">Create Device +</button></a>
+			<a href="#/create_material"><button class="btn btn-success">Create Material +</button></a>
+		</div>
+	</div>
+</div>
+
+
+<!-- Basic Common Filter -->
+<div class="container-fluid">
+ 	<div class="row">
+ 		<div class="col-md-4">
+			
+ 		</div>
+ 		<div class="col-md-4 text-center">
+			<form class="form-inline" role="form">
+				<div class="form-group" id="the-basics">
+					<label for="search">Search:</label>
+					<input ng-model="search.$" class="form-control" placeholder="Search Text" list="mylist">	<!-- common search filters, filters every entrys and attributes-->
+				</div>
+				<button type="button" class="btn btn-default btn-sm" data-toggle="collapse" href="#collapse1">Advanced Filters</button>
+			</form>
+ 		</div>
+ 		<div class="col-md-4"></div>
+ 	</div>
+
+	<!-- Collapsible Filter -->
+	<div class="row">
+		<div class="col-md-4"></div>
+		<div class="col-md-4 panel-group">
+			<div class="panel panel-default">				
+				<div id="collapse1" class="panel-collapse collapse">
+					<div class="panel-body">							
+						<p>Filer Options:</p>
+						<form class="form-inline" role="form">
+							<div class="form-group">
+								<label for="search">Items per page:</label>		<!-- controls the items per page -->
+								<input ng-model="pageSize" type="text" >
+							</div>	<!-- Advanced Filter Options for specific filtering-->
+							<div class="form-group">
+								<label for="search">ID:</label>
+								<input ng-model="search.id" type="text" >
+								<label for="search">Name:</label>
+								<input ng-model="search.name" type="text" >
+							</div>
+							<div class="form-group">
+								<label for="search">Age:</label>
+								<input ng-model="search.age" type="text" >
+								<label for="search">Typ:</label>
+								<input ng-model="search.typ" type="text" >
+							</div>
+							<div class="form-group">
+								<label for="search">State:</label>
+								<input ng-model="search.state" type="text" >
+								<label for="search">Location:</label>
+								<input ng-model="search.location" type="text" >
+							</div>
+							<button type="button" class="btn btn-default btn-sm" ng-click="resetFilter()">Reset Filter</button>						
+						</form>
+					</div>
+					<div class="panel-footer"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Inventory List--> 
+<div class="container" >
+	<div class="col-md-12">       
+		<!-- Table -->
+		<div class="container table-responsive">        <!-- responsive, striped table-->  
+			<table  class="table table-hover table-striped">			
+				<thead>
+				  <tr>
+				    <th ng-click="sort('id')">ID		<!-- Uses the function sort in controller.js to handle the orderBy -->
+						<span class="glyphicon sort-icon" ng-show="sortKey=='id'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				    </th>
+				    <th ng-click="sort('typ')">Typ 
+				    	<span class="glyphicon sort-icon" ng-show="sortKey=='typ'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				    </th>
+				    <th ng-click="sort('category')">Category 
+				    	<span class="glyphicon sort-icon" ng-show="sortKey=='category'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				    </th>
+				    <th ng-click="sort('shape')">Shape
+						<span class="glyphicon sort-icon" ng-show="sortKey=='shape'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				    </th>
+				    <th ng-click="sort('value')">Value
+						<span class="glyphicon sort-icon" ng-show="sortKey=='value'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				    </th>
+				    <th ng-click="sort('name')">Name
+				    	<span class="glyphicon sort-icon" ng-show="sortKey=='name'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				    </th>
+				    <th ng-click="sort('location')">Location
+				    	<span class="glyphicon sort-icon" ng-show="sortKey=='location'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				    </th>
+				    <th ng-click="sort('note')">Note
+				    	<span class="glyphicon sort-icon" ng-show="sortKey=='note'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				    </th>
+				    <th ng-click="sort('age')">Age
+				    	<span class="glyphicon sort-icon" ng-show="sortKey=='age'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				    </th>
+				    <th ng-click="sort('state')">State
+				    	<span class="glyphicon sort-icon" ng-show="sortKey=='state'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				    </th>
+				    <th>Add
+				    </th>
+				    <th>DetailView
+				    </th>
+				  </tr>
+				</thead>
+				<tbody>	<!--##### NEEDS TO GET CONFIGURED #####-->
+				  <tr ng-dblclick="viewDetail(listItem.id);" dir-paginate="listItem in listData| orderBy:sortKey:reverse | filter: search | itemsPerPage:pageSize">	<!-- items are clickable via one click-->
+				    <td>{{listItem.id}}</td>
+				    <td>{{listItem.typ}}</td>
+				    <td>{{listItem.category}}</td>
+				    <td>{{listItem.shape}}</td>
+				    <td>{{listItem.value}}</td>
+				    <td>{{listItem.name}}</td>
+				    <td>{{listItem.location}}</td>
+				    <td>{{listItem.note}}</td>
+				    <td>{{listItem.age}}</td>
+				    <td>{{listItem.state}}</td>
+				    <td>
+					    <button  class="btn btn-sm btn-info" ng-click="addItem(listItem);">+</button>
+					</td>
+				    <td><button class="btn btn-sm btn-default" ng-click="viewDetail(listItem.id);">Show</button></td>
+				  </tr>
+				</tbody>
+			</table>
+		</div>
+
+			
+	    
+	    <!-- Pageination --> 
+		<div class="text-center">
+			<dir-pagination-controls direction-links="true" boundary-links="true" ></dir-pagination-controls>
+		</div>
+	</div>
+</div>
+
+<div class="container bot-space" style="padding-top: 0px;">
+	<div class="row">
+		<div class="col-md-12">
+			
+			
+			<div class="well">
+				<div ng-repeat="item in selectedItems">
+				  <p>{{$index+1}} | {{item}}<button class="btn btn-sm btn-danger" ng-click="removeItem($index)">X</button></p>
+				</div>
+			</div>
+
+
+			<button class="btn btn-lg btn-danger" ng-disabled="!selectedItems[0]" ng-click="loadBorrow()">Borrow</button>
+			<button class="btn btn-lg btn-warning" ng-click="clearItem()">Clear</button>	
+		</div>
+	</div>
+</div>

@@ -12,4 +12,3 @@ invServices.factory('REST', ['$resource',
       typload: {method:'GET', params:{ListItemId: 'typeahead'}, isArray:true}
     });
   }]);
-
