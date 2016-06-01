@@ -7,17 +7,23 @@ var invApp = angular.module('invApp', [
   'ngRoute', 'invControllers', 'invServices'
 ]);
 
+//tokenInterceptor bugfix: 
+//injecting JWT Authentication in http-Header by using factory 
+invApp.config(['$httpProvider', function($httpProvider){
+  $httpProvider.interceptors.push('tokenInterceptor');
+}]);
+
 //Route definition
 invApp.config(['$routeProvider',  
-  function($routeProvider) {
+  function($routeProvider) {          //######## hier noch $http mit in die funktion eingefügt wieso?
     $routeProvider.
       when('/', {                     //Login
-        templateUrl: 'html/dashboard.html',    
-        controller: 'ListCtrl'
+        templateUrl: 'html/login.html',    
+        controller: 'loginCtrl'
       }).
       when('/login', {                //Login
         templateUrl: 'html/login.html',
-        controller: 'DetailCtrl'
+        controller: 'loginCtrl'
       }).
       when('/dashboard', {            //Mainmenu/Dashboard
         templateUrl: 'html/dashboard.html',

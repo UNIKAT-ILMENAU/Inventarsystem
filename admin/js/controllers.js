@@ -137,16 +137,11 @@ invControllers.controller('indexCtrl', function ($scope, $location, $anchorScrol
     $scope.selectedItems = [];
   };
 
-
- 
 /* AUTOSTART EVENT
   $scope.$on('$viewContentLoaded', function(){
     
   });
 */
-
-
-
 
   $scope.scrollTo = function() {
       // set the location.hash to null/top
@@ -157,3 +152,37 @@ invControllers.controller('indexCtrl', function ($scope, $location, $anchorScrol
     };
 });
 
+
+//loginController: sends login-data, gets and stores token, throws error if invalid userdata, routes to next page
+invControllers.controller('loginCtrl', loginCtrl);
+function loginCtrl($scope, $window, $location, $http){
+
+  $scope.signIn = function(){
+    var userData = {
+        username: $scope.username,
+        password: $scope.password
+    };  
+    $http({
+      method: 'Post',
+      //(!) URL
+      url: '',
+      data: userData.username + ";" + userData.password //oder JSON.parse(userdata)
+    })
+    .then(
+      function(response){
+        //store token
+        $window.localStorage.token = response.token;
+
+        //(!)route
+        //$location.path('/dashboard');
+      },  
+        //if no response throw error-msg
+      function(err) {
+        $scope.error = {
+        show: true,
+        message: err.data
+        }
+      }
+    );
+  }
+}
