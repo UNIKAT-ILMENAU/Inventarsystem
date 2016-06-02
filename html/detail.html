@@ -3,25 +3,15 @@ Controller: DetailCtrl - controllers.js
 Additionally needed scripts: none 
 -->
 <div class="container">
-  <h1>{{detailData.name}}</h1>
+  <h1>{{detailData.Id}} - {{detailData.Name}}</h1>
   <hr>
-  <p>{{detailData.description}}</p>
-
-
-  <ul class="specs">
-    <li>
-      <dl>
-        <dt>Informations:</dt>
-        <dd ng-repeat="availability in detailData.availability">{{$index}} | {{availability}}</dd>
-      </dl>
-      	<dl>Test [2]: {{detailData.availability[2]}}</dl>
-    </li>
-      <dl>StateInfo: {{detailData.info.status}} | Available: {{detailData.info.available}}</dl>
-    <li>
-      <span>Additionaly Info:</span>
-      <dd>{{detailData.additionalFeatures}}</dd>
-    </li>
-  </ul>
+  <p>State: {{detailData.State}}</p>
+  <p>Category: {{detailData.Category}} </p> 
+  <p>BuildType: {{detailData.BuildType}} </p>
+  <p>Description: {{detailData.Description}}</p>
+  <p>Cost: {{detailData.Cost}}</p>
+  <p>IsMaterial: {{detailData.isMaterial}}</p>
+  <p>StorageValue: {{detailData.StorageValue}}</p> 
   <hr>
   <div class="text-center">
   <a href="#/" class="btn btn-primary">Back to the menu</a>

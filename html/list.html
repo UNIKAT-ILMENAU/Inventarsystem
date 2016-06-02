@@ -12,8 +12,8 @@ Additionally needed scripts: js/dirPagination.js
 <!-- Basic Common Filter -->
 <div class="container-fluid">
  	<div class="row">
- 		<div class="col-md-4"></div>
- 		<div class="col-md-4 text-center">
+ 		<div class="col-lg-4 col-xs-12"></div>
+ 		<div class="col-lg-4 col-xs-12 text-center">
 			<form class="form-inline" role="form">
 				<div class="form-group" id="the-basics">
 					<label for="search">Search:</label>
@@ -22,42 +22,48 @@ Additionally needed scripts: js/dirPagination.js
 				<button type="button" class="btn btn-default btn-sm" data-toggle="collapse" href="#collapse1">Advanced Filters</button>
 			</form>
  		</div>
- 		<div class="col-md-4"></div>
+ 		<div class="col-lg-4 col-xs-12"></div>
  	</div>
 
 	<!-- Collapsible Filter -->
 	<div class="row">
-		<div class="col-md-4"></div>
-		<div class="col-md-4 panel-group">
+		<div class="col-lg-4 col-md-3 col-xs-12"></div>
+		<div class="col-lg-4 col-md-6 col-xs-12 panel-group">
 			<div class="panel panel-default">				
 				<div id="collapse1" class="panel-collapse collapse">
 					<div class="panel-body">							
-						<p>Filer Options:</p>
-						<form class="form-inline" role="form">
-							<div class="form-group">
-								<label for="search">Items per page:</label>		<!-- controls the items per page -->
-								<input ng-model="pageSize" type="text" >
+						
+							<hr>
+							<div class="row">
+								<label for="search" class="col-lg-4 col-md-4 col-xs-12">Items per page:</label>		<!-- controls the items per page -->
+								<input ng-model="pageSize" type="text" class="col-lg-6 col-md-8 col-xs-12">
 							</div>	<!-- Advanced Filter Options for specific filtering-->
-							<div class="form-group">
-								<label for="search">ID:</label>
-								<input ng-model="search.id" type="text" >
-								<label for="search">Name:</label>
-								<input ng-model="search.name" type="text" >
+							<hr>
+							<div class="row">
+								<label for="search" class="col-lg-2 col-md-2 col-xs-12">ID:</label>
+								<input ng-model="search.Id" type="text" class="col-lg-4 col-md-4 col-xs-12">
+								<label for="search" class="col-lg-2 col-md-2 col-xs-12">Name:</label>
+								<input ng-model="search.Name" type="text" class="col-lg-4 col-md-4 col-xs-12">
 							</div>
-							<div class="form-group">
-								<label for="search">Age:</label>
-								<input ng-model="search.age" type="text" >
-								<label for="search">Typ:</label>
-								<input ng-model="search.typ" type="text" >
+							<div class="row">
+								<label for="search" class="col-lg-2 col-md-2 col-xs-12">State:</label>
+								<input ng-model="search.State" type="text" class="col-lg-4 col-md-4 col-xs-12">
+								<label for="search" class="col-lg-2 col-md-2 col-xs-12">Cost:</label>
+								<input ng-model="search.Cost" type="text" class="col-lg-4 col-md-4 col-xs-12">				
 							</div>
-							<div class="form-group">
-								<label for="search">State:</label>
-								<input ng-model="search.state" type="text" >
-								<label for="search">Location:</label>
-								<input ng-model="search.location" type="text" >
+							<div class="row">
+								<label for="search" class="col-lg-2 col-md-2 col-xs-12">Cate.:</label>
+								<input ng-model="search.Category" type="text" class="col-lg-10 col-md-10 col-xs-12">
+							</div><br>
+							<div class="row">
+								<label for="search" class="col-lg-2 col-md-2 col-xs-12">BType.:</label>
+								<input ng-model="search.BuildType" type="text" class="col-lg-4 col-md-4 col-xs-12">
+								<label for="search" class="col-lg-3 col-md-2 col-xs-12">isMaterial:</label>
+								<input ng-model="search.isMaterial" type="checkbox" class="col-lg-2 col-md-4 col-xs-12">
+							</div><hr>
+							<div >
+								<button type="button" class=" col-lg-12 col-xs-12 btn btn-info btn-sm" ng-click="resetFilter()">Reset Filter</button>						
 							</div>
-							<button type="button" class="btn btn-default btn-sm" ng-click="resetFilter()">Reset Filter</button>						
-						</form>
 					</div>
 					<div class="panel-footer"></div>
 				</div>
@@ -74,50 +80,42 @@ Additionally needed scripts: js/dirPagination.js
 			<table  class="table table-hover table-striped">			
 				<thead>
 				  <tr>
-				    <th ng-click="sort('id')">ID		<!-- Uses the function sort in controller.js to handle the orderBy -->
-						<span class="glyphicon sort-icon" ng-show="sortKey=='id'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				    <th ng-click="sort('Id')">ID		<!-- Uses the function sort in controller.js to handle the orderBy -->
+						<span class="glyphicon sort-icon" ng-show="sortKey=='Id'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 				    </th>
-				    <th ng-click="sort('typ')">Typ 
-				    	<span class="glyphicon sort-icon" ng-show="sortKey=='typ'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				    <th ng-click="sort('Name')">Name 
+				    	<span class="glyphicon sort-icon" ng-show="sortKey=='Name'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 				    </th>
-				    <th ng-click="sort('category')">Category 
-				    	<span class="glyphicon sort-icon" ng-show="sortKey=='category'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				    <th ng-click="sort('State')">State 
+				    	<span class="glyphicon sort-icon" ng-show="sortKey=='State'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 				    </th>
-				    <th ng-click="sort('shape')">Shape
-						<span class="glyphicon sort-icon" ng-show="sortKey=='shape'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				    <th ng-click="sort('Category')">Category
+						<span class="glyphicon sort-icon" ng-show="sortKey=='Category'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 				    </th>
-				    <th ng-click="sort('value')">Value
-						<span class="glyphicon sort-icon" ng-show="sortKey=='value'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				    <th ng-click="sort('BuildType')">BuildType
+				    	<span class="glyphicon sort-icon" ng-show="sortKey=='BuildType'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 				    </th>
-				    <th ng-click="sort('name')">Name
-				    	<span class="glyphicon sort-icon" ng-show="sortKey=='name'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				    <th ng-click="sort('Cost')">Cost
+				    	<span class="glyphicon sort-icon" ng-show="sortKey=='Cost'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 				    </th>
-				    <th ng-click="sort('location')">Location
-				    	<span class="glyphicon sort-icon" ng-show="sortKey=='location'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				    <th ng-click="sort('isMaterial')">isMaterial
+				    	<span class="glyphicon sort-icon" ng-show="sortKey=='isMaterial'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 				    </th>
-				    <th ng-click="sort('note')">Note
-				    	<span class="glyphicon sort-icon" ng-show="sortKey=='note'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-				    </th>
-				    <th ng-click="sort('age')">Age
-				    	<span class="glyphicon sort-icon" ng-show="sortKey=='age'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-				    </th>
-				    <th ng-click="sort('state')">State
-				    	<span class="glyphicon sort-icon" ng-show="sortKey=='state'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-				    </th>
+				    <th ng-click="sort('StorageValue')">StorageValue
+				    	<span class="glyphicon sort-icon" ng-show="sortKey=='StorageValue'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				    </th>		    
 				  </tr>
 				</thead>
 				<tbody>	<!--##### NEEDS TO GET CONFIGURED #####-->
-				  <tr ng-click="viewDetail(listItem.id);" dir-paginate="listItem in listData| orderBy:sortKey:reverse | filter: search | itemsPerPage:pageSize">	<!-- items are clickable via one click-->
-				    <td>{{listItem.id}}</td>
-				    <td>{{listItem.typ}}</td>
-				    <td>{{listItem.category}}</td>
-				    <td>{{listItem.shape}}</td>
-				    <td>{{listItem.value}}</td>
-				    <td>{{listItem.name}}</td>
-				    <td>{{listItem.location}}</td>
-				    <td>{{listItem.note}}</td>
-				    <td>{{listItem.age}}</td>
-				    <td>{{listItem.state}}</td>
+				  <tr ng-click="viewDetail(listItem.Id);" dir-paginate="listItem in listData| orderBy:sortKey:reverse | filter: search | itemsPerPage:pageSize">	<!-- items are clickable via one click-->
+				    <td>{{listItem.Id}}</td>
+				    <td>{{listItem.Name}}</td>
+				    <td>{{listItem.State}}</td>
+				    <td>{{listItem.Category}}</td>
+				    <td>{{listItem.BuildType}}</td>
+				    <td>{{listItem.Cost}}</td>
+				    <td>{{listItem.isMaterial}}</td>
+				    <td>{{listItem.StorageValue}}</td>
 				  </tr>
 				</tbody>
 			</table>
