@@ -1,6 +1,8 @@
 'use strict';
 
-/* Services / RESTful */
+/* Services / RESTful 
+Description: Handles all requests to the server.
+*/
 
 var invServices = angular.module('invServices', ['ngResource']);
 

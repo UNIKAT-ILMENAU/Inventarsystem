@@ -37,13 +37,13 @@ invControllers.controller('ListCtrl', function ($scope, $location, REST) {
 
 });
 
-/*REQUEST DETAIL*/
+/*REQUEST DETAIL FROM SELECTED ITEM*/
 invControllers.controller('DetailCtrl', ['$scope', '$routeParams', 'REST', function($scope, $routeParams, REST) {
   $scope.detailData = REST.detailLoad({ListItemId: $routeParams.ListItemId});	//specific get of list item
   /* $scope.detailData = REST.get({ListItemId: $routeParams.ListItemId}); works aswell*/
 }]);
 
-/*main-controller over all other controller*/
+/*MAIN-CONTROLLER OVERALL OTHER CONTROLLER*/
 invControllers.controller('indexCtrl', function ($scope, REST, $location, $anchorScroll) {
 
   $scope.scrollTo = function() {

@@ -32,7 +32,6 @@ Additionally needed scripts: js/dirPagination.js
 			<div class="panel panel-default">				
 				<div id="collapse1" class="panel-collapse collapse">
 					<div class="panel-body">							
-						
 							<hr>
 							<div class="row">
 								<label for="search" class="col-lg-4 col-md-4 col-xs-12">Items per page:</label>		<!-- controls the items per page -->
@@ -61,7 +60,8 @@ Additionally needed scripts: js/dirPagination.js
 								<label for="search" class="col-lg-3 col-md-2 col-xs-12">isMaterial:</label>
 								<input ng-model="search.isMaterial" type="checkbox" class="col-lg-2 col-md-4 col-xs-12">
 							</div><hr>
-							<div >
+							<div>
+								<!-- Reset filter options -->
 								<button type="button" class=" col-lg-12 col-xs-12 btn btn-info btn-sm" ng-click="resetFilter()">Reset Filter</button>						
 							</div>
 					</div>
@@ -106,8 +106,8 @@ Additionally needed scripts: js/dirPagination.js
 				    </th>		    
 				  </tr>
 				</thead>
-				<tbody>	<!--##### NEEDS TO GET CONFIGURED #####-->
-				  <tr ng-click="viewDetail(listItem.Id);" dir-paginate="listItem in listData| orderBy:sortKey:reverse | filter: search | itemsPerPage:pageSize">	<!-- items are clickable via one click-->
+				<tbody>	<!-- List items in table -->
+				  <tr ng-click="viewDetail(listItem.Id);" dir-paginate="listItem in listData| orderBy:sortKey:reverse | filter: search | itemsPerPage:pageSize">	<!-- detailview via leftmouse click on the item -->
 				    <td>{{listItem.Id}}</td>
 				    <td>{{listItem.Name}}</td>
 				    <td>{{listItem.State}}</td>

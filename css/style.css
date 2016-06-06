@@ -3,34 +3,29 @@ body{
 }
 
 #sc_mid {
-  background-color: white;
+  background-color: white;  /*# PERSONALIZE/CHANGE THIS COLOR */
   padding-top: 5px;
 }
 
+/* =========================== */
 /* ==== HEADER STYLE ==== */
 .navbar {
   letter-spacing: 2px;
   margin-bottom: 0px;
   border-radius: 0 !important;
 }
+
 /*Logo*/
 .logo-box{
-  background-color: #008080; /* Orange */
-  color: #ffffff;
+  background-color: #008080;  /*# PERSONALIZE/CHANGE THIS COLOR */
+  color: #ffffff;             /*# PERSONALIZE/CHANGE THIS COLOR */
 }
 
 .logo{
   margin: auto;
-  /*if height should been changed to specific height logo-box need width/height values*/
-}
-
-/* Testing */
-.no-space{
-  margin: 0px;
 }
 
 /* =========================== */
-
 /* ==== FOOTER STYLE ==== */
 footer{
   color: #f5f5f5; padding: 20px;
@@ -38,7 +33,7 @@ footer{
 
 /* Color Styles */
 .maincolor{
-  color:#04B4AE !important;     /*IN THE END THIS SHOULD BE IN THE CONFIG*/
+  color:#04B4AE !important;     /*# PERSONALIZE/CHANGE THIS COLOR */
 }
 
 /* Scroll To Top Glyphicon */
@@ -51,14 +46,13 @@ hr {
   display: block;
   height: 1px;
   border: 0;
-  border-top: 1px solid #04B4AE;    /* needs to be in the config*/
+  border-top: 1px solid #04B4AE;    /*# PERSONALIZE/CHANGE THIS COLOR */
   margin: 1em 0;
   padding: 0; 
 }
 
 /* =========================== */
-
-/* Table Header Styles */
+/* === TABLE/LIST HEADER STYLE === */
 .sort-icon {
     font-size: 9px;
     margin-left: 5px;
