@@ -94,7 +94,8 @@ invControllers.controller('BorrowCtrl', ['$scope', '$routeParams', 'REST', funct
         'street': 'Ilmstreet 7',
         'zip': '0000093',
         'phone': '015263729',
-        'email': 'test@test.de'
+        'email': 'test@test.de',
+        'date': '',
     },
     'items': []
    };
@@ -105,6 +106,24 @@ invControllers.controller('BorrowCtrl', ['$scope', '$routeParams', 'REST', funct
 
     //$scope.selectedItems.splice(index, 1);
   };
+
+
+
+  $scope.sendBorrow = function(){
+    //needs to be like this cause datepicker doesnt work with ng-change
+    $scope.borrow.customer.date = document.getElementById("borrowDate").value;
+  };
+
+  
+  
+
+  //Datepicker   
+  $('*[id=borrowDate]').appendDtpicker({ 
+    "dateOnly": true,
+    "dateFormat": "YYYY-MM-DD",
+    "futureOnly": true
+  });
+          
 
 
 }]);

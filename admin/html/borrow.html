@@ -15,21 +15,21 @@ Additionally needed scripts: none
       <div class="col-md-3">
         <input type="text" class="form-control" id="lastname" ng-model="borrow.customer.lastname">
       </div>
-      <label class="col-md-1" for="matrikel">Matrikel:</label>
+      <label class="col-md-1" for="matrikel">Matrikel-Nr:</label>
       <div class="col-md-3">
         <input type="text" class="form-control" id="matrikel" ng-model="borrow.customer.matrikel">
       </div>
     </div>
     <div class="form-group row">
-      <label class="col-md-1" for="city">City*:</label>
+      <label class="col-md-1" for="city">City:</label>
       <div class="col-md-3">
         <input type="text" class="form-control" id="city" ng-model="borrow.customer.city">
       </div>
-      <label class="col-md-1" for="street">Street*:</label>
+      <label class="col-md-1" for="street">Street:</label>
       <div class="col-md-3">
         <input type="text" class="form-control" id="street" ng-model="borrow.customer.street">
       </div>
-      <label class="col-md-1" for="zip">Zip*:</label>
+      <label class="col-md-1" for="zip">Zip:</label>
       <div class="col-md-2">
         <input type="text" class="form-control" id="zip" ng-model="borrow.customer.zip">
       </div>   
@@ -43,8 +43,14 @@ Additionally needed scripts: none
       <label class="col-md-1" for="email">E-mail*:</label>
       <div class="col-md-3">
         <input type="email" class="form-control" id="email" ng-model="borrow.customer.email">
-      </div>
+      </div>    
     </div>  
+    <div class="form-group row">
+      <label class="col-md-1" for="date">EndDate:</label>
+      <div class="col-md-3">
+        <input type="text" class="form-control input-border" id="borrowDate" value="" placeholder="Please select date" ng-model="borrow.customer.date">
+      </div> 
+    </div> 
     <p>* are necessary inputs.</p> 
   </form>
 
@@ -59,7 +65,7 @@ Additionally needed scripts: none
 
   <hr>
   <div>
-    <a href="#/list" class="btn btn-primary">Accept</a>
+    <button href="#/list" class="btn btn-primary" ng-click="sendBorrow()">Accept</button>
     <a href="#/list" class="btn btn-danger">Cancel</a>
   </div>
 
@@ -78,4 +84,6 @@ Additionally needed scripts: none
 
   <hr>
 </div>
+
 <!-- Daten umschreiben##### WORK IN PROGRESS #####-->
+

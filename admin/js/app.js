@@ -48,6 +48,10 @@ invApp.config(['$routeProvider',
       when('/borrow', {               //BorrowForm
         templateUrl: 'html/borrow.html',    
         controller: 'BorrowCtrl'
+      }).
+      when('/borrowlist', {               //BorrowForm
+        templateUrl: 'html/borrowlist.html',    
+        controller: 'BorrowCtrl'
       }).     //HIER ALLES NEU AUFSETZEN     
       when('/sysconf', {           
         templateUrl: 'html/systemconf_menu.html',
