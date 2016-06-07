@@ -4,7 +4,7 @@
 
 var invControllers = angular.module('invControllers', ['angularUtils.directives.dirPagination']);	//include dirPagination for dirPagination functions
 
-/*REQUEST LIST
+/* ADMIN INVENTORY LIST CONTROLLER
 Description: The mainsite controller, loads the list and controls the pagination, aswell the route to the detailview of an item
 Used in: list.html
 */
@@ -40,7 +40,7 @@ invControllers.controller('ListCtrl', function ($scope, $location, REST) {
 
 });
 
-/*REQUEST DETAIL*/
+/* ITEM DETAIL CONTROLLER */
 invControllers.controller('DetailCtrl', ['$scope', '$routeParams', '$location', 'REST', function($scope, $routeParams, $location, REST) {
   $scope.detailData = REST.detailLoad({ListItemId: $routeParams.ListItemId});	//specific get of list item
   /* $scope.detailData = REST.get({ListItemId: $routeParams.ListItemId}); works aswell*/
@@ -59,63 +59,73 @@ invControllers.controller('DetailCtrl', ['$scope', '$routeParams', '$location', 
 
   };
 
+  /* Edit item function*/
+  $scope.editItem = function(listID) {  
+    $location.path('/edit_item/'  + listID); //link us to the edit form
+  };
 
-  /*For the copy item*/
+  /* Copy item function */
   $scope.copyItem = function(data, info) {  
 
-    $scope.clearItem();
-    $scope.addItem(data);
-    /*Hier verlinkung zu der seite wo die items erstellt werden, davor aber erkennung*/
+    $scope.clearItem();   //clear the borrow cart
+    $scope.addItem(data); //adds the item that we can use it
+    /*Link to the right create form*/
     if(info == 'Device'){
       $location.path('/create_device');
-      //Daten müssen noch überarbeitet werden, sowie beim zurückgehen vom Kopieren löschen des ausgewählten objekts
-      //$scope.alert.push({msg: 'Device successful'}); /*Verlinkung ohne msg am ende*/
-    }else{
+    }else if(info == 'Material'){
       $location.path('/create_material');
-      //$scope.alert.push({msg: 'Material successful'}); /*Verlinkung ohne msg am ende*/
     }   
   };
 
 }]);
 
+/* ITEM EDIT CONTROLLER */
+invControllers.controller('ItemEditCtrl', ['$scope', '$routeParams', '$location', 'REST', function($scope, $routeParams, $location, REST) {
+  $scope.detailData = REST.detailLoad({ListItemId: $routeParams.ListItemId}); //specific get of list item
 
-/*Borrow Controller*/
+  $scope.viewDetail = function(listID) {    //change to detailview view
+        $location.path('/listData/' + listID); 
+  };
+
+  $scope.saveEdit = function(data) {   
+        //save to server
+        //get message if successful
+        //redirect to DetailView
+
+        //just for the testing
+        $location.path('/listData/' + data.Id);
+  };
+
+}]);
+
+
+/* BORROW CONTROLLER */
 invControllers.controller('BorrowCtrl', ['$scope', '$routeParams', 'REST', function($scope, $routeParams, REST) {
 
-  
-
+  //This is our borrow object with all informations about the current-borrow_cart
   $scope.borrow = 
    {
-    'customer': {     //will be empty at the end... this is just for testing
-        'firstname': 'Mark',
-        'lastname': 'Marvel',
-        'matrikel': '56433',
-        'city': 'Ilmenau',
-        'street': 'Ilmstreet 7',
-        'zip': '0000093',
-        'phone': '015263729',
-        'email': 'test@test.de',
+    'customer': {     
+        'firstname': '',
+        'lastname': '',
+        'matrikel': '',
+        'city': '',
+        'street': '',
+        'zip': '',
+        'phone': '',
+        'email': '',
         'date': '',
     },
     'items': []
    };
 
-   $scope.borrow.items = $scope.selectedItems;
-
-   $scope.removeItem2 = function(index) {  
-
-    //$scope.selectedItems.splice(index, 1);
-  };
-
-
+   //give all selected items the borrow object
+   $scope.borrow.items = $scope.selectedItems;  
 
   $scope.sendBorrow = function(){
     //needs to be like this cause datepicker doesnt work with ng-change
     $scope.borrow.customer.date = document.getElementById("borrowDate").value;
   };
-
-  
-  
 
   //Datepicker   
   $('*[id=borrowDate]').appendDtpicker({ 
@@ -124,11 +134,9 @@ invControllers.controller('BorrowCtrl', ['$scope', '$routeParams', 'REST', funct
     "futureOnly": true
   });
           
-
-
 }]);
 
-/*main-controller over all other controller*/
+/* main-controller over all other controller */
 invControllers.controller('indexCtrl', function ($scope, $location, $anchorScroll) {
 
   $scope.selectedItems = [];
@@ -137,7 +145,7 @@ invControllers.controller('indexCtrl', function ($scope, $location, $anchorScrol
   $scope.addItem = function(data) {  
 
     for (var i = 0; i < $scope.selectedItems.length; ++i) {    
-      if ($scope.selectedItems[i].id === data.id) {
+      if ($scope.selectedItems[i].Id === data.Id) {
         return "error";
       }  
     }

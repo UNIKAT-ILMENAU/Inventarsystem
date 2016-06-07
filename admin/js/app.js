@@ -4,7 +4,7 @@
 /* App Module */
 
 var invApp = angular.module('invApp', [
-  'ngRoute', 'invControllers', 'invServices'
+  'ngRoute', 'invControllers', 'invServices', 'invFilter'
 ]);
 
 //tokenInterceptor bugfix: 
@@ -33,11 +33,11 @@ invApp.config(['$routeProvider',
         templateUrl: 'html/itemlist.html',    
         controller: 'ListCtrl'
       }).
-      when('/create_device', {
+      when('/create_device', {                    //controller needs to get selected
         templateUrl: 'html/create_device.html', 
         controller: 'DetailCtrl'
       }).
-      when('/create_material', {
+      when('/create_material', {                  //controller needs to get selected
         templateUrl: 'html/create_material.html', 
         controller: 'DetailCtrl'
       }).
@@ -45,24 +45,28 @@ invApp.config(['$routeProvider',
         templateUrl: 'html/detail.html',
         controller: 'DetailCtrl'
       }).
-      when('/borrow', {               //BorrowForm
+      when('/edit_item/:ListItemId', {  //EditItemView
+        templateUrl: 'html/edit_item.html',
+        controller: 'ItemEditCtrl'
+      }).
+      when('/borrow', {                   //BorrowForm
         templateUrl: 'html/borrow.html',    
         controller: 'BorrowCtrl'
       }).
-      when('/borrowlist', {               //BorrowForm
+      when('/borrowlist', {               //AllBorrowedItemsList
         templateUrl: 'html/borrowlist.html',    
         controller: 'BorrowCtrl'
-      }).     //HIER ALLES NEU AUFSETZEN     
-      when('/sysconf', {           
+      }).        
+      when('/sysconf', {                          //controller needs to get selected
         templateUrl: 'html/systemconf_menu.html',
         controller: 'DetailCtrl'
       }).
-      when('/adminconf', {
+      when('/adminconf', {                        //controller needs to get selected
         templateUrl: 'html/adminconf_menu.html',
         controller: 'DetailCtrl'
       }).
-      when('/list_borrow', {
-        templateUrl: 'html/dashboard.html', //NOCH NICHT ERSTELLT
+      when('/list_borrow', {                      //controller needs to get selected
+        templateUrl: 'html/dashboard.html', 
         controller: 'DetailCtrl'
       }).
       otherwise({

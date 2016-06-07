@@ -3,39 +3,56 @@ Controller: DetailCtrl - controllers.js
 Additionally needed scripts: none 
 -->
 <div class="container">
-  <button class="btn btn-primary" style="float:right">Edit</button>
-  <h1>{{detailData.name}}</h1>  
+  <!-- Edit button -->
+  <button class="btn btn-primary" style="float:right" ng-click="editItem(detailData.Id);">Edit</button>
+  <!-- Basic/Simple Informations of the selected item-->
+  <h1>{{detailData.Id}} - {{detailData.Name}}</h1>
   <hr>
-  <p>{{detailData.description}}</p>
-
-
-  <ul class="specs">
-    <li>
-      <dl>
-        <dt>Informations:</dt>
-        <dd ng-repeat="availability in detailData.availability">{{$index}} | {{availability}}</dd>
-      </dl>
-      	<dl>Test [2]: {{detailData.availability[2]}}</dl>
-    </li>
-      <dl>StateInfo: {{detailData.info.status}} | Available: {{detailData.info.available}}</dl>
-    <li>
-      <span>Additionaly Info:</span>
-      <dd>{{detailData.additionalFeatures}}</dd>
-    </li>
-  </ul>
+  <p>State: {{detailData.State}}</p>
+  <p>Category: {{detailData.Category}} </p> 
+  <p>BuildType: {{detailData.BuildType}} </p>
+  <p>Description: {{detailData.Description}}</p>
+  <p>Cost: {{detailData.Cost}}</p>
+  <p>UoM: {{detailData.UoM}} | {{detailData.UoM_short}}</p>
+  <p>StorageValue: {{detailData.StorageValue}}</p>
+  <p> 
+    <!-- Check the CriticalStorageValue if it is ok -->
+    <div ng-if="detailData.StorageValue < detailData.CriticalStorageValue">
+      <div style="color:red">CriticalStorageValue: {{detailData.CriticalStorageValue}} 
+      </div>
+    </div>
+    <!-- StorageValue is normal so just show us the values-->
+    <div ng-if="detailData.StorageValue > detailData.CriticalStorageValue"> 
+      CriticalStorageValue: {{detailData.CriticalStorageValue}}   
+    </div>
+  </p>
+  <p>StorageValue: {{detailData.StorageValue}}</p> 
   <hr>
+  <!-- Menupoint/Buttons -->
   <div class="text-center">
-  <a href="#/list" class="btn btn-primary">Back to the menu</a>
-  <button class="btn btn-danger" ng-click="borrowAdd(detailData);">BorrowAdd</button>
-  <button class="btn btn-warning" ng-click="copyItem(detailData, 'Device')">Copy Item</button>  <!-- Hier wird bei 'Device' eine Variable von dem jeweiligen Item eingefügt-->
-  <div ng-repeat="news in alert">
-    <div class="alert alert-info">
-      <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
-      {{news.msg}}
+    <a href="#/list" class="btn btn-primary">Back to the menu</a>
+    <!-- Add Item to the borrow-cart -->
+    <button class="btn btn-danger" ng-click="borrowAdd(detailData);">BorrowAdd</button>
+    <!-- CopyItem Function-->
+    <type1 ng-if="detailData.material_id == null">
+      <button class="btn btn-warning" ng-click="copyItem(detailData, 'Device')">Copy Device</button>
+    </type1>
+    <type2 ng-if="detailData.material_id != null">
+      <button class="btn btn-warning" ng-click="copyItem(detailData, 'Material')">Copy Material</button>
+    </type2>
+    <!-- information/alert message for short info -->
+    <div ng-repeat="news in alert">
+      <div class="alert alert-info">
+        <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        {{news.msg}}
+      </div>
+    </div>
+    <hr>
+    <!-- HERE COMES THE HISTORY-->
+    <div class="well">
+
+    HISTORY
+
     </div>
   </div>
-
-  </div>
-  <hr>
 </div>
-<!-- Daten umschreiben##### WORK IN PROGRESS #####-->
