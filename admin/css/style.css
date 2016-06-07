@@ -100,54 +100,33 @@ th {
   min-height: 500px;
 }
 
-@media (max-width: 599px) {             /* Größe des Fensters */
-  .btn-responsive {
-    padding:2px 4px;                    /* Schriftgröße im Button */
-    font-size:50%;
-    line-height: 1;
-       
-    margin-top : 50px;                  /* Abstände der Buttons */
-    margin-bottom :3px;
-    margin-left: 3px;
-    margin-right: 3px;
-  
-    /*border-radius:3px;*/
-    height: 90px;                       /*Größe der Buttons */
-    width: 90px;
-    
-    line-height: 80px;                  /* Schriftplatzierung */
-      }
+.menu-margin{
+  margin-top: 50px;
 }
 
-@media (min-width: 599px) and (max-width: 1200px) {
+@media (max-width: 991px) { /* Window heigth*/
   .btn-responsive {
-    padding:4px 9px;
+    padding:4px 9px;                    /* Font Size*/
     font-size:70%;
     line-height: 1.2;
-    
-    margin-top : 50px;
-    margin-bottom :6px;
-    margin-left: 6px; 
-    margin-right: 6px;
-  
-    height: 150px;
+        
+    margin-bottom: 10px;
+
+    height: 150px;                      /* Button size */
     width: 150px;
     
-    line-height: 140px;
+    line-height: 140px;                 /* line placement */
       }
 }
 
-@media (min-width:1200px)  {
+@media (min-width:992px)  {
   .btn-responsive {
     padding:9px 19px;
     font-size:90%;
     line-height: 9;
-  
-    margin-top : 50px;  
-    margin-bottom :10px;
-    margin-left: 10px;
-    margin-right: 10px;
-  
+   
+    margin-bottom: 10px;
+
     height: 180px;
     width: 180px;
     
