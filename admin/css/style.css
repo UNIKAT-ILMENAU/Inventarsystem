@@ -97,10 +97,10 @@ th {
 /*Menu points */
 
 .menu-space{
-  min-height: 500px;
+  min-height: 500px;   /* the min default height of the menu */
 }
 
-.menu-margin{
+.menu-margin{         /* just some top space for the menu buttons */
   margin-top: 50px;
 }
 
@@ -119,18 +119,18 @@ th {
       }
 }
 
-@media (min-width:992px)  {
+@media (min-width:992px)  { /* Window heigth*/
   .btn-responsive {
-    padding:9px 19px;
+    padding:9px 19px;                    /* Font Size*/
     font-size:90%;
     line-height: 9;
    
     margin-bottom: 10px;
 
-    height: 180px;
+    height: 180px;                      /* Button size */
     width: 180px;
     
-    line-height: 160px;
+    line-height: 160px;                 /* line placement */
       }
 }
 
