@@ -13,9 +13,9 @@ invControllers.controller('ListCtrl', function ($scope, $location, REST) {
 	$scope.listData = data;
   });
 
-  REST.typload(function(data){   //typeaheadlist request via rest-factory
+  /*REST.typload(function(data){   //typeaheadlist request via rest-factory
   $scope.typeaheadData = data;
-  });
+  });*/
   
    var d_pageSize = 10;               //default pageSize limit
   $scope.pageSize = d_pageSize;				//Item limit per page

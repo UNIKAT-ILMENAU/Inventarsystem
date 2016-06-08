@@ -1,5 +1,5 @@
 {
-    "Id": "1",
+    "Id": 1,
     "Name": "Bohrer",
     "State": "available",
     "Category": "Cat1",
@@ -8,6 +8,8 @@
     "Cost": 19,
     "UoM": "Meter",
     "UoM_short": "m",
-    "isMaterial": false,
-    "StorageValue": 0
+    "StorageValue": 0,
+    "material_id": null
 }
+
+

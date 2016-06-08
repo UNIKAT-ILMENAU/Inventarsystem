@@ -1,62 +1,62 @@
 [
  {
-  "Id": "1",
+  "Id": 1,
   "Name": "Bohrer",
   "State": "available",
   "Category": "Cat1",
   "BuildType": "BT2",
   "Cost": 19,
-  "isMaterial": false,
-  "StorageValue": 0
+  "StorageValue": 0,
+  "material_id": null
  },
  {
- "Id": "2",
+  "Id": 2,
   "Name": "Schrauber",
   "State": "available",
   "Category": "Cat5",
   "BuildType": "BT8",
   "Cost": 5,
-  "isMaterial": false,
-  "StorageValue": 0
+  "StorageValue": 0,
+  "material_id": null
  },
  {
- "Id": "3",
+ "Id": 3,
   "Name": "Hammer",
   "State": "available",
   "Category": "Cat5",
   "BuildType": "BT6",
   "Cost": 7,
-  "isMaterial": false,
-  "StorageValue": 0
+  "StorageValue": 0,
+  "material_id": null
  },
  {
-  "Id": "76",
+  "Id": 76,
   "Name": "Schrauben 15mm",
   "State": "available",
   "Category": "Cat9",
   "BuildType": "BT10",
   "Cost": 0.50,
-  "isMaterial": true,
-  "StorageValue": 30
+  "StorageValue": 30,
+  "material_id": 1
  },
  {
- "Id": "89",
+ "Id": 89,
   "Name": "Schrauben 9mm",
   "State": "available",
   "Category": "Cat8",
   "BuildType": "BT10",
   "Cost": 0.25,
-  "isMaterial": true,
-  "StorageValue": 18
+  "StorageValue": 18,
+  "material_id": 2
  },
  {
- "Id": "12",
+ "Id": 12,
   "Name": "Nägel",
   "State": "available",
   "Category": "Cat8",
   "BuildType": "BT4",
   "Cost": 0.80,
-  "isMaterial": true,
-  "StorageValue": 120
+  "StorageValue": 120,
+  "material_id": 3
  }
 ]

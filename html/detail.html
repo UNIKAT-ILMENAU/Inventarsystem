@@ -10,8 +10,14 @@ Additionally needed scripts: none
   <p>BuildType: {{detailData.BuildType}} </p>
   <p>Description: {{detailData.Description}}</p>
   <p>Cost: {{detailData.Cost}}</p>
-  <p>IsMaterial: {{detailData.isMaterial}}</p>
+  <p>UoM: {{detailData.UoM}} | {{detailData.UoM_short}}</p>
   <p>StorageValue: {{detailData.StorageValue}}</p> 
+  <type1 ng-if="detailData.material_id == null">
+    <p>Device/Material?: Device</p>
+  </type1>
+  <type2 ng-if="detailData.material_id != null">
+    <p>Device/Material?: Material</p>
+  </type2>
   <hr>
   <div class="text-center">
   <a href="#/" class="btn btn-primary">Back to the menu</a>
