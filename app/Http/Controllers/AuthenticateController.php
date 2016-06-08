@@ -14,29 +14,24 @@ use Tymon\JWTAuth\Facades\JWTFactory;
 
 class AuthenticateController extends Controller
 {
-	/*
-    public function authenticate(Request $request)
+	
+    public function checkAuth(Request $request)
     {
-        // grab credentials from the request
-        $credentials = $request->only('email', 'password');
-        //return $credentials;
-        try {
-            // attempt to verify the credentials and create a token for the user
-            if (! $token = JWTAuth::attempt($credentials)) {
-				return response()->json(['error' => 'invalid_credentials'], 401);
-            }
-        } catch (JWTException $e) {
-            // something went wrong whilst attempting to encode the token
-            return response()->json(['error' => 'could_not_create_token'], 500);
-        }
+        $token = $request->input('token');
+        JWTAuth::setToken($token);
+        // this will set the token on the object
+        $user = JWTAuth::parseToken();
 
-        // all good so return the token
-        return response()->json(compact('token'));
+        // and you can continue to chain methods
+        //$user = JWTAuth::parseToken()->authenticate();
+        
+        echo $user;
     }
-	*/
+	
 
     public function authenticate(Request $request)
     {
+        /*
     	$checkemail = false;
     	$checkpassword = false;
 
@@ -46,7 +41,7 @@ class AuthenticateController extends Controller
     	$r_email = $request->input('email');
     	$r_password = $request->input('password');
 
-    	$password = Hash::make($r_password);
+    	$password = Hash::make($request);
     	return $password;
     	/*
     	$db_mail = DB::table('user')
@@ -68,13 +63,14 @@ class AuthenticateController extends Controller
     	{
     		$checkemail = true;
     	}
+        */
+        $r_email = $request->input('email');
+        $r_password = $request->input('password');
 
     	$customClaims = ['email' => $r_email, 'password' => $r_password];
 		$payload = JWTFactory::make($customClaims);
 
 		$token = JWTAuth::encode($payload);
-		return response()->json($token);
-
-        */
+		return $token;
     }
 }
