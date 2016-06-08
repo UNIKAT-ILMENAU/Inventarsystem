@@ -23,6 +23,8 @@ Additionally needed scripts: none
   <input type="text" class="form-control" ng-model="detailData.Description" >
   <label>Cost:</label>
   <input type="text" class="form-control" ng-model="detailData.Cost" >
+  <label>Saleprice:</label>
+  <input type="text" class="form-control" ng-model="detailData.Saleprice" >
   <label>UoM:</label>
   <input type="text" class="form-control" ng-model="detailData.UoM" >
   <label>UoM_short:</label>
@@ -35,7 +37,14 @@ Additionally needed scripts: none
   <!-- Menupoint/Buttons -->
   <div class="text-center">
     <a href="#/list" class="btn btn-danger">Back to menu</a>
-
+    <button class="btn btn-primary" ng-click="saveEdit(detailData)">Save</button> 
     <hr>
   </div>
+</div>
+
+
+
+<div class="well">
+  <p>Testing area for backend</p> 
+  <p>{{updateItem}}</p>
 </div>

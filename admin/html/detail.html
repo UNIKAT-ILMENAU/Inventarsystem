@@ -13,6 +13,7 @@ Additionally needed scripts: none
   <p>BuildType: {{detailData.BuildType}} </p>
   <p>Description: {{detailData.Description}}</p>
   <p>Cost: {{detailData.Cost}}</p>
+  <p>Saleprice: {{detailData.Saleprice}}</p>
   <p>UoM: {{detailData.UoM}} | {{detailData.UoM_short}}</p>
   <p>StorageValue: {{detailData.StorageValue}}</p>
   <p> 
@@ -31,8 +32,8 @@ Additionally needed scripts: none
   <!-- Menupoint/Buttons -->
   <div class="text-center">
     <a href="#/list" class="btn btn-primary">Back to the menu</a>
-    <!-- Add Item to the borrow-cart -->
-    <button class="btn btn-danger" ng-click="borrowAdd(detailData);">BorrowAdd</button>
+    <!-- Add Item to the rental-cart -->
+    <button class="btn btn-danger" ng-click="rentalAdd(detailData);">RentalAdd</button>
     <!-- CopyItem Function-->
     <type1 ng-if="detailData.material_id == null">
       <button class="btn btn-warning" ng-click="copyItem(detailData, 'Device')">Copy Device</button>

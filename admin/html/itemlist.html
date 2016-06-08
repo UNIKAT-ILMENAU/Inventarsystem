@@ -13,8 +13,8 @@ Additionally needed scripts: js/dirPagination.js
 <div class="container top-space bot-space">
 	<div class="row">
 		<div class="col-md-12">
-			<a href="#/create_device"><button class="btn btn-success">Create Device +</button></a>
-			<a href="#/create_material"><button class="btn btn-success">Create Material +</button></a>
+			<button class="btn btn-success" ng-click="createNewItem('Device')">Create Device +</button>
+			<button class="btn btn-success" ng-click="createNewItem('Material')">Create Material +</button>
 		</div>
 	</div>
 </div>
@@ -121,11 +121,17 @@ Additionally needed scripts: js/dirPagination.js
 				    <th ng-click="sort('Cost')">Cost
 				    	<span class="glyphicon sort-icon" ng-show="sortKey=='Cost'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 				    </th>
+				    <th ng-click="sort('Saleprice')">Saleprice
+				    	<span class="glyphicon sort-icon" ng-show="sortKey=='Saleprice'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				    </th>
 				    <th ng-click="sort('StorageValue')">StorageValue
 				    	<span class="glyphicon sort-icon" ng-show="sortKey=='StorageValue'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 				    </th>
 				    <th ng-click="sort('Place')">Place
 				    	<span class="glyphicon sort-icon" ng-show="sortKey=='Place'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				    </th>
+				    <th ng-click="sort('PublicVisible')">PublicVisible
+				    	<span class="glyphicon sort-icon" ng-show="sortKey=='PublicVisible'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 				    </th>
 				    <th ng-click="sort('material_id')">material_id
 				    	<span class="glyphicon sort-icon" ng-show="sortKey=='material_id'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
@@ -144,6 +150,7 @@ Additionally needed scripts: js/dirPagination.js
 				    <td>{{listItem.Category}}</td>
 				    <td>{{listItem.BuildType}}</td>
 				    <td>{{listItem.Cost}}</td>
+				    <td>{{listItem.Saleprice}}</td>
 				    <td>
 						<!-- we are under the criticalStorageValue highlight it as red-->
 						<div ng-if="listItem.StorageValue < listItem.CriticalStorageValue"> 
@@ -156,6 +163,7 @@ Additionally needed scripts: js/dirPagination.js
 						</div>
 				    </td>
 				    <td>{{listItem.Place}}</td>
+				    <td>{{listItem.PublicVisible}}</td>
 				    <td>
 				    	<!-- Filter Device and Material -->
 				    	<div ng-if="listItem.material_id == null"> 
@@ -187,15 +195,28 @@ Additionally needed scripts: js/dirPagination.js
 	<div class="row">
 		<div class="col-md-12">
 			
+		<div class="panel panel-default">
+  		<div class="panel-body">
+			<h4>Rental list:</h4>
 			
-			<div class="well">
-				<div ng-repeat="item in selectedItems">
-				  <p>{{$index+1}} | {{item}}<button class="btn btn-sm btn-danger" ng-click="removeItem($index)">X</button></p>
+			<div ng-repeat="item in selectedItems">
+				<div class="row">
+					<div class="well" style="margin:0px">
+						<div class="col-sm-2">{{$index+1}}</div>
+						<div class="col-sm-2">{{item.Name}}</div>
+						<div class="col-sm-2">{{item.Category}}</div>
+						<div class="col-sm-1">{{item.BuildType}}</div>
+						<div class="col-sm-1">{{item.Cost}}</div>
+						<div class="col-sm-2">{{item.Place}}</div>
+						<button class="btn btn-sm btn-danger" ng-click="removeItem($index)">X</button>
+						
+					</div>
 				</div>
 			</div>
-
-
-			<button class="btn btn-lg btn-danger" ng-disabled="!selectedItems[0]" ng-click="loadBorrow()">Borrow</button>
+			
+		</div>
+		</div>
+			<button class="btn btn-lg btn-danger" ng-disabled="!selectedItems[0]" ng-click="loadRental()">Rent</button>
 			<button class="btn btn-lg btn-warning" ng-click="clearItem()">Clear</button>	
 		</div>
 	</div>

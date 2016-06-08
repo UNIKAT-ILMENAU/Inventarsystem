@@ -6,9 +6,11 @@
   "Category": "Cat1",
   "BuildType": "BT2",
   "Cost": 19,
+  "Saleprice": 20,
   "StorageValue": 0,
   "CriticalStorageValue": 0,
   "Place": "HausM",
+  "PublicVisible": 1,
   "material_id": null
  },
  {
@@ -18,9 +20,11 @@
   "Category": "Cat5",
   "BuildType": "BT8",
   "Cost": 5,
+  "Saleprice": 0,
   "StorageValue": 0,
   "CriticalStorageValue": 0,
   "Place": "HausM",
+  "PublicVisible": 1,
   "material_id": null
  },
  {
@@ -30,9 +34,11 @@
   "Category": "Cat5",
   "BuildType": "BT6",
   "Cost": 7,
+  "Saleprice": 0,
   "StorageValue": 0,
   "CriticalStorageValue": 0,
   "Place": "HausM",
+  "PublicVisible": 1,
   "material_id": null
  },
  {
@@ -42,9 +48,11 @@
   "Category": "Cat9",
   "BuildType": "BT10",
   "Cost": 0.50,
+  "Saleprice": 0,
   "StorageValue": 30,
   "CriticalStorageValue": 15,
   "Place": "HausM",
+  "PublicVisible": 1,
   "material_id": 1
  },
  {
@@ -54,9 +62,11 @@
   "Category": "Cat8",
   "BuildType": "BT10",
   "Cost": 0.25,
+  "Saleprice": 0,
   "StorageValue": 18,
   "CriticalStorageValue": 5,
   "Place": "HausM",
+  "PublicVisible": 1,
   "material_id": 2
  },
  {
@@ -66,9 +76,11 @@
   "Category": "Cat8",
   "BuildType": "BT4",
   "Cost": 0.80,
+  "Saleprice": 10,
   "StorageValue": 120,
   "CriticalStorageValue": 130,
   "Place": "HausM",
+  "PublicVisible": 1,
   "material_id": 3
  }
 ]

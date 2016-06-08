@@ -33,13 +33,13 @@ invApp.config(['$routeProvider',
         templateUrl: 'html/itemlist.html',    
         controller: 'ListCtrl'
       }).
-      when('/create_device', {                    //controller needs to get selected
+      when('/create_device', {        //Create device
         templateUrl: 'html/create_device.html', 
-        controller: 'DetailCtrl'
+        controller: 'CreateCtrl'
       }).
-      when('/create_material', {                  //controller needs to get selected
+      when('/create_material', {      //Create material
         templateUrl: 'html/create_material.html', 
-        controller: 'DetailCtrl'
+        controller: 'CreateCtrl'
       }).
       when('/listData/:ListItemId', {  //ItemDetailView
         templateUrl: 'html/detail.html',
@@ -49,13 +49,13 @@ invApp.config(['$routeProvider',
         templateUrl: 'html/edit_item.html',
         controller: 'ItemEditCtrl'
       }).
-      when('/borrow', {                   //BorrowForm
-        templateUrl: 'html/borrow.html',    
-        controller: 'BorrowCtrl'
+      when('/rental', {                   //RentalForm
+        templateUrl: 'html/rental.html',    
+        controller: 'RentalCtrl'
       }).
-      when('/borrowlist', {               //AllBorrowedItemsList
-        templateUrl: 'html/borrowlist.html',    
-        controller: 'BorrowCtrl'
+      when('/rentallist', {               //AllRentedItemsList
+        templateUrl: 'html/rentallist.html',      //controller needs to get selected
+        controller: 'RentalCtrl'
       }).        
       when('/sysconf', {                          //controller needs to get selected
         templateUrl: 'html/systemconf_menu.html',
@@ -63,10 +63,6 @@ invApp.config(['$routeProvider',
       }).
       when('/adminconf', {                        //controller needs to get selected
         templateUrl: 'html/adminconf_menu.html',
-        controller: 'DetailCtrl'
-      }).
-      when('/list_borrow', {                      //controller needs to get selected
-        templateUrl: 'html/dashboard.html', 
         controller: 'DetailCtrl'
       }).
       otherwise({

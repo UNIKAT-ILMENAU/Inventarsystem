@@ -2,9 +2,9 @@
 HIER NOCH VERBESSERN - KOMMENTARE ETC.
 -->
 
-    <div class="container">
+    <div class="container top-space bot-space">
       <div class="panel panel-default">
-        <div class="panel-heading">Create new material</div>
+        <div class="panel-heading text-center"><h4>Create new material</h4></div>
         <div class="panel-body">
         	
           <!--Begin form-->
@@ -14,7 +14,7 @@ HIER NOCH VERBESSERN - KOMMENTARE ETC.
             <div class="form-group" id="formName">
               <label class="col-md-2 control-label" for="name">Name</label>
               <div class="col-md-4">
-                <input type="text" class="form-control" id="name" name="name" placeholder="LM258" />
+                <input type="text" class="form-control" id="name" name="name" placeholder="LM258" ng-model="selectedItems[0].Name"/>
               </div>
             </div>
 
@@ -22,7 +22,7 @@ HIER NOCH VERBESSERN - KOMMENTARE ETC.
             <div class="form-group" id="formDescription">
               <label class="col-md-2 control-label" for="description">Description</label>  
               <div class="col-md-4">
-                <textarea class="form-control" id="description" name="description" placeholder="Mf: B1"></textarea>
+                <textarea class="form-control" id="description" name="description" placeholder="Mf: B1" ng-model="selectedItems[0].Description"></textarea>
               </div>
             </div>
 
@@ -30,7 +30,7 @@ HIER NOCH VERBESSERN - KOMMENTARE ETC.
             <div class="form-group" id="formCategory">
               <label class="col-md-2 control-label" for="category">Category</label>
               <div class="col-md-4">
-                <input type="search" class="form-control" id="category" name="category" placeholder="Search for category..." /> 
+                <input type="search" class="form-control" id="category" name="category" placeholder="Search for category..." ng-model="selectedItems[0].Category"/> 
               </div>
             </div>
 
@@ -38,73 +38,90 @@ HIER NOCH VERBESSERN - KOMMENTARE ETC.
             <div class="form-group" id="formPlace">
               <label class="col-md-2 control-label" for="place">Place</label>
               <div class="col-md-4">
-                <input type="search" class="form-control" id="place" name="place" placeholder="Search for place..." /> 
+                <input type="search" class="form-control" id="place" name="place" placeholder="Search for place..." ng-model="selectedItems[0].Place"/> 
               </div>
             </div>
 
             <!--Purchase price input-->
             <div class="form-group" id="formCost">
-              <label class="col-md-2 control-label" for="cost">Purchase price</label>
+              <label class="col-md-2 control-label" for="cost">Cost</label>
               <div class="col-md-4">
-                <input type="number" min="0.00" step="0.01" class="form-control" id="cost" name="cost" placeholder="42.00" />
+                <input type="number" min="0.00" step="0.01" class="form-control" id="cost" name="cost" placeholder="42.00" ng-model="selectedItems[0].Cost"/>
               </div>
             </div>
 
             <!--Retail price input-->
             <div class="form-group" id="formPrice">
-              <label class="col-md-2 control-label" for="price">Retail price</label>
+              <label class="col-md-2 control-label" for="price">Saleprice</label>
               <div class="col-md-4">
-                <input type="number" min="0.00" step="0.01" class="form-control" id="price" name="price" placeholder="42.00" />
+                <input type="number" min="0.00" step="0.01" class="form-control" id="price" name="price" placeholder="42.00" ng-model="selectedItems[0].Saleprice"/>
               </div>
             </div>
 
-             <!--Stock input-->
+            <!--Stock input-->
             <div class="form-group" id="formStock">
-              <label class="col-md-2 control-label" for="stock">In stock</label>
+              <label class="col-md-2 control-label" for="stock">Storage value</label>
               <div class="col-md-4">
-                <input type="number" min="0" class="form-control" id="stock" name="stock" placeholder="42" />
+                <input type="number" min="0" class="form-control" id="stock" name="stock" placeholder="30" ng-model="selectedItems[0].StorageValue"/>
               </div>
             </div>
 
             <!--Critical stock input-->
-            <div class="form-group" id="formCritical">
-              <label class="col-md-2 control-label" for="criticalStock">Critical stock amount</label>
+            <div class="form-group" id="formStock">
+              <label class="col-md-2 control-label" for="stock">Critical stock amount</label>
               <div class="col-md-4">
-                <input type="number" value="0" min="0" class="form-control" id="criticalStock" name="criticalStock" placeholder="0" />
+                <input type="number" min="0" class="form-control" id="stock" name="stock" placeholder="30" ng-model="selectedItems[0].CriticalStorageValue"/>
               </div>
             </div>
+            
 
             <!--Type input-->
             <div class="form-group" id="formType">
-              <label class="col-md-2 control-label" for="type">Type</label>
+              <label class="col-md-2 control-label" for="type">Buildtype</label>
               <div class="col-md-4">
-                <input type="text" class="form-control" id="type" name="type" placeholder="THT" />
+                <input type="text" class="form-control" id="type" name="type" placeholder="THT" ng-model="selectedItems[0].Buildtype"/>
               </div>
             </div>
 
-            <!--Value input-->
+            <!--UOM input-->
             <div class="form-group" id="formMeasure">
-              <label class="col-md-2 control-label" for="measure">Value</label>
+              <label class="col-md-2 control-label" for="measure">UOM</label>
               <div class="col-md-4">
-                <input type="text" class="form-control" id="measure" name="measure" placeholder="20 Ohm" />
+                <input type="text" class="form-control" id="measure" name="measure" placeholder="Meter" ng-model="selectedItems[0].UoM"/>
               </div>
             </div>
 
-            <!--File input-->
-            <div class="form-group" id="formFile">
-              <label class="col-md-2 control-label" for="file">Upload file(s)</label>
+            <!--UOM_short input-->
+            <div class="form-group" id="formMeasure">
+              <label class="col-md-2 control-label" for="measure">UOM short</label>
               <div class="col-md-4">
-                <input type="file" class="input-file" id="file" name="file" multiple>
+                <input type="text" class="form-control" id="measure" name="measure" placeholder="m" ng-model="selectedItems[0].UoM_short"/>
+              </div>
+            </div>
+
+            <!--Comment input-->
+            <div class="form-group" id="formDescription">
+              <label class="col-md-2 control-label" for="description">Comment</label>  
+              <div class="col-md-4">
+                <textarea class="form-control" id="description" name="description" placeholder="Created Item..." ng-model="selectedItems[0].Comment"></textarea>
+              </div>
+            </div>
+
+            <!--PublicVisible input-->
+            <div class="form-group" id="formState">
+              <label class="col-md-2 control-label" for="state">Visible</label>
+              <div class="col-md-4">
+                <input type="text" class="form-control" id="state" name="state" placeholder="1 = true , 0 = false" ng-model="selectedItems[0].PublicVisible"/>
               </div>
             </div>
 
             <!--Buttons: link for 'Back to menu' has to be set-->
             <div class="form-group">
               <div class="col-md-6 col-md-offset-2">
-                <button id="buttonSubmit" name="buttonSubmit" type="submit" class="btn btn-success btn-sm">Create material</button>
-                <button id="buttonReset" name="buttonReset" type="reset" form="itemForm" class="btn btn-danger btn-sm">Reset form</button>
+                <button id="buttonSubmit" name="buttonSubmit" type="submit" class="btn btn-success btn-sm" ng-click="createItemToServer()">Create material</button>
+                <button id="buttonReset" name="buttonReset" type="reset" form="itemForm" class="btn btn-danger btn-sm" ng-click="clearItem()">Reset form</button>
                 <a href="">
-                	<a href="#/list" id="buttonMenu" name="buttonMenu" type="button" class="btn btn-primary btn-sm">Back to list</a>
+                	<a href="#/list" id="buttonMenu" name="buttonMenu" type="button" class="btn btn-primary btn-sm" ng-click="clearItem()">Back to list</a>
                 </a>	
               </div>
             </div>
@@ -118,3 +135,9 @@ HIER NOCH VERBESSERN - KOMMENTARE ETC.
     <script type="text/javascript" src="formValidation.js"></script>
 
     <!-- DAS HIERMUSS AUCH UNBEDINGT AUSGELAGERT WERDEN ODER ANDERS GEHANDHABT WERDEN-->
+
+<div class="well">
+  <p>Testing area for backend</p>
+  <p>{{selectedItems[0]}}</p>
+  <p>{{createItem}}</p>
+</div>

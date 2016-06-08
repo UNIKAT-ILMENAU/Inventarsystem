@@ -4,7 +4,7 @@ Additionally needed scripts: none
 -->
 <div class="container">
     
-  <h3>Borrow overview:</h3><hr>
+  <h3>Rental overview:</h3><hr>
   <form class="well">
     <div class="form-group row">
       <label class="col-md-1" for="firstname">Firstname*:</label>
@@ -56,16 +56,32 @@ Additionally needed scripts: none
 
   <hr>
 
-  <div class="well">
-    <div ng-repeat="item in selectedItems">
-      <p>{{$index+1}} | {{item}}<button class="btn btn-sm btn-danger" ng-click="removeItem($index)">X</button></p>
+  <div class="panel panel-default">
+      <div class="panel-body">
+      
+      <div ng-repeat="item in selectedItems">
+        <div class="row">
+          <div class="well" style="margin:0px">
+            <div class="col-sm-2">{{$index+1}}</div>
+            <div class="col-sm-2">{{item.Name}}</div>
+            <div class="col-sm-2" ng-if="item.material_id != null">
+              Amount: <input type="text" class="form-control" id="amount">
+            </div>
+            <div class="col-sm-1">{{item.BuildType}}</div>
+            <div class="col-sm-1">{{item.Cost}}</div>
+            <div class="col-sm-2">{{item.Place}}</div>
+            <button class="btn btn-sm btn-danger" ng-click="removeItem($index)">X</button>
+            
+          </div>
+        </div>
+      </div>
+      
     </div>
-  </div>
 
 
   <hr>
   <div>
-    <button href="#/list" class="btn btn-primary" ng-click="sendBorrow()">Accept</button>
+    <button href="#/list" class="btn btn-primary" ng-click="sendRental()">Accept</button>
     <a href="#/list" class="btn btn-danger">Cancel</a>
   </div>
 

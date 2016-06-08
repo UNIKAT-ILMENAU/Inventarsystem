@@ -6,10 +6,12 @@
 	"BuildType": "BT4",
 	"Description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur, autem?",
 	"Cost": 0.80,
+	"Saleprice": 10,
 	"UoM": "Stück",
 	"UoM_short": "stk",
 	"StorageValue": 120,
 	"CriticalStorageValue": 130,
 	"Place": "HausM",
+	"PublicVisible": 1,
 	"material_id": 3
 }
