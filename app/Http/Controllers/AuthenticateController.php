@@ -17,15 +17,40 @@ class AuthenticateController extends Controller
 	
     public function checkAuth(Request $request)
     {
-        $token = $request->input('token');
-        JWTAuth::setToken($token);
-        // this will set the token on the object
-        $user = JWTAuth::parseToken();
+        /*
+        try {
 
-        // and you can continue to chain methods
-        //$user = JWTAuth::parseToken()->authenticate();
-        
-        echo $user;
+                if (! $user = JWTAuth::parseToken()->authenticate()) {
+                    return response()->json(['user_not_found'], 404);
+                }
+
+            } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
+
+                return response()->json(['token_expired'], $e->getStatusCode());
+
+            } catch (Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
+
+                return response()->json(['token_invalid'], $e->getStatusCode());
+
+            } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
+
+                return response()->json(['token_absent'], $e->getStatusCode());
+
+            }
+
+            // the token is valid and we have found the user via the sub claim
+            return response()->json(compact('user'));
+            
+            $token = JWTAuth::getToken();
+            return $token;
+            */
+            $checkAuth = JWTAuth::attempt();
+            if($checkAuth){
+                echo "true";
+            }else{
+                echo "false";
+            }
+            
     }
 	
 
@@ -71,6 +96,9 @@ class AuthenticateController extends Controller
 		$payload = JWTFactory::make($customClaims);
 
 		$token = JWTAuth::encode($payload);
-		return $token;
+		//return $token;
+        //serialize($token);
+        //return response()->json(JWTAuth::setToken($token));
+        return response()->json(['token' => JWTAuth::getToken()]);
     }
 }
