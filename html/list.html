@@ -113,7 +113,13 @@ Additionally needed scripts: js/dirPagination.js
 				  <tr ng-click="viewDetail(listItem.Id);" dir-paginate="listItem in listData| orderBy:sortKey:reverse | filter: search | itemsPerPage:pageSize">	<!-- detailview via leftmouse click on the item -->
 				    <td>{{listItem.Id}}</td>
 				    <td>{{listItem.Name}}</td>
-				    <td>{{listItem.State}}</td>
+				    <td>
+						<div ng-switch="listItem.State">
+							<div ng-switch-when="0" style="color: orange">Not available</div>
+							<div ng-switch-when="1" style="color: green">Available</div>
+							<div ng-switch-default>Not available</div>
+						</div>
+				    </td>
 				    <td>{{listItem.Category}}</td>
 				    <td>{{listItem.BuildType}}</td>
 				    <td>{{listItem.Cost}}</td>

@@ -3,9 +3,19 @@ Controller: DetailCtrl - controllers.js
 Additionally needed scripts: none 
 -->
 <div class="container">
-  <h1>{{detailData[0].Id}} - {{detailData[0].Name}}</h1>
+  <h1>
+    <div ng-switch="detailData[0].State">
+      <div ng-switch-when="0" style="color: orange">{{detailData[0].Id}} - {{detailData[0].Name}}</div>
+      <div ng-switch-when="1" style="color: green">{{detailData[0].Id}} - {{detailData[0].Name}}</div>
+    </div>
+  </h1>
   <hr>
-  <p>State: {{detailData[0].State}}</p>
+  <p> 
+    <div ng-switch="detailData[0].State">
+      <div ng-switch-when="0" style="color: orange">State: Not available</div>
+      <div ng-switch-when="1" style="color: green">State: Available</div>
+    </div>
+  </p>
   <p>Category: {{detailData[0].Category}} </p> 
   <p>BuildType: {{detailData[0].BuildType}} </p>
   <p>Description: {{detailData[0].Description}}</p>
