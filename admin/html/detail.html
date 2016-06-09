@@ -1,0 +1,59 @@
+<!-- 
+Controller: DetailCtrl - controllers.js
+Additionally needed scripts: none 
+-->
+<div class="container">
+  <!-- Edit button -->
+  <button class="btn btn-primary" style="float:right" ng-click="editItem(detailData.Id);">Edit</button>
+  <!-- Basic/Simple Informations of the selected item-->
+  <h1>{{detailData.Id}} - {{detailData.Name}}</h1>
+  <hr>
+  <p>State: {{detailData.State}}</p>
+  <p>Category: {{detailData.Category}} </p> 
+  <p>BuildType: {{detailData.BuildType}} </p>
+  <p>Description: {{detailData.Description}}</p>
+  <p>Cost: {{detailData.Cost}}</p>
+  <p>Saleprice: {{detailData.Saleprice}}</p>
+  <p>UoM: {{detailData.UoM}} | {{detailData.UoM_short}}</p>
+  <p>StorageValue: {{detailData.StorageValue}}</p>
+  <p> 
+    <!-- Check the CriticalStorageValue if it is ok -->
+    <div ng-if="detailData.StorageValue < detailData.CriticalStorageValue">
+      <div style="color:red">CriticalStorageValue: {{detailData.CriticalStorageValue}} 
+      </div>
+    </div>
+    <!-- StorageValue is normal so just show us the values-->
+    <div ng-if="detailData.StorageValue > detailData.CriticalStorageValue"> 
+      CriticalStorageValue: {{detailData.CriticalStorageValue}}   
+    </div>
+  </p>
+  <p>StorageValue: {{detailData.StorageValue}}</p> 
+  <hr>
+  <!-- Menupoint/Buttons -->
+  <div class="text-center">
+    <a href="#/list" class="btn btn-primary">Back to the menu</a>
+    <!-- Add Item to the rental-cart -->
+    <button class="btn btn-danger" ng-click="rentalAdd(detailData);">RentalAdd</button>
+    <!-- CopyItem Function-->
+    <type1 ng-if="detailData.material_id == null">
+      <button class="btn btn-warning" ng-click="copyItem(detailData, 'Device')">Copy Device</button>
+    </type1>
+    <type2 ng-if="detailData.material_id != null">
+      <button class="btn btn-warning" ng-click="copyItem(detailData, 'Material')">Copy Material</button>
+    </type2>
+    <!-- information/alert message for short info -->
+    <div ng-repeat="news in alert">
+      <div class="alert alert-info">
+        <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        {{news.msg}}
+      </div>
+    </div>
+    <hr>
+    <!-- HERE COMES THE HISTORY-->
+    <div class="well">
+
+    HISTORY
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,50 @@
+<!-- 
+Controller: ItemEditController - controllers.js
+Additionally needed scripts: none 
+-->
+<div class="container">
+  <!-- Save button -->
+  <button class="btn btn-primary" style="float:right" ng-click="saveEdit(detailData)">Save</button> 
+  <!-- Cancel button - redirect to DetailView -->
+  <a ng-click="viewDetail(detailData.Id);" class="btn btn-danger" style="float:right">Cancel</a> 
+  <!-- ID and Name preview for the admin-->
+  <h1>{{detailData.Id}} - {{detailData.Name}}</h1>
+  <hr>
+  <!-- All changeable inputs -->
+  <label>Name:</label>
+  <input type="text" class="form-control"  ng-model="detailData.Name">
+  <label>State:</label>
+  <input type="text" class="form-control" ng-model="detailData.State" >
+  <label>Category:</label>
+  <input type="text" class="form-control" ng-model="detailData.Category" >
+  <label>BuildType:</label>
+  <input type="text" class="form-control" ng-model="detailData.BuildType" >
+  <label>Description:</label>
+  <input type="text" class="form-control" ng-model="detailData.Description" >
+  <label>Cost:</label>
+  <input type="text" class="form-control" ng-model="detailData.Cost" >
+  <label>Saleprice:</label>
+  <input type="text" class="form-control" ng-model="detailData.Saleprice" >
+  <label>UoM:</label>
+  <input type="text" class="form-control" ng-model="detailData.UoM" >
+  <label>UoM_short:</label>
+  <input type="text" class="form-control" ng-model="detailData.UoM_short" >
+  <label>StorageValue:</label>
+  <input type="text" class="form-control" ng-model="detailData.StorageValue" >
+  <label>CriticalStorageValue:</label>
+  <input type="text" class="form-control" ng-model="detailData.CriticalStorageValue" >
+  <hr>
+  <!-- Menupoint/Buttons -->
+  <div class="text-center">
+    <a href="#/list" class="btn btn-danger">Back to menu</a>
+    <button class="btn btn-primary" ng-click="saveEdit(detailData)">Save</button> 
+    <hr>
+  </div>
+</div>
+
+
+
+<div class="well">
+  <p>Testing area for backend</p> 
+  <p>{{updateItem}}</p>
+</div>
