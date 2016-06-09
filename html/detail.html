@@ -3,19 +3,19 @@ Controller: DetailCtrl - controllers.js
 Additionally needed scripts: none 
 -->
 <div class="container">
-  <h1>{{detailData.Id}} - {{detailData.Name}}</h1>
+  <h1>{{detailData[0].Id}} - {{detailData[0].Name}}</h1>
   <hr>
-  <p>State: {{detailData.State}}</p>
-  <p>Category: {{detailData.Category}} </p> 
-  <p>BuildType: {{detailData.BuildType}} </p>
-  <p>Description: {{detailData.Description}}</p>
-  <p>Cost: {{detailData.Cost}}</p>
-  <p>UoM: {{detailData.UoM}} | {{detailData.UoM_short}}</p>
-  <p>StorageValue: {{detailData.StorageValue}}</p> 
-  <type1 ng-if="detailData.material_id == null">
+  <p>State: {{detailData[0].State}}</p>
+  <p>Category: {{detailData[0].Category}} </p> 
+  <p>BuildType: {{detailData[0].BuildType}} </p>
+  <p>Description: {{detailData[0].Description}}</p>
+  <p>Cost: {{detailData[0].Cost}}</p>
+  <p>UoM: {{detailData[0].UoM}} | {{detailData[0].UoM_short}}</p>
+  <p>StorageValue: {{detailData[0].StorageValue}}</p> 
+  <type1 ng-if="detailData[0].material_id == 1">
     <p>Device/Material?: Device</p>
   </type1>
-  <type2 ng-if="detailData.material_id != null">
+  <type2 ng-if="detailData[0].material_id != 1">
     <p>Device/Material?: Material</p>
   </type2>
   <hr>
