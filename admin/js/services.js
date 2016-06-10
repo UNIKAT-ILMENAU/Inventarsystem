@@ -1,17 +1,26 @@
 'use strict';
 
-/* Services / RESTful */
+/* Services / RESTful 
+Description: Handles all list GET requests to the server.
+*/
 
 var invServices = angular.module('invServices', ['ngResource', 'ngStorage']);
 
+//==============================
+//Rest factory
+//==============================
 invServices.factory('REST', ['$resource',
-  function($resource){
-    return $resource('json/:ListItemId.json', {}, {
-      query: {method:'GET', params:{ListItemId: 'data'}, isArray:true},
-      detailLoad: {method:'GET', params:{ListItemId: $resource}, isArray:false}, //$resource='@incomingdata'
-      typload: {method:'GET', params:{ListItemId: 'typeahead'}, isArray:true}
-    });
-  }]);
+function($resource){
+  return $resource('/api/v1/restricted/:ListItemId', {}, {
+    //All item informations
+    query: {method:'GET', params:{ListItemId: 'item/allItems'}, isArray:true},
+    //Detail information of the selected item
+    detailLoad: {method:'GET', params:{ListItemId: $resource}, isArray:true},
+    //Detail information of the selected item
+    historyLoad: {method:'GET', params:{ListItemId: $resource}, isArray:true},
+    //typload: {method:'GET', params:{ListItemId: 'typeahead'}, isArray:true} //not included right now
+  });
+}]);
 
 
 //puts JTW-Token in Http-Header

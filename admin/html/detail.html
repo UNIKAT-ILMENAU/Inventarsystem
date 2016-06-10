@@ -4,42 +4,64 @@ Additionally needed scripts: none
 -->
 <div class="container">
   <!-- Edit button -->
-  <button class="btn btn-primary" style="float:right" ng-click="editItem(detailData.Id);">Edit</button>
+  <button class="btn btn-primary" style="float:right" ng-click="editItem(detailData[0].Id);">Edit</button>
   <!-- Basic/Simple Informations of the selected item-->
-  <h1>{{detailData.Id}} - {{detailData.Name}}</h1>
-  <hr>
-  <p>State: {{detailData.State}}</p>
-  <p>Category: {{detailData.Category}} </p> 
-  <p>BuildType: {{detailData.BuildType}} </p>
-  <p>Description: {{detailData.Description}}</p>
-  <p>Cost: {{detailData.Cost}}</p>
-  <p>Saleprice: {{detailData.Saleprice}}</p>
-  <p>UoM: {{detailData.UoM}} | {{detailData.UoM_short}}</p>
-  <p>StorageValue: {{detailData.StorageValue}}</p>
-  <p> 
-    <!-- Check the CriticalStorageValue if it is ok -->
-    <div ng-if="detailData.StorageValue < detailData.CriticalStorageValue">
-      <div style="color:red">CriticalStorageValue: {{detailData.CriticalStorageValue}} 
-      </div>
+   <h1>
+    <!-- Highlight if the item is already rented or available -->
+    <div ng-switch="detailData[0].State">
+      <!-- not available -->
+      <div ng-switch-when="0" style="color: orange">{{detailData[0].Id}} - {{detailData[0].Name}}</div>
+      <!-- available -->
+      <div ng-switch-when="1" style="color: green">{{detailData[0].Id}} - {{detailData[0].Name}}</div>
     </div>
-    <!-- StorageValue is normal so just show us the values-->
-    <div ng-if="detailData.StorageValue > detailData.CriticalStorageValue"> 
-      CriticalStorageValue: {{detailData.CriticalStorageValue}}   
+  </h1>
+  <hr>
+  <p> 
+    <!-- State informations-->
+    <div ng-switch="detailData[0].State">
+      <div ng-switch-when="0" style="color: orange">State: Not available</div>
+      <div ng-switch-when="1" style="color: green">State: Available</div>
     </div>
   </p>
-  <p>StorageValue: {{detailData.StorageValue}}</p> 
+  <p>PublicVisible: {{detailData[0].PublicVisible}} </p> 
+  <p>Category: {{detailData[0].Category}} </p> 
+  <p>Description: {{detailData[0].Description}}</p>
+  <p>Saleprice: {{detailData[0].Saleprice}}</p>
+  <!-- Hide this attributes when we edit a device -->
+  <div ng-if="detailData[0].material_id != 1">
+    <p>BuildType: {{detailData[0].BuildType}} </p>      
+    <p>UoM: {{detailData[0].UoM}} | {{detailData[0].UoM_short}}</p> 
+    <p>StorageValue: {{detailData[0].StorageValue}}</p>     
+    <p> 
+      <!-- Check the CriticalStorageValue to the StorageValue -->   
+      <div ng-if="detailData[0].StorageValue < detailData[0].CriticalStorageValue">
+        <div style="color:red">CriticalStorageValue: {{detailData[0].CriticalStorageValue}} 
+        </div>
+      </div>
+      <!-- StorageValue is normal so just show us the values-->
+      <div ng-if="detailData[0].StorageValue > detailData[0].CriticalStorageValue"> 
+        CriticalStorageValue: {{detailData[0].CriticalStorageValue}}   
+      </div>
+    </p>
+  </div>
+  <type1 ng-if="detailData[0].material_id == 1">
+    <p>Device/Material?: Device</p>
+  </type1>
+  <type2 ng-if="detailData[0].material_id != 1">
+    <p>Device/Material?: Material</p>
+  </type2>
   <hr>
   <!-- Menupoint/Buttons -->
   <div class="text-center">
     <a href="#/list" class="btn btn-primary">Back to the menu</a>
     <!-- Add Item to the rental-cart -->
-    <button class="btn btn-danger" ng-click="rentalAdd(detailData);">RentalAdd</button>
+    <button class="btn btn-danger" ng-click="rentalAdd(detailData[0]);">RentalAdd</button>
     <!-- CopyItem Function-->
-    <type1 ng-if="detailData.material_id == null">
-      <button class="btn btn-warning" ng-click="copyItem(detailData, 'Device')">Copy Device</button>
+    <type1 ng-if="detailData[0].material_id == null">
+      <button class="btn btn-warning" ng-click="copyItem(detailData[0], 'Device')">Copy Device</button>
     </type1>
-    <type2 ng-if="detailData.material_id != null">
-      <button class="btn btn-warning" ng-click="copyItem(detailData, 'Material')">Copy Material</button>
+    <type2 ng-if="detailData[0].material_id != null">
+      <button class="btn btn-warning" ng-click="copyItem(detailData[0], 'Material')">Copy Material</button>
     </type2>
     <!-- information/alert message for short info -->
     <div ng-repeat="news in alert">
@@ -49,11 +71,14 @@ Additionally needed scripts: none
       </div>
     </div>
     <hr>
-    <!-- HERE COMES THE HISTORY-->
-    <div class="well">
-
-    HISTORY
-
+    <!-- Item history-->
+    <div class="top-space">
+      <h4>History</h4><hr>
+    </div>
+    <div ng-repeat="hdata in historyData">
+        <div class="well">
+          {{hdata.data}}
+        </div>
     </div>
   </div>
 </div>

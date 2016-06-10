@@ -4,46 +4,52 @@ Additionally needed scripts: none
 -->
 <div class="container">
   <!-- Save button -->
-  <button class="btn btn-primary" style="float:right" ng-click="saveEdit(detailData)">Save</button> 
+  <button class="btn btn-primary" style="float:right" ng-click="saveEdit()">Save</button> 
   <!-- Cancel button - redirect to DetailView -->
-  <a ng-click="viewDetail(detailData.Id);" class="btn btn-danger" style="float:right">Cancel</a> 
+  <a ng-click="viewDetail(detailData[0].Id);" class="btn btn-danger" style="float:right">Cancel</a> 
   <!-- ID and Name preview for the admin-->
-  <h1>{{detailData.Id}} - {{detailData.Name}}</h1>
+  <h1>{{detailData[0].Id}} - {{detailData[0].Name}}</h1>
   <hr>
   <!-- All changeable inputs -->
   <label>Name:</label>
-  <input type="text" class="form-control"  ng-model="detailData.Name">
+  <input type="text" class="form-control"  ng-model="detailData[0].Name">
   <label>State:</label>
-  <input type="text" class="form-control" ng-model="detailData.State" >
+  <input type="text" class="form-control" ng-model="detailData[0].State" >
   <label>Category:</label>
-  <input type="text" class="form-control" ng-model="detailData.Category" >
-  <label>BuildType:</label>
-  <input type="text" class="form-control" ng-model="detailData.BuildType" >
+  <input type="text" class="form-control" ng-model="detailData[0].Category" >
   <label>Description:</label>
-  <input type="text" class="form-control" ng-model="detailData.Description" >
+  <input type="text" class="form-control" ng-model="detailData[0].Description" >
   <label>Cost:</label>
-  <input type="text" class="form-control" ng-model="detailData.Cost" >
+  <input type="text" class="form-control" ng-model="detailData[0].Cost" >
   <label>Saleprice:</label>
-  <input type="text" class="form-control" ng-model="detailData.Saleprice" >
-  <label>UoM:</label>
-  <input type="text" class="form-control" ng-model="detailData.UoM" >
-  <label>UoM_short:</label>
-  <input type="text" class="form-control" ng-model="detailData.UoM_short" >
-  <label>StorageValue:</label>
-  <input type="text" class="form-control" ng-model="detailData.StorageValue" >
-  <label>CriticalStorageValue:</label>
-  <input type="text" class="form-control" ng-model="detailData.CriticalStorageValue" >
+  <input type="text" class="form-control" ng-model="detailData[0].Saleprice" >
+  <div ng-if="detailData[0].material_id != 1">
+    <label>BuildType:</label>
+    <input type="text" class="form-control" ng-model="detailData[0].BuildType" >
+    <label>UoM:</label>
+    <input type="text" class="form-control" ng-model="detailData[0].UoM" >
+    <label>UoM_short:</label>
+    <input type="text" class="form-control" ng-model="detailData[0].UoM_short" >
+    <label>StorageValue:</label>
+    <input type="text" class="form-control" ng-model="detailData[0].StorageValue" >
+    <label>CriticalStorageValue:</label>
+    <input type="text" class="form-control" ng-model="detailData[0].CriticalStorageValue" >
+  </div>
+  <label>PublicVisible:</label>
+  <input type="text" class="form-control" placeholder="1 = true , 0 = false" ng-model="detailData[0].PublicVisible" >
+  <label>Comment:</label>  
+  <textarea class="form-control" ng-model="detailData[0].Comment"></textarea>
   <hr>
   <!-- Menupoint/Buttons -->
   <div class="text-center">
     <a href="#/list" class="btn btn-danger">Back to menu</a>
-    <button class="btn btn-primary" ng-click="saveEdit(detailData)">Save</button> 
+    <button class="btn btn-primary" ng-click="saveEdit()">Save</button> 
     <hr>
   </div>
 </div>
 
 
-
+<!-- THIS WILL BE DELETED JUST FOR TESTING-->
 <div class="well">
   <p>Testing area for backend</p> 
   <p>{{updateItem}}</p>

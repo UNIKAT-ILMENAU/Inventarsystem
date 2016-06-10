@@ -4,7 +4,7 @@ HIER NOCH VERBESSERN - KOMMENTARE ETC.
 
     <div class="container top-space bot-space">
       <div class="panel panel-default">
-        <div class="panel-heading text-center"><h4>Create new material</h4></div>
+        <div class="panel-heading text-center"><hr><h4>Create new material</h4><hr></div>
         <div class="panel-body">
         	
           <!--Begin form-->
@@ -74,7 +74,6 @@ HIER NOCH VERBESSERN - KOMMENTARE ETC.
               </div>
             </div>
             
-
             <!--Type input-->
             <div class="form-group" id="formType">
               <label class="col-md-2 control-label" for="type">Buildtype</label>
@@ -109,7 +108,7 @@ HIER NOCH VERBESSERN - KOMMENTARE ETC.
 
             <!--PublicVisible input-->
             <div class="form-group" id="formState">
-              <label class="col-md-2 control-label" for="state">Visible</label>
+              <label class="col-md-2 control-label" for="state">PublicVisible</label>
               <div class="col-md-4">
                 <input type="text" class="form-control" id="state" name="state" placeholder="1 = true , 0 = false" ng-model="selectedItems[0].PublicVisible"/>
               </div>
@@ -118,7 +117,7 @@ HIER NOCH VERBESSERN - KOMMENTARE ETC.
             <!--Buttons: link for 'Back to menu' has to be set-->
             <div class="form-group">
               <div class="col-md-6 col-md-offset-2">
-                <button id="buttonSubmit" name="buttonSubmit" type="submit" class="btn btn-success btn-sm" ng-click="createItemToServer()">Create material</button>
+                <button id="buttonSubmit" name="buttonSubmit" type="submit" class="btn btn-success btn-sm" ng-click="createItemToServer('Material')">Create material</button>
                 <button id="buttonReset" name="buttonReset" type="reset" form="itemForm" class="btn btn-danger btn-sm" ng-click="clearItem()">Reset form</button>
                 <a href="">
                 	<a href="#/list" id="buttonMenu" name="buttonMenu" type="button" class="btn btn-primary btn-sm" ng-click="clearItem()">Back to list</a>
@@ -130,14 +129,17 @@ HIER NOCH VERBESSERN - KOMMENTARE ETC.
       </div>
     </div>
 
-    <!--JS-file is necessary for form validtion by using JQuery-->
-    <!--script might has to be changed when the submission is handled via Angular-->
-    <script type="text/javascript" src="formValidation.js"></script>
+    
 
-    <!-- DAS HIERMUSS AUCH UNBEDINGT AUSGELAGERT WERDEN ODER ANDERS GEHANDHABT WERDEN-->
-
+<!-- THIS WILL BE DELETED JUST FOR TESTING-->
 <div class="well">
   <p>Testing area for backend</p>
   <p>{{selectedItems[0]}}</p>
   <p>{{createItem}}</p>
 </div>
+
+<!--JS-file is necessary for form validtion by using JQuery-->
+    <!--script might has to be changed when the submission is handled via Angular-->
+    <script type="text/javascript" src="formValidation.js"></script>
+
+    <!-- DAS HIERMUSS AUCH UNBEDINGT AUSGELAGERT WERDEN ODER ANDERS GEHANDHABT WERDEN-->

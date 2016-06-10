@@ -17,7 +17,7 @@ invApp.config(['$httpProvider', function($httpProvider){
 invApp.config(['$routeProvider',  
   function($routeProvider) {          //######## hier noch $http mit in die funktion eingefügt wieso?
     $routeProvider.
-      when('/', {                     //Login
+      when('/', {                     
         templateUrl: 'html/login.html',    
         controller: 'loginCtrl'
       }).
@@ -25,13 +25,17 @@ invApp.config(['$routeProvider',
         templateUrl: 'html/login.html',
         controller: 'loginCtrl'
       }).
-      when('/dashboard', {            //Mainmenu/Dashboard
+      when('/dashboard', {            //Dashboard
         templateUrl: 'html/dashboard.html',
         controller: 'DetailCtrl'
       }).
       when('/list', {                 //Itemlist
         templateUrl: 'html/itemlist.html',    
         controller: 'ListCtrl'
+      }).
+      when('/listData/:ListItemId', { //ItemDetailView
+        templateUrl: 'html/detail.html',
+        controller: 'DetailCtrl'
       }).
       when('/create_device', {        //Create device
         templateUrl: 'html/create_device.html', 
@@ -41,19 +45,15 @@ invApp.config(['$routeProvider',
         templateUrl: 'html/create_material.html', 
         controller: 'CreateCtrl'
       }).
-      when('/listData/:ListItemId', {  //ItemDetailView
-        templateUrl: 'html/detail.html',
-        controller: 'DetailCtrl'
-      }).
-      when('/edit_item/:ListItemId', {  //EditItemView
+      when('/edit_item/:ListItemId', {//EditItemView
         templateUrl: 'html/edit_item.html',
         controller: 'ItemEditCtrl'
       }).
-      when('/rental', {                   //RentalForm
+      when('/rental', {                //RentalForm
         templateUrl: 'html/rental.html',    
         controller: 'RentalCtrl'
       }).
-      when('/rentallist', {               //AllRentedItemsList
+      when('/rentallist', {            //AllRentedItemsList
         templateUrl: 'html/rentallist.html',      //controller needs to get selected
         controller: 'RentalCtrl'
       }).        

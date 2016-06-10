@@ -3,24 +3,18 @@ Controller: ListCtrl - controllers.js
 Additionally needed scripts: js/dirPagination.js 
 -->
 
-
-<!-- Typeahead List, loaded from the db -->
-<datalist id="mylist">
-	<option ng-repeat="x in typeaheadData">{{x.data}}</option>
-</datalist>
-
-
+<!-- Create Item buttons-->
 <div class="container top-space bot-space">
 	<div class="row">
 		<div class="col-md-12">
 			<button class="btn btn-success" ng-click="createNewItem('Device')">Create Device +</button>
 			<button class="btn btn-success" ng-click="createNewItem('Material')">Create Material +</button>
+			<hr>
 		</div>
 	</div>
 </div>
 
-
-<!-- Basic Common Filter -->
+<!-- Basic common filter -->
 <div class="container-fluid">
  	<div class="row">
  		<div class="col-lg-4 col-xs-12"></div>
@@ -36,7 +30,7 @@ Additionally needed scripts: js/dirPagination.js
  		<div class="col-lg-4 col-xs-12"></div>
  	</div>
 
-	<!-- Collapsible Filter -->
+	<!-- Collapsible filter -->
 	<div class="row">
 		<div class="col-lg-4 col-md-3 col-xs-12"></div>
 		<div class="col-lg-4 col-md-6 col-xs-12 panel-group">
@@ -47,7 +41,7 @@ Additionally needed scripts: js/dirPagination.js
 							<div class="row">
 								<label for="search" class="col-lg-4 col-md-4 col-xs-12">Items per page:</label>		<!-- controls the items per page -->
 								<input ng-model="pageSize" type="text" class="col-lg-6 col-md-8 col-xs-12">
-							</div>	<!-- Advanced Filter Options for specific filtering-->
+							</div>	<!-- Advanced filter options for specific filtering-->
 							<hr>
 							<div class="row">
 								<label for="search" class="col-lg-2 col-md-2 col-xs-12">ID:</label>
@@ -58,8 +52,8 @@ Additionally needed scripts: js/dirPagination.js
 							<div class="row">
 								<label for="search" class="col-lg-2 col-md-2 col-xs-12">State:</label>
 								<input ng-model="search.State" type="text" class="col-lg-4 col-md-4 col-xs-12">
-								<label for="search" class="col-lg-2 col-md-2 col-xs-12">Cost:</label>
-								<input ng-model="search.Cost" type="text" class="col-lg-4 col-md-4 col-xs-12">				
+								<label for="search" class="col-lg-2 col-md-2 col-xs-12">Price:</label>
+								<input ng-model="search.Saleprice" type="text" class="col-lg-4 col-md-4 col-xs-12">				
 							</div>
 							<div class="row">
 								<label for="search" class="col-lg-2 col-md-2 col-xs-12">StoValue:</label>
@@ -118,9 +112,6 @@ Additionally needed scripts: js/dirPagination.js
 				    <th ng-click="sort('BuildType')">BuildType
 				    	<span class="glyphicon sort-icon" ng-show="sortKey=='BuildType'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 				    </th>
-				    <th ng-click="sort('Cost')">Cost
-				    	<span class="glyphicon sort-icon" ng-show="sortKey=='Cost'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-				    </th>
 				    <th ng-click="sort('Saleprice')">Saleprice
 				    	<span class="glyphicon sort-icon" ng-show="sortKey=='Saleprice'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 				    </th>
@@ -149,7 +140,6 @@ Additionally needed scripts: js/dirPagination.js
 				    <td>{{listItem.State}}</td>
 				    <td>{{listItem.Category}}</td>
 				    <td>{{listItem.BuildType}}</td>
-				    <td>{{listItem.Cost}}</td>
 				    <td>{{listItem.Saleprice}}</td>
 				    <td>
 						<!-- we are under the criticalStorageValue highlight it as red-->
@@ -221,3 +211,8 @@ Additionally needed scripts: js/dirPagination.js
 		</div>
 	</div>
 </div>
+
+<!-- Typeahead List, loaded from the db //NOT INCLUDED, WIP
+<datalist id="mylist">
+	<option ng-repeat="x in typeaheadData">{{x.data}}</option>
+</datalist> -->

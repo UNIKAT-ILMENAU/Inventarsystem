@@ -2,41 +2,38 @@
 
 /* AllControllers */
 
-var invControllers = angular.module('invControllers', ['angularUtils.directives.dirPagination']);	//include dirPagination for dirPagination functions
+var invControllers = angular.module('invControllers', ['angularUtils.directives.dirPagination']);	
 
-/* ADMIN INVENTORY LIST CONTROLLER
-Description: The mainsite controller, loads the list and controls the pagination, aswell the route to the detailview of an item
-Used in: list.html
-*/
+//==============================
+//Request Admin list
+//Description: The main-site controller, loads the list and controls the pagination, aswell the route to the detailview of an item
+//Used in: list.html
+//==============================
 invControllers.controller('ListCtrl', function ($scope, $location, REST) {
-  REST.query(function(data){		//list request via rest-factory
-	$scope.listData = data;
-  });
+  //Get all item informations from the server
+  $scope.listData = REST.query();
 
-  REST.typload(function(data){   //typeaheadlist request via rest-factory
-  $scope.typeaheadData = data;
-  });
+  /*REST.typload(function(data){          //typeaheadlist request via rest-factory
+  $scope.typeaheadData = data;            //NOT INCLUDED, WIP
+  });*/
   
-   var d_pageSize = 10;               //default pageSize limit
-  $scope.pageSize = d_pageSize;				//Item limit per page
+  var d_pageSize = 10;                    //default pageSize limit
+  $scope.pageSize = d_pageSize;			      //Item limit per page
 
-  $scope.sort = function(keyname){	//sort option on click, call by reference
-        $scope.sortKey = keyname;   //set the sortKey to the param passed
-        $scope.reverse = !$scope.reverse; //if true make it false and vice versa
-    }
+  $scope.sort = function(keyname){	      //sort option on click, call by reference
+    $scope.sortKey = keyname;         //set the sortKey to the param passed
+    $scope.reverse = !$scope.reverse; //if true make it false and vice versa
+  }
 
   //Creates a new Item without an copy
   $scope.createNewItem = function(typ){      
-    $scope.clearItem();
-
+    $scope.clearItem(); //clears the rent-cart
+    
+    //Link us to the right form
     if(typ == "Device")
-    {
-      $location.path('/create_device'); 
-    }
+    {      $location.path('/create_device');     }
     else
-    {
-      $location.path('/create_material'); 
-    }         
+    {      $location.path('/create_material');   }         
   }
 
   //Loads the rental form
@@ -57,10 +54,16 @@ invControllers.controller('ListCtrl', function ($scope, $location, REST) {
 
 });
 
-/* ITEM DETAIL CONTROLLER */
+//==============================
+//Request Detail informations from specific item
+//Used in: detail.html 
+//==============================
 invControllers.controller('DetailCtrl', ['$scope', '$routeParams', '$location', 'REST', function($scope, $routeParams, $location, REST) {
-  $scope.detailData = REST.detailLoad({ListItemId: $routeParams.ListItemId});	//specific get of list item
-  /* $scope.detailData = REST.get({ListItemId: $routeParams.ListItemId}); works aswell*/
+  //Gets all informations of a specific item by id
+  $scope.detailData = REST.detailLoad({ListItemId: 'item/details/' + $routeParams.ListItemId});
+  //Gets all history informations of a specific item by id
+  $scope.historyData = REST.historyLoad({ListItemId: 'item/getHistory/' + $routeParams.ListItemId});
+
 
   $scope.alert = [];
   $scope.addAlert = function(info) {
@@ -76,12 +79,12 @@ invControllers.controller('DetailCtrl', ['$scope', '$routeParams', '$location', 
 
   };
 
-  /* Edit item function*/
+  //Link to edit item form
   $scope.editItem = function(listID) {  
     $location.path('/edit_item/'  + listID); //link us to the edit form
   };
 
-  /* Copy item function */
+  //Link to copy item form
   $scope.copyItem = function(data, info) {  
 
     $scope.clearItem();   //clear the rental cart
@@ -96,85 +99,140 @@ invControllers.controller('DetailCtrl', ['$scope', '$routeParams', '$location', 
 
 }]);
 
-/* ITEM EDIT CONTROLLER */
-invControllers.controller('CreateCtrl', ['$scope', '$routeParams', '$location', 'REST', function($scope, $routeParams, $location, REST) {
+//==============================
+//Create Item controller
+//Used: create_material.html, create_device.html 
+//==============================
+invControllers.controller('CreateCtrl', ['$scope', '$routeParams', '$location', '$http', function($scope, $routeParams, $location, $http) {
   
 //This js object will be send to the server for creating an item
 $scope.createItem = {};
 
-$scope.transform = function() {
+//Send creation to the server
+$scope.createItemToServer = function(typ) {    
+  $scope.transform(typ); //transform variables for the server
+  
+  if(typ == "Device") //Create Device
+  { 
+    //POST device to the server
+    $http.post("/api/v1/restricted/device/create", createItem).success(function(data, status) {
+      //SUCCESSFULL
+      $scope.clearItem(); //clears the selected item
+      $location.path('/list');
+    });  
+  }
+  else  //Create Material
+  {
+    //POST material to the server
+    $http.post("/api/v1/restricted/material/create", createItem).success(function(data, status) {
+      //SUCCESSFULL
+      $scope.clearItem(); //clears the selected item
+      $location.path('/list');
+    });
+  }
+};
+
+//the server needs other variable names, so adjust them
+$scope.transform = function(typ) {
   if($scope.selectedItems[0] != null){
     $scope.createItem.name = $scope.selectedItems[0].Name;
     $scope.createItem.state = $scope.selectedItems[0].State;
-    $scope.createItem.cost = $scope.selectedItems[0].Cost;
     $scope.createItem.saleprice = $scope.selectedItems[0].Saleprice;
     //$scope.createItem.createdbyid = $scope.selectedItems[0].CreatedbyId;
+    $scope.createItem.comment = $scope.selectedItems[0].Comment;
     $scope.createItem.place = $scope.selectedItems[0].Place;
     $scope.createItem.category = $scope.selectedItems[0].Category;
     $scope.createItem.description = $scope.selectedItems[0].Description;
     $scope.createItem.visible = $scope.selectedItems[0].PublicVisible;
-    $scope.createItem.buildtype = $scope.selectedItems[0].Buildtype;
-    $scope.createItem.uom = $scope.selectedItems[0].UoM;
-    $scope.createItem.uom_short = $scope.selectedItems[0].UoM_short;
-    $scope.createItem.storagevalue = $scope.selectedItems[0].StorageValue;
-    $scope.createItem.criticalstoragevalue = $scope.selectedItems[0].CriticalStorageValue; 
+    if(typ == "Material") //extra material informations
+    { 
+      $scope.createItem.buildtype = $scope.selectedItems[0].Buildtype;
+      $scope.createItem.uom = $scope.selectedItems[0].UoM;
+      $scope.createItem.uom_short = $scope.selectedItems[0].UoM_short;
+      $scope.createItem.storagevalue = $scope.selectedItems[0].StorageValue;
+      $scope.createItem.criticalstoragevalue = $scope.selectedItems[0].CriticalStorageValue;
+    } 
   }
 }
 
-//LoadsEverything to the server
-$scope.createItemToServer = function() {    
-    $scope.transform(); 
-    //save to server
-    //get message if successful
-    //redirect to DetailView  
-};
+
+
   
 }]);
 
-/* ITEM EDIT CONTROLLER */
-invControllers.controller('ItemEditCtrl', ['$scope', '$routeParams', '$location', 'REST', function($scope, $routeParams, $location, REST) {
-  $scope.detailData = REST.detailLoad({ListItemId: $routeParams.ListItemId}); //specific get of list item
+//==============================
+//ItemEdit controller
+//Used: edit_item.html
+//==============================
+invControllers.controller('ItemEditCtrl', ['$scope', '$routeParams', '$location', '$http', 'REST', function($scope, $routeParams, $location, $http, REST) {
+  //Gets all informations of a specific item by id
+  $scope.detailData = REST.detailLoad({ListItemId: 'item/details/' + $routeParams.ListItemId});
 
-  //This js object will be send to the server for creating an item
+  //This js object will be send to the server for editing an item  
   $scope.updateItem = {};
 
-    $scope.transform = function() {
-      $scope.updateItem.id = $scope.detailData.Id;
-      $scope.updateItem.material_id = $scope.detailData.material_id;
-      $scope.updateItem.name = $scope.detailData.Name;
-      $scope.updateItem.state = $scope.detailData.State;
-      $scope.updateItem.cost = $scope.detailData.Cost;
-      $scope.updateItem.saleprice = $scope.detailData.Saleprice;
-      //$scope.updateItem.createdbyid = $scope.detailData.CreatedbyId;
-      $scope.updateItem.place = $scope.detailData.Place;
-      $scope.updateItem.category = $scope.detailData.Category;
-      $scope.updateItem.description = $scope.detailData.Description;
-      $scope.updateItem.visible = $scope.detailData.PublicVisible;
-      $scope.updateItem.buildtype = $scope.detailData.Buildtype;
-      $scope.updateItem.uom = $scope.detailData.UoM;
-      $scope.updateItem.uom_short = $scope.detailData.UoM_short;
-      $scope.updateItem.storagevalue = $scope.detailData.StorageValue;
-      $scope.updateItem.criticalstoragevalue = $scope.detailData.CriticalStorageValue; 
-    };
+  //Update/Edit item to the server
+  $scope.saveEdit = function() {
+    $scope.transform();     //transform variables for the server
+
+    if($scope.detailData[0].material_id == 1) //Update Device
+    {  
+      //create url with the selected item
+      var url = '/api/v1/restricted/device/update/' + $scope.updateItem.id;
+      //POST device to the server
+      $http.post(url, updateItem).success(function(data, status) {
+        //SUCCESSFULL
+        $scope.clearItem(); //clears the selected item
+        $location.path('/listData/' + updateItem.Id);
+      }); 
+    }
+    else  //Update Material
+    { 
+      //create url with the selected item
+      var url = '/api/v1/restricted/material/update/' + $scope.updateItem.id;
+      //POST material to the server 
+      $http.post(url, updateItem).success(function(data, status) {
+        //SUCCESSFULL
+        $scope.clearItem(); //clears the selected item
+        $location.path('/listData/' + updateItem.Id);
+      });
+    }
+  };
+
+  //the server needs other variable names, so adjust them
+  $scope.transform = function() {
+    $scope.updateItem.id = $scope.detailData[0].Id;
+    $scope.updateItem.material_id = $scope.detailData[0].material_id;
+    $scope.updateItem.name = $scope.detailData[0].Name;
+    $scope.updateItem.state = $scope.detailData[0].State;
+    $scope.updateItem.saleprice = $scope.detailData[0].Saleprice;
+    //$scope.updateItem.createdbyid = $scope.detailData[0].CreatedbyId;
+    $scope.updateItem.comment = $scope.detailData[0].Comment;
+    $scope.updateItem.place = $scope.detailData[0].Place;
+    $scope.updateItem.category = $scope.detailData[0].Category;
+    $scope.updateItem.description = $scope.detailData[0].Description;
+    $scope.updateItem.visible = $scope.detailData[0].PublicVisible;
+    if($scope.detailData[0].material_id != 1) //extra material informations
+    { 
+      $scope.updateItem.buildtype = $scope.detailData[0].Buildtype;
+      $scope.updateItem.uom = $scope.detailData[0].UoM;
+      $scope.updateItem.uom_short = $scope.detailData[0].UoM_short;
+      $scope.updateItem.storagevalue = $scope.detailData[0].StorageValue;
+      $scope.updateItem.criticalstoragevalue = $scope.detailData[0].CriticalStorageValue; 
+    }
+  };
     
   $scope.viewDetail = function(listID) {    //change to detailview view
         $location.path('/listData/' + listID); 
   };
 
-  $scope.saveEdit = function(data) {
-        $scope.transform();   
-        //save to server
-        //get message if successful
-        //redirect to DetailView
-
-        //just for the testing
-        //$location.path('/listData/' + data.Id);
-  };
-
 }]);
 
 
-/* Rental CONTROLLER */
+//==============================
+//Rental controller
+//Used: rental.html, rentallist.html 
+//==============================
 invControllers.controller('RentalCtrl', ['$scope', '$routeParams', '$location', 'REST', function($scope, $routeParams, $location, REST) {
 
   //redirect us when we have accidentally are on the rental page
@@ -217,7 +275,10 @@ invControllers.controller('RentalCtrl', ['$scope', '$routeParams', '$location', 
           
 }]);
 
-/* main-controller over all other controller */
+//==============================
+//Main-controller
+//Used: overall other controller 
+//==============================
 invControllers.controller('indexCtrl', function ($scope, $location, $anchorScroll) {
 
   //localwebstorage for the selected items
