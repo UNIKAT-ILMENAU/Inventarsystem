@@ -15,7 +15,7 @@ invControllers.controller('ListCtrl', function ($scope, $location, $http, REST) 
   $scope.listData = REST.query();
 
   /*REST.typload(function(data){      //typeaheadlist request via rest-factory
-  $scope.typeaheadData = data;
+  $scope.typeaheadData = data;        //NOT INCLUDED, WIP
   });*/
   
   var d_pageSize = 10;                //default pageSize limit
