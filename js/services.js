@@ -6,23 +6,17 @@ Description: Handles all requests to the server.
 
 var invServices = angular.module('invServices', ['ngResource']);
 
+//==============================
+//Rest factory
+//==============================
 invServices.factory('REST', ['$resource',
   function($resource){
-    return $resource('json/:ListItemId.json', {}, {
-      query: {method:'GET', params:{ListItemId: 'data'}, isArray:true},
-      detailLoad: {method:'GET', params:{ListItemId: $resource}, isArray:false}, //$resource='@incomingdata'
-      typload: {method:'GET', params:{ListItemId: 'typeahead'}, isArray:true}
-    });
-  }]);
-
-/*
-invServices.factory('REST', ['$resource',
-  function($resource){
-    return $resource('softwareprojekt.local/api/v1/item/:ListItemId', {}, {
+    return $resource('/api/v1/item/:ListItemId', {}, {
+      //All item informations
       query: {method:'GET', params:{ListItemId: 'allItems'}, isArray:true},
-      detailLoad: {method:'GET', params:{ListItemId: 'details/' + $resource}, isArray:false},
+      //Detail information of the selected item
+      detailLoad: {method:'GET', params:{ListItemId: $resource}, isArray:true},
       //typload: {method:'GET', params:{ListItemId: 'typeahead'}, isArray:true}	testing
     });
   }]);
-
-*/
+  

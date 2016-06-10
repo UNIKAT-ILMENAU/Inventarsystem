@@ -3,12 +3,6 @@ Controller: ListCtrl - controllers.js
 Additionally needed scripts: js/dirPagination.js 
 -->
 
-
-<!-- Typeahead List, loaded from the db
-<datalist id="mylist">
-	<option ng-repeat="x in typeaheadData">{{x.data}}</option>
-</datalist> -->
-
 <!-- Basic Common Filter -->
 <div class="container-fluid">
  	<div class="row">
@@ -47,8 +41,8 @@ Additionally needed scripts: js/dirPagination.js
 							<div class="row">
 								<label for="search" class="col-lg-2 col-md-2 col-xs-12">State:</label>
 								<input ng-model="search.State" type="text" class="col-lg-4 col-md-4 col-xs-12">
-								<label for="search" class="col-lg-2 col-md-2 col-xs-12">Cost:</label>
-								<input ng-model="search.Cost" type="text" class="col-lg-4 col-md-4 col-xs-12">				
+								<label for="search" class="col-lg-2 col-md-2 col-xs-12">Saleprice:</label>
+								<input ng-model="search.Saleprice" type="text" class="col-lg-4 col-md-4 col-xs-12">				
 							</div>
 							<div class="row">
 								<label for="search" class="col-lg-2 col-md-2 col-xs-12">Cate.:</label>
@@ -66,7 +60,7 @@ Additionally needed scripts: js/dirPagination.js
 							</div><hr>
 							<div>
 								<!-- Reset filter options -->
-								<button type="button" class=" col-lg-12 col-xs-12 btn btn-info btn-sm" ng-click="resetFilter()">Reset Filter</button>						
+								<button type="button" class=" col-lg-12 col-xs-12 btn btn-info btn-sm" ng-click="resetFilter()">Reset Filter</button>			
 							</div>
 					</div>
 					<div class="panel-footer"></div>
@@ -99,8 +93,8 @@ Additionally needed scripts: js/dirPagination.js
 				    <th ng-click="sort('BuildType')">BuildType
 				    	<span class="glyphicon sort-icon" ng-show="sortKey=='BuildType'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 				    </th>
-				    <th ng-click="sort('Cost')">Cost
-				    	<span class="glyphicon sort-icon" ng-show="sortKey=='Cost'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				    <th ng-click="sort('Saleprice')">Saleprice
+				    	<span class="glyphicon sort-icon" ng-show="sortKey=='Saleprice'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 				    </th>
 				    <th ng-click="sort('StorageValue')">StorageValue
 				    	<span class="glyphicon sort-icon" ng-show="sortKey=='StorageValue'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
@@ -114,21 +108,28 @@ Additionally needed scripts: js/dirPagination.js
 				  <tr ng-click="viewDetail(listItem.Id);" dir-paginate="listItem in listData| orderBy:sortKey:reverse | filter: search | itemsPerPage:pageSize">	<!-- detailview via leftmouse click on the item -->
 				    <td>{{listItem.Id}}</td>
 				    <td>{{listItem.Name}}</td>
-				    <td>{{listItem.State}}</td>
+				    <td>
+						<div ng-switch="listItem.State">
+							<div ng-switch-when="0" style="color: orange">Not available</div>
+							<div ng-switch-when="1" style="color: green">Available</div>
+							<div ng-switch-when="2" style="color: orange">Defective</div>
+							<div ng-switch-when="3" style="color: orange">Missing</div>
+						</div>
+				    </td>
 				    <td>{{listItem.Category}}</td>
 				    <td>{{listItem.BuildType}}</td>
-				    <td>{{listItem.Cost}}</td>
+				    <td>{{listItem.Saleprice}}</td>
 				    <td><!-- Show StorageValue when it is a material-->
-						<div ng-if="listItem.material_id != null"> 
+						<div ng-if="listItem.material_id != 1"> 
 							{{listItem.StorageValue}} 	
 						</div>
 					</td>
 				    <td>
 				    	<!-- Filter Device and Material -->
-				    	<div ng-if="listItem.material_id == null"> 
+				    	<div ng-if="listItem.material_id == 1"> 
 				    		<p>Device</p> 
 				    	</div>
-				    	<div ng-if="listItem.material_id != null"> 
+				    	<div ng-if="listItem.material_id != 1"> 
 				    		<p>Material</p>
 				    	</div>
 			    	</td>
@@ -143,3 +144,10 @@ Additionally needed scripts: js/dirPagination.js
 		</div>
 	</div>
 </div>
+
+
+
+<!-- Typeahead List //NOT INCLUDED, WIP
+<datalist id="mylist">
+	<option ng-repeat="x in typeaheadData">{{x.data}}</option>
+</datalist> -->
