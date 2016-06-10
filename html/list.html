@@ -112,7 +112,8 @@ Additionally needed scripts: js/dirPagination.js
 						<div ng-switch="listItem.State">
 							<div ng-switch-when="0" style="color: orange">Not available</div>
 							<div ng-switch-when="1" style="color: green">Available</div>
-							<div ng-switch-default>Not available</div>
+							<div ng-switch-when="2" style="color: orange">Defective</div>
+							<div ng-switch-when="3" style="color: orange">Missing</div>
 						</div>
 				    </td>
 				    <td>{{listItem.Category}}</td>

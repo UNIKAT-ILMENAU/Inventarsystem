@@ -7,6 +7,8 @@ Additionally needed scripts: none
     <div ng-switch="detailData[0].State">
       <div ng-switch-when="0" style="color: orange">{{detailData[0].Id}} - {{detailData[0].Name}}</div>
       <div ng-switch-when="1" style="color: green">{{detailData[0].Id}} - {{detailData[0].Name}}</div>
+      <div ng-switch-when="2" style="color: orange">{{detailData[0].Id}} - {{detailData[0].Name}}</div>
+      <div ng-switch-when="3" style="color: orange">{{detailData[0].Id}} - {{detailData[0].Name}}</div>
     </div>
   </h1>
   <hr>
@@ -14,6 +16,8 @@ Additionally needed scripts: none
     <div ng-switch="detailData[0].State">
       <div ng-switch-when="0" style="color: orange">State: Not available</div>
       <div ng-switch-when="1" style="color: green">State: Available</div>
+      <div ng-switch-when="2" style="color: orange">State: Defective</div>
+      <div ng-switch-when="3" style="color: orange">State: Missing</div>
     </div>
   </p>
   <p>Category: {{detailData[0].Category}} </p> 
