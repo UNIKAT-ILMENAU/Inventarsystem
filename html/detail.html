@@ -2,39 +2,74 @@
 Controller: DetailCtrl - controllers.js
 Additionally needed scripts: none 
 -->
-<div class="container">
-  <h1>
-    <div ng-switch="detailData[0].State">
-      <div ng-switch-when="0" style="color: orange">{{detailData[0].Id}} - {{detailData[0].Name}}</div>
-      <div ng-switch-when="1" style="color: green">{{detailData[0].Id}} - {{detailData[0].Name}}</div>
-      <div ng-switch-when="2" style="color: orange">{{detailData[0].Id}} - {{detailData[0].Name}}</div>
-      <div ng-switch-when="3" style="color: orange">{{detailData[0].Id}} - {{detailData[0].Name}}</div>
+<div class="container" ng-controller="myCtrl">
+	<!--Id & Name with class depending on State-->
+	<div class="text-center page-header well">
+  		<h2>
+    		<div ng-switch="detailData[0].State">
+      			<div ng-switch-when="0" class="text-warning">{{detailData[0].Id}} - {{detailData[0].Name}}</div>
+      			<div ng-switch-when="1" class="text-success">{{detailData[0].Id}} - {{detailData[0].Name}}</div>
+      			<div ng-switch-when="2" class="text-danger">{{detailData[0].Id}} - {{detailData[0].Name}}</div>
+      			<div ng-switch-when="3" class="text-danger">{{detailData[0].Id}} - {{detailData[0].Name}}</div>
+      		</div>
+      	</h2>	
     </div>
-  </h1>
-  <hr>
-  <p> 
-    <div ng-switch="detailData[0].State">
-      <div ng-switch-when="0" style="color: orange">State: Not available</div>
-      <div ng-switch-when="1" style="color: green">State: Available</div>
-      <div ng-switch-when="2" style="color: orange">State: Defective</div>
-      <div ng-switch-when="3" style="color: orange">State: Missing</div>
-    </div>
-  </p>
-  <p>Category: {{detailData[0].Category}} </p> 
-  <p>BuildType: {{detailData[0].BuildType}} </p>
-  <p>Description: {{detailData[0].Description}}</p>
-  <p>Saleprice: {{detailData[0].Saleprice}}</p>
-  <p>UoM: {{detailData[0].UoM}} | {{detailData[0].UoM_short}}</p>
-  <p>StorageValue: {{detailData[0].StorageValue}}</p> 
-  <type1 ng-if="detailData[0].material_id == 1">
-    <p>Device/Material?: Device</p>
-  </type1>
-  <type2 ng-if="detailData[0].material_id != 1">
-    <p>Device/Material?: Material</p>
-  </type2>
-  <hr>
-  <div class="text-center">
-  <a href="#/" class="btn btn-primary">Back to the menu</a>
-  </div>
-  <hr>
+    <!--Table shows detailed infos of item depending on material_id-->
+    <!-- 0 = Device | 1 = Material--> 
+  	<table class="table table-bordered table-responsive">
+  		<!--State: 0 = Not available, 1 = Available, 2 = Defective, 3 = Missing-->   
+    	<tr ng-if="detailData[0].State == 0">
+      		<td>State: </td><td class="text-warning" ><b>Not available</b></td>
+    	</tr>
+    	<tr ng-if="detailData[0].State == 1">  
+      		<td>State:</td> <td class="text-success"><b>Available</b></td>
+    	</tr>
+    	<tr ng-if="detailData[0].State == 2">  
+      		<td>State:</td> <td class="text-danger"><b>Defective</b></td>
+    	</tr>
+    	<tr ng-if="detailData[0].State == 3">  
+      		<td>State:</td> <td class="text-danger"><b>Missing</b></td>
+    	</tr>
+    	<!--Type--> 
+    	<tr ng-if="detailData[0].material_id == 1">
+    		<td>Type:</td> <td><b>Device</b></td>
+    	</tr>
+  		<tr ng-if="detailData[0].material_id != 1">
+  			<td>Type:</td> <td><b>Material</b></td>
+  		</tr>
+  		<!--Description-->
+  		<tr>
+  			<td>Description:</td><td><b>{{detailData[0].Description}}</b></td>
+  		</tr>
+  		<!--Category-->
+  		<tr>
+  			<td>Category:</td> <td><b>{{detailData[0].Category}}</b></td>
+  		</tr>
+  		<!--BuildType--> 
+  		<tr ng-if="detailData[0].material_id != 1">
+  			<td>Build Type:</td> <td><b>{{detailData[0].BuildType}}</b></td>
+  		</tr>
+  		<!--Measure: UoM_short(UoM)-->
+  		<tr ng-if="detailData[0].UoM_short != null && detailData[0].material_id != 1"> 
+  			<td>Measure:</td> <td><b>{{detailData[0].UoM_short}}
+				<span ng-if="detailData[0].UoM != null"> ({{detailData[0].UoM}}) </span></b>
+			</td>
+  		</tr>
+  		<!--Measure: UoM-->  	
+  		<tr ng-if="detailData[0].UoM_short == null && detailData[0].UoM != null && detailData[0].material_id != 1">
+   			<td>Measure:</td> <td><b>{{detailData[0].UoM}}</b></td>
+  		</tr>
+  		<!--StorageValue-->
+  		<tr ng-if="detailData[0].material_id != 1">
+  			<td>Stock:</td> <td><b>{{detailData[0].StorageValue}}</b></td>
+  		</tr>
+  		<!--Saleprice--> 
+  		<tr ng-if="detailData[0].material_id != 1">
+  			<td>Sale Price:</td> <td><b>{{detailData[0].Saleprice | number:2}} €</b></td>
+  		</tr>
+  	</table>
+  	<!--back to main page-->
+  	<div class="text-center well">
+  		<a href="#/" class="btn btn-primary">Back to menu</a>
+  	</div>
 </div>
