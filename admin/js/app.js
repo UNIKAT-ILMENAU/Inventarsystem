@@ -76,7 +76,7 @@ invApp.config(['$routeProvider',
       when('/place', {                            //Place configuration      ###### CTRL FIX
         templateUrl: 'html/place.html',      
         controller: 'MenuCtrl'
-      }).                                         //############
+      }).                                       
       when('/inviteAdmin', {                      //invite Admin form                
         templateUrl: 'html/inviteAdmin.html',
         controller: 'inviteAdminCtrl'

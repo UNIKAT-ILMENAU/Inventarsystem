@@ -2,7 +2,7 @@
 
 /* AllControllers */
 
-var invControllers = angular.module('invControllers', ['angularUtils.directives.dirPagination']);	
+var invControllers = angular.module('invControllers', ['angularUtils.directives.dirPagination']); 
 
 //==============================
 //Request Admin list
@@ -18,9 +18,9 @@ invControllers.controller('ListCtrl', function ($scope, $location, REST) {
   });*/
   
   var d_pageSize = 10;                    //default pageSize limit
-  $scope.pageSize = d_pageSize;			      //Item limit per page
+  $scope.pageSize = d_pageSize;           //Item limit per page
 
-  $scope.sort = function(keyname){	  //sort option on click, call by reference
+  $scope.sort = function(keyname){    //sort option on click, call by reference
     $scope.sortKey = keyname;         //set the sortKey to the param passed
     $scope.reverse = !$scope.reverse; //if true make it false and vice versa
   }
@@ -42,7 +42,7 @@ invControllers.controller('ListCtrl', function ($scope, $location, REST) {
   }
 
   //Loads the detailView form
-	$scope.viewDetail = function(listID) { 		//tr clickable, change to detailview view, activated via 1click
+  $scope.viewDetail = function(listID) {    //tr clickable, change to detailview view, activated via 1click
     $location.path('/listData/' + listID); 
   };
 
@@ -309,7 +309,7 @@ invControllers.controller('ItemEditCtrl', ['$scope', '$routeParams', '$location'
 //Rental controller
 //Used: rental.html 
 //==============================
-invControllers.controller('RentalCtrl', ['$scope', '$routeParams', '$location', 'REST', function($scope, $routeParams, $location, REST) {
+invControllers.controller('RentalCtrl', ['$scope', '$routeParams', '$location', '$http', 'REST', function($scope, $routeParams, $location, $http, REST) {
 
   //redirect us, when we are accidentally on the rental page
   if($scope.selectedItems[0] == null)
@@ -330,17 +330,13 @@ invControllers.controller('RentalCtrl', ['$scope', '$routeParams', '$location', 
         'enddate': '',
         'createdbyid': '',
         'comment': ''
-    },
-    'items': []
+    } 
    };
 
-  //give all selected items the borrow object
-  //just for testing will be deleted ####################
-  //$scope.borrow.items = $scope.selectedItems;  /* Here only the ID Amount of the item */
-
-  //ids[]
-  //ammount[]
   $scope.sendRental = function(){
+    //needs to be like this cause datepicker doesnt work with ng-change
+    $scope.borrow.customer.enddate = document.getElementById("enddate").value;
+
     var Indata = {'firstname': $scope.borrow.customer.firstname, 
                   'lastname': $scope.borrow.customer.lastname,
                   'city': $scope.borrow.customer.city, 
@@ -352,12 +348,18 @@ invControllers.controller('RentalCtrl', ['$scope', '$routeParams', '$location', 
                   'enddate': $scope.borrow.customer.enddate,
                   'createdbyid': 1,             //NEEDS TO BE IMPLEMENTED
                   'comment': $scope.borrow.customer.comment,
-                  'ids': [1,2,3],
-                  'amounts': [0,0,0]
-                  };
-    alert(Indata.ids[0] + Indata.ids [2]);
+                  'ids': [],
+                  'amounts': []
+                  };            
+    
+    for (var i = 0; i < $scope.selectedItems.length ; i++) {
+      Indata.ids.push($scope.selectedItems[i].Id);
+      Indata.amounts.push($scope.selectedItems[i].amount);
+    }
+    $scope.testvar = Indata;
+    alert("converting ok");
     //POST rental to the server 
-    $http.post("/api/v1/restricted/rental/create", Indata).success(function(data, status) {
+   $http.post("/api/v1/restricted/rental/create", Indata).success(function(data, status) {
       //SUCCESSFULL 
       alert("success material update");
       $location.path('/list'); //redirect to inventory list
@@ -379,7 +381,7 @@ invControllers.controller('RentalCtrl', ['$scope', '$routeParams', '$location', 
   };
 
   //Datepicker   
-  $('*[id=borrowDate]').appendDtpicker({ 
+  $('*[id=enddate]').appendDtpicker({ 
     "dateOnly": true,
     "dateFormat": "YYYY-MM-DD",
     "futureOnly": true
@@ -472,7 +474,7 @@ invControllers.controller('indexCtrl', function ($scope, $location, $anchorScrol
 
   $scope.scrollTo = function() {
       // set the location.hash to null/top
-      $location.hash();			
+      $location.hash();     
 
       // call $anchorScroll() to use the scroll
       $anchorScroll();

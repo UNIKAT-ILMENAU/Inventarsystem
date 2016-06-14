@@ -1,6 +1,6 @@
 <!-- 
-Controller: DetailCtrl - controllers.js
-Additionally needed scripts: none 
+Controller: RentalCtrl - controllers.js
+Additionally needed scripts: datepicker.js 
 -->
 <div class="container">
     
@@ -38,7 +38,7 @@ Additionally needed scripts: none
     <div class="form-group row">
       <label class="col-md-1" for="phone">Phone:</label>
       <div class="col-md-3">
-        <input type="text" class="form-control" id="phone" name="phone" ng-model="borrow.customer.phone" required="">
+        <input type="text" class="form-control" id="phone" name="phone" ng-model="borrow.customer.phone">
       </div>
       <label class="col-md-1" for="email">E-mail*:</label>
       <div class="col-md-3">
@@ -47,12 +47,23 @@ Additionally needed scripts: none
       </div>    
     </div>  
     <div class="form-group row">
-      <label class="col-md-1" for="date">EndDate:</label>
+      <label class="col-md-1" for="date">EndDate*:</label>
       <div class="col-md-3">
-        <input type="text" class="form-control input-border" id="borrowDate" value=""  placeholder="Please select enddate" ng-model="borrow.customer.enddate">
+        <input type="text" class="form-control input-border" id="enddate" name="enddate" value=""  placeholder="Please select enddate" ng-model="borrow.customer.enddate" required="">
       </div> 
+      <div class="col-md-8">
+        <p>* are necessary inputs.</p>
+      </div>
     </div> 
-    <p>* are necessary inputs.</p> 
+    
+    <!--Comment input-->
+    <div class="form-group row">
+      <label class="col-md-1" for="date">Comment:</label>
+      <div class="col-md-11">
+        <textarea class="form-control" id="description" name="description" placeholder="Extra informations..." ng-model="borrow.customer.comment"></textarea>
+      </div> 
+    </div>
+    
   </form>
 
   <hr>
@@ -85,21 +96,23 @@ Additionally needed scripts: none
 
   <hr>
   <div>
-    <button href="#/list" class="btn btn-primary" ng-click="sendRental()" ng-disabled="form.firstname.$error.required || form.lastname.$error.required || form.phone.$error.required || form.email.$error.required || form.email.$error.email">Accept</button>
+    <button href="#/list" class="btn btn-primary" ng-click="sendRental()" ng-disabled="form.firstname.$error.required || form.lastname.$error.required || form.email.$error.required">Accept</button>
+    <button href="#/list" class="btn btn-primary" ng-click="sendRental()">Accep2t</button>
     <a href="#/list" class="btn btn-danger">Cancel</a>
   </div>
 
 
   <div class="well">
-  <h4>testing area</h4>
+  <!-- <h4>testing area</h4>
   <hr>
   <p>Customer: {{borrow.customer}}</p>
   <hr>
   <p>Items:</p>
   <div ng-repeat="item in borrow.items">
     <p>{{$index+1}} | {{item}}</p>
-  </div>
+  </div>-->
 
+  <p>Testdata: {{testvar}}</p>
   </div>
 
   <hr>
