@@ -18,6 +18,10 @@ function($resource){
     detailLoad: {method:'GET', params:{ListItemId: $resource}, isArray:true},
     //Detail information of the selected item
     historyLoad: {method:'GET', params:{ListItemId: $resource}, isArray:true},
+    //All rental informations
+    allRental: {method:'GET', params:{ListItemId: 'item/allRental'}, isArray:true},
+    //Detail information of the selected rental
+    detailRentalLoad: {method:'GET', params:{ListItemId: $resource}, isArray:true}
     //typload: {method:'GET', params:{ListItemId: 'typeahead'}, isArray:true} //not included right now
   });
 }]);

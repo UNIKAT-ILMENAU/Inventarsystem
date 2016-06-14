@@ -8,7 +8,7 @@ attachments werden erstmal vernachlässigt.
 
     <div class="container top-space bot-space">
       <div class="panel panel-default">
-        <div class="panel-heading text-center"><hr><h4>Create new device</h4><hr></div>
+        <div class="panel-heading text-center"><h2>Create new device</h2></div>
         <div class="panel-body">
 
         <div id="messages" class="hide" role="alert">
@@ -54,24 +54,13 @@ attachments werden erstmal vernachlässigt.
             <!--State input-->
             <div class="form-group" id="formState">
               <label class="col-md-2 control-label" for="state">State</label>
-              <div class="col-md-4">
-                <input type="text" value="new" class="form-control" id="state" name="state" placeholder="new" ng-model="selectedItems[0].State"/>
-              </div>
-            </div>
-
-            <!--Purchase price input-->
-            <div class="form-group" id="formCost">
-              <label class="col-md-2 control-label" for="cost">Cost</label>
-              <div class="col-md-4">
-                <input type="number" min="0.00" step="0.01" class="form-control" id="cost" name="cost" placeholder="42.00" ng-model="selectedItems[0].Cost"/>
-              </div>
-            </div>
-
-            <!--Retail price input-->
-            <div class="form-group" id="formPrice">
-              <label class="col-md-2 control-label" for="price">Saleprice</label>
-              <div class="col-md-4">
-                <input type="number" min="0.00" step="0.01" class="form-control" id="price" name="price" placeholder="42.00" ng-model="selectedItems[0].Saleprice"/>
+              <div class="col-md-4"> 
+                <select class="form-control"  ng-model="selectedItems[0].State" >
+                  <option value="0">Not available</option>
+                  <option value="1">Available</option>
+                  <option value="2">Defective</option>
+                  <option value="3">Missing</option>
+                </select>
               </div>
             </div>
 
@@ -86,16 +75,18 @@ attachments werden erstmal vernachlässigt.
             <!--PublicVisible input-->
             <div class="form-group" id="formState">
               <label class="col-md-2 control-label" for="state">PublicVisible</label>
-              <div class="col-md-4">
-                <input type="text" class="form-control" id="state" name="state" placeholder="1 = true , 0 = false" ng-model="selectedItems[0].PublicVisible"/>
+              <div class="col-md-4">  
+                <select class="form-control"  ng-model="selectedItems[0].PublicVisible" >
+                  <option value="0">Not visible</option>
+                  <option value="1">Visible</option>
+                </select>   
               </div>
             </div>
-
-            
+  
              <!--Buttons: link for 'Back to menu' has to be set--> 
              <div class="form-group">
               <div class="col-md-6 col-md-offset-2">
-                <button id="buttonSubmit" name="buttonSubmit"type="submit" class="btn btn-success btn-sm" ng-click="createItemToServer('Device')">Create material</button>
+                <button id="buttonSubmit" name="buttonSubmit"type="submit" class="btn btn-success btn-sm" ng-click="createItemToServer('Device')">Create device</button>
                 <button id="buttonReset" name="buttonReset" type="reset" form="itemForm" class="btn btn-danger btn-sm" ng-click="clearItem()">Reset form</button>
                  <a href="">
                   <a href="#/list" id="buttonMenu" name="buttonMenu" type="button" class="btn btn-primary btn-sm" ng-click="clearItem()">Back to list</a>
@@ -117,8 +108,3 @@ attachments werden erstmal vernachlässigt.
   <p>{{createItem}}</p>
 </div>
 
-<!--JS-file is necessary for form validtion by using JQuery-->
-    <!--script might has to be changed when the submission is handled via Angular-->
-    <script type="text/javascript" src="formValidation.js"></script>
-
-  <!-- DAS HIERMUSS AUCH UNBEDINGT AUSGELAGERT WERDEN ODER ANDERS GEHANDHABT WERDEN-->

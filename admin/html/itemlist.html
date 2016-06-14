@@ -53,7 +53,7 @@ Additionally needed scripts: js/dirPagination.js
 								<label for="search" class="col-lg-2 col-md-2 col-xs-12">State:</label>
 								<input ng-model="search.State" type="text" class="col-lg-4 col-md-4 col-xs-12">
 								<label for="search" class="col-lg-2 col-md-2 col-xs-12">Price:</label>
-								<input ng-model="search.Saleprice" type="text" class="col-lg-4 col-md-4 col-xs-12">				
+								<input ng-model="search.SalePrice" type="text" class="col-lg-4 col-md-4 col-xs-12">				
 							</div>
 							<div class="row">
 								<label for="search" class="col-lg-2 col-md-2 col-xs-12">StoValue:</label>
@@ -74,8 +74,6 @@ Additionally needed scripts: js/dirPagination.js
 							<div class="row">
 								<label for="search" class="col-lg-2 col-md-2 col-xs-12">BType.:</label>
 								<input ng-model="search.BuildType" type="text" class="col-lg-4 col-md-4 col-xs-12">
-								<label for="search" class="col-lg-2 col-md-2 col-xs-12">MatID.:</label>
-								<input ng-model="search.material_id" type="text" class="col-lg-4 col-md-4 col-xs-12">
 							</div><hr>
 							<div>
 								<!-- Reset filter options -->
@@ -112,8 +110,8 @@ Additionally needed scripts: js/dirPagination.js
 				    <th ng-click="sort('BuildType')">BuildType
 				    	<span class="glyphicon sort-icon" ng-show="sortKey=='BuildType'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 				    </th>
-				    <th ng-click="sort('Saleprice')">Saleprice
-				    	<span class="glyphicon sort-icon" ng-show="sortKey=='Saleprice'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				    <th ng-click="sort('SalePrice')">SalePrice
+				    	<span class="glyphicon sort-icon" ng-show="sortKey=='SalePrice'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 				    </th>
 				    <th ng-click="sort('StorageValue')">StorageValue
 				    	<span class="glyphicon sort-icon" ng-show="sortKey=='StorageValue'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
@@ -124,7 +122,7 @@ Additionally needed scripts: js/dirPagination.js
 				    <th ng-click="sort('PublicVisible')">PublicVisible
 				    	<span class="glyphicon sort-icon" ng-show="sortKey=='PublicVisible'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 				    </th>
-				    <th ng-click="sort('material_id')">material_id
+				    <th ng-click="sort('material_id')">Dev/Mat
 				    	<span class="glyphicon sort-icon" ng-show="sortKey=='material_id'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 				    </th>
 				    <th>Add
@@ -137,10 +135,17 @@ Additionally needed scripts: js/dirPagination.js
 				  <tr ng-dblclick="viewDetail(listItem.Id);" dir-paginate="listItem in listData| orderBy:sortKey:reverse | filter: search | itemsPerPage:pageSize">	<!-- detailview via double leftmouse click on the item or the show button-->
 				    <td>{{listItem.Id}}</td>
 				    <td>{{listItem.Name}}</td>
-				    <td>{{listItem.State}}</td>
+				    <td>
+					    <div ng-switch="listItem.State">
+			      			<div ng-switch-when="0" class="text-warning">Not available</div>
+			      			<div ng-switch-when="1" class="text-success">Available</div>
+			      			<div ng-switch-when="2" class="text-danger">Defective</div>
+			     			<div ng-switch-when="3" class="text-danger">Missing</div>
+			     		</div>
+		     		</td>
 				    <td>{{listItem.Category}}</td>
 				    <td>{{listItem.BuildType}}</td>
-				    <td>{{listItem.Saleprice}}</td>
+				    <td>{{listItem.SalePrice}}</td>
 				    <td>
 						<!-- we are under the criticalStorageValue highlight it as red-->
 						<div ng-if="listItem.StorageValue < listItem.CriticalStorageValue"> 
@@ -149,18 +154,23 @@ Additionally needed scripts: js/dirPagination.js
 						</div>
 						<!-- StorageValue is normal so just show us the values-->
 						<div ng-if="listItem.StorageValue > listItem.CriticalStorageValue"> 
-							{{listItem.StorageValue}} / {{listItem.CriticalStorageValue}} 	
+							{{listItem.StorageValue}} / <type style="color:orange;">{{listItem.CriticalStorageValue}}</type> 	
 						</div>
 				    </td>
 				    <td>{{listItem.Place}}</td>
-				    <td>{{listItem.PublicVisible}}</td>
+				    <td>
+				    	<div ng-switch="listItem.PublicVisible">
+			      			<div ng-switch-when="0" class="text-danger">not visible</div>
+			      			<div ng-switch-when="1" class="text-success">visible</div>			  
+			     		</div>
+				    </td>
 				    <td>
 				    	<!-- Filter Device and Material -->
-				    	<div ng-if="listItem.material_id == null"> 
+				    	<div ng-if="listItem.material_id == 1"> 
 				    		<p>Device</p> 
 				    	</div>
-				    	<div ng-if="listItem.material_id != null"> 
-				    		Material (id:{{listItem.material_id}}) 
+				    	<div ng-if="listItem.material_id != 1"> 
+				    		Material 
 				    	</div>
 			    	</td>    
 				    <td>

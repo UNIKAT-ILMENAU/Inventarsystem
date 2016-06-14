@@ -20,7 +20,7 @@ invControllers.controller('ListCtrl', function ($scope, $location, REST) {
   var d_pageSize = 10;                    //default pageSize limit
   $scope.pageSize = d_pageSize;			      //Item limit per page
 
-  $scope.sort = function(keyname){	      //sort option on click, call by reference
+  $scope.sort = function(keyname){	  //sort option on click, call by reference
     $scope.sortKey = keyname;         //set the sortKey to the param passed
     $scope.reverse = !$scope.reverse; //if true make it false and vice versa
   }
@@ -58,13 +58,23 @@ invControllers.controller('ListCtrl', function ($scope, $location, REST) {
 //Request Detail informations from specific item
 //Used in: detail.html 
 //==============================
-invControllers.controller('DetailCtrl', ['$scope', '$routeParams', '$location', 'REST', function($scope, $routeParams, $location, REST) {
+invControllers.controller('DetailCtrl', ['$scope', '$routeParams', '$location', '$http', 'REST', function($scope, $routeParams, $location, $http, REST) {
   //Gets all informations of a specific item by id
   $scope.detailData = REST.detailLoad({ListItemId: 'item/details/' + $routeParams.ListItemId});
   //Gets all history informations of a specific item by id
   $scope.historyData = REST.historyLoad({ListItemId: 'item/getHistory/' + $routeParams.ListItemId});
 
+   $scope.ReloadDatas = function() { 
+    //reloads all datas of detailView 
+    //Gets all informations of a specific item by id
+    $scope.detailData = REST.detailLoad({ListItemId: 'item/details/' + $routeParams.ListItemId});
+    //Gets all history informations of a specific item by id
+    $scope.historyData = REST.historyLoad({ListItemId: 'item/getHistory/' + $routeParams.ListItemId});
+  };
 
+  //==============================
+  //Simple Alert System (Work in progress)
+  //==============================
   $scope.alert = [];
   $scope.addAlert = function(info) {
     if(info == 'error'){
@@ -74,14 +84,17 @@ invControllers.controller('DetailCtrl', ['$scope', '$routeParams', '$location', 
     }
   };
 
+  //==============================
+  //EVENTS (DetailView)
+  //==============================
   $scope.rentalAdd = function(data) {
     $scope.addAlert($scope.addItem(data));
-
   };
 
   //Link to edit item form
   $scope.editItem = function(listID) {  
-    $location.path('/edit_item/'  + listID); //link us to the edit form
+    //link us to the edit form of the selected item by id
+    $location.path('/edit_item/'  + listID); 
   };
 
   //Link to copy item form
@@ -89,12 +102,84 @@ invControllers.controller('DetailCtrl', ['$scope', '$routeParams', '$location', 
 
     $scope.clearItem();   //clear the rental cart
     $scope.addItem(data); //adds the item that we can use it
-    /*Link to the right create form*/
-    if(info == 'Device'){
-      $location.path('/create_device');
-    }else if(info == 'Material'){
-      $location.path('/create_material');
-    }   
+
+    //Link to the right create form
+    if(info == 'Device'){       $location.path('/create_device');    }
+    else if(info == 'Material'){$location.path('/create_material');  }   
+  };
+
+  //==============================
+  //device defect / missing state update
+  //==============================
+  $scope.deviceEvent = function(info, stateID) { 
+    //sets the title in the devicemodal 
+    $scope.title = info;
+    $scope.state = stateID;
+  };
+
+  //modal function for the device state update (defect/missing)
+  $scope.updateStateEvent = function(itemID, stateID, comment) { 
+    var Indata = {'itemid': itemID, 'comment': comment, 'createdbyid': 1 }; //Testweise createdbyID
+    if(stateID == 2){
+      //POST state device to the server
+      $http.post("/api/v1/restricted/event/8", Indata).success(function(data, status) {
+        //SUCCESSFULL
+        //alert("success");
+        alert("success");
+        $scope.ReloadDatas();  
+      });
+    } else if(stateID == 3)
+    {
+      //POST state device to the server
+      $http.post("/api/v1/restricted/event/9", Indata).success(function(data, status) {
+        //SUCCESSFULL
+        //alert("success");
+        $scope.ReloadDatas();
+      });
+    }
+  };
+
+  //==============================
+  //material used / stockup function
+  //==============================
+  $scope.materialEvent = function(info) { 
+    //sets the title in the materialmodal 
+    $scope.title = info;
+  };
+  //modal function for the material used / stockup function
+  $scope.updateMaterialEvent = function(title, amount, itemID, createdbyid, price) {  
+    //check event and if we have a positiv amount
+    if(title == "used" && amount > 0 )
+    {
+      var Indata = {'amount': amount, 'itemid': itemID, 'createdbyid': createdbyid }; //NEEDS TO BE IMPLEMENTED
+      //POST used material to the server
+      $http.post("/api/v1/restricted/event/6", Indata).success(function(data, status) {
+        //SUCCESSFULL
+        alert("success" + $scope.detailData[0].Id);
+        $scope.ReloadDatas();
+      });
+    } //check event and if we have a positiv amount
+    else if(title == "stock up" && amount > 0 )
+    {    
+      var Indata = {'amount': amount, 'itemid': itemID, 'createdbyid': createdbyid };
+      //POST stock up material to the server
+      $http.post("/api/v1/restricted/event/7", Indata).success(function(data, status) {
+        //SUCCESSFULL
+        alert("success" + $scope.detailData[0].Id);
+        $scope.ReloadDatas();
+      });
+    }else if(title == "sell" && amount > 0)
+    {   
+    alert(price); 
+      var Indata = {'amount': amount, 'itemid': itemID, 'createdbyid': createdbyid, 'price': price };
+      //POST stock up material to the server
+      $http.post("/api/v1/restricted/event/10", Indata).success(function(data, status) {
+        //SUCCESSFULL
+        alert("success" + $scope.detailData[0].Id);
+        $scope.ReloadDatas();
+      });
+    }
+
   };
 
 }]);
@@ -104,59 +189,56 @@ invControllers.controller('DetailCtrl', ['$scope', '$routeParams', '$location', 
 //Used: create_material.html, create_device.html 
 //==============================
 invControllers.controller('CreateCtrl', ['$scope', '$routeParams', '$location', '$http', function($scope, $routeParams, $location, $http) {
-  
-//This js object will be send to the server for creating an item
-$scope.createItem = {};
 
 //Send creation to the server
 $scope.createItemToServer = function(typ) {    
-  $scope.transform(typ); //transform variables for the server
   
   if(typ == "Device") //Create Device
-  { 
+  { alert("test");
+   var Indata = {'name': $scope.selectedItems[0].Name, 
+              'state': $scope.selectedItems[0].State,
+              'description': $scope.selectedItems[0].Description,
+              'category': $scope.selectedItems[0].Category, //NEEDS TO BE IMPLEMENTED
+              'visible': $scope.selectedItems[0].PublicVisible,
+              'place': $scope.selectedItems[0].Place, //NEEDS TO BE IMPLEMENTED
+              'createdbyid': 1, //NEEDS TO BE IMPLEMENTED
+              'comment': $scope.selectedItems[0].Comment
+              };
     //POST device to the server
-    $http.post("/api/v1/restricted/device/create", createItem).success(function(data, status) {
+    $http.post("/api/v1/restricted/device/create", Indata).success(function(data, status) {
       //SUCCESSFULL
+      alert("success");
       $scope.clearItem(); //clears the selected item
       $location.path('/list');
     });  
   }
   else  //Create Material
   {
+   var Indata = {'name': $scope.selectedItems[0].Name, 
+                  'state': $scope.selectedItems[0].State,
+                  'category': $scope.selectedItems[0].Category, //NEEDS TO BE IMPLEMENTED
+                  'description': $scope.selectedItems[0].Description,
+                  'visible': $scope.selectedItems[0].PublicVisible,
+                  'saleprice': $scope.selectedItems[0].SalePrice,
+                  'place': $scope.selectedItems[0].Place, //NEEDS TO BE IMPLEMENTED
+                  'createdbyid': 1, //NEEDS TO BE IMPLEMENTED
+                  'buildtype': $scope.selectedItems[0].Buildtype,
+                  'uom': $scope.selectedItems[0].UoM,
+                  'uom_short': $scope.selectedItems[0].UoM_short,
+                  'storagevalue': $scope.selectedItems[0].StorageValue,
+                  'criticalstoragevalue': $scope.selectedItems[0].CriticalStorageValue,
+                  'comment': $scope.selectedItems[0].Comment
+                  };
+
     //POST material to the server
-    $http.post("/api/v1/restricted/material/create", createItem).success(function(data, status) {
+    $http.post("/api/v1/restricted/material/create", Indata).success(function(data, status) {
       //SUCCESSFULL
+      alert("success");
       $scope.clearItem(); //clears the selected item
       $location.path('/list');
     });
   }
 };
-
-//the server needs other variable names, so adjust them
-$scope.transform = function(typ) {
-  if($scope.selectedItems[0] != null){
-    $scope.createItem.name = $scope.selectedItems[0].Name;
-    $scope.createItem.state = $scope.selectedItems[0].State;
-    $scope.createItem.saleprice = $scope.selectedItems[0].Saleprice;
-    //$scope.createItem.createdbyid = $scope.selectedItems[0].CreatedbyId;
-    $scope.createItem.comment = $scope.selectedItems[0].Comment;
-    $scope.createItem.place = $scope.selectedItems[0].Place;
-    $scope.createItem.category = $scope.selectedItems[0].Category;
-    $scope.createItem.description = $scope.selectedItems[0].Description;
-    $scope.createItem.visible = $scope.selectedItems[0].PublicVisible;
-    if(typ == "Material") //extra material informations
-    { 
-      $scope.createItem.buildtype = $scope.selectedItems[0].Buildtype;
-      $scope.createItem.uom = $scope.selectedItems[0].UoM;
-      $scope.createItem.uom_short = $scope.selectedItems[0].UoM_short;
-      $scope.createItem.storagevalue = $scope.selectedItems[0].StorageValue;
-      $scope.createItem.criticalstoragevalue = $scope.selectedItems[0].CriticalStorageValue;
-    } 
-  }
-}
-
-
-
   
 }]);
 
@@ -168,57 +250,60 @@ invControllers.controller('ItemEditCtrl', ['$scope', '$routeParams', '$location'
   //Gets all informations of a specific item by id
   $scope.detailData = REST.detailLoad({ListItemId: 'item/details/' + $routeParams.ListItemId});
 
-  //This js object will be send to the server for editing an item  
-  $scope.updateItem = {};
 
   //Update/Edit item to the server
   $scope.saveEdit = function() {
-    $scope.transform();     //transform variables for the server
-
     if($scope.detailData[0].material_id == 1) //Update Device
-    {  
+    {   
+      var Indata = {'name': $scope.detailData[0].Name, 
+                    'state': $scope.detailData[0].State,
+                    'description': $scope.detailData[0].Description,
+                    'category': 3, //NEEDS TO BE IMPLEMENTED
+                    'visible': $scope.detailData[0].PublicVisible,
+                    'place': 3, //NEEDS TO BE IMPLEMENTED
+                    'createdbyid': 1, //NEEDS TO BE IMPLEMENTED
+                    'comment': $scope.detailData[0].Comment
+                    };
+      
       //create url with the selected item
-      var url = '/api/v1/restricted/device/update/' + $scope.updateItem.id;
+      var url = "/api/v1/restricted/device/update/" + $scope.detailData[0].Id;
       //POST device to the server
-      $http.post(url, updateItem).success(function(data, status) {
+      $http.post(url, Indata).success(function(data, status) {
         //SUCCESSFULL
-        $scope.clearItem(); //clears the selected item
-        $location.path('/listData/' + updateItem.Id);
-      }); 
+        alert("success device update");
+        
+        // $scope.clearItem(); //clears the selected item
+        $location.path('/listData/' + $scope.detailData[0].Id);
+      });
     }
     else  //Update Material
     { 
-      //create url with the selected item
-      var url = '/api/v1/restricted/material/update/' + $scope.updateItem.id;
-      //POST material to the server 
-      $http.post(url, updateItem).success(function(data, status) {
-        //SUCCESSFULL
-        $scope.clearItem(); //clears the selected item
-        $location.path('/listData/' + updateItem.Id);
-      });
-    }
-  };
+      var Indata = {'name': $scope.detailData[0].Name, 
+                    'state': $scope.detailData[0].State,
+                    'category': 3, //NEEDS TO BE IMPLEMENTED
+                    'description': $scope.detailData[0].Description,
+                    'visible': $scope.detailData[0].PublicVisible,
+                    'saleprice': $scope.detailData[0].SalePrice,
+                    'place': 3, //NEEDS TO BE IMPLEMENTED
+                    'createdbyid': 1, //NEEDS TO BE IMPLEMENTED
+                    'buildtype': $scope.detailData[0].Buildtype,
+                    'uom': $scope.detailData[0].UoM,
+                    'uom_short': $scope.detailData[0].UoM_short,
+                    'criticalstoragevalue': $scope.detailData[0].CriticalStorageValue,
+                    'comment': $scope.detailData[0].Comment
+                    };
 
-  //the server needs other variable names, so adjust them
-  $scope.transform = function() {
-    $scope.updateItem.id = $scope.detailData[0].Id;
-    $scope.updateItem.material_id = $scope.detailData[0].material_id;
-    $scope.updateItem.name = $scope.detailData[0].Name;
-    $scope.updateItem.state = $scope.detailData[0].State;
-    $scope.updateItem.saleprice = $scope.detailData[0].Saleprice;
-    //$scope.updateItem.createdbyid = $scope.detailData[0].CreatedbyId;
-    $scope.updateItem.comment = $scope.detailData[0].Comment;
-    $scope.updateItem.place = $scope.detailData[0].Place;
-    $scope.updateItem.category = $scope.detailData[0].Category;
-    $scope.updateItem.description = $scope.detailData[0].Description;
-    $scope.updateItem.visible = $scope.detailData[0].PublicVisible;
-    if($scope.detailData[0].material_id != 1) //extra material informations
-    { 
-      $scope.updateItem.buildtype = $scope.detailData[0].Buildtype;
-      $scope.updateItem.uom = $scope.detailData[0].UoM;
-      $scope.updateItem.uom_short = $scope.detailData[0].UoM_short;
-      $scope.updateItem.storagevalue = $scope.detailData[0].StorageValue;
-      $scope.updateItem.criticalstoragevalue = $scope.detailData[0].CriticalStorageValue; 
+      //create url with the selected item
+      var url = '/api/v1/restricted/material/update/' + $scope.detailData[0].Id;
+      //POST material to the server 
+      $http.post(url, Indata).success(function(data, status) {
+        //SUCCESSFULL
+        alert("success material update");
+        
+        //$scope.clearItem(); //clears the selected item
+        $location.path('/listData/' + $scope.detailData[0].Id);
+        
+      });
     }
   };
     
@@ -231,7 +316,7 @@ invControllers.controller('ItemEditCtrl', ['$scope', '$routeParams', '$location'
 
 //==============================
 //Rental controller
-//Used: rental.html, rentallist.html 
+//Used: rental.html 
 //==============================
 invControllers.controller('RentalCtrl', ['$scope', '$routeParams', '$location', 'REST', function($scope, $routeParams, $location, REST) {
 
@@ -253,17 +338,33 @@ invControllers.controller('RentalCtrl', ['$scope', '$routeParams', '$location', 
         'zip': '',
         'phone': '',
         'email': '',
-        'date': '',
+        'enddate': '',
     },
     'items': []
    };
 
-   //give all selected items the borrow object
-   $scope.borrow.items = $scope.selectedItems;  /* Here only the ID Amount of the item */
+  //give all selected items the borrow object
+  //just for testing will be deleted ####################
+  $scope.borrow.items = $scope.selectedItems;  /* Here only the ID Amount of the item */
+
+  $scope.transform = function() {
+    $scope.borrow.items.id = $scope.selectedItems.Id;
+    //......
+  }
 
   $scope.sendRental = function(){
     //needs to be like this cause datepicker doesnt work with ng-change
     $scope.borrow.customer.date = document.getElementById("borrowDate").value;
+    //$scope.transform();  //transform variables for the server
+
+    //POST device to the server
+    /*$http.post("/api/v1/restricted/device/create", $scope.borrow).success(function(data, status) {
+      //SUCCESSFULL
+      $scope.clearItem(); //clears the selected item
+      $location.path('/list');
+    });*/
+
+
   };
 
   //Datepicker   
@@ -274,6 +375,46 @@ invControllers.controller('RentalCtrl', ['$scope', '$routeParams', '$location', 
   });
           
 }]);
+
+//==============================
+//Rental list controller
+//Used: rentallist.html
+//==============================
+invControllers.controller('RentalListCtrl', ['$scope', '$routeParams', '$location', 'REST', function($scope, $routeParams, $location, REST) {
+  //Get all item informations from the server
+  //$scope.listData = REST.allRental(); //need another api request here
+
+  var d_pageSize = 10;                    //default pageSize limit
+  $scope.pageSize = d_pageSize;           //Item limit per page
+
+  $scope.sort = function(keyname){    //sort option on click, call by reference
+    $scope.sortKey = keyname;         //set the sortKey to the param passed
+    $scope.reverse = !$scope.reverse; //if true make it false and vice versa
+  }
+
+  //Loads the detailView form
+  $scope.viewDetail = function(rentalID) {    //tr clickable, change to detailview view, activated via 1click
+    $location.path('/rentalData/' + rentalID); 
+  };
+
+  //Resets all filter options in the list
+  $scope.resetFilter = function(){
+    $scope.search = "";   //resets the filter options
+    $scope.pageSize = d_pageSize; //resets the items per page size to default
+  };
+
+
+}]);
+
+//==============================
+//Rental detail controller
+//Used: rental_detail.html
+//==============================
+invControllers.controller('RentalDetailCtrl', ['$scope', '$routeParams', '$location', 'REST', function($scope, $routeParams, $location, REST) {
+  //Gets all informations of a specific item by id
+  //$scope.detailData = REST.detailRentalLoad({ListItemId: 'item/details/' + $routeParams.ListItemId});
+}]);
+
 
 //==============================
 //Main-controller
@@ -328,36 +469,272 @@ invControllers.controller('indexCtrl', function ($scope, $location, $anchorScrol
 });
 
 
+
+
+//###############
 //loginController: sends login-data, gets and stores token, throws error if invalid userdata, routes to next page
 invControllers.controller('loginCtrl', loginCtrl);
 function loginCtrl($scope, $window, $location, $http){
 
   $scope.signIn = function(){
     var userData = {
-        username: $scope.username,
-        password: $scope.password
-    };  
+      email: $scope.email,
+      password: $scope.password
+    }; 
+
     $http({
-      method: 'Post',
-      //(!) URL
-      url: '',
-      data: userData.username + ";" + userData.password //oder JSON.parse(userdata)
+      method: 'POST',
+      url: '/api/v1/login',
+      data: userData
     })
     .then(
       function(response){
         //store token
         $window.localStorage.token = response.token;
-
-        //(!)route
-        //$location.path('/dashboard');
+        $location.path('/dashboard');
       },  
         //if no response throw error-msg
-      function(err) {
-        $scope.error = {
-        show: true,
-        message: err.data
+        function(err) {
+          $scope.error = {
+            show: true
+          }    
         }
+      );
+
+  }
+
+}
+
+//invite new admin: sends email-adress to server
+invControllers.controller('inviteAdminCtrl',['$scope', '$http', inviteAdminCtrl]);
+function inviteAdminCtrl($scope, $http, $location){
+  $scope.sendInvitation = function(email) {
+
+    var email_adress = {
+      "Email" : email
+    };
+
+    $http({
+      method: 'POST',
+      url: '/api/v1/restricted/admin/invite', 
+      data: email_adress
+    })
+    .then(
+      function(re){ 
+        alert("Invited Admin");
+        $location.path('/dashboard');
+      },         
+      function(er){
+
+        alert("An error occured. Please check if you used a valid email.");
+      }
+      );
+
+  }
+}
+
+//ctrl which sends sign-up data of new admin to server 
+invControllers.controller('createNewAdminCtrl', createNewAdminCtrl);
+function createNewAdminCtrl($scope, $location, $http){
+  var tok = location.href.split('token=')[1];
+
+  $scope.sendRegistration = function(){
+    var newAdmin = {   
+      "firstname": $scope.firstname,
+      "lastname": $scope.lastname, 
+      "street": $scope.street, 
+      "city": $scope.city, 
+      "zip": $scope.zip, 
+      "mobilephone": $scope.phone,
+      "matrikel": $scope.StudentID,
+      "password": $scope.pw
+    };
+    
+    $http({
+      method: 'POST',
+      url: '/api/v1/restricted/admin/create/' + tok, 
+      data: newAdmin
+    })
+    .then(
+      function(re){
+        $location.path('/login');       
+      },         
+      function(er) {
+        alert("something went wrong");
+      }
+    );  
+
+  }  
+
+}
+
+//change password as signed-in Admin,####### API missing ########
+invControllers.controller('resetPasswordAsAdminCtrl', resetPasswordCtrl);
+function resetPasswordCtrl($scope, $http){
+  $scope.changeOldPasswordAsAdmin = function(op, np) {
+    var data = {
+      oldPassword: op,
+      newPassword: np
+    };  
+
+    //send old and new password
+    $http({
+      method: 'POST',
+      url: '', 
+      data: data
+    })
+    .then(
+      function(re){
+
+      },         
+      function(er) {
+        alert("Please enter your correct current password.");
       }
     );
+
+  } 
+}
+
+
+//show active and inactive admins and delete them 
+invControllers.controller('deleteAdminCtrl', deleteAdminCtrl);
+function deleteAdminCtrl($scope, $http){
+
+  function getIndex(array, property, targetvalue){
+    for(var x=0; x < array.length; x++){
+      if(array[x][property] == targetvalue){
+        return x;
+      }
+    }
+    return -1;
   }
+
+  var allAdmins;
+
+  //test: initialize list
+    allAdmins = [{
+      "ID":1,
+      "FirstName": 'A',
+      "LastName": 'B',
+      "Email": 'abc',
+      "Activated": 0
+    },
+    {
+      "ID":12,
+      "FirstName": 'E',
+      "LastName": 'f',
+      "Email": 'abc',
+      "Activated": 0
+    },
+    {
+      "ID":15,
+      "FirstName": 'o',
+      "LastName": 'p',
+      "Email": 'abc',
+      "Activated": 1
+    },
+    {
+      "ID":19,
+      "FirstName": 'z',
+      "LastName": 'x',
+      "Email": 'abc',
+      "Activated": 1
+    }];
+
+
+  /*    //get admin-array
+    $http({
+      method: 'GET',
+      url: '/api/v1/restricted/admin/allAdmins'
+    })
+    .then(
+      function(re){
+        allAdmins = re;            
+      },         
+      function(er) {
+
+      }
+    );
+  */
+    $scope.listOfAdmins = allAdmins;
+
+   //button 
+    $scope.deleteAdmin = function(id){
+      var ok = confirm("Are you sure you want to delete this admin?");
+      if(ok){  
+  /*
+        $http({
+          method: 'DELETE',
+          url: '/api/v1/restricted/admin/deactivate/'+ id
+        })
+        .then(
+          function(re){
+
+          },         
+          function(er) {
+
+          }
+        );  
+  */
+        //update view-list
+        allAdmins.splice(getIndex(allAdmins, "ID", id), 1);
+        $scope.listOfAdmins = allAdmins;
+      }
+      ok = false;
+    }
+
+}
+
+
+
+//"forgot-password"-function at login.html, ####### 2 API MISSING #######
+invControllers.controller('forgotPasswordCtrl', forgotPasswordCtrl);
+function forgotPasswordCtrl($scope, $http){
+
+  //forgotpassword.html, send a link to email-adress
+  $scope.sendEmail = function(mail){
+
+    var email = {
+      "Email": mail
+    };
+
+    $http({
+      method: 'POST',
+      url: '',
+      data: email
+    })
+    .then(
+      function(re){
+
+      },         
+      function(er) {
+
+      }
+      );          
+  }
+
+  //newPassword.html (Link from "forgotPassword.html"), sends new password to server
+  $scope.sendPassword = function(newPw){
+    var tok = location.href.split('token=')[1];
+
+    var data = {
+      'Password': newPw,
+      'Token': tok
+    }; 
+
+    $http({
+      method: 'POST',
+      url: '',
+      data: data
+    })
+    .then(
+      function(re){
+
+      },         
+      function(er) {
+
+      }
+      );          
+  }
+
 }

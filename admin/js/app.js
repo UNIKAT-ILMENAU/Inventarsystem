@@ -15,7 +15,7 @@ invApp.config(['$httpProvider', function($httpProvider){
 
 //Route definition
 invApp.config(['$routeProvider',  
-  function($routeProvider) {          //######## hier noch $http mit in die funktion eingefügt wieso?
+  function($routeProvider) {  
     $routeProvider.
       when('/', {                     
         templateUrl: 'html/login.html',    
@@ -33,7 +33,7 @@ invApp.config(['$routeProvider',
         templateUrl: 'html/itemlist.html',    
         controller: 'ListCtrl'
       }).
-      when('/listData/:ListItemId', { //ItemDetailView
+      when('/listData/:ListItemId', { //Item detail view
         templateUrl: 'html/detail.html',
         controller: 'DetailCtrl'
       }).
@@ -45,7 +45,7 @@ invApp.config(['$routeProvider',
         templateUrl: 'html/create_material.html', 
         controller: 'CreateCtrl'
       }).
-      when('/edit_item/:ListItemId', {//EditItemView
+      when('/edit_item/:ListItemId', {//Edit item view
         templateUrl: 'html/edit_item.html',
         controller: 'ItemEditCtrl'
       }).
@@ -53,10 +53,14 @@ invApp.config(['$routeProvider',
         templateUrl: 'html/rental.html',    
         controller: 'RentalCtrl'
       }).
-      when('/rentallist', {            //AllRentedItemsList
-        templateUrl: 'html/rentallist.html',      //controller needs to get selected
-        controller: 'RentalCtrl'
-      }).        
+      when('/rentallist', {            //All rented items list
+        templateUrl: 'html/rentallist.html',      
+        controller: 'RentalListCtrl'
+      }).   
+      when('/rentalData/:ListItemId', {            //Rented item detail view
+        templateUrl: 'html/rental_detail.html',      
+        controller: 'RentalDetailCtrl'
+      }).     
       when('/sysconf', {                          //controller needs to get selected
         templateUrl: 'html/systemconf_menu.html',
         controller: 'DetailCtrl'
@@ -64,6 +68,30 @@ invApp.config(['$routeProvider',
       when('/adminconf', {                        //controller needs to get selected
         templateUrl: 'html/adminconf_menu.html',
         controller: 'DetailCtrl'
+      }).                                         //############
+      when('/inviteAdmin', {                      //invite Admin form                
+        templateUrl: 'html/inviteAdmin.html',
+        controller: 'inviteAdminCtrl'
+      }).
+      when('/createNewAdmin', {                   //create a new admin after inviting
+        templateUrl: 'html/createNewAdmin.html',
+        controller: 'createNewAdminCtrl'
+      }).
+      when('/resetPassword', {                    //change password when already logged in
+        templateUrl: 'html/resetPassword.html', 
+        controller: 'resetPasswordAsAdminCtrl'
+      }).
+      when('/deleteAdmin', {                      //delete an admin
+        templateUrl: 'html/deleteAdmin.html',
+        controller: 'deleteAdminCtrl'
+      }).
+      when('/forgotPassword', {                   //change password when not logged in (forgot password)
+        templateUrl: 'html/forgotPassword.html',
+        controller: 'forgotPasswordCtrl'
+      }).
+      when('/newPassword', {                      //change password when not logged in
+        templateUrl: 'html/newPassword.html',
+        controller: 'forgotPasswordCtrl'
       }).
       otherwise({
         redirectTo: '/'

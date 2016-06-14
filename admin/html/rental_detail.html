@@ -58,10 +58,6 @@ Additionally needed scripts: none
         <tr>
           <td>Category:</td> <td><b>{{detailData[0].Category}}</b></td>
         </tr>
-        <!--Place-->
-        <tr>
-          <td>Place:</td> <td><b>{{detailData[0].Place}}</b></td>
-        </tr>
         <!--BuildType--> 
         <tr ng-if="detailData[0].material_id != 1">
           <td>Build Type:</td> <td><b>{{detailData[0].BuildType}}</b></td>
@@ -79,13 +75,13 @@ Additionally needed scripts: none
         <!--StorageValue-->
         <tr ng-if="detailData[0].material_id != 1">
           <!-- Check the CriticalStorageValue to the StorageValue -->
-          <td>Stock:</td> <td ng-if="detailData[0].StorageValue > detailData[0].CriticalStorageValue"><b>{{detailData[0].StorageValue}} / <b style="color:orange;">[{{detailData[0].CriticalStorageValue}}]</b></b></td>
+          <td>Stock:</td> <td ng-if="detailData[0].StorageValue > detailData[0].CriticalStorageValue"><b>{{detailData[0].StorageValue}}</b></td>
           <!-- StorageValue is normal so just show us the values-->
-          <td ng-if="detailData[0].StorageValue <= detailData[0].CriticalStorageValue" style="color:red"><b>{{detailData[0].StorageValue}} / [{{detailData[0].CriticalStorageValue}}]</b></td>
+          <td ng-if="detailData[0].StorageValue <= detailData[0].CriticalStorageValue" style="color:red"><b>{{detailData[0].StorageValue}}</b></td>
         </tr>
-        <!--SalePrice--> 
+        <!--Saleprice--> 
         <tr ng-if="detailData[0].material_id != 1">
-          <td>Sale Price:</td> <td><b>{{detailData[0].SalePrice | number:2}} €</b></td>
+          <td>Sale Price:</td> <td><b>{{detailData[0].Saleprice | number:2}} €</b></td>
         </tr>
       </table>
     </div>
@@ -105,15 +101,10 @@ Additionally needed scripts: none
               <!-- info what event is selected -->
                 <h4 class="modal-title">Set to {{title}}</h4>
               </div>
-              <div class="modal-body">
-                
-                <label>Comment:</label>
-                <input type="text" class="form-control" ng-model="dev_comment">
-              </div>
               <div class="modal-footer">
                 <!-- Cancel / Set the new device state to the server -->
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="updateStateEvent(detailData[0].Id, state, dev_comment)">Update state</button>
+                <button type="button" class="btn btn-success" ng-click="updateStateEvent(detailData[0].Id, state)">Update state</button>
               </div>
             </div>
           </div>
@@ -133,10 +124,6 @@ Additionally needed scripts: none
         <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#MaterialModal" ng-click="materialEvent('stock up')">
           <span class="glyphicon glyphicon-plus"></span> Stock up
         </button>
-        <!-- Sell material by value, opens up a modal -->
-        <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#MaterialModal2" ng-click="materialEvent('sell')">
-          <span class="glyphicon glyphicon-minus"></span> Sell
-        </button>
 
         <!-- Modal for the material options -->
         <div class="modal fade" id="MaterialModal" role="dialog">
@@ -149,36 +136,12 @@ Additionally needed scripts: none
               <div class="modal-body">
                 <!-- amount input -->
                 <label>Amount:</label>
-                <input type="text" class="form-control" ng-model="amount">            
-              </div>
-              <div class="modal-footer">
-                <!-- Cancel / Send the material update to the server -->
-                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="amount = '';">Cancel</button>                
-                <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="updateMaterialEvent(title, amount, detailData[0].Id, 1, 0)">Send update</button> <!-- needs to be implemented -->
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Modal for the material option sell -->
-        <div class="modal fade" id="MaterialModal2" role="dialog">
-          <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-              <div class="modal-header">
-                <!-- info what event is selected -->
-                <h4 class="modal-title">Material {{title}}</h4>
-              </div>
-              <div class="modal-body">
-                <!-- amount input -->
-                <label>Amount:</label>
                 <input type="text" class="form-control" ng-model="amount">
-                <!-- Price -->
-                <label>Price:</label>
-                <input type="text" class="form-control" ng-model="price">   
               </div>
               <div class="modal-footer">
                 <!-- Cancel / Send the material update to the server -->
-                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="amount = '';">Cancel</button>                
-                <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="updateMaterialEvent(title, amount, detailData[0].Id, 1, price)">Send update</button> <!-- needs to be implemented -->
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="amount = '';">Cancel</button>
+                <button type="button" class="btn btn-success" ng-click="updateMaterialEvent(title, amount, detailData[0].Id)">Send update</button>
               </div>
             </div>
           </div>
@@ -210,15 +173,12 @@ Additionally needed scripts: none
   </div>  
   <hr>
     <!-- Item history-->
-    <div class="top-space text-center">
+    <div class="top-space">
       <h4>History</h4><hr>
     </div>
     <div ng-repeat="hdata in historyData">
       <div class="well">
-        {{hdata.EventName}}
-        {{hdata.Comment}}
-        {{hdata.CreatedByID}}
-        {{hdata.created_at}}
+        {{hdata.data}}
       </div>
     </div>
 </div>

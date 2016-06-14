@@ -14,35 +14,51 @@ Additionally needed scripts: none
   <label>Name:</label>
   <input type="text" class="form-control"  ng-model="detailData[0].Name">
   <label>State:</label>
-  <input type="text" class="form-control" ng-model="detailData[0].State" >
+  <form role="form">
+    <div class="form-group">
+      <select class="form-control"  ng-model="detailData[0].State" >
+        <option value="0">Not available</option>
+        <option value="1">Available</option>
+        <option ng-if="detailData[0].material_id == 1" value="2">Defective</option>
+        <option ng-if="detailData[0].material_id == 1" value="3">Missing</option>      
+      </select>
+    </div>
+  </form>
   <label>Category:</label>
   <input type="text" class="form-control" ng-model="detailData[0].Category" >
   <label>Description:</label>
   <input type="text" class="form-control" ng-model="detailData[0].Description" >
-  <label>Cost:</label>
-  <input type="text" class="form-control" ng-model="detailData[0].Cost" >
-  <label>Saleprice:</label>
-  <input type="text" class="form-control" ng-model="detailData[0].Saleprice" >
   <div ng-if="detailData[0].material_id != 1">
+    <label>SalePrice:</label>
+    <input type="text" class="form-control" ng-model="detailData[0].SalePrice" >
     <label>BuildType:</label>
     <input type="text" class="form-control" ng-model="detailData[0].BuildType" >
     <label>UoM:</label>
     <input type="text" class="form-control" ng-model="detailData[0].UoM" >
     <label>UoM_short:</label>
     <input type="text" class="form-control" ng-model="detailData[0].UoM_short" >
-    <label>StorageValue:</label>
-    <input type="text" class="form-control" ng-model="detailData[0].StorageValue" >
     <label>CriticalStorageValue:</label>
     <input type="text" class="form-control" ng-model="detailData[0].CriticalStorageValue" >
   </div>
   <label>PublicVisible:</label>
-  <input type="text" class="form-control" placeholder="1 = true , 0 = false" ng-model="detailData[0].PublicVisible" >
+  <form role="form">
+    <div class="form-group">
+      <select class="form-control"  ng-model="detailData[0].PublicVisible" >
+        <option value="0">Not visible</option>
+        <option value="1">Visible</option>
+      </select>
+    </div>
+  </form>
   <label>Comment:</label>  
   <textarea class="form-control" ng-model="detailData[0].Comment"></textarea>
   <hr>
   <!-- Menupoint/Buttons -->
-  <div class="text-center">
-    <a href="#/list" class="btn btn-danger">Back to menu</a>
+  <div class="text-center">   
+    <!-- Cancel button - redirect to DetailView -->
+    <a ng-click="viewDetail(detailData[0].Id);" class="btn btn-danger">Cancel</a> 
+    <!-- Back to list button - redirect to inventory list -->
+    <a href="#/list" class="btn btn-danger">Back to list</a>
+    <!-- Save button, sends update to server -->
     <button class="btn btn-primary" ng-click="saveEdit()">Save</button> 
     <hr>
   </div>
@@ -52,5 +68,5 @@ Additionally needed scripts: none
 <!-- THIS WILL BE DELETED JUST FOR TESTING-->
 <div class="well">
   <p>Testing area for backend</p> 
-  <p>{{updateItem}}</p>
+  <p>{{detailData[0]}}</p>
 </div>

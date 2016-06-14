@@ -4,7 +4,7 @@ HIER NOCH VERBESSERN - KOMMENTARE ETC.
 
     <div class="container top-space bot-space">
       <div class="panel panel-default">
-        <div class="panel-heading text-center"><hr><h4>Create new material</h4><hr></div>
+        <div class="panel-heading text-center"><h2>Create new material</h2></div>
         <div class="panel-body">
         	
           <!--Begin form-->
@@ -15,6 +15,17 @@ HIER NOCH VERBESSERN - KOMMENTARE ETC.
               <label class="col-md-2 control-label" for="name">Name</label>
               <div class="col-md-4">
                 <input type="text" class="form-control" id="name" name="name" placeholder="LM258" ng-model="selectedItems[0].Name"/>
+              </div>
+            </div>
+
+            <!-- State input-->
+            <div class="form-group" id="formState">
+              <label class="col-md-2 control-label" for="state">State</label>
+              <div class="col-md-4">
+                <select class="form-control"  ng-model="selectedItems[0].State" >
+                    <option value="0">Not available</option>
+                    <option value="1">Available</option>              
+                  </select>
               </div>
             </div>
 
@@ -42,19 +53,11 @@ HIER NOCH VERBESSERN - KOMMENTARE ETC.
               </div>
             </div>
 
-            <!--Purchase price input-->
-            <div class="form-group" id="formCost">
-              <label class="col-md-2 control-label" for="cost">Cost</label>
-              <div class="col-md-4">
-                <input type="number" min="0.00" step="0.01" class="form-control" id="cost" name="cost" placeholder="42.00" ng-model="selectedItems[0].Cost"/>
-              </div>
-            </div>
-
             <!--Retail price input-->
             <div class="form-group" id="formPrice">
-              <label class="col-md-2 control-label" for="price">Saleprice</label>
+              <label class="col-md-2 control-label" for="price">SalePrice</label>
               <div class="col-md-4">
-                <input type="number" min="0.00" step="0.01" class="form-control" id="price" name="price" placeholder="42.00" ng-model="selectedItems[0].Saleprice"/>
+                <input type="number" min="0.00" step="0.01" class="form-control" id="price" name="price" placeholder="42.00" ng-model="selectedItems[0].SalePrice"/>
               </div>
             </div>
 
@@ -110,7 +113,10 @@ HIER NOCH VERBESSERN - KOMMENTARE ETC.
             <div class="form-group" id="formState">
               <label class="col-md-2 control-label" for="state">PublicVisible</label>
               <div class="col-md-4">
-                <input type="text" class="form-control" id="state" name="state" placeholder="1 = true , 0 = false" ng-model="selectedItems[0].PublicVisible"/>
+                <select class="form-control"  ng-model="selectedItems[0].PublicVisible" >
+                  <option value="0">Not visible</option>
+                  <option value="1">Visible</option>
+                </select>
               </div>
             </div>
 
@@ -137,9 +143,3 @@ HIER NOCH VERBESSERN - KOMMENTARE ETC.
   <p>{{selectedItems[0]}}</p>
   <p>{{createItem}}</p>
 </div>
-
-<!--JS-file is necessary for form validtion by using JQuery-->
-    <!--script might has to be changed when the submission is handled via Angular-->
-    <script type="text/javascript" src="formValidation.js"></script>
-
-    <!-- DAS HIERMUSS AUCH UNBEDINGT AUSGELAGERT WERDEN ODER ANDERS GEHANDHABT WERDEN-->
