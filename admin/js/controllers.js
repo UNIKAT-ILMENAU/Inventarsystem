@@ -71,8 +71,8 @@ invControllers.controller('DetailCtrl', ['$scope', '$routeParams', '$location', 
   //Gets all history informations of a specific item by id
   $scope.historyData = REST.historyLoad({ListItemId: 'item/getHistory/' + $routeParams.ListItemId});
 
-   $scope.ReloadDatas = function() { 
-    //reloads all datas of detailView 
+  //Reloads all the data of a specific item by id (reloads detailView data)
+  $scope.ReloadDatas = function() {  
     //Gets all informations of a specific item by id
     $scope.detailData = REST.detailLoad({ListItemId: 'item/details/' + $routeParams.ListItemId});
     //Gets all history informations of a specific item by id
@@ -126,12 +126,11 @@ invControllers.controller('DetailCtrl', ['$scope', '$routeParams', '$location', 
 
   //modal function for the device state update (defect/missing)
   $scope.updateStateEvent = function(itemID, stateID, comment) { 
-    var Indata = {'itemid': itemID, 'comment': comment, 'createdbyid': 1 }; //Testweise createdbyID
+    var Indata = {'itemid': itemID, 'comment': comment, 'createdbyid': 1 }; //NEEDS TO BE IMPLEMENTED
     if(stateID == 2){
       //POST state device to the server
       $http.post("/api/v1/restricted/event/8", Indata).success(function(data, status) {
-        //SUCCESSFULL
-        //alert("success");
+        //SUCCESSFULL //alert("success");
         alert("success");
         $scope.ReloadDatas();  
       });
@@ -139,8 +138,7 @@ invControllers.controller('DetailCtrl', ['$scope', '$routeParams', '$location', 
     {
       //POST state device to the server
       $http.post("/api/v1/restricted/event/9", Indata).success(function(data, status) {
-        //SUCCESSFULL
-        //alert("success");
+        //SUCCESSFULL //alert("success");
         $scope.ReloadDatas();
       });
     }
@@ -153,6 +151,7 @@ invControllers.controller('DetailCtrl', ['$scope', '$routeParams', '$location', 
     //sets the title in the materialmodal 
     $scope.title = info;
   };
+
   //modal function for the material used / stockup function
   $scope.updateMaterialEvent = function(title, amount, itemID, createdbyid, price) {  
     //check event and if we have a positiv amount
@@ -161,8 +160,7 @@ invControllers.controller('DetailCtrl', ['$scope', '$routeParams', '$location', 
       var Indata = {'amount': amount, 'itemid': itemID, 'createdbyid': createdbyid }; //NEEDS TO BE IMPLEMENTED
       //POST used material to the server
       $http.post("/api/v1/restricted/event/6", Indata).success(function(data, status) {
-        //SUCCESSFULL
-        alert("success" + $scope.detailData[0].Id);
+        //SUCCESSFULL alert("success" + $scope.detailData[0].Id);
         $scope.ReloadDatas();
       });
     } //check event and if we have a positiv amount
@@ -171,22 +169,19 @@ invControllers.controller('DetailCtrl', ['$scope', '$routeParams', '$location', 
       var Indata = {'amount': amount, 'itemid': itemID, 'createdbyid': createdbyid };
       //POST stock up material to the server
       $http.post("/api/v1/restricted/event/7", Indata).success(function(data, status) {
-        //SUCCESSFULL
-        alert("success" + $scope.detailData[0].Id);
+        //SUCCESSFULL alert("success" + $scope.detailData[0].Id);
         $scope.ReloadDatas();
       });
     }else if(title == "sell" && amount > 0)
     {   
     alert(price); 
       var Indata = {'amount': amount, 'itemid': itemID, 'createdbyid': createdbyid, 'price': price };
-      //POST stock up material to the server
+      //POST sell material to the server
       $http.post("/api/v1/restricted/event/10", Indata).success(function(data, status) {
-        //SUCCESSFULL
-        alert("success" + $scope.detailData[0].Id);
+        //SUCCESSFULL alert("success" + $scope.detailData[0].Id);
         $scope.ReloadDatas();
       });
     }
-
   };
 
 }]);
@@ -197,56 +192,53 @@ invControllers.controller('DetailCtrl', ['$scope', '$routeParams', '$location', 
 //==============================
 invControllers.controller('CreateCtrl', ['$scope', '$routeParams', '$location', '$http', function($scope, $routeParams, $location, $http) {
 
-//Send creation to the server
-$scope.createItemToServer = function(typ) {    
-  
-  if(typ == "Device") //Create Device
-  { alert("test");
-   var Indata = {'name': $scope.selectedItems[0].Name, 
-              'state': $scope.selectedItems[0].State,
-              'description': $scope.selectedItems[0].Description,
-              'category': $scope.selectedItems[0].Category, //NEEDS TO BE IMPLEMENTED
-              'visible': $scope.selectedItems[0].PublicVisible,
-              'place': $scope.selectedItems[0].Place, //NEEDS TO BE IMPLEMENTED
-              'createdbyid': 1, //NEEDS TO BE IMPLEMENTED
-              'comment': $scope.selectedItems[0].Comment
-              };
-    //POST device to the server
-    $http.post("/api/v1/restricted/device/create", Indata).success(function(data, status) {
-      //SUCCESSFULL
-      alert("success");
-      $scope.clearItem(); //clears the selected item
-      $location.path('/list');
-    });  
-  }
-  else  //Create Material
-  {
-   var Indata = {'name': $scope.selectedItems[0].Name, 
-                  'state': $scope.selectedItems[0].State,
-                  'category': $scope.selectedItems[0].Category, //NEEDS TO BE IMPLEMENTED
-                  'description': $scope.selectedItems[0].Description,
-                  'visible': $scope.selectedItems[0].PublicVisible,
-                  'saleprice': $scope.selectedItems[0].SalePrice,
-                  'place': $scope.selectedItems[0].Place, //NEEDS TO BE IMPLEMENTED
-                  'createdbyid': 1, //NEEDS TO BE IMPLEMENTED
-                  'buildtype': $scope.selectedItems[0].Buildtype,
-                  'uom': $scope.selectedItems[0].UoM,
-                  'uom_short': $scope.selectedItems[0].UoM_short,
-                  'storagevalue': $scope.selectedItems[0].StorageValue,
-                  'criticalstoragevalue': $scope.selectedItems[0].CriticalStorageValue,
-                  'comment': $scope.selectedItems[0].Comment
-                  };
+  //Send create to the server
+  $scope.createItemToServer = function(typ) {    
+    
+    if(typ == "Device") //Create Device
+    { 
+     var Indata = { 'name': $scope.selectedItems[0].Name, 
+                    'state': $scope.selectedItems[0].State,
+                    'description': $scope.selectedItems[0].Description,
+                    'category': $scope.selectedItems[0].Category, //NEEDS TO BE IMPLEMENTED
+                    'visible': $scope.selectedItems[0].PublicVisible,
+                    'place': $scope.selectedItems[0].Place,       //NEEDS TO BE IMPLEMENTED
+                    'createdbyid': 1,                             //NEEDS TO BE IMPLEMENTED
+                    'comment': $scope.selectedItems[0].Comment
+                };
+      //POST device to the server
+      $http.post("/api/v1/restricted/device/create", Indata).success(function(data, status) {
+        //SUCCESSFULL alert("success");
+        $scope.clearItem();       //clears the selected item
+        $location.path('/list');  //redirect to the inventory list
+      });  
+    }
+    else  //Create Material
+    {
+     var Indata = { 'name': $scope.selectedItems[0].Name, 
+                    'state': $scope.selectedItems[0].State,
+                    'category': $scope.selectedItems[0].Category, //NEEDS TO BE IMPLEMENTED
+                    'description': $scope.selectedItems[0].Description,
+                    'visible': $scope.selectedItems[0].PublicVisible,
+                    'saleprice': $scope.selectedItems[0].SalePrice,
+                    'place': $scope.selectedItems[0].Place,       //NEEDS TO BE IMPLEMENTED
+                    'createdbyid': 1,                             //NEEDS TO BE IMPLEMENTED
+                    'buildtype': $scope.selectedItems[0].Buildtype,
+                    'uom': $scope.selectedItems[0].UoM,
+                    'uom_short': $scope.selectedItems[0].UoM_short,
+                    'storagevalue': $scope.selectedItems[0].StorageValue,
+                    'criticalstoragevalue': $scope.selectedItems[0].CriticalStorageValue,
+                    'comment': $scope.selectedItems[0].Comment
+                    };
 
-    //POST material to the server
-    $http.post("/api/v1/restricted/material/create", Indata).success(function(data, status) {
-      //SUCCESSFULL
-      alert("success");
-      $scope.clearItem(); //clears the selected item
-      $location.path('/list');
-    });
-  }
-};
-  
+      //POST material to the server
+      $http.post("/api/v1/restricted/material/create", Indata).success(function(data, status) {
+        //SUCCESSFULL alert("success");
+        $scope.clearItem();       //clears the selected item
+        $location.path('/list');  //redirect to the inventory list
+      });
+    }
+  };
 }]);
 
 //==============================
@@ -257,7 +249,6 @@ invControllers.controller('ItemEditCtrl', ['$scope', '$routeParams', '$location'
   //Gets all informations of a specific item by id
   $scope.detailData = REST.detailLoad({ListItemId: 'item/details/' + $routeParams.ListItemId});
 
-
   //Update/Edit item to the server
   $scope.saveEdit = function() {
     if($scope.detailData[0].material_id == 1) //Update Device
@@ -265,10 +256,10 @@ invControllers.controller('ItemEditCtrl', ['$scope', '$routeParams', '$location'
       var Indata = {'name': $scope.detailData[0].Name, 
                     'state': $scope.detailData[0].State,
                     'description': $scope.detailData[0].Description,
-                    'category': 3, //NEEDS TO BE IMPLEMENTED
+                    'category': 3,            //NEEDS TO BE IMPLEMENTED
                     'visible': $scope.detailData[0].PublicVisible,
-                    'place': 3, //NEEDS TO BE IMPLEMENTED
-                    'createdbyid': 1, //NEEDS TO BE IMPLEMENTED
+                    'place': 3,               //NEEDS TO BE IMPLEMENTED
+                    'createdbyid': 1,         //NEEDS TO BE IMPLEMENTED
                     'comment': $scope.detailData[0].Comment
                     };
       
@@ -276,11 +267,8 @@ invControllers.controller('ItemEditCtrl', ['$scope', '$routeParams', '$location'
       var url = "/api/v1/restricted/device/update/" + $scope.detailData[0].Id;
       //POST device to the server
       $http.post(url, Indata).success(function(data, status) {
-        //SUCCESSFULL
-        alert("success device update");
-        
-        // $scope.clearItem(); //clears the selected item
-        $location.path('/listData/' + $scope.detailData[0].Id);
+        //SUCCESSFULL alert("success device update");
+        $location.path('/listData/' + $scope.detailData[0].Id); //redirect to detailView
       });
     }
     else  //Update Material
@@ -304,18 +292,14 @@ invControllers.controller('ItemEditCtrl', ['$scope', '$routeParams', '$location'
       var url = '/api/v1/restricted/material/update/' + $scope.detailData[0].Id;
       //POST material to the server 
       $http.post(url, Indata).success(function(data, status) {
-        //SUCCESSFULL
-        alert("success material update");
-        
-        //$scope.clearItem(); //clears the selected item
-        $location.path('/listData/' + $scope.detailData[0].Id);
-        
+        //SUCCESSFULL alert("success material update");
+        $location.path('/listData/' + $scope.detailData[0].Id); //redirect to detailView
       });
     }
   };
     
-  $scope.viewDetail = function(listID) {    //change to detailview view
-        $location.path('/listData/' + listID); 
+  $scope.viewDetail = function(listID) {        //change to detailview view
+        $location.path('/listData/' + listID);  //redirect to detailView
   };
 
 }]);
@@ -327,11 +311,9 @@ invControllers.controller('ItemEditCtrl', ['$scope', '$routeParams', '$location'
 //==============================
 invControllers.controller('RentalCtrl', ['$scope', '$routeParams', '$location', 'REST', function($scope, $routeParams, $location, REST) {
 
-  //redirect us when we have accidentally are on the rental page
+  //redirect us, when we are accidentally on the rental page
   if($scope.selectedItems[0] == null)
-  {
-      $location.path('/list');
-  }
+  {  $location.path('/list');  }
 
   //This is our rental object with all informations about the current-rental_cart
   $scope.borrow = 
@@ -346,23 +328,45 @@ invControllers.controller('RentalCtrl', ['$scope', '$routeParams', '$location', 
         'phone': '',
         'email': '',
         'enddate': '',
+        'createdbyid': '',
+        'comment': ''
     },
     'items': []
    };
 
   //give all selected items the borrow object
   //just for testing will be deleted ####################
-  $scope.borrow.items = $scope.selectedItems;  /* Here only the ID Amount of the item */
+  //$scope.borrow.items = $scope.selectedItems;  /* Here only the ID Amount of the item */
 
-  $scope.transform = function() {
-    $scope.borrow.items.id = $scope.selectedItems.Id;
-    //......
+  //ids[]
+  //ammount[]
+  $scope.sendRental = function(){
+    var Indata = {'firstname': $scope.borrow.customer.firstname, 
+                  'lastname': $scope.borrow.customer.lastname,
+                  'city': $scope.borrow.customer.city, 
+                  'street':$scope.borrow.customer.street,
+                  'zip': $scope.borrow.customer.zip,
+                  'matrikel': $scope.borrow.customer.matrikel,
+                  'phone': $scope.borrow.customer.phone, 
+                  'email': $scope.borrow.customer.email, 
+                  'enddate': $scope.borrow.customer.enddate,
+                  'createdbyid': 1,             //NEEDS TO BE IMPLEMENTED
+                  'comment': $scope.borrow.customer.comment,
+                  'ids': [1,2,3],
+                  'amounts': [0,0,0]
+                  };
+    alert(Indata.ids[0] + Indata.ids [2]);
+    //POST rental to the server 
+    $http.post("/api/v1/restricted/rental/create", Indata).success(function(data, status) {
+      //SUCCESSFULL 
+      alert("success material update");
+      $location.path('/list'); //redirect to inventory list
+    });
   }
 
-  $scope.sendRental = function(){
+  $scope.sendRental2 = function(){
     //needs to be like this cause datepicker doesnt work with ng-change
     $scope.borrow.customer.date = document.getElementById("borrowDate").value;
-    //$scope.transform();  //transform variables for the server
 
     //POST device to the server
     /*$http.post("/api/v1/restricted/device/create", $scope.borrow).success(function(data, status) {
