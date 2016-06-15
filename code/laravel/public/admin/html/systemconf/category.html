@@ -1,0 +1,136 @@
+<!-- 
+Controller: CategoryCtrl - controllers.js
+Additionally needed scripts: tree.js(for nesting data from server), jQuery & Bootstrap JS for tooltip (see bottom)
+-->
+<div class="container">
+  <div class="well page-header">
+    <div style="text-align:right;">
+      <a href="#/sysconf" class="btn btn-default btn-sm" role="button" style="text-align:center;">Back</a>
+    </div>
+    <h2> Category Management</h2>
+    <p> Each category can be part of another category. Please, pay attention to following rules: </p>
+    <ul>
+      <li> Select one of the existing categories to edit, delete or add a child. </li>
+      <li> If no category is selected you can only add root categories. </li>
+      <li> You are only allowed to delete categories without children! </li>
+    </ul>  
+    </div>
+
+    <!--script creating template like a nested list-->
+    <script type="text/ng-template" id="treeLevel.html">
+      <ul class="list-group">
+        <li ng-repeat="item in items" class="list-group-item">
+          <label data-toggle="tooltip" data-placement="right" title="{{item.Description}}">
+            {{item.Name}}
+            <input type="radio" name="Parent" value="{{item.id}}" ng-model="formData.Parent" ng-change="newValue('{{item.Name}}', '{{item.Description}}', {{item.children}})">
+          </label>
+          <div ng-include=" 'treeLevel.html'" onload="items = item.children">
+          </div>
+        </li>
+      </ul>
+    </script>
+
+    <!--includes nested list (children is nested Data with all categories)-->
+    <div style="margin-top:1em;" ng-include=" 'treeLevel.html' " onload="items = children">
+    </div>
+
+    <!--Add new root category-->
+    <div ng-if="formData.Parent == null">
+      <form role="form">
+        <div class="well">
+          <h4>Add new root category</h4>
+            <hr>
+            <div class="form-group">
+              <label  for="name">Name</label>
+              <input type="text" class="form-control" name="name" id="name" ng-model="formData.name">
+            </div>
+            <div class="form-group">
+              <label for="description">Description</label>
+              <input type="textarea" class="form-control" name="description" id="description" ng-model="formData.description">
+            </div>
+            <button type="button" class="btn btn-success" ng-click="createCategoryEvent(formData.name, formData.Parent, formData.description)">
+              <span class="glyphicon glyphicon-plus"></span> Add
+            </button>
+        </div>    
+      </form>
+    </div>
+
+    <!--Add new child to existing category-->
+    <div ng-if="formData.Parent != null">
+      <form role="form">
+        <div class="well">
+          <h4 data-toggle="collapse" data-target="#addChild">Add new child for <b>{{categories.name}}</b></h4>
+          <div id="addChild"  class="collapse">
+            <hr>
+            <div class="form-group" >
+              <label for="name">Name</label>
+              <input type="text" class="form-control" name="name" id="name" ng-model="formData.name">
+            </div>
+            <div class="form-group">
+              <label for="description">Description</label>
+              <input type="textarea" class="form-control" name="description" id="description" ng-model="formData.description">
+            </div>
+            <button type="button" class="btn btn-success" ng-click="createCategoryEvent(formData.name, formData.Parent, formData.description)">
+              <span class="glyphicon glyphicon-plus"></span> Add
+            </button>
+          </div>
+        </div>    
+      </form>
+    </div>
+
+    <!--edit existing category-->
+    <div ng-if="formData.Parent != null">
+      <form role="form">
+        <div class="well">
+          <h4 data-toggle="collapse" data-target="#edit">Edit <b>{{categories.name}}</b></h4>
+          <div id="edit"  class="collapse">
+            <hr>
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" class="form-control" name="name" id="name" placeholder="{{categories.name}}" ng-model="formData.name">
+            </div>
+            <div class="form-group">
+              <label for="description">Description</label>
+              <input type="textarea" class="form-control" name="description" id="description" placeholder="{{categories.description}}" ng-model="formData.description">
+            </div>    
+            <button type="button" class="btn btn-primary" ng-click="updateCategoryEvent(formData.name, formData.Parent, formData.description)">
+              <span class="glyphicon glyphicon-edit"></span> Edit
+            </button>
+          </div>
+        </div>    
+      </form>
+    </div>
+
+    <!--delete category (shows only when selected category has no children)-->
+    <div ng-if="formData.Parent != null && categories.children.length < 1">
+      <form role="form">
+        <div class="well">
+          <h4>Delete <b>{{categories.name}}</b></h4>
+          <button type="button" class="btn btn-danger" ng-click="deleteCategoryEvent(formData.Parent)">
+            <span class="glyphicon glyphicon-trash"></span> Delete
+          </button>
+        </div>    
+      </form>
+    </div>
+
+    <!--code for tests    
+    <pre>
+        {{ formData }}
+    </pre>
+    <pre>
+        {{ categories }}
+    </pre>
+    <pre>
+        {{Flat | json}}
+    </pre>-->
+  </div>
+</div>
+
+<!-- Scripts-->
+<script>
+
+   /*jQuery for tooltips (shows description of category)  using Bootstrap JS*/
+  jQuery(document).ready(function(){
+    jQuery('[data-toggle="tooltip"]').tooltip();
+  });
+</script>

@@ -751,3 +751,181 @@ function forgotPasswordCtrl($scope, $http){
   }
 
 }
+
+
+  //==============================
+  //Category Management controller
+  //Used: category.html
+  //==============================
+  invControllers.controller('CategoryCtrl', function ($scope) {
+
+    //Data for testing
+    //it might be a proplem if Data from Server is like this {[id: 1, name: "tool", before: null], [...], ...}
+    var test = [
+      {"id": 1, "Name": "Werkzeug", "Description": "Tools you can use with one hand", "BeforeID": null, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
+      {"id": 2, "Name": "Bohrer", "Description": "Tools you can use with one hand", "BeforeID": 1, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
+      {"id": 3, "Name": "Bohrer A", "Description": "Tools you can use with one hand", "BeforeID": 2, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
+      {"id": 4, "Name": "Bohrer B", "Description": "Tools you can use with one hand", "BeforeID": 2, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
+      {"id": 5, "Name": "TGA", "Description": "Tools you can use with one hand", "BeforeID": 3, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
+      {"id": 6, "Name": "Kondensator", "Description": "Tools you can use with one hand", "BeforeID": 7, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
+      {"id": 7, "Name": "elekt. Bauteil", "Description": "Tools you can use with one hand", "BeforeID": null, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"}
+    ];
+
+    //call functions to format query for rendering in html-template as nested list
+    var result = _queryTreeSort({q: test});
+    var tree = _makeTree({q: result});
+
+    //for rendering nested list --> input is tree
+    $scope.children = tree;
+
+    //for input fields and radio-buttons
+    $scope.formData = {name: "", Parent: null, description: ""};
+
+    //gets input from newValue 
+    $scope.categories = {name: "1", description: "", children: ""};
+
+    //changes input of categories when new radio-button is selected
+    $scope.newValue = function(n, d, c) {
+        $scope.categories = {name: n, description: d, children: c};
+    };
+
+
+    //==============================
+    //EVENTS (categoryManagement)
+    //==============================
+
+
+    //==============================
+    //update Category
+    //==============================
+    //in API erwartet 'Update a Category' die beforeID?
+    $scope.updateCategoryEvent = function(categoryName, beforeID, categoryDescription) { 
+
+      alert(categoryName + " | " + beforeID + " | " + categoryDescription);
+      var Indata = {'name': categoryName, 'before': beforeID, 'description': categoryDescription };
+      //POST used material to the server
+      /* $http.post("/api/v1/restricted/device/create", Indata).success(function(data, status) {
+      //SUCCESSFULL
+      alert("success");
+      });*/
+    };
+
+    //==============================
+    //create Category
+    //==============================
+    $scope.createCategoryEvent = function(categoryName, beforeID, categoryDescription) { 
+
+      alert(categoryName + " | " + beforeID + " | " + categoryDescription);
+      var Indata = {'name': categoryName, 'before': beforeID, 'description': categoryDescription };
+      //POST used material to the server
+      /* $http.post("/api/v1/restricted/device/create", Indata).success(function(data, status) {
+      //SUCCESSFULL
+      alert("success");
+      });*/
+    };
+
+    //==============================
+    //delete Category
+    //==============================
+    //in API überhaupt integriert? -> es ist sichergestellt, dass nur kategorien ohne kinder gelöscht werden
+    $scope.deleteCategoryEvent = function(categoryID) { 
+
+      alert(categoryID);
+      var Indata = {'id': categoryID };
+      //POST used material to the server
+      /* $http.post("/api/v1/restricted/device/create", Indata).success(function(data, status) {
+      //SUCCESSFULL
+      alert("success");
+      });*/
+    };  
+
+  });
+
+
+  //==============================
+  //Place Management controller
+  //Used: place.html
+  //==============================
+  invControllers.controller('PlaceCtrl', function ($scope) {
+
+    //Data for testing
+    //it might be a proplem if Data from Server is like this {[id: 1, name: "tool", before: null], [...], ...}
+    var test = [
+      {"id": 1, "Name": "Haus M", "CreatedByID": 4, "BeforeID": null, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
+      {"id": 2, "Name": "Raum 101", "CreatedByID": 4, "BeforeID": 1, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
+      {"id": 3, "Name": "Schrank A", "CreatedByID": 4, "BeforeID": 2, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
+      {"id": 4, "Name": "Schrank B", "CreatedByID": 4, "BeforeID": 2, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
+      {"id": 5, "Name": "Fach III", "CreatedByID": 4, "BeforeID": 3, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
+      {"id": 6, "Name": "Oeconomicum", "CreatedByID": 4, "BeforeID": 7, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
+      {"id": 7, "Name": "Raum 118", "CreatedByID": 4, "BeforeID": null, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"}
+    ];
+
+    //call functions to format query for rendering in html-template as nested list
+    var result = _queryTreeSort({q: test});
+    var tree = _makeTree({q: result});
+
+    //for rendering nested list --> input is tree
+    $scope.children = tree;
+
+    //for input fields and radio-buttons
+    $scope.formData = {name: "", Parent: null};
+
+    //gets input from newValue 
+    $scope.places = {name: "1", children: ""};
+
+    //changes input of places when new radio-button is selected
+    $scope.newValue = function(n, c) {
+        $scope.places = {name: n,  children: c};
+    };
+
+
+    //==============================
+    //EVENTS (locationManagement)
+    //==============================
+
+
+    //==============================
+    //update Place
+    //==============================
+    $scope.updatePlaceEvent = function(placeName, beforeID) { 
+
+      alert(placeName + " | " + beforeID);
+      var Indata = {'name': categoryName, 'before': beforeID};
+      //POST used material to the server
+      /* $http.post("/api/v1/restricted/device/create", Indata).success(function(data, status) {
+      //SUCCESSFULL
+      alert("success");
+      });*/
+    };
+
+    //==============================
+    //create Place
+    //==============================
+    //in API erwarted CreatePlace die createdbyID als Input?
+    $scope.createPlaceEvent = function(palceName, beforeID) { 
+
+      alert(palceName + " | " + beforeID);
+      var Indata = {'name': placeName, 'before': beforeID};
+      //POST used material to the server
+      /* $http.post("/api/v1/restricted/device/create", Indata).success(function(data, status) {
+      //SUCCESSFULL
+      alert("success");
+      });*/
+    };
+
+    //==============================
+    //delete PLace
+    //==============================
+    //in API überhaupt integriert? -> es ist sichergestellt, dass nur plätze ohne kinder gelöscht werden
+    $scope.deletePlaceEvent = function(placeID) { 
+
+      alert(placeID);
+      var Indata = {'id': placeID };
+      //POST used material to the server
+      /* $http.post("/api/v1/restricted/device/create", Indata).success(function(data, status) {
+      //SUCCESSFULL
+      alert("success");
+      });*/
+    };  
+
+  });
