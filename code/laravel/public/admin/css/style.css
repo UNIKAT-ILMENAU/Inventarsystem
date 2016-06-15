@@ -1,0 +1,179 @@
+body{
+  background-color: #151515;
+}
+
+#sc_mid {
+  background-color: white;  /*# PERSONALIZE/CHANGE THIS COLOR */
+  padding-top: 5px;
+}
+
+/* =========================== */
+/* ==== HEADER STYLE ==== */
+.navbar {
+  letter-spacing: 2px;
+  margin-bottom: 0px;
+  border-radius: 0 !important;
+}
+/*Logo*/
+.logo-box{
+  background-color: #008080;  /*# PERSONALIZE/CHANGE THIS COLOR */
+  color: #ffffff;             /*# PERSONALIZE/CHANGE THIS COLOR */
+}
+
+.logo{
+  margin: auto;
+}
+
+/* Testing */
+.no-space{
+  margin: 0px;
+}
+
+/* =========================== */
+/* ==== FOOTER STYLE ==== */
+footer{
+  color: #f5f5f5; padding: 20px;
+}
+
+/* Color Styles */
+.maincolor{
+  color:#04B4AE !important;     /*# PERSONALIZE/CHANGE THIS COLOR */
+}
+
+/* Scroll To Top Glyphicon */
+span.glyphicon-large {
+    font-size: 3.2em;
+}
+
+/* Spacemaker */
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #04B4AE;    /*# PERSONALIZE/CHANGE THIS COLOR */
+  margin: 1em 0;
+  padding: 0; 
+}
+
+/* =========================== */
+/* ==== VIEW STYLE ==== */
+
+.top-space{
+  padding-top: 20px;
+}
+
+.bot-space{
+  padding-bottom: 20px;
+}
+
+.wrapper { 
+    margin-top:  100px;
+}
+
+.wrapper .btn {
+      
+    height: 200px;
+    width: 200px;
+}
+
+
+/* =========================== */
+/* === TABLE/LIST HEADER STYLE === */
+.sort-icon {
+    font-size: 9px;
+    margin-left: 5px;
+}
+
+th {
+  cursor:pointer;
+}
+
+/* =========================== */
+/* === BORROW FORM ===*/
+.input-border{
+ border-color: green;
+}
+/* =========================== */
+/* === MENUPOINTS === */
+
+.menu-space{
+  min-height: 500px;   /* the min default height of the menu */
+}
+
+.menu-margin{         /* just some top space for the menu buttons */
+  margin-top: 50px;
+}
+
+@media (max-width: 991px) { /* Window heigth*/
+  .btn-responsive {
+    padding:4px 9px;                    /* Font Size*/
+    font-size:70%;
+    line-height: 1.2;
+        
+    margin-bottom: 10px;
+
+    height: 150px;                      /* Button size */
+    width: 150px;
+    
+    line-height: 140px;                 /* line placement */
+      }
+}
+
+@media (min-width:992px)  { /* Window heigth*/
+  .btn-responsive {
+    padding:9px 19px;                    /* Font Size*/
+    font-size:90%;
+    line-height: 9;
+   
+    margin-bottom: 10px;
+
+    height: 180px;                      /* Button size */
+    width: 180px;
+    
+    line-height: 160px;                 /* line placement */
+      }
+}
+/* ========================== */
+/* === Buttoncolor === */
+
+.btn-1_1{                               /* dashboard */
+  color:white; 
+  background-color:#208a18;
+}
+.btn-1_2{
+  color:white; 
+  background-color:#FF9900;
+}
+.btn-1_3{
+  color:white; 
+  background-color:#000099;
+}
+.btn-1_4{
+  color:white; 
+  background-color:#CC0000;
+}
+.btn-2_1{                              /* adminconf_menu */
+  color:white; 
+  background-color:#0033CC;
+}
+.btn-2_2{
+  color:white; 
+  background-color:#0066CC;
+}
+.btn-2_3{
+  color:white; 
+  background-color:#0099FF;
+}
+.btn-3_1{                              /* systemconf_menu */
+  color:white; 
+  background-color:#CC0000;
+}
+.btn-3_2{
+  color:white; 
+  background-color:#C42323;
+}
+.btn-3_3{
+  color:white; 
+  background-color:#F75656;
+}
+

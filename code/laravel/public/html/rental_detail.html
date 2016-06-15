@@ -1,0 +1,184 @@
+<!-- 
+Controller: DetailCtrl - controllers.js
+Additionally needed scripts: none 
+-->
+<div class="container">
+  <div class="well page-header">
+    <!-- Edit button -->
+    <button class="btn btn-primary btn-sm" style="float:right" ng-click="editItem(detailData[0].Id);">
+      <span class=" glyphicon glyphicon-edit"></span> Edit
+    </button>
+    <div>
+      <!-- Basic/Simple Informations of the selected item-->
+      <!--Id & Name with class depending on State-->
+      <h2>
+        <!-- Highlight if the item is already rented or available -->
+        <div ng-switch="detailData[0].State">
+          <div ng-switch-when="0" class="text-warning">{{detailData[0].Id}} - {{detailData[0].Name}}</div>
+          <div ng-switch-when="1" class="text-success">{{detailData[0].Id}} - {{detailData[0].Name}}</div>
+          <div ng-switch-when="2" class="text-danger">{{detailData[0].Id}} - {{detailData[0].Name}}</div>
+          <div ng-switch-when="3" class="text-danger">{{detailData[0].Id}} - {{detailData[0].Name}}</div>
+        </div>
+      </h2> 
+    </div>
+
+    <div style="background-color:white;">
+      <!--Table shows detailed infos of item depending on material_id-->
+      <!-- 0 = Device | 1 = Material-->
+      <table class="table table-bordered table-responsive">
+        <!--State: 0 = Not available, 1 = Available, 2 = Defective, 3 = Missing-->   
+        <tr ng-if="detailData[0].State == 0">
+          <td>State: </td><td class="text-warning" ><b>Not available</b></td>
+        </tr>
+        <tr ng-if="detailData[0].State == 1">  
+          <td>State:</td> <td class="text-success"><b>Available</b></td>
+        </tr>
+        <tr ng-if="detailData[0].State == 2">  
+          <td>State:</td> <td class="text-danger"><b>Defective</b></td>
+        </tr>
+        <tr ng-if="detailData[0].State == 3">  
+          <td>State:</td> <td class="text-danger"><b>Missing</b></td>
+        </tr>
+        <!--Type--> 
+        <tr ng-if="detailData[0].material_id == 1">
+          <td>Type:</td> <td><b>Device</b></td>
+        </tr>
+        <tr ng-if="detailData[0].material_id != 1">
+          <td>Type:</td> <td><b>Material</b></td>
+        </tr>
+        <!--PublicVisible-->
+        <tr>
+          <td>Public:</td><td><b>{{detailData[0].PublicVisible}}</b></td>
+        </tr>
+        <!--Description-->
+        <tr>
+          <td>Description:</td><td><b>{{detailData[0].Description}}</b></td>
+        </tr>
+        <!--Category-->
+        <tr>
+          <td>Category:</td> <td><b>{{detailData[0].Category}}</b></td>
+        </tr>
+        <!--BuildType--> 
+        <tr ng-if="detailData[0].material_id != 1">
+          <td>Build Type:</td> <td><b>{{detailData[0].BuildType}}</b></td>
+        </tr>
+        <!--Measure: UoM_short(UoM)-->
+        <tr ng-if="detailData[0].UoM_short != null && detailData[0].material_id != 1"> 
+          <td>Measure:</td> <td><b>{{detailData[0].UoM_short}}
+            <span ng-if="detailData[0].UoM != null"> ({{detailData[0].UoM}}) </span></b>
+          </td>
+        </tr>
+        <!--Measure: UoM-->   
+        <tr ng-if="detailData[0].UoM_short == null && detailData[0].UoM != null && detailData[0].material_id != 1">
+          <td>Measure:</td> <td><b>{{detailData[0].UoM}}</b></td>
+        </tr>
+        <!--StorageValue-->
+        <tr ng-if="detailData[0].material_id != 1">
+          <!-- Check the CriticalStorageValue to the StorageValue -->
+          <td>Stock:</td> <td ng-if="detailData[0].StorageValue > detailData[0].CriticalStorageValue"><b>{{detailData[0].StorageValue}}</b></td>
+          <!-- StorageValue is normal so just show us the values-->
+          <td ng-if="detailData[0].StorageValue <= detailData[0].CriticalStorageValue" style="color:red"><b>{{detailData[0].StorageValue}}</b></td>
+        </tr>
+        <!--Saleprice--> 
+        <tr ng-if="detailData[0].material_id != 1">
+          <td>Sale Price:</td> <td><b>{{detailData[0].Saleprice | number:2}} €</b></td>
+        </tr>
+      </table>
+    </div>
+    <div>
+      <!-- Options for devices -->
+      <div ng-if="detailData[0].material_id == 1">
+
+        <!-- Set device to defective/missing, opens up a modal -->
+        <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#DeviceModal" ng-click="deviceEvent('defective', 2)">Set defective</button>
+        <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#DeviceModal" ng-click="deviceEvent('missing', 3)">Set missing</button>
+
+        <!-- Modal for the device options -->
+        <div class="modal fade" id="DeviceModal" role="dialog">
+          <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+              <div class="modal-header">
+              <!-- info what event is selected -->
+                <h4 class="modal-title">Set to {{title}}</h4>
+              </div>
+              <div class="modal-footer">
+                <!-- Cancel / Set the new device state to the server -->
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-success" ng-click="updateStateEvent(detailData[0].Id, state)">Update state</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 
+      Material Events - (used / stock up)
+      -->
+      <div ng-if="detailData[0].material_id != 1">
+  
+        <!-- Use/consume material by value, opens up a modal -->
+        <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#MaterialModal" ng-click="materialEvent('used')">
+          <span class="glyphicon glyphicon-minus"></span> Used
+        </button>
+        <!-- Stock up material by value, opens up a modal -->
+        <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#MaterialModal" ng-click="materialEvent('stock up')">
+          <span class="glyphicon glyphicon-plus"></span> Stock up
+        </button>
+
+        <!-- Modal for the material options -->
+        <div class="modal fade" id="MaterialModal" role="dialog">
+          <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+              <div class="modal-header">
+                <!-- info what event is selected -->
+                <h4 class="modal-title">Material {{title}}</h4>
+              </div>
+              <div class="modal-body">
+                <!-- amount input -->
+                <label>Amount:</label>
+                <input type="text" class="form-control" ng-model="amount">
+              </div>
+              <div class="modal-footer">
+                <!-- Cancel / Send the material update to the server -->
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="amount = '';">Cancel</button>
+                <button type="button" class="btn btn-success" ng-click="updateMaterialEvent(title, amount, detailData[0].Id)">Send update</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Menupoint/Buttons -->
+  <div class="well">
+    <div class="text-center">
+      <a href="#/list" class="btn btn-primary btn-sm">Back</a>
+      <!-- Add Item to the rental-cart -->
+      <button class="btn btn-info btn-sm" ng-click="rentalAdd(detailData[0]);">Add to Rental</button>
+      <!-- CopyItem Function-->
+      <type2 ng-if="detailData[0].material_id == 1">
+        <button class="btn btn-warning btn-sm" ng-click="copyItem(detailData[0], 'Device')">Copy</button>
+      </type2>
+      <type2 ng-if="detailData[0].material_id != 1">
+        <button class="btn btn-warning btn-sm" ng-click="copyItem(detailData[0], 'Material')">Copy</button>
+      </type2> 
+    </div>
+    <!-- information/alert message for short info -->
+    <div ng-repeat="news in alert">
+      <div class="alert alert-info">
+        <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        {{news.msg}}
+      </div>
+    </div>
+  </div>  
+  <hr>
+    <!-- Item history-->
+    <div class="top-space">
+      <h4>History</h4><hr>
+    </div>
+    <div ng-repeat="hdata in historyData">
+      <div class="well">
+        {{hdata.data}}
+      </div>
+    </div>
+</div>

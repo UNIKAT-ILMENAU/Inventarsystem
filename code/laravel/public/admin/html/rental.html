@@ -1,0 +1,122 @@
+<!-- 
+Controller: RentalCtrl - controllers.js
+Additionally needed scripts: datepicker.js 
+-->
+<div class="container">
+    
+  <h3>Rental overview:</h3><hr>
+  <form class="well" name="form">
+    <div class="form-group row">
+      <label class="col-md-1" for="firstname">Firstname*:</label>
+      <div class="col-md-3">
+        <input type="text" class="form-control" id="firstname" name="firstname" ng-model="borrow.customer.firstname" required="">
+      </div>
+      <label class="col-md-1" for="lastname">Lastname*:</label>
+      <div class="col-md-3">
+        <input type="text" class="form-control" id="lastname" name="lastname" ng-model="borrow.customer.lastname" required="">
+      </div>
+      <label class="col-md-1" for="matrikel">Matrikel-Nr:</label>
+      <div class="col-md-3">
+        <input type="text" class="form-control" id="matrikel" name="matrikel" ng-model="borrow.customer.matrikel" only-digits>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-1" for="city">City:</label>
+      <div class="col-md-3">
+        <input type="text" class="form-control" id="city" name="city" ng-model="borrow.customer.city">
+      </div>
+      <label class="col-md-1" for="street">Street:</label>
+      <div class="col-md-3">
+        <input type="text" class="form-control" id="street" name="street" ng-model="borrow.customer.street">
+      </div>
+      <label class="col-md-1" for="zip">Zip:</label>
+      <div class="col-md-2">
+        <input type="text" class="form-control" id="zip" name="zip" ng-model="borrow.customer.zip">
+      </div>   
+    </div>
+    <br>
+    <div class="form-group row">
+      <label class="col-md-1" for="phone">Phone:</label>
+      <div class="col-md-3">
+        <input type="text" class="form-control" id="phone" name="phone" ng-model="borrow.customer.phone">
+      </div>
+      <label class="col-md-1" for="email">E-mail*:</label>
+      <div class="col-md-3">
+        <input type="email" class="form-control" id="email" name="email" ng-model="borrow.customer.email" required="">
+        <p ng-show="form.email.$error.email" class="text-danger">Please enter a valid Email</p>
+      </div>    
+    </div>  
+    <div class="form-group row">
+      <label class="col-md-1" for="date">EndDate*:</label>
+      <div class="col-md-3">
+        <input type="text" class="form-control input-border" id="enddate" name="enddate" value=""  placeholder="Please select enddate" ng-model="borrow.customer.enddate" required="">
+      </div> 
+      <div class="col-md-8">
+        <p>* are necessary inputs.</p>
+      </div>
+    </div> 
+    
+    <!--Comment input-->
+    <div class="form-group row">
+      <label class="col-md-1" for="date">Comment:</label>
+      <div class="col-md-11">
+        <textarea class="form-control" id="description" name="description" placeholder="Extra informations..." ng-model="borrow.customer.comment"></textarea>
+      </div> 
+    </div>
+    
+  </form>
+
+  <hr>
+
+  <div class="panel panel-default">
+      <div class="panel-body">
+      
+      <div ng-repeat="item in selectedItems">
+        <div class="row">
+          <div class="well" style="margin:0px">
+            <div class="col-sm-2">{{$index+1}}</div>
+            <div class="col-sm-2">{{item.Name}}</div>
+            <div class="col-sm-2" ng-if="item.material_id != 1">
+              <input type="text" placeholder="Fill in amount > 0" class="form-control" ng-model="item.amount">
+            </div>
+            <div class="col-sm-2" ng-if="item.material_id == 1">
+              <input type="text" placeholder="Fill in amount > 0" class="form-control" disabled>
+            </div>
+            <div class="col-sm-1">{{item.BuildType}}</div>
+            <div class="col-sm-1">{{item.Cost}}</div>
+            <div class="col-sm-2">{{item.Place}}</div>
+            <button class="btn btn-sm btn-danger" ng-click="removeItem($index)">X</button>
+            
+          </div>
+        </div>
+      </div>
+      
+    </div>
+
+
+  <hr>
+  <div>
+    <button href="#/list" class="btn btn-primary" ng-click="sendRental()" ng-disabled="form.firstname.$error.required || form.lastname.$error.required || form.email.$error.required">Accept</button>
+    <button href="#/list" class="btn btn-primary" ng-click="sendRental()">Accep2t</button>
+    <a href="#/list" class="btn btn-danger">Cancel</a>
+  </div>
+
+
+  <div class="well">
+  <!-- <h4>testing area</h4>
+  <hr>
+  <p>Customer: {{borrow.customer}}</p>
+  <hr>
+  <p>Items:</p>
+  <div ng-repeat="item in borrow.items">
+    <p>{{$index+1}} | {{item}}</p>
+  </div>-->
+
+  <p>Testdata: {{testvar}}</p>
+  </div>
+
+  <hr>
+</div>
+
+<!-- Daten umschreiben##### WORK IN PROGRESS #####-->
+

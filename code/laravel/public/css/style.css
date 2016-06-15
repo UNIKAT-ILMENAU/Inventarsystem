@@ -1,0 +1,65 @@
+body{
+  background-color: #151515;
+}
+
+#sc_mid {
+  background-color: white;  /*# PERSONALIZE/CHANGE THIS COLOR */
+  padding-top: 5px;
+}
+
+/* =========================== */
+/* ==== HEADER STYLE ==== */
+.navbar {
+  letter-spacing: 2px;
+  margin-bottom: 0px;
+  border-radius: 0 !important;
+}
+
+/*Logo*/
+.logo-box{
+  background-color: #008080;  /*# PERSONALIZE/CHANGE THIS COLOR */
+  color: #ffffff;             /*# PERSONALIZE/CHANGE THIS COLOR */
+}
+
+.logo{
+  margin: auto;
+}
+
+/* =========================== */
+/* ==== FOOTER STYLE ==== */
+footer{
+  color: #f5f5f5; padding: 20px;
+}
+
+/* Color Styles */
+.maincolor{
+  color:#04B4AE !important;     /*# PERSONALIZE/CHANGE THIS COLOR */
+}
+
+/* Scroll To Top Glyphicon */
+span.glyphicon-large {
+    font-size: 3.2em;
+}
+
+/* Spacemaker */
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #04B4AE; /*# PERSONALIZE/CHANGE THIS COLOR */
+  margin: 1em 0;
+  padding: 0; 
+}
+
+/* =========================== */
+/* === TABLE/LIST HEADER STYLE === */
+.sort-icon {
+    font-size: 9px;
+    margin-left: 5px;
+}
+
+th {
+  cursor:pointer;
+}
+
+

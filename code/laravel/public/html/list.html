@@ -1,0 +1,153 @@
+<!-- 
+Controller: ListCtrl - controllers.js
+Additionally needed scripts: js/dirPagination.js 
+-->
+
+<!-- Basic Common Filter -->
+<div class="container-fluid">
+ 	<div class="row">
+ 		<div class="col-lg-4 col-xs-12"></div>
+ 		<div class="col-lg-4 col-xs-12 text-center">
+			<form class="form-inline" role="form">
+				<div class="form-group" id="the-basics">
+					<label for="search">Search:</label>
+					<input ng-model="search.$" class="form-control" placeholder="Search Text" list="mylist">	<!-- common search filters, filters every entrys and attributes-->
+				</div>
+				<button type="button" class="btn btn-default btn-sm" data-toggle="collapse" href="#collapse1">Advanced Filters</button>
+			</form>
+ 		</div>
+ 		<div class="col-lg-4 col-xs-12"></div>
+ 	</div>
+
+	<!-- Collapsible Filter -->
+	<div class="row">
+		<div class="col-lg-4 col-md-3 col-xs-12"></div>
+		<div class="col-lg-4 col-md-6 col-xs-12 panel-group">
+			<div class="panel panel-default">				
+				<div id="collapse1" class="panel-collapse collapse">
+					<div class="panel-body">							
+							<hr>
+							<div class="row">
+								<label for="search" class="col-lg-4 col-md-4 col-xs-12">Items per page:</label>		<!-- controls the items per page -->
+								<input ng-model="pageSize" type="text" class="col-lg-6 col-md-8 col-xs-12">
+							</div>	<!-- Advanced Filter Options for specific filtering-->
+							<hr>
+							<div class="row">
+								<label for="search" class="col-lg-2 col-md-2 col-xs-12">ID:</label>
+								<input ng-model="search.Id" type="text" class="col-lg-4 col-md-4 col-xs-12">
+								<label for="search" class="col-lg-2 col-md-2 col-xs-12">Name:</label>
+								<input ng-model="search.Name" type="text" class="col-lg-4 col-md-4 col-xs-12">
+							</div>
+							<div class="row">
+								<label for="search" class="col-lg-2 col-md-2 col-xs-12">State:</label>
+								<input ng-model="search.State" type="text" class="col-lg-4 col-md-4 col-xs-12">
+								<label for="search" class="col-lg-2 col-md-2 col-xs-12">SalePrice:</label>
+								<input ng-model="search.SalePrice" type="text" class="col-lg-4 col-md-4 col-xs-12">				
+							</div>
+							<div class="row">
+								<label for="search" class="col-lg-2 col-md-2 col-xs-12">Cate.:</label>
+								<input ng-model="search.Category" type="text" class="col-lg-10 col-md-10 col-xs-12">	
+							</div><br>
+							<div class="row">
+								<label for="search" class="col-lg-2 col-md-2 col-xs-12"<label for="search" class="col-lg-2 col-md-2 col-xs-12">BType.:</label>
+								<input ng-model="search.BuildType" type="text" class="col-lg-4 col-md-4 col-xs-12">
+								<label for="search" class="col-lg-2 col-md-2 col-xs-12">StoValue:</label>
+								<input ng-model="search.StorageValue" type="text" class="col-lg-4 col-md-4 col-xs-12">			
+							</div>
+							<div class="row">
+								<label for="search" class="col-lg-2 col-md-2 col-xs-12">MatID.:</label>
+								<input ng-model="search.material_id" type="text" class="col-lg-4 col-md-4 col-xs-12">
+							</div><hr>
+							<div>
+								<!-- Reset filter options -->
+								<button type="button" class=" col-lg-12 col-xs-12 btn btn-info btn-sm" ng-click="resetFilter()">Reset Filter</button>			
+							</div>
+					</div>
+					<div class="panel-footer"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Inventory List--> 
+<div class="container" >
+	<div class="col-md-12">       
+		<!-- Table -->
+		<div class="container table-responsive">        <!-- responsive, striped table-->  
+			<table  class="table table-hover table-striped">			
+				<thead>
+				  <tr>
+				    <th ng-click="sort('Id')">ID		<!-- Uses the function sort in controller.js to handle the orderBy -->
+						<span class="glyphicon sort-icon" ng-show="sortKey=='Id'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				    </th>
+				    <th ng-click="sort('Name')">Name 
+				    	<span class="glyphicon sort-icon" ng-show="sortKey=='Name'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				    </th>
+				    <th ng-click="sort('State')">State 
+				    	<span class="glyphicon sort-icon" ng-show="sortKey=='State'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				    </th>
+				    <th ng-click="sort('Category')">Category
+						<span class="glyphicon sort-icon" ng-show="sortKey=='Category'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				    </th>
+				    <th ng-click="sort('BuildType')">BuildType
+				    	<span class="glyphicon sort-icon" ng-show="sortKey=='BuildType'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				    </th>
+				    <th ng-click="sort('SalePrice')">SalePrice
+				    	<span class="glyphicon sort-icon" ng-show="sortKey=='SalePrice'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				    </th>
+				    <th ng-click="sort('StorageValue')">StorageValue
+				    	<span class="glyphicon sort-icon" ng-show="sortKey=='StorageValue'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				    </th>
+				    <th ng-click="sort('material_id')">Dev/Mat
+				    	<span class="glyphicon sort-icon" ng-show="sortKey=='material_id'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				    </th>		    
+				  </tr>
+				</thead>
+				<tbody>	<!-- List items in table -->
+				  <tr ng-click="viewDetail(listItem.Id);" dir-paginate="listItem in listData| orderBy:sortKey:reverse | filter: search | itemsPerPage:pageSize">	<!-- detailview via leftmouse click on the item -->
+				    <td>{{listItem.Id}}</td>
+				    <td>{{listItem.Name}}</td>
+				    <td>
+						<div ng-switch="listItem.State">
+			      			<div ng-switch-when="0" class="text-warning">Not available</div>
+			      			<div ng-switch-when="1" class="text-success">Available</div>
+			      			<div ng-switch-when="2" class="text-danger">Defective</div>
+			     			<div ng-switch-when="3" class="text-danger">Missing</div>
+		     			</div>
+				    </td>
+				    <td>{{listItem.Category}}</td>
+				    <td>{{listItem.BuildType}}</td>
+				    <td>{{listItem.SalePrice}}</td>
+				    <td><!-- Show StorageValue when it is a material-->
+						<div ng-if="listItem.material_id != 1"> 
+							{{listItem.StorageValue}} 	
+						</div>
+					</td>
+				    <td>
+				    	<!-- Filter Device and Material -->
+				    	<div ng-if="listItem.material_id == 1"> 
+				    		<p>Device</p> 
+				    	</div>
+				    	<div ng-if="listItem.material_id != 1"> 
+				    		<p>Material</p>
+				    	</div>
+			    	</td>
+				  </tr>
+				</tbody>
+			</table>
+		</div>
+	    
+	    <!-- Pageination --> 
+		<div class="text-center">
+			<dir-pagination-controls direction-links="true" boundary-links="true" ></dir-pagination-controls>
+		</div>
+	</div>
+</div>
+
+
+
+<!-- Typeahead List //NOT INCLUDED, WIP
+<datalist id="mylist">
+	<option ng-repeat="x in typeaheadData">{{x.data}}</option>
+</datalist> -->
