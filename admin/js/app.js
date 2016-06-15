@@ -69,13 +69,13 @@ invApp.config(['$routeProvider',
         templateUrl: 'html/rentallist/rental_detail.html',      
         controller: 'RentalDetailCtrl'
       }).
-      when('/category', {                         //Category configuration  ###### CTRL FIX
+      when('/category', {                         //Category configuration
         templateUrl: 'html/systemconf/category.html',      
-        controller: 'MenuCtrl'
+        controller: 'CategoryCtrl'
       }).   
-      when('/place', {                            //Place configuration      ###### CTRL FIX
+      when('/place', {                            //Place configuration
         templateUrl: 'html/systemconf/place.html',      
-        controller: 'MenuCtrl'
+        controller: 'PlaceCtrl'
       }).                                       
       when('/inviteAdmin', {                      //invite Admin form                
         templateUrl: 'html/adminconf/inviteAdmin.html',

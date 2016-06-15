@@ -1,5 +1,12 @@
-<div class="container" ng-app="app" ng-controller='AppCtrl'>
+<!-- 
+Controller: PlaceCtrl - controllers.js
+Additionally needed scripts: tree.js(for nesting data from server)
+-->
+<div class="container">
   <div class="well page-header">
+    <div style="text-align:right;">
+      <a href="#/sysconf" class="btn btn-default btn-sm" role="button" style="text-align:center;">Back</a>
+    </div>
     <h2> Location Management</h2>
     <p> Each place can be part of another place. Please, pay attention to following rules: </p>
     <ul>
@@ -9,6 +16,7 @@
     </ul>  
     </div>
 
+    <!--script creating template like a nested list-->
     <script type="text/ng-template" id="treeLevel.html">
       <ul class="list-group">
         <li ng-repeat="item in items" class="list-group-item">
@@ -22,6 +30,7 @@
       </ul>
     </script>
 
+    <!--includes nested list (children is nested Data with all places)-->
     <div style="margin-top:1em;" ng-include=" 'treeLevel.html' " onload="items = children">
     </div>
 
@@ -61,7 +70,7 @@
       </form>
     </div>
 
-    <!--edit existing place-->
+    <!--Edit existing place-->
     <div ng-if="formData.Parent != null">
       <form role="form">
         <div class="well">
@@ -104,202 +113,3 @@
     </pre>-->
   </div>
 </div>
-
-<!-- Scripts/Controller/Mainapp -->
-<script>
-
-  // App & Controller for tests --> has to be included in project 
-  var app = angular.module('app', []);
-
-  app.controller('AppCtrl', function ($scope) {
-
-
-    /*sorts query from this:
-      [
-        {"id": 456, "before": 123, "name": "Dogs"},
-        {"id": 214, "before": 456, "name": "drilling machine A"},
-        {"id": 123, "before": null, "name": "Tools"},
-        {"id": 810, "before": 456, "name": "drilling machine B"},
-        {"id": 919, "before": 456, "name": "drilling machine C"}
-      ] 
-
-      to this:
-      [
-        {"id": 123, "before": null, "name": "Tools"},
-        {"id": 456, "before": 123, "name": "drilling machine"},
-        {"id": 214, "before": 456, "name": "drilling machine A"},
-        {"id": 810, "before": 456, "name": "drilling machine B"},
-        {"id": 919, "before": 456, "name": "drilling machine C"}
-      ] */
-    var _queryTreeSort = function(options) {
-      var cfi, e, i, id, o, pid, rfi, ri, thisid, _i, _j, _len, _len1, _ref, _ref1;
-      id = options.id || "id";
-      pid = options.BeforeID || "BeforeID";
-      ri = [];
-      rfi = {};
-      cfi = {};
-      o = [];
-      _ref = options.q;
-      for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
-        e = _ref[i];
-        rfi[e[id]] = i;
-        if (cfi[e[pid]] == null) {
-          cfi[e[pid]] = [];
-        }
-        cfi[e[pid]].push(options.q[i][id]);
-      }
-      _ref1 = options.q;
-      for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
-        e = _ref1[_j];
-        if (rfi[e[pid]] == null) {
-          ri.push(e[id]);
-        }
-      }
-      while (ri.length) {
-        thisid = ri.splice(0, 1);
-        o.push(options.q[rfi[thisid]]);
-        if (cfi[thisid] != null) {
-          ri = cfi[thisid].concat(ri);
-        }
-      }
-      return o;
-    };
-
-
-    /* tree becomes nested like his:
-      [
-        {
-          "id": 123,
-          "before": 0,
-          "name": "Tools",
-          "children": [
-            {
-              "id": 456,
-              "before": 123,
-              "name": "drilling machine"
-              "children": [
-                {
-                  "id": 214,
-                  "before": 456,
-                  "name": "drilling machine A"
-                },
-                { 
-                  "id": 810,
-                  "before": 456,
-                  "name": "drilling machine B"
-                },
-                {
-                  "id": 919,
-                  "before": 456,
-                  "name": "drilling machine C"
-                }
-              ]
-            }
-          ]
-        }
-      ] */
-    var _makeTree = function(options) {
-      var children, e, id, o, pid, temp, _i, _len, _ref;
-      id = options.id || "id";
-      pid = options.BeforeID || "BeforeID";
-      children = options.children || "children";
-      temp = {};
-      o = [];
-      _ref = options.q;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        e = _ref[_i];
-        e[children] = [];
-        temp[e[id]] = e;
-        if (temp[e[pid]] != null) {
-          temp[e[pid]][children].push(e);
-        } else {
-          o.push(e);
-        }
-      }
-      return o;
-    };
-
-    //Data for testing
-    //it might be a proplem if Data from Server is like this {[id: 1, name: "tool", before: null], [...], ...}
-    var test = [
-      {"id": 1, "Name": "Haus M", "CreatedByID": 4, "BeforeID": null, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 2, "Name": "Raum 101", "CreatedByID": 4, "BeforeID": 1, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 3, "Name": "Schrank A", "CreatedByID": 4, "BeforeID": 2, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 4, "Name": "Schrank B", "CreatedByID": 4, "BeforeID": 2, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 5, "Name": "Fach III", "CreatedByID": 4, "BeforeID": 3, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 6, "Name": "Oeconomicum", "CreatedByID": 4, "BeforeID": 7, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 7, "Name": "Raum 118", "CreatedByID": 4, "BeforeID": null, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"}
-    ];
-
-    //call functions to format query for rendering in html-template as nested list
-    var result = _queryTreeSort({q: test});
-    var tree = _makeTree({q: result});
-
-    //for rendering nested list --> input is tree
-    $scope.children = tree;
-
-    //for input fields and radio-buttons
-    $scope.formData = {name: "", Parent: null};
-
-    //gets input from newValue 
-    $scope.places = {name: "1", children: ""};
-
-    //changes input of places when new radio-button is selected
-    $scope.newValue = function(n, c) {
-        $scope.places = {name: n,  children: c};
-    };
-
-
-    //==============================
-    //EVENTS (locationManagement)
-    //==============================
-
-
-    //==============================
-    //update Place
-    //==============================
-    $scope.updatePlaceEvent = function(placeName, beforeID) { 
-
-      alert(placeName + " | " + beforeID);
-      var Indata = {'name': categoryName, 'before': beforeID};
-      //POST used material to the server
-      /* $http.post("/api/v1/restricted/device/create", Indata).success(function(data, status) {
-      //SUCCESSFULL
-      alert("success");
-      });*/
-    };
-
-    //==============================
-    //create Place
-    //==============================
-    //in API erwarted CreatePlace die createdbyID als Input?
-    $scope.createPlaceEvent = function(palceName, beforeID) { 
-
-      alert(palceName + " | " + beforeID);
-      var Indata = {'name': placeName, 'before': beforeID};
-      //POST used material to the server
-      /* $http.post("/api/v1/restricted/device/create", Indata).success(function(data, status) {
-      //SUCCESSFULL
-      alert("success");
-      });*/
-    };
-
-    //==============================
-    //delete PLace
-    //==============================
-    //in API überhaupt integriert? -> es ist sichergestellt, dass nur plätze ohne kinder gelöscht werden
-    $scope.deletePlaceEvent = function(placeID) { 
-
-      alert(placeID);
-      var Indata = {'id': placeID };
-      //POST used material to the server
-      /* $http.post("/api/v1/restricted/device/create", Indata).success(function(data, status) {
-      //SUCCESSFULL
-      alert("success");
-      });*/
-    };  
-
-  });
-
-
-</script>
