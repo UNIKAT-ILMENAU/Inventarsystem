@@ -61,8 +61,8 @@ class AuthenticateController extends Controller
 
     public function createToken(Request $request)
     {
-        try
-        {
+        //try
+        //{
         //These vars will be true when the and the hashed password are valid
         $checkemail = false;
         $checkpassword = false;
@@ -113,7 +113,7 @@ class AuthenticateController extends Controller
         }
 
 
-        if($checkpassword&&$checkemail&&db_userid[0]!=NULL&&$db_mail[0]!=NULL){
+        if($checkpassword&&$checkemail){
             
             //Credentials are right!
             $customClaims = ['User_Id' => $db_userid[0], 'User_Email' => $db_mail[0]];
@@ -131,10 +131,10 @@ class AuthenticateController extends Controller
             return response()->json(['error' => 'The Email and the password are wrong']);
         }
 
-        }
-        catch(\Exception $e){
-            return response()->json(['error' => 'login failed. wrong credentials']);
-        }
+        //}
+        //catch(\Exception $e){
+            //return response()->json(['error' => 'login failed. wrong credentials']);
+        //}
         /*
         $customClaims = ['email' => $r_email, 'password' => $r_password];
         $payload = JWTFactory::make($customClaims);

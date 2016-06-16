@@ -28,6 +28,7 @@ Route::get('/api/v1/item/details/{id}', ['uses' =>'ItemController@SingleDetailIt
 //Item Information API - Restricted
 Route::get('/api/v1/restricted/item/allItems', 'ItemController@RestrictedshowAllItems');
 Route::get('/api/v1/restricted/item/allIds', ['uses' =>'ItemController@RestrictedshowAllIds']);
+Route::get('/api/v1/restricted/item/allIds', ['uses' =>'ItemController@RestrictedshowAllIds']);
 Route::get('/api/v1/restricted/item/{id}', ['uses' =>'ItemController@RestrictedSingleItem']);
 Route::get('/api/v1/restricted/item/details/{id}', ['uses' =>'ItemController@RestrictedSingleDetailItem']);
 Route::get('/api/v1/restricted/item/getHistory/{id}', ['uses' =>'ItemController@History']);
@@ -99,3 +100,9 @@ Route::post('/api/v1/restricted/user/update/{id}', ['uses' =>'UserController@Use
 //JWT AUTH
 Route::post('/api/v1/login', ['uses' =>'AuthenticateController@createToken']);
 Route::post('/api/v1/test', ['uses' =>'AuthenticateController@checkAuth']);
+
+//Middleware Checking
+
+Route::get('test', ['middleware' => 'JWTCheck', function () {
+    echo "working";
+}]);
