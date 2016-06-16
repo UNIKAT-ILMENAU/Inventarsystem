@@ -12,16 +12,20 @@ var invServices = angular.module('invServices', ['ngResource', 'ngStorage']);
 invServices.factory('REST', ['$resource',
 function($resource){
   return $resource('/api/v1/restricted/:ListItemId', {}, {
-    //All item informations
+    //All item information
     query: {method:'GET', params:{ListItemId: 'item/allItems'}, isArray:true},
     //Detail information of the selected item
     detailLoad: {method:'GET', params:{ListItemId: $resource}, isArray:true},
     //Detail information of the selected item
     historyLoad: {method:'GET', params:{ListItemId: $resource}, isArray:true},
-    //All rental informations
-    allRental: {method:'GET', params:{ListItemId: 'item/allRental'}, isArray:true},
-    //Detail information of the selected rental
-    detailRentalLoad: {method:'GET', params:{ListItemId: $resource}, isArray:true}
+    //All rentals information
+    allRental: {method:'GET', params:{ListItemId: 'rental/AllRentals'}, isArray:true},
+    //All open rentals information
+    allOpenRental: {method:'GET', params:{ListItemId: 'rental/OpenRentals'}, isArray:true},
+    //Detail user information of the selected rental
+    detailRentalUserLoad: {method:'GET', params:{ListItemId: $resource}, isArray:true},
+    //Detail item information of the selected rental
+    detailRentalItemLoad: {method:'GET', params:{ListItemId: $resource}, isArray:true}
     //typload: {method:'GET', params:{ListItemId: 'typeahead'}, isArray:true} //not included right now
   });
 }]);
