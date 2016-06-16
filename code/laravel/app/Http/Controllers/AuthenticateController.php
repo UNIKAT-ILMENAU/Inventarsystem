@@ -31,9 +31,8 @@ class AuthenticateController extends Controller
             $test = $manager->decode($token);
 
             
-            //$test2 = $manager->getClaims();
-            //return response->json_decode($test);
-            return $test;
+            //token is valid --> return the token
+            return $token;
         } 
         catch(\Exception $e){
             return response()->json(['error' => 'login failed. no or wrong token was founded.']);
@@ -113,7 +112,7 @@ class AuthenticateController extends Controller
         }
 
 
-        if($checkpassword&&$checkemail){
+        if($checkpassword&&$checkemail&&db_userid[0]!=NULL&&$db_mail[0]!=NULL){
             
             //Credentials are right!
             $customClaims = ['User_Id' => $db_userid[0], 'User_Email' => $db_mail[0]];
