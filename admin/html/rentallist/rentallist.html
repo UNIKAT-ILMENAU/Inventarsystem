@@ -3,6 +3,17 @@ Controller: RentalListCtrl - controllers.js
 Additionally needed scripts: js/dirPagination.js 
 -->
 
+<!-- Create Item buttons-->
+<div class="container top-space bot-space">
+	<div class="row">
+		<div class="col-md-12">
+			<button class="btn btn-success" ng-click="switchRentalList('open')">AllOpenRentals</button>
+			<button class="btn btn-success" ng-click="switchRentalList('all')">AllRentals</button>			
+			<hr>
+		</div>
+	</div>
+</div>
+
 <!-- Basic Common Filter -->
 <div class="container-fluid">
  	<div class="row">
@@ -48,13 +59,17 @@ Additionally needed scripts: js/dirPagination.js
 								<input ng-model="search.Email" type="text" class="col-lg-10 col-md-10 col-xs-12">	
 							</div><br>
 							<div class="row">
-								<label for="search" class="col-lg-2 col-md-2 col-xs-12">EndDate:</label>
-								<input ng-model="search.EndDate" type="text" class="col-lg-10 col-md-10 col-xs-12">	
+								<label for="search" class="col-lg-2 col-md-2 col-xs-12">EndD.:</label>
+								<input ng-model="search.EndDate" type="text" class="col-lg-10 col-md-10 col-xs-12">									
+							</div>
+							<div class="row">								
+								<label for="search" class="col-lg-2 col-md-2 col-xs-12">CreateD.:</label>
+								<input ng-model="search.Created_at" type="text" class="col-lg-10 col-md-10 col-xs-12">	
 							</div>
 							<hr>
 							<div>
 								<!-- Reset filter options -->
-								<button type="button" class=" col-lg-12 col-xs-12 btn btn-info btn-sm" ng-click="resetFilter()">Reset Filter</button>			
+								<button type="button" class=" col-lg-12 col-xs-12 btn btn-info btn-sm" ng-click="resetFilter()">Reset Filter</button>		
 							</div>
 					</div>
 					<div class="panel-footer"></div>
@@ -74,19 +89,22 @@ Additionally needed scripts: js/dirPagination.js
 				  <tr>
 				    <th ng-click="sort('Id')">ID		<!-- Uses the function sort in controller.js to handle the orderBy -->
 						<span class="glyphicon sort-icon" ng-show="sortKey=='Id'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				    </th>				    
+				    <th ng-click="sort('Lastname')">Lastname 
+				    	<span class="glyphicon sort-icon" ng-show="sortKey=='Lastname'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				    </th>
+				    <th ng-click="sort('Firstname')">Firstname
+						<span class="glyphicon sort-icon" ng-show="sortKey=='Firstname'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 				    </th>
 				    <th ng-click="sort('Email')">Email 
 				    	<span class="glyphicon sort-icon" ng-show="sortKey=='Email'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 				    </th>
-				    <th ng-click="sort('Lastname')">Lastname 
-				    	<span class="glyphicon sort-icon" ng-show="sortKey=='Lastname'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-				    </th>
-				    <th ng-click="sort('FirstName')">FirstName
-						<span class="glyphicon sort-icon" ng-show="sortKey=='FirstName'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-				    </th>
 				    <!-- There needs to be a ng-if with state and date calculation -->
 				    <th ng-click="sort('EndDate')">EndDate
 				    	<span class="glyphicon sort-icon" ng-show="sortKey=='EndDate'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+				    </th>
+				    <th ng-click="sort('Created_at')">CreateDate
+				    	<span class="glyphicon sort-icon" ng-show="sortKey=='Created_at'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 				    </th>
 				    <th ng-click="sort('State')">State
 				    	<span class="glyphicon sort-icon" ng-show="sortKey=='State'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
@@ -96,10 +114,20 @@ Additionally needed scripts: js/dirPagination.js
 				<tbody>	<!-- List items in table -->
 				  <tr ng-click="viewDetail(rentalData.Id);" dir-paginate="rentalData in listData| orderBy:sortKey:reverse | filter: search | itemsPerPage:pageSize">	<!-- detailview via leftmouse click on the item -->
 				    <td>{{rentalData.Id}}</td>
-				    <td>{{rentalData.Email}}</td>
 				    <td>{{rentalData.Lastname}}</td>
-				    <td>{{rentalData.FirstName}}</td>
-				    <td>{{rentalData.EndDate}}</td>
+				    <td>{{rentalData.Firstname}}</td>
+				    <td>{{rentalData.Email}}</td>				    
+				    <td>
+				    	{{rentalData.EndDate}}
+
+				    	<!-- 
+				    	<div ng-if=""> 
+							<div style="color:red">{{rentalData.EndDate}} 
+							</div>
+						</div>
+						-->
+				    </td>
+				   	<td>{{rentalData.Created_at}}</td>
 				    <td>{{rentalData.State}}</td>
 				  </tr>
 				</tbody>

@@ -357,11 +357,10 @@ invControllers.controller('RentalCtrl', ['$scope', '$routeParams', '$location', 
       Indata.amounts.push($scope.selectedItems[i].amount);
     }
     $scope.testvar = Indata;
-    alert("converting ok");
     //POST rental to the server 
-   $http.post("/api/v1/restricted/rental/create", Indata).success(function(data, status) {
-      //SUCCESSFULL 
-      alert("success material update");
+    $http.post("/api/v1/restricted/rental/create", Indata).success(function(data, status) {
+      //SUCCESSFULL alert("success update");
+      $scope.clearItem();
       $location.path('/list'); //redirect to inventory list
     });
   }
@@ -395,7 +394,21 @@ invControllers.controller('RentalCtrl', ['$scope', '$routeParams', '$location', 
 //==============================
 invControllers.controller('RentalListCtrl', ['$scope', '$routeParams', '$location', 'REST', function($scope, $routeParams, $location, REST) {
   //Get all item informations from the server
-  //$scope.listData = REST.allRental(); //need another api request here
+  $scope.listData = REST.allOpenRental(); //need another api request here
+
+  //Switch beetween AllOpenRentals/AlleRentals
+  $scope.switchRentalList = function(listname){
+    
+    if(listname == "open")
+    {
+      //Get all item informations from the server
+      $scope.listData = REST.allOpenRental(); 
+    }else if(listname =="all"){
+      //Get all item informations from the server
+      $scope.listData = REST.allRental();
+    }
+     
+  };
 
   var d_pageSize = 10;                    //default pageSize limit
   $scope.pageSize = d_pageSize;           //Item limit per page
@@ -423,9 +436,76 @@ invControllers.controller('RentalListCtrl', ['$scope', '$routeParams', '$locatio
 //Rental detail controller
 //Used: rental_detail.html
 //==============================
-invControllers.controller('RentalDetailCtrl', ['$scope', '$routeParams', '$location', 'REST', function($scope, $routeParams, $location, REST) {
-  //Gets all informations of a specific item by id
-  //$scope.detailData = REST.detailRentalLoad({ListItemId: 'item/details/' + $routeParams.ListItemId});
+invControllers.controller('RentalDetailCtrl', ['$scope', '$routeParams', '$location','$http', 'REST', function($scope, $routeParams, $location, $http, REST) {
+  //Gets all user informations of a specific rental by id
+  $scope.detailData = REST.detailRentalUserLoad({ListItemId: 'rental/SingleRentals/' + $routeParams.ListItemId});
+  //Gets all item informations of the loaded rental
+  $scope.itemData = REST.detailRentalItemLoad({ListItemId: 'rental/SingleRentalsItems/' + $routeParams.ListItemId});
+
+
+  //==============================
+  //Item rented events
+  //==============================
+
+  //Lost event
+  $scope.lostEvent = function(ItemID, value) { 
+    //sets the title in the modal 
+    $scope.title = "lost";
+    $scope.amount = value;
+    $scope.itemID = ItemID;
+  };
+
+  //Back event
+  $scope.backEvent = function(ItemID, value) { 
+    //sets the title in the modal 
+    $scope.title = "back";
+    $scope.amount = value;
+    $scope.itemID = ItemID;
+  };
+
+  //modal 
+  $scope.updateLostEvent = function(itemID, value, comment) { 
+
+    var Indata = {'itemid': itemID, 'amount': value,'comment': comment, 'createdbyid': 1}; //NEEDS TO BE IMPLEMENTED
+    //Creates the url for the post
+    var url = "/api/v1/restricted/rental/lost/" +  $scope.detailData[0][0].Id;
+  
+    //POST state device to the server
+    $http.post(url, Indata).success(function(data, status) {
+      //SUCCESSFULL //
+      alert("success");
+      //Reset variables
+      $scope.amount_value = null;
+      $scope.comment = "";
+      //Gets/Reloads all item information of the loaded rental
+      $scope.itemData = REST.detailRentalItemLoad({ListItemId: 'rental/SingleRentalsItems/' + $routeParams.ListItemId})
+      //Gets/Reloads all user informations of a specific rental by id
+      $scope.detailData = REST.detailRentalUserLoad({ListItemId: 'rental/SingleRentals/' + $routeParams.ListItemId});
+  
+    });
+  };
+
+  //modal 
+  $scope.updateBackEvent = function(itemID, value, comment) { 
+    var Indata = {'itemid': itemID, 'amount': value,'comment': comment, 'createdbyid': 1}; //NEEDS TO BE IMPLEMENTED
+    //Creates the url for the post
+    var url = "/api/v1/restricted/rental/bringBack/" +  $scope.detailData[0][0].Id;
+
+    //POST state device to the server
+    $http.post(url, Indata).success(function(data, status) {
+      //SUCCESSFULL //
+      alert("success");
+      //Reset variables
+      $scope.amount_value = null;
+      $scope.comment = "";
+      //Gets/Reloads all item information of the loaded rental
+      $scope.itemData = REST.detailRentalItemLoad({ListItemId: 'rental/SingleRentalsItems/' + $routeParams.ListItemId})
+      //Gets/Reloads all user informations of a specific rental by id
+      $scope.detailData = REST.detailRentalUserLoad({ListItemId: 'rental/SingleRentals/' + $routeParams.ListItemId});
+  
+    });
+  };
+
 }]);
 
 
@@ -440,15 +520,22 @@ invControllers.controller('indexCtrl', function ($scope, $location, $anchorScrol
 
 /* For the list / rental cart*/
   $scope.addItem = function(data) {  
-
-    for (var i = 0; i < $scope.selectedItems.length; ++i) {    
-      if ($scope.selectedItems[i].Id === data.Id) {
-        return "error";
-      }  
+    //check if state is not 0 and we dont select item twice   
+    if(data.State == 1)
+    {
+      for (var i = 0; i < $scope.selectedItems.length; ++i) {    
+        if ($scope.selectedItems[i].Id === data.Id) {
+          return "error";
+        }  
+      }
+      //push to item array
+      $scope.selectedItems.push(data);
+      return "success";
+    }else{
+      alert("Info: Item not available.");
+      return "error";
     }
     
-    $scope.selectedItems.push(data);
-    return "success";
   };
 
   $scope.removeItem = function(index) {  
