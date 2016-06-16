@@ -97,6 +97,5 @@ Route::post('/api/v1/restricted/user/update/{id}', ['uses' =>'UserController@Use
 
 
 //JWT AUTH
-Route::post('/api/v1/login', ['uses' =>'AuthenticateController@authenticate']);
-
-
+Route::post('/api/v1/login', ['uses' =>'AuthenticateController@createToken']);
+Route::post('/api/v1/test', ['uses' =>'AuthenticateController@checkAuth']);

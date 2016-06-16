@@ -5,7 +5,7 @@ require 'json'
 require 'yaml'
 
 VAGRANTFILE_API_VERSION = "2"
-confDir = $confDir ||= File.expand_path("~/Projects/Softwareprojekt/vagrant/vagrant_config")
+confDir = $confDir ||= File.expand_path("E:/Projekte/Softwareprojekt/vagrant/vagrant_config")
 
 homesteadYamlPath = confDir + "/Homestead.yaml"
 homesteadJsonPath = confDir + "/Homestead.json"
