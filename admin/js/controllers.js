@@ -446,6 +446,12 @@ invControllers.controller('RentalDetailCtrl', ['$scope', '$routeParams', '$locat
   //==============================
   //Item rented events
   //==============================
+  //bugfixing modal bug
+  $scope.amount_value;
+
+  $scope.change_amount = function(value) { 
+    $scope.amount_value = value;
+  };
 
   //Lost event
   $scope.lostEvent = function(ItemID, value) { 
@@ -460,10 +466,10 @@ invControllers.controller('RentalDetailCtrl', ['$scope', '$routeParams', '$locat
     //sets the title in the modal 
     $scope.title = "back";
     $scope.amount = value;
-    $scope.itemID = ItemID;
+    $scope.itemID = ItemID; 
   };
 
-  //modal 
+  //modal function for the lost event
   $scope.updateLostEvent = function(itemID, value, comment) { 
 
     var Indata = {'itemid': itemID, 'amount': value,'comment': comment, 'createdbyid': 1}; //NEEDS TO BE IMPLEMENTED
@@ -485,7 +491,7 @@ invControllers.controller('RentalDetailCtrl', ['$scope', '$routeParams', '$locat
     });
   };
 
-  //modal 
+  //modal function for the back event
   $scope.updateBackEvent = function(itemID, value, comment) { 
     var Indata = {'itemid': itemID, 'amount': value,'comment': comment, 'createdbyid': 1}; //NEEDS TO BE IMPLEMENTED
     //Creates the url for the post
