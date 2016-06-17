@@ -213,7 +213,7 @@ Additionally needed scripts: none
     <div class="top-space text-center">
       <h4>History</h4><hr>
     </div>
-    <div ng-repeat="hdata in historyData">
+    <div ng-repeat="hdata in historyData | limitTo:20"> <!-- Just a test to limit history-->
       <div class="well">
         {{hdata.EventName}}
         {{hdata.Comment}}

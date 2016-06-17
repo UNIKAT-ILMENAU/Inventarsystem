@@ -365,18 +365,9 @@ invControllers.controller('RentalCtrl', ['$scope', '$routeParams', '$location', 
     });
   }
 
-  $scope.sendRental2 = function(){
-    //needs to be like this cause datepicker doesnt work with ng-change
-    $scope.borrow.customer.date = document.getElementById("borrowDate").value;
-
-    //POST device to the server
-    /*$http.post("/api/v1/restricted/device/create", $scope.borrow).success(function(data, status) {
-      //SUCCESSFULL
-      $scope.clearItem(); //clears the selected item
-      $location.path('/list');
-    });*/
-
-
+  //rental.html line 80 needs to be changed
+  $scope.checkAmount = function(default_amount){
+    //if(default_amount < $scope.)
   };
 
   //Datepicker   

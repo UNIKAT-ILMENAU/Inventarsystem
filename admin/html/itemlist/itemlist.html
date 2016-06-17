@@ -50,8 +50,8 @@ Additionally needed scripts: js/dirPagination.js
 								<input ng-model="search.Name" type="text" class="col-lg-4 col-md-4 col-xs-12">
 							</div>
 							<div class="row">
-								<label for="search" class="col-lg-2 col-md-2 col-xs-12">State:</label>
-								<input ng-model="search.State" type="text" class="col-lg-4 col-md-4 col-xs-12">
+								<label for="search" class="col-lg-2 col-md-2 col-xs-12">BType.:</label>
+								<input ng-model="search.BuildType" type="text" class="col-lg-4 col-md-4 col-xs-12">
 								<label for="search" class="col-lg-2 col-md-2 col-xs-12">Price:</label>
 								<input ng-model="search.SalePrice" type="text" class="col-lg-4 col-md-4 col-xs-12">				
 							</div>
@@ -72,8 +72,16 @@ Additionally needed scripts: js/dirPagination.js
 							</div>
 							<br>
 							<div class="row">
-								<label for="search" class="col-lg-2 col-md-2 col-xs-12">BType.:</label>
-								<input ng-model="search.BuildType" type="text" class="col-lg-4 col-md-4 col-xs-12">
+								<label for="search" class="col-lg-2 col-md-2 col-xs-12">State:</label>
+								<div class="col-lg-4 col-md-4 col-xs-12">
+									<select class="form-control"  ng-model="search.State" >
+										<option value="">No Filter</option>
+										<option value="0">Not available</option>
+										<option value="1">Available</option>
+										<option value="2">Defective</option>
+										<option value="3">Missing</option>
+					                </select>
+								</div>
 							</div><hr>
 							<div>
 								<!-- Reset filter options -->
