@@ -68,6 +68,8 @@ invControllers.controller('MenuCtrl', function () {
 invControllers.controller('DetailCtrl', ['$scope', '$routeParams', '$location', '$http', 'REST', function($scope, $routeParams, $location, $http, REST) {
   //Gets all informations of a specific item by id
   $scope.detailData = REST.detailLoad({ListItemId: 'item/details/' + $routeParams.ListItemId});
+  //Gets the place as a string
+  $scope.Place_name = REST.detailPlaceLoad({ListItemId: 'place/search/' + $routeParams.ListItemId});
   //Gets all history informations of a specific item by id
   $scope.historyData = REST.historyLoad({ListItemId: 'item/getHistory/' + $routeParams.ListItemId});
 
@@ -200,9 +202,10 @@ invControllers.controller('CreateCtrl', ['$scope', '$routeParams', '$location', 
      var Indata = { 'name': $scope.selectedItems[0].Name, 
                     'state': $scope.selectedItems[0].State,
                     'description': $scope.selectedItems[0].Description,
-                    'category': $scope.selectedItems[0].Category, //NEEDS TO BE IMPLEMENTED
+                    'category': $scope.selectedItems[0].Category, 
                     'visible': $scope.selectedItems[0].PublicVisible,
-                    'place': $scope.selectedItems[0].Place,       //NEEDS TO BE IMPLEMENTED
+                    //'cost': $scope.selectedItems[0].Cost,       //NEEDS TO BE IMPLEMENTED?
+                    'place': $scope.selectedItems[0].Place,       
                     'createdbyid': 1,                             //NEEDS TO BE IMPLEMENTED
                     'comment': $scope.selectedItems[0].Comment
                 };
@@ -217,11 +220,12 @@ invControllers.controller('CreateCtrl', ['$scope', '$routeParams', '$location', 
     {
      var Indata = { 'name': $scope.selectedItems[0].Name, 
                     'state': $scope.selectedItems[0].State,
-                    'category': $scope.selectedItems[0].Category, //NEEDS TO BE IMPLEMENTED
+                    'category': $scope.selectedItems[0].Category, 
                     'description': $scope.selectedItems[0].Description,
                     'visible': $scope.selectedItems[0].PublicVisible,
                     'saleprice': $scope.selectedItems[0].SalePrice,
-                    'place': $scope.selectedItems[0].Place,       //NEEDS TO BE IMPLEMENTED
+                    //'cost': $scope.selectedItems[0].Cost,       //NEEDS TO BE IMPLEMENTED?
+                    'place': $scope.selectedItems[0].Place,       
                     'createdbyid': 1,                             //NEEDS TO BE IMPLEMENTED
                     'buildtype': $scope.selectedItems[0].Buildtype,
                     'uom': $scope.selectedItems[0].UoM,
@@ -239,6 +243,125 @@ invControllers.controller('CreateCtrl', ['$scope', '$routeParams', '$location', 
       });
     }
   };
+
+  //=========================================
+  //Options and default values for dropdowns
+  //=========================================
+
+  //options and default('available') for state in create_device
+  $scope.deviceStates = [{ name: 'Not available', value: 0 },
+                    { name: 'Available', value: 1 },
+                    { name: 'Defective', value: 2 },
+                    { name: 'Missing', value: 3 } 
+  ];
+
+  //options and default('available') for state in create_material
+  $scope.materialStates = [{ name: 'Not available', value: 0 },
+                           { name: 'Available', value: 1 } 
+  ];
+
+  //options and default('Visible') for PublicVisible in create_material/create_device
+  $scope.Visibility = [{ name: 'Not visible', value: 0 },
+                       { name: 'Visible', value: 1 } 
+  ];
+
+  //==============================
+  //Get all places from server
+  //==============================
+
+  /*    //get places-array
+    $http({
+      method: 'GET',
+      url: '/api/v1/restricted/place/allPlace'
+    })
+    .then(
+      function(re){
+        allPlaces = re;            
+      },         
+      function(er) {
+
+      }
+    );
+  */
+
+  //Data for testing
+  //it might be a proplem if Data from Server is like this {[id: 1, name: "tool", before: null], [...], ...}
+  var allPlaces = [
+      {"id": 1, "Name": "Haus M", "CreatedByID": 4, "BeforeID": null, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
+      {"id": 2, "Name": "Raum 101", "CreatedByID": 4, "BeforeID": 1, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
+      {"id": 3, "Name": "Schrank A", "CreatedByID": 4, "BeforeID": 2, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
+      {"id": 4, "Name": "Schrank B", "CreatedByID": 4, "BeforeID": 2, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
+      {"id": 5, "Name": "Fach III", "CreatedByID": 4, "BeforeID": 3, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
+      {"id": 6, "Name": "Oeconomicum", "CreatedByID": 4, "BeforeID": null, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
+      {"id": 7, "Name": "Raum 118", "CreatedByID": 4, "BeforeID": 6, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
+      {"id": 8, "Name": "Haus M", "CreatedByID": 4, "BeforeID": null, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
+      {"id": 9, "Name": "Haus N", "CreatedByID": 4, "BeforeID": null, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
+      {"id": 10, "Name": "Haus O", "CreatedByID": 4, "BeforeID": null, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
+      {"id": 11, "Name": "Haus P", "CreatedByID": 4, "BeforeID": null, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
+  ];
+
+  //call functions to format query for rendering in html-template as nested list
+  var placeResult = _queryTreeSort({q: allPlaces});
+  var placeTree = _makeTree({q: placeResult});
+
+  //for rendering nested list --> input is tree
+  $scope.placeList = placeTree;
+
+  //gets input from newPlaceValue 
+  $scope.places = {name: ""};
+
+  //changes input of places when new radio-button is selected
+  $scope.newPlaceValue = function(n) {
+    $scope.places = {name: n};
+  };
+
+  //==============================
+  //Get all categories from server
+  //==============================
+
+  /*    //get categories-array
+    $http({
+      method: 'GET',
+      url: '/api/v1/restricted/category/allCategory'
+    })
+    .then(
+      function(re){
+        allCategories = re;            
+      },         
+      function(er) {
+
+      }
+    );
+  */
+
+  //Data for testing
+  //it might be a proplem if Data from Server is like this {[id: 1, name: "tool", before: null], [...], ...}
+  var allCategories = [
+      {"id": 1, "Name": "Werkzeug", "Description": "Tools you can use with one hand", "BeforeID": null, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
+      {"id": 2, "Name": "Bohrer", "Description": "Tools you can use with one hand", "BeforeID": 1, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
+      {"id": 3, "Name": "Bohrer A", "Description": "Tools you can use with one hand", "BeforeID": 2, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
+      {"id": 4, "Name": "Bohrer B", "Description": "Tools you can use with one hand", "BeforeID": 2, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
+      {"id": 5, "Name": "TGA", "Description": "Tools you can use with one hand", "BeforeID": 3, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
+      {"id": 6, "Name": "Kondensator", "Description": "Tools you can use with one hand", "BeforeID": 7, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
+      {"id": 7, "Name": "elekt. Bauteil", "Description": "Tools you can use with one hand", "BeforeID": null, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"}
+    ];
+
+  //call functions to format query for rendering in html-template as nested list
+  var categoryResult = _queryTreeSort({q: allCategories});
+  var categoryTree = _makeTree({q: categoryResult});
+
+  //for rendering nested list --> input is tree
+  $scope.categoryList = categoryTree;
+
+  //gets input from newCategoryValue 
+  $scope.categories = {name: ""};
+
+  //changes input of categories when new radio-button is selected
+  $scope.newCategoryValue = function(n) {
+    $scope.categories = {name: n};
+  };
+  
+
 }]);
 
 //==============================
