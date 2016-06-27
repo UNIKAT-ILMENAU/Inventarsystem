@@ -75,7 +75,22 @@ Next we clone the Git repository with:
     ```sh
     vagrant up
     ```
-    
+8. Type in your terminal:
+    ```sh
+    vagrant ssh
+    ```
+9. Navigate with your console to:
+    ```sh
+    cd code/laravel
+    ```
+10. Migrate the database:
+    ```sh
+    php artisan migrate
+    ```
+11. Seed the database:
+    ```sh
+    php artisan db:seed
+    ```
 ### Linux and Mac
 
 The same like in Windows 
@@ -139,7 +154,22 @@ Next we clone the Git repository with:
     ```sh
     vagrant up
     ```
-
+8. Type in your terminal:
+    ```sh
+    vagrant ssh
+    ```
+9. Navigate with your console to:
+    ```sh
+    cd code/laravel
+    ```
+10. Migrate the database:
+    ```sh
+    php artisan migrate
+    ```
+11. Seed the database:
+    ```sh
+    php artisan db:seed
+    ```
 ### Directory Stuff
 
 The current directory configuartion looks like:
