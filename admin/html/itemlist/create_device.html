@@ -63,22 +63,22 @@ attachments werden erstmal vernachlässigt.
                   <div class="modal-body">
 
                     <!--recursive template for displaying categories as nested list-->
-                    <script type="text/ng-template" id="categoryTree.html">
-                      <ul >
-                        <li ng-repeat="ctg in ctgs">
-                          <label>
-                            {{ctg.Name}}
-                            <input type="radio" name="categoryParent" ng-value="ctg.id" ng-model="selectedItems[0].Category" ng-change="newCategoryValue('{{ctg.Name}}')">
-                          </label>
-                          <div ng-include=" 'categoryTree.html'" onload="ctgs = ctg.children">
-                          </div>
-                        </li>
-                      </ul>
+                    <script type="text/ng-template" id="categoryTree">
+                      <label data-toggle="tooltip" data-placement="right" title="{{category.Description}}">
+                        {{category.Name}}
+                        <input type="radio" name="categoryParent" ng-value="category.id" ng-model="selectedItems[0].Category"
+                         ng-change="newCategoryValue('{{category.Name}}')">
+                      </label>
+                        <ul ng-if="category.children">
+                          <li ng-repeat="category in category.children" ng-include="'categoryTree'">      
+                          </li>
+                        </ul>
                     </script>
 
-                    <!--include template-->
-                    <div style="margin-top:1em;" ng-include=" 'categoryTree.html' " onload="ctgs = categoryList ">
-                    </div>
+                    <!--includes nested list (children is nested Data with all categories)-->
+                    <ul>
+                        <li ng-repeat="category in nestedCategories" ng-include="'categoryTree'"></li>
+                    </ul>
 
                   </div>
                   <div class="modal-footer">
@@ -87,6 +87,14 @@ attachments werden erstmal vernachlässigt.
                 </div>
               </div>
             </div>
+
+            <!-- Scripts for tooltip(description of category)-->
+            <script>
+               /*jQuery for tooltips (shows description of category)  using Bootstrap JS*/
+              jQuery(document).ready(function(){
+                jQuery('[data-toggle="tooltip"]').tooltip();
+              });
+            </script>
 
 
             <!--Place Input (button opens modal with radio buttons)-->
@@ -115,22 +123,22 @@ attachments werden erstmal vernachlässigt.
                   <div class="modal-body">
 
                     <!--recursive template for displaying places as nested list-->
-                    <script type="text/ng-template" id="placeTree.html">
-                      <ul >
-                        <li ng-repeat="plc in plcs">
-                          <label>
-                            {{plc.Name}}
-                            <input type="radio" name="placeParent" ng-value="plc.id" ng-model="selectedItems[0].Place" ng-change="newPlaceValue('{{plc.Name}}')">
-                          </label>
-                          <div ng-include=" 'placeTree.html'" onload="plcs = plc.children">
-                          </div>
-                        </li>
-                      </ul>
+                    <script type="text/ng-template" id="placeTree">
+                      <label>
+                        {{place.Name}}
+                        <input type="radio" name="Parent" ng-value="place.id" ng-model="selectedItems[0].Place"
+                         ng-change="newPlaceValue('{{place.Name}}')">
+                      </label>
+                        <ul ng-if="place.children">
+                          <li ng-repeat="place in place.children" ng-include="'placeTree'">      
+                          </li>
+                        </ul>
                     </script>
 
-                    <!--include template-->
-                    <div style="margin-top:1em;" ng-include=" 'placeTree.html' " onload="plcs = placeList">
-                    </div>
+                    <!--includes nested list (children is nested Data with all places)-->
+                    <ul>
+                        <li ng-repeat="place in nestedPlaces" ng-include="'placeTree'"></li>
+                    </ul>
 
                   </div>
                   <div class="modal-footer">
@@ -138,7 +146,7 @@ attachments werden erstmal vernachlässigt.
                   </div>
                 </div>
               </div>
-            </div> 
+            </div>  
 
 
             <!--State input-->

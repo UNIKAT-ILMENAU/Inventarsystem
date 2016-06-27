@@ -269,43 +269,30 @@ invControllers.controller('CreateCtrl', ['$scope', '$routeParams', '$location', 
   //Get all places from server
   //==============================
 
-  /*    //get places-array
-    $http({
-      method: 'GET',
-      url: '/api/v1/restricted/place/allPlace'
-    })
-    .then(
-      function(re){
-        allPlaces = re;            
-      },         
-      function(er) {
+  //var nesseary for GET places-array and nesting array 
+  var allPlaces = [];
+  var placeResult;
+  var placeTree;
 
-      }
-    );
-  */
+  //GET places-array
+  $http({
+    method: 'GET',
+    url: '/api/v1/restricted/place/allPlace'
+  }).then(function placeSuccess(response) {
+      //handles success
+      allPlaces = response.data;
 
-  //Data for testing
-  //it might be a proplem if Data from Server is like this {[id: 1, name: "tool", before: null], [...], ...}
-  var allPlaces = [
-      {"id": 1, "Name": "Haus M", "CreatedByID": 4, "BeforeID": null, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 2, "Name": "Raum 101", "CreatedByID": 4, "BeforeID": 1, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 3, "Name": "Schrank A", "CreatedByID": 4, "BeforeID": 2, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 4, "Name": "Schrank B", "CreatedByID": 4, "BeforeID": 2, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 5, "Name": "Fach III", "CreatedByID": 4, "BeforeID": 3, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 6, "Name": "Oeconomicum", "CreatedByID": 4, "BeforeID": null, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 7, "Name": "Raum 118", "CreatedByID": 4, "BeforeID": 6, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 8, "Name": "Haus M", "CreatedByID": 4, "BeforeID": null, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 9, "Name": "Haus N", "CreatedByID": 4, "BeforeID": null, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 10, "Name": "Haus O", "CreatedByID": 4, "BeforeID": null, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 11, "Name": "Haus P", "CreatedByID": 4, "BeforeID": null, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-  ];
+      //call functions to format query for rendering in html-template as nested list
+      placeResult = _queryTreeSort({q: allPlaces});
+      placeTree = _makeTree({q: placeResult});
 
-  //call functions to format query for rendering in html-template as nested list
-  var placeResult = _queryTreeSort({q: allPlaces});
-  var placeTree = _makeTree({q: placeResult});
-
-  //for rendering nested list --> input is tree
-  $scope.placeList = placeTree;
+      //for rendering nested list --> input is placeTree
+      $scope.nestedPlaces = placeTree;            
+  }, function placeError(response) {
+      //handles error
+      alert("An error occured. Could not load all places.");
+  }); 
+  
 
   //gets input from newPlaceValue 
   $scope.places = {name: ""};
@@ -319,39 +306,29 @@ invControllers.controller('CreateCtrl', ['$scope', '$routeParams', '$location', 
   //Get all categories from server
   //==============================
 
-  /*    //get categories-array
-    $http({
-      method: 'GET',
-      url: '/api/v1/restricted/category/allCategory'
-    })
-    .then(
-      function(re){
-        allCategories = re;            
-      },         
-      function(er) {
+  //var nesseary for GET categories-array and nesting array 
+  var allCategories = [];
+  var categoryResult;
+  var categoryTree;
 
-      }
-    );
-  */
+  //GET categories-array
+  $http({
+    method: 'GET',
+    url: '/api/v1/restricted/category/allCategory'
+  }).then(function categorySuccess(response) {
+      //handles success
+      allCategories = response.data;
 
-  //Data for testing
-  //it might be a proplem if Data from Server is like this {[id: 1, name: "tool", before: null], [...], ...}
-  var allCategories = [
-      {"id": 1, "Name": "Werkzeug", "Description": "Tools you can use with one hand", "BeforeID": null, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 2, "Name": "Bohrer", "Description": "Tools you can use with one hand", "BeforeID": 1, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 3, "Name": "Bohrer A", "Description": "Tools you can use with one hand", "BeforeID": 2, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 4, "Name": "Bohrer B", "Description": "Tools you can use with one hand", "BeforeID": 2, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 5, "Name": "TGA", "Description": "Tools you can use with one hand", "BeforeID": 3, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 6, "Name": "Kondensator", "Description": "Tools you can use with one hand", "BeforeID": 7, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 7, "Name": "elekt. Bauteil", "Description": "Tools you can use with one hand", "BeforeID": null, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"}
-    ];
+      //call functions to format query for rendering in html-template as nested list
+      categoryResult = _queryTreeSort({q: allCategories});
+      categoryTree = _makeTree({q: categoryResult});
 
-  //call functions to format query for rendering in html-template as nested list
-  var categoryResult = _queryTreeSort({q: allCategories});
-  var categoryTree = _makeTree({q: categoryResult});
-
-  //for rendering nested list --> input is tree
-  $scope.categoryList = categoryTree;
+      //for rendering nested list --> input is categoryTree
+      $scope.nestedCategories = categoryTree;            
+  }, function categoryError(response) {
+      //handles error
+      alert("An error occured. Could not load all categories.");
+  });
 
   //gets input from newCategoryValue 
   $scope.categories = {name: ""};
@@ -360,7 +337,6 @@ invControllers.controller('CreateCtrl', ['$scope', '$routeParams', '$location', 
   $scope.newCategoryValue = function(n) {
     $scope.categories = {name: n};
   };
-  
 
 }]);
 
@@ -371,6 +347,26 @@ invControllers.controller('CreateCtrl', ['$scope', '$routeParams', '$location', 
 invControllers.controller('ItemEditCtrl', ['$scope', '$routeParams', '$location', '$http', 'REST', function($scope, $routeParams, $location, $http, REST) {
   //Gets all informations of a specific item by id
   $scope.detailData = REST.detailLoad({ListItemId: 'item/details/' + $routeParams.ListItemId});
+  
+  //=========================================
+  //Options and default values for dropdowns
+  //=========================================
+  //options and default('available') for state of device in edit_item.html
+  $scope.deviceStates = [{ name: 'Not available', value: 0 },
+                    { name: 'Available', value: 1 },
+                    { name: 'Defective', value: 2 },
+                    { name: 'Missing', value: 3 } 
+  ];
+
+  //options and default('available') for state of material in edit_item.html
+  $scope.materialStates = [{ name: 'Not available', value: 0 },
+                           { name: 'Available', value: 1 } 
+  ];
+
+  //options and default('Visible') for PublicVisible in edit_item.html
+  $scope.Visibility = [{ name: 'Not visible', value: 0 },
+                       { name: 'Visible', value: 1 } 
+  ];
 
   //Update/Edit item to the server
   $scope.saveEdit = function() {
@@ -964,26 +960,31 @@ function forgotPasswordCtrl($scope, $http){
   //Category Management controller
   //Used: category.html
   //==============================
-  invControllers.controller('CategoryCtrl', function ($scope) {
+  invControllers.controller('CategoryCtrl', function ($scope, $http, $route) {
 
-    //Data for testing
-    //it might be a proplem if Data from Server is like this {[id: 1, name: "tool", before: null], [...], ...}
-    var test = [
-      {"id": 1, "Name": "Werkzeug", "Description": "Tools you can use with one hand", "BeforeID": null, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 2, "Name": "Bohrer", "Description": "Tools you can use with one hand", "BeforeID": 1, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 3, "Name": "Bohrer A", "Description": "Tools you can use with one hand", "BeforeID": 2, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 4, "Name": "Bohrer B", "Description": "Tools you can use with one hand", "BeforeID": 2, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 5, "Name": "TGA", "Description": "Tools you can use with one hand", "BeforeID": 3, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 6, "Name": "Kondensator", "Description": "Tools you can use with one hand", "BeforeID": 7, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 7, "Name": "elekt. Bauteil", "Description": "Tools you can use with one hand", "BeforeID": null, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"}
-    ];
+    //var nesseary for GET categories-array and nesting array 
+    var allCategories = [];
+    var categoryResult;
+    var categoryTree;
 
-    //call functions to format query for rendering in html-template as nested list
-    var result = _queryTreeSort({q: test});
-    var tree = _makeTree({q: result});
+    //GET categories-array
+    $http({
+      method: 'GET',
+      url: '/api/v1/restricted/category/allCategory'
+    }).then(function categorySuccess(response) {
+        //handles success
+        allCategories = response.data;
 
-    //for rendering nested list --> input is tree
-    $scope.children = tree;
+        //call functions to format query for rendering in html-template as nested list
+        categoryResult = _queryTreeSort({q: allCategories});
+        categoryTree = _makeTree({q: categoryResult});
+
+        //for rendering nested list --> input is categoryTree
+        $scope.nestedCategories = categoryTree;            
+    }, function categoryError(response) {
+        //handles error
+        alert("An error occured. Could not load all categories.");
+    });
 
     //for input fields and radio-buttons
     $scope.formData = {name: "", Parent: null, description: ""};
@@ -1001,17 +1002,29 @@ function forgotPasswordCtrl($scope, $http){
     //EVENTS (categoryManagement)
     //==============================
 
-
     //==============================
     //update Category
     //==============================
     //in API erwartet 'Update a Category' die beforeID?
-    $scope.updateCategoryEvent = function(categoryName, beforeID, categoryDescription) { 
+    $scope.updateCategoryEvent = function(categoryID, categoryName, categoryDescription) { 
 
-      alert(categoryName + " | " + beforeID + " | " + categoryDescription);
-      var Indata = {'name': categoryName, 'before': beforeID, 'description': categoryDescription };
-      //POST used material to the server
-      /* $http.post("/api/v1/restricted/device/create", Indata).success(function(data, status) {
+      //alert(categoryName + " | " + categoryID + " | " + categoryDescription);
+      var Indata = {'name': categoryName, 'description': categoryDescription};
+      //POST updated category to server
+      $http({
+        method: 'POST',
+        url: '/api/v1/restricted/category/update/' + categoryID,
+        data: Indata 
+      }).then(function updateSuccess(response) {
+          //handles success
+          alert("Selected category was updated."); 
+          $route.reload();          
+      }, function updateError(response) {
+          //handles error
+          alert("An error occured. Could not update category.");
+      });
+      //POST updated category to server
+      /* $http.post("/api/v1/restricted/category/update/" + categoryID, Indata).success(function(data, status) {
       //SUCCESSFULL
       alert("success");
       });*/
@@ -1020,12 +1033,25 @@ function forgotPasswordCtrl($scope, $http){
     //==============================
     //create Category
     //==============================
-    $scope.createCategoryEvent = function(categoryName, beforeID, categoryDescription) { 
+    $scope.createCategoryEvent = function(categoryID, categoryName, categoryDescription) { 
 
-      alert(categoryName + " | " + beforeID + " | " + categoryDescription);
-      var Indata = {'name': categoryName, 'before': beforeID, 'description': categoryDescription };
-      //POST used material to the server
-      /* $http.post("/api/v1/restricted/device/create", Indata).success(function(data, status) {
+      //alert(categoryName + " | " + categoryID + " | " + categoryDescription);
+      var Indata = {'name': categoryName, 'before': beforeID, 'description': categoryDescription, createdbyid: 3 };
+      //POST new category to server
+      $http({
+        method: 'POST',
+        url: '/api/v1/restricted/category/create',
+        data: Indata 
+      }).then(function createSuccess(response) {
+          //handles success
+          alert("New category was created.");
+          $route.reload();           
+      }, function createError(response) {
+          //handles error
+          alert("An error occured. Could not create new category.");
+      });
+      //POST new category to server
+      /* $http.post("/api/v1/restricted/category/create", Indata).success(function(data, status) {
       //SUCCESSFULL
       alert("success");
       });*/
@@ -1037,10 +1063,21 @@ function forgotPasswordCtrl($scope, $http){
     //in API überhaupt integriert? -> es ist sichergestellt, dass nur kategorien ohne kinder gelöscht werden
     $scope.deleteCategoryEvent = function(categoryID) { 
 
-      alert(categoryID);
-      var Indata = {'id': categoryID };
-      //POST used material to the server
-      /* $http.post("/api/v1/restricted/device/create", Indata).success(function(data, status) {
+      //alert(categoryID);
+      //DELETE category
+      $http({
+        method: 'DELETE',
+        url: '/api/v1/restricted/category/delete/' + categoryID
+      }).then(function deleteSuccess(response) {
+          //handles success
+          alert("Selected category was deleted.");
+          $route.reload();           
+      }, function deleteError(response) {
+          //handles error
+          alert("An error occured. Could not delete category.");
+      });
+      //DELETE category
+      /* $http.delete("/api/v1/restricted/category/delete" + categoryID).success(function(data, status) {
       //SUCCESSFULL
       alert("success");
       });*/
@@ -1053,26 +1090,31 @@ function forgotPasswordCtrl($scope, $http){
   //Place Management controller
   //Used: place.html
   //==============================
-  invControllers.controller('PlaceCtrl', function ($scope) {
+  invControllers.controller('PlaceCtrl', function ($scope, $http, $route) {
 
-    //Data for testing
-    //it might be a proplem if Data from Server is like this {[id: 1, name: "tool", before: null], [...], ...}
-    var test = [
-      {"id": 1, "Name": "Haus M", "CreatedByID": 4, "BeforeID": null, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 2, "Name": "Raum 101", "CreatedByID": 4, "BeforeID": 1, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 3, "Name": "Schrank A", "CreatedByID": 4, "BeforeID": 2, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 4, "Name": "Schrank B", "CreatedByID": 4, "BeforeID": 2, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 5, "Name": "Fach III", "CreatedByID": 4, "BeforeID": 3, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 6, "Name": "Oeconomicum", "CreatedByID": 4, "BeforeID": 7, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 7, "Name": "Raum 118", "CreatedByID": 4, "BeforeID": null, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"}
-    ];
+    //var nesseary for GET places-array and nesting array 
+    var allPlaces = [];
+    var placeResult;
+    var placeTree;
 
-    //call functions to format query for rendering in html-template as nested list
-    var result = _queryTreeSort({q: test});
-    var tree = _makeTree({q: result});
+    //GET places-array
+    $http({
+      method: 'GET',
+      url: '/api/v1/restricted/place/allPlace'
+    }).then(function placeSuccess(response) {
+        //handles success
+        allPlaces = response.data;
 
-    //for rendering nested list --> input is tree
-    $scope.children = tree;
+        //call functions to format query for rendering in html-template as nested list
+        placeResult = _queryTreeSort({q: allPlaces});
+        placeTree = _makeTree({q: placeResult});
+
+        //for rendering nested list --> input is placeTree
+        $scope.nestedPlaces = placeTree;            
+    }, function placeError(response) {
+        //handles error
+        alert("An error occured. Could not load all places.");
+    });
 
     //for input fields and radio-buttons
     $scope.formData = {name: "", Parent: null};
@@ -1094,12 +1136,25 @@ function forgotPasswordCtrl($scope, $http){
     //==============================
     //update Place
     //==============================
-    $scope.updatePlaceEvent = function(placeName, beforeID) { 
+    $scope.updatePlaceEvent = function(placeName, placeID) { 
 
-      alert(placeName + " | " + beforeID);
-      var Indata = {'name': categoryName, 'before': beforeID};
-      //POST used material to the server
-      /* $http.post("/api/v1/restricted/device/create", Indata).success(function(data, status) {
+      //alert(placeName + " | " + palceID);
+      var Indata = {'name': placeName};
+      //POST updated place to server
+      $http({
+        method: 'POST',
+        url: '/api/v1/restricted/place/update/' + placeID,
+        data: Indata 
+      }).then(function placeSuccess(response) {
+          //handles success
+          alert("Selected place was updated.");
+          $route.reload();          
+      }, function placeError(response) {
+          //handles error
+          alert("An error occured. Could not update place.");
+      });
+      //POST updated place to server
+      /* $http.post("/api/v1/restricted/place/update/" + placeID, Indata).success(function(data, status) {
       //SUCCESSFULL
       alert("success");
       });*/
@@ -1109,12 +1164,25 @@ function forgotPasswordCtrl($scope, $http){
     //create Place
     //==============================
     //in API erwarted CreatePlace die createdbyID als Input?
-    $scope.createPlaceEvent = function(palceName, beforeID) { 
+    $scope.createPlaceEvent = function(placeName, beforeID) { 
 
-      alert(palceName + " | " + beforeID);
-      var Indata = {'name': placeName, 'before': beforeID};
-      //POST used material to the server
-      /* $http.post("/api/v1/restricted/device/create", Indata).success(function(data, status) {
+      //alert(placeName + " | " + beforeID);
+      var Indata = {'name': placeName, 'before': beforeID, createdbyid: 3};
+      //POST new place to server
+      $http({
+        method: 'POST',
+        url: '/api/v1/restricted/place/create',
+        data: Indata 
+      }).then(function placeSuccess(response) {
+          //handles success
+          alert("New Place was created.");
+          $route.reload();           
+      }, function placeError(response) {
+          //handles error
+          alert("An error occured. Could not create new place.");
+      });
+      //POST new place to server
+      /* $http.post("/api/v1/restricted/place/create", Indata).success(function(data, status) {
       //SUCCESSFULL
       alert("success");
       });*/
@@ -1126,10 +1194,21 @@ function forgotPasswordCtrl($scope, $http){
     //in API überhaupt integriert? -> es ist sichergestellt, dass nur plätze ohne kinder gelöscht werden
     $scope.deletePlaceEvent = function(placeID) { 
 
-      alert(placeID);
-      var Indata = {'id': placeID };
-      //POST used material to the server
-      /* $http.post("/api/v1/restricted/device/create", Indata).success(function(data, status) {
+      //alert(placeID);
+      //DELETE selected place
+      $http({
+        method: 'DELETE',
+        url: '/api/v1/restricted/place/delete/' + placeID,
+      }).then(function placeSuccess(response) {
+          //handles success
+          alert("Place was deleted.");
+          $route.reload();          
+      }, function placeError(response) {
+          //handles error
+          alert("An error occured. Could not delete place.");
+      });
+      //DELETE selected place
+      /* $http.delete("/api/v1/restricted/place/delete/" + placeID).success(function(data, status) {
       //SUCCESSFULL
       alert("success");
       });*/
