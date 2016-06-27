@@ -5,7 +5,7 @@ require 'json'
 require 'yaml'
 
 VAGRANTFILE_API_VERSION = "2"
-confDir = $confDir ||= File.expand_path("E:/Projekte/Softwareprojekt/vagrant/vagrant_config")
+confDir = $confDir ||= File.expand_path("YOUR_PATH_TO_INVENTORYSYSTEM/vagrant_config")
 
 homesteadYamlPath = confDir + "/Homestead.yaml"
 homesteadJsonPath = confDir + "/Homestead.json"
@@ -42,8 +42,8 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: "echo vagrant server is installed"
   config.vm.provision "shell", inline: "echo downloading git repository from URL"
   config.vm.provision "shell", inline: "cd code"
-  #config.vm.provision "shell", inline: "git clone https://github.com/Morenar/Inventarsystem.git --branch laravel --single-branch code/laravel"
-  config.vm.provision "shell", inline: "echo newest git repository from https://github.com/Morenar/Inventarsystem.git --branch laravel was downloaded"
+  config.vm.provision "shell", inline: "git clone https://github.com/Morenar/Inventarsystem.git --branch master --single-branch code/laravel"
+  config.vm.provision "shell", inline: "echo newest git repository from https://github.com/Morenar/Inventarsystem.git --branch master was downloaded"
   config.vm.provision "shell", inline: "echo ready to code"
   
 end

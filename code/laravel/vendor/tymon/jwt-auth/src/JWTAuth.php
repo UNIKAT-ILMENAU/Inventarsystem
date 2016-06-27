@@ -330,6 +330,38 @@ class JWTAuth
      *
      * @throws \BadMethodCallException
      */
+
+
+
+    //////////////////////////////////////////////////////////////////////////////
+    //// OWN STUFF
+        /**
+     * Alias to get the payload, and as a result checks that
+     * the token is valid i.e. not expired or blacklisted.
+     *
+     * @throws \Tymon\JWTAuth\Exceptions\JWTException
+     *
+     * @return \Tymon\JWTAuth\Payload
+     */
+    public function checkOrFail()
+    {
+        return $this->getPayload();
+    }
+    /**
+     * Check that the token is valid.
+     *
+     * @return bool
+     */
+    public function check()
+    {
+        try {
+            $this->checkOrFail();
+        } catch (JWTException $e) {
+            return false;
+        }
+        return true;
+    }
+    ////////////////////////////////////////////////////////////////////////////////
     public function __call($method, $parameters)
     {
         if (method_exists($this->manager, $method)) {

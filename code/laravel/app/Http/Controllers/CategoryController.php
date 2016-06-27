@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Carbon\Carbon;
 
-
 use App\Http\Requests;
 
 class CategoryController extends Controller
@@ -15,7 +14,7 @@ class CategoryController extends Controller
     public function showAllCategory()
     { 
         return DB::table('category')
-            ->select('id', 'Name')
+            ->select('id', 'Name', 'BeforeID', 'Description')
             ->get();
     }
 
@@ -97,6 +96,7 @@ class CategoryController extends Controller
              'updated_at'=>  $current]);   
 
         return $id;
+
     }
 
 }

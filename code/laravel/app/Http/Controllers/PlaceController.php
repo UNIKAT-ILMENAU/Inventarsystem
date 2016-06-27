@@ -16,7 +16,7 @@ class PlaceController extends Controller
     public function showAllPlace()
     { 
         return DB::table('place')
-            ->select('id', 'Name')
+            ->select('id', 'Name', 'BeforeID')
             ->get();
     }
 
@@ -88,5 +88,111 @@ class PlaceController extends Controller
         return $id;
     }
 
+    public function PlaceDelete($id) 
+    {  
+        DB::table('place')	
+        		->where('id', $id)
+        		->delete();
 
+        return 'success';
+    }
+
+	
+    public function showP()
+     {
+          
+        return DB::table('place')
+        	->where('BeforeID', NULL)
+            ->select('id', 'Name')
+            ->get();
+
+    }
+
+    public function showC($id)
+     {
+          
+        return DB::table('place')
+        	->where('BeforeID', $id)
+            ->select('id', 'Name')
+            ->get();
+
+    }
+    /*
+    public function test($id) 
+    {  
+    	
+
+
+    	$array[] = DB::table('place')
+        		->where('id', $id)
+        		->select('Name')
+        		->pluck('Name');
+
+        $Before = DB::table('place')
+        		->where('id', $id)
+        		->select('BeforeID')
+        		->pluck('BeforeID');
+
+
+        while($Before[0] != NULL) {
+
+        	$array[] = DB::table('place')
+        		->where('id', $Before[0])
+        		->select('Name')
+        		->pluck('Name');
+
+    		$Before = DB::table('place')
+        		->where('id', $Before[0])
+        		->select('BeforeID')
+        		->pluck('BeforeID');
+			}; 
+		
+
+		return $array;
+    } */ 
+
+    public function PlaceRoute($id) 
+    {  
+        
+    	$iid = Db::table('item')
+    			->join('place', 'item.PlaceStartID', '=', 'place.id')
+    			->where('item.id', '=', $id)
+    			->select('place.id')
+    			->pluck('place.id');
+
+
+    	$array[] = DB::table('place')
+        		->where('id', $iid[0])
+        		->select('Name')
+        		->pluck('Name');
+
+        $Before = DB::table('place')
+        		->where('id', $iid[0])
+        		->select('BeforeID')
+        		->pluck('BeforeID');
+
+
+        while($Before[0] != NULL) {
+
+        	$array[] = DB::table('place')
+        		->where('id', $Before[0])
+        		->select('Name')
+        		->pluck('Name');
+
+    		$Before = DB::table('place')
+        		->where('id', $Before[0])
+        		->select('BeforeID')
+        		->pluck('BeforeID');
+			}; 
+	
+		$arr = [];
+
+		for($i = sizeof($array)-1; $i > -1; $i-- )
+		{
+			array_push($arr, implode($array[$i]));	
+		}
+		return [implode(" - ", $arr)]; 
+
+    }
+    
 }

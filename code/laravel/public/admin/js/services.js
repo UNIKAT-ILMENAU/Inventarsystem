@@ -16,6 +16,8 @@ function($resource){
     query: {method:'GET', params:{ListItemId: 'item/allItems'}, isArray:true},
     //Detail information of the selected item
     detailLoad: {method:'GET', params:{ListItemId: $resource}, isArray:true},
+    //Detail Place information of the selected item as an string
+    detailPlaceLoad: {method:'GET', params:{ListItemId: $resource}, isArray:true},
     //Detail information of the selected item
     historyLoad: {method:'GET', params:{ListItemId: $resource}, isArray:true},
     //All rentals information

@@ -4,13 +4,13 @@ memory: 2048
 cpus: 1
 provider: virtualbox
 
-authorize: C:/Users/Franz/.ssh/id_rsa.pub
+authorize: /Users/YOUR_NAME/.ssh/id_rsa.pub
 
 keys:
-    - C:/Users/Franz/.ssh/id_rsa
+    - /Users/YOUR_NAME/.ssh/id_rsa
 
 folders:
-    - map: E:/Projekte/Softwareprojekt/code
+    - map: VAGRANT_PATH/code
       to: /home/vagrant/code
 
 sites:

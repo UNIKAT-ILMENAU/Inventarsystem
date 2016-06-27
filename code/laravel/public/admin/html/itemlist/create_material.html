@@ -18,16 +18,18 @@ HIER NOCH VERBESSERN - KOMMENTARE ETC.
               </div>
             </div>
 
+
             <!-- State input-->
             <div class="form-group" id="formState">
               <label class="col-md-2 control-label" for="state">State</label>
               <div class="col-md-4">
-                <select class="form-control"  ng-model="selectedItems[0].State" >
-                    <option value="0">Not available</option>
-                    <option value="1">Available</option>              
+                <select class="form-control"  ng-model="selectedItems[0].State"
+                  ng-options="option.value as option.name for option in materialStates"
+                  ng-init="selectedItems[0].State = selectedItems[0].State || materialStates[1].value">              
                   </select>
               </div>
             </div>
+
 
             <!--Description input-->
             <div class="form-group" id="formDescription">
@@ -37,21 +39,128 @@ HIER NOCH VERBESSERN - KOMMENTARE ETC.
               </div>
             </div>
 
-            <!--Category input-->
+
+            <!--Category input (button opens modal with radio buttons)-->
             <div class="form-group" id="formCategory">
-              <label class="col-md-2 control-label" for="category">Category</label>
-              <div class="col-md-4">
-                <input type="search" class="form-control" id="category" name="category" placeholder="Search for category..." ng-model="selectedItems[0].Category"/> 
+              <label class="col-md-2 control-label" for="categoryButton">Category</label>
+              <!--show, when no category is selected-->
+              <div class="col-md-4" ng-if="selectedItems[0].Category == null">
+                <button type="button" class="btn btn-default btn-block text-left" data-toggle="modal" data-target="#categoryModal"  name="categoryButton"
+                style="text-align:left;color:#999;">Select Category</button>
+              </div>
+              <!--show, when category is selected-->
+              <div class="col-md-4" ng-if="selectedItems[0].Category != null" >
+                <button type="button" class="btn btn-default btn-block text-left" data-toggle="modal" data-target="#categoryModal" name="categoryButton" 
+                style="text-align:left;color:#555;">{{categories.name}}</button>
               </div>
             </div>
 
-            <!--Place input-->
-            <div class="form-group" id="formPlace">
-              <label class="col-md-2 control-label" for="place">Place</label>
-              <div class="col-md-4">
-                <input type="search" class="form-control" id="place" name="place" placeholder="Search for place..." ng-model="selectedItems[0].Place"/> 
+
+            <!--modal for category selection-->
+            <div id="categoryModal" class="modal fade" role="dialog">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Select Category</h4>
+                  </div>
+                  <div class="modal-body">
+
+                    <!--recursive template for displaying categories as nested list-->
+                    <script type="text/ng-template" id="categoryTree">
+                      <label data-toggle="tooltip" data-placement="right" title="{{category.Description}}">
+                        {{category.Name}}
+                        <input type="radio" name="categoryParent" ng-value="category.id" ng-model="selectedItems[0].Category"
+                         ng-change="newCategoryValue('{{category.Name}}')">
+                      </label>
+                        <ul ng-if="category.children">
+                          <li ng-repeat="category in category.children" ng-include="'categoryTree'">      
+                          </li>
+                        </ul>
+                    </script>
+
+                    <!--includes nested list (children is nested Data with all categories)-->
+                    <ul>
+                        <li ng-repeat="category in nestedCategories" ng-include="'categoryTree'"></li>
+                    </ul>
+
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
               </div>
             </div>
+
+            <!-- Scripts for tooltip(description of category)-->
+            <script>
+               /*jQuery for tooltips (shows description of category)  using Bootstrap JS*/
+              jQuery(document).ready(function(){
+                jQuery('[data-toggle="tooltip"]').tooltip();
+              });
+            </script>
+
+            <!--Place Input (button opens modal with radio buttons)-->
+            <div class="form-group" id="formPlace">
+              <label class="col-md-2 control-label" for="placeButton">Place</label>
+              <!--show, when no place is selected-->
+              <div class="col-md-4" ng-if="selectedItems[0].Place == null">
+                <button type="button" class="btn btn-default btn-block text-left" data-toggle="modal" data-target="#placeModal" name="placeButton"
+                 style="text-align:left;color:#999;">Select Place</button>
+              </div>
+              <!--show, when a place is selected-->
+              <div class="col-md-4" ng-if="selectedItems[0].Place != null" >
+                <button type="button" class="btn btn-default btn-block text-left" data-toggle="modal" data-target="#placeModal" name="placeButton"
+                 style="text-align:left;color:#555;">{{places.name}}</button>
+              </div>
+            </div>
+
+            <!--modal for place selection-->
+            <div id="placeModal" class="modal fade" role="dialog">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Select Place</h4>
+                  </div>
+                  <div class="modal-body">
+
+                    <!--recursive template for displaying places as nested list-->
+                    <script type="text/ng-template" id="placeTree">
+                      <label>
+                        {{place.Name}}
+                        <input type="radio" name="Parent" ng-value="place.id" ng-model="selectedItems[0].Place"
+                         ng-change="newPlaceValue('{{place.Name}}')">
+                      </label>
+                        <ul ng-if="place.children">
+                          <li ng-repeat="place in place.children" ng-include="'placeTree'">      
+                          </li>
+                        </ul>
+                    </script>
+
+                    <!--includes nested list (children is nested Data with all places)-->
+                    <ul>
+                        <li ng-repeat="place in nestedPlaces" ng-include="'placeTree'"></li>
+                    </ul>
+
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div> 
+            
+
+            <!--Cost input-->
+            <!-- Eigentlich müsste der Einkaufspreis auch eingegeben werden? -> klären mit Backend
+            <div class="form-group" id="formCost">
+              <label class="col-md-2 control-label" for="cost">Cost</label>
+              <div class="col-md-4">
+                <input type="number" min="0.00" step="0.01" class="form-control" id="cost" name="cost" placeholder="24.00" ng-model="selectedItems[0].Cost"/>
+              </div>
+            </div>-->
+
 
             <!--Retail price input-->
             <div class="form-group" id="formPrice">
@@ -61,6 +170,7 @@ HIER NOCH VERBESSERN - KOMMENTARE ETC.
               </div>
             </div>
 
+
             <!--Stock input-->
             <div class="form-group" id="formStock">
               <label class="col-md-2 control-label" for="stock">Storage value</label>
@@ -69,6 +179,7 @@ HIER NOCH VERBESSERN - KOMMENTARE ETC.
               </div>
             </div>
 
+
             <!--Critical stock input-->
             <div class="form-group" id="formStock">
               <label class="col-md-2 control-label" for="stock">Critical stock amount</label>
@@ -76,14 +187,16 @@ HIER NOCH VERBESSERN - KOMMENTARE ETC.
                 <input type="number" min="0" class="form-control" id="stock" name="stock" placeholder="30" ng-model="selectedItems[0].CriticalStorageValue"/>
               </div>
             </div>
+
             
             <!--Type input-->
             <div class="form-group" id="formType">
               <label class="col-md-2 control-label" for="type">Buildtype</label>
               <div class="col-md-4">
-                <input type="text" class="form-control" id="type" name="type" placeholder="THT" ng-model="selectedItems[0].Buildtype"/>
+                <input type="text" class="form-control" id="type" name="type" placeholder="THT" ng-model="selectedItems[0].BuildType"/>
               </div>
             </div>
+
 
             <!--UOM input-->
             <div class="form-group" id="formMeasure">
@@ -93,6 +206,7 @@ HIER NOCH VERBESSERN - KOMMENTARE ETC.
               </div>
             </div>
 
+
             <!--UOM_short input-->
             <div class="form-group" id="formMeasure">
               <label class="col-md-2 control-label" for="measure">UOM short</label>
@@ -100,6 +214,7 @@ HIER NOCH VERBESSERN - KOMMENTARE ETC.
                 <input type="text" class="form-control" id="measure" name="measure" placeholder="m" ng-model="selectedItems[0].UoM_short"/>
               </div>
             </div>
+
 
             <!--Comment input-->
             <div class="form-group" id="formDescription">
@@ -109,21 +224,22 @@ HIER NOCH VERBESSERN - KOMMENTARE ETC.
               </div>
             </div>
 
+
             <!--PublicVisible input-->
             <div class="form-group" id="formState">
               <label class="col-md-2 control-label" for="state">PublicVisible</label>
-              <div class="col-md-4">
-                <select class="form-control"  ng-model="selectedItems[0].PublicVisible" >
-                  <option value="0">Not visible</option>
-                  <option value="1">Visible</option>
-                </select>
+              <div class="col-md-4">  
+                <select class="form-control"  ng-model="selectedItems[0].PublicVisible"
+                  ng-options="option.value as option.name for option in Visibility"
+                  ng-init="selectedItems[0].PublicVisible = selectedItems[0].PublicVisible || Visibility[1].value">
+                </select>   
               </div>
             </div>
-
+              
             <!--Buttons: link for 'Back to menu' has to be set-->
             <div class="form-group">
               <div class="col-md-6 col-md-offset-2">
-                <button id="buttonSubmit" name="buttonSubmit" type="submit" class="btn btn-success btn-sm" ng-click="createItemToServer('Material')">Create material</button>
+                <button id="buttonSubmit" name="buttonSubmit" type="button" class="btn btn-success btn-sm" ng-click="createItemToServer('Material')">Create material</button>
                 <button id="buttonReset" name="buttonReset" type="reset" form="itemForm" class="btn btn-danger btn-sm" ng-click="clearItem()">Reset form</button>
                 <a href="">
                 	<a href="#/list" id="buttonMenu" name="buttonMenu" type="button" class="btn btn-primary btn-sm" ng-click="clearItem()">Back to list</a>

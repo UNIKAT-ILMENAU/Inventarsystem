@@ -77,7 +77,7 @@ Additionally needed scripts: datepicker.js
             <div class="col-sm-2">{{$index+1}}</div>
             <div class="col-sm-2">{{item.Name}}</div>
             <div class="col-sm-2" ng-if="item.material_id != 1">
-              <input type="text" placeholder="Fill in amount > 0" class="form-control" ng-model="item.amount">
+              <input type="text" placeholder="Fill in amount > 0" class="form-control" ng-change="checkAmount(item.amount)" ng-model="item.amount">   <!-- Needs to be implemented -->
             </div>
             <div class="col-sm-2" ng-if="item.material_id == 1">
               <input type="text" placeholder="Fill in amount > 0" class="form-control" disabled>

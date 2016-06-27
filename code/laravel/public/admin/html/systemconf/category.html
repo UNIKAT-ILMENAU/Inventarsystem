@@ -15,24 +15,24 @@ Additionally needed scripts: tree.js(for nesting data from server), jQuery & Boo
       <li> You are only allowed to delete categories without children! </li>
     </ul>  
     </div>
-
-    <!--script creating template like a nested list-->
-    <script type="text/ng-template" id="treeLevel.html">
-      <ul class="list-group">
-        <li ng-repeat="item in items" class="list-group-item">
-          <label data-toggle="tooltip" data-placement="right" title="{{item.Description}}">
-            {{item.Name}}
-            <input type="radio" name="Parent" value="{{item.id}}" ng-model="formData.Parent" ng-change="newValue('{{item.Name}}', '{{item.Description}}', {{item.children}})">
-          </label>
-          <div ng-include=" 'treeLevel.html'" onload="items = item.children">
-          </div>
-        </li>
-      </ul>
+    
+    <!--recursive template for displaying categories as nested list-->
+    <script type="text/ng-template" id="categoryTree">
+      <label data-toggle="tooltip" data-placement="right" title="{{category.Description}}">
+        {{category.Name}}
+        <input type="radio" name="Parent" ng-value="category.id" ng-model="formData.Parent"
+         ng-change="newValue('{{category.Name}}', '{{category.Description}}', {{category.children}})">
+      </label>
+        <ul ng-if="category.children">
+          <li ng-repeat="category in category.children" ng-include="'categoryTree'">      
+          </li>
+        </ul>
     </script>
 
     <!--includes nested list (children is nested Data with all categories)-->
-    <div style="margin-top:1em;" ng-include=" 'treeLevel.html' " onload="items = children">
-    </div>
+    <ul>
+        <li ng-repeat="category in nestedCategories" ng-include="'categoryTree'"></li>
+    </ul>
 
     <!--Add new root category-->
     <div ng-if="formData.Parent == null">
@@ -113,11 +113,11 @@ Additionally needed scripts: tree.js(for nesting data from server), jQuery & Boo
       </form>
     </div>
 
-    <!--code for tests    
+    <!--code for tests-->    
     <pre>
         {{ formData }}
     </pre>
-    <pre>
+    <!--<pre>
         {{ categories }}
     </pre>
     <pre>

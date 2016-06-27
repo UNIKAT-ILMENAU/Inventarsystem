@@ -57,12 +57,12 @@ Additionally needed scripts: none
       <h4>Items</h4><hr>    
       <div ng-repeat="rdata in itemData" class="well" style="margin:0px">  
           <div class="row">
-            <div class="col-sm-2">[{{$index+1}}] ID: {{rdata.ItemID}}</div>
-            <div class="col-sm-2">{{rdata.Itemname}}</div>
+            <div class="col-sm-2">[{{$index+1}}] {{rdata.Itemname}} (ID:{{rdata.ItemID}})</div>
             <div  class="col-sm-2">
                 <div ng-if="rdata.Amount > 0">Amount: {{rdata.Amount}}</div>
                 <div ng-if="rdata.Amount === null">Device</div>
             </div>
+            <div class="col-sm-2">{{rdata.Place}}</div>
             <div class="col-sm-2">
               <div ng-switch="rdata.State">
                     <div ng-switch-when="0" class="text-warning">Still outstanding</div>
@@ -91,13 +91,12 @@ Additionally needed scripts: none
           </div>
           <div class="modal-body">
             <div ng-if="amount > 0 && title == 'back'">
-              <label>Amount:</label>
-              <input type="text" class="form-control" ng-model="amount_value">
+              <label>Amount: {{amount_value}}</label>
+              <input type="text" class="form-control" ng-change="change_amount(amount_value)" ng-model="amount_value">
             </div>
             <label>Comment:</label>
             <input type="text" class="form-control" ng-model="comment">
           </div>
-
           <div class="modal-footer">
             <!-- Update/Okay send to server -->
             <div ng-switch="title">
@@ -110,7 +109,7 @@ Additionally needed scripts: none
                 <div ng-if="amount === null"> <!-- Device -->
                   <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                   <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="updateLostEvent(itemID, null, comment)">Okay</button>
-                </div>
+                </div>        
               </div>
               <!-- BackEvent -->
               <div ng-switch-when="back" class="text-success">

@@ -96,15 +96,70 @@ class ItemController extends Controller
         TO MANY DATAS CAN KILL THE SQL SERVER OR LONG DELAY
         */
         
-        return DB::table('item')
+        $item = DB::table('item')
             ->join('material', 'item.material_id', '=', 'material.id')
             ->join('category', 'item.CategoryStartID', '=', 'category.id')
             ->join('place', 'item.PlaceStartID', '=', 'place.id')
-            ->select('item.Id', 'item.Name', 'item.State', 'category.name as Category','material.BuildType', 'material.StorageValue', 'material.CriticalStorageValue', 'place.name as Place', 'item.material_id', 'item.Visible as PublicVisible','item.Deleted as Deactivated',  'item.created_at as Created_at', 'item.updated_at as Updated_at', 'material.SalePrice as SalePrice')
+            ->select('item.Id', 'item.Name', 'item.State', 'category.name as Category','material.BuildType', 'material.StorageValue', 'material.CriticalStorageValue', 'item.material_id', 'item.Visible as PublicVisible','item.Deleted as Deactivated',  'item.created_at as Created_at', 'item.updated_at as Updated_at', 'material.SalePrice as SalePrice')
             ->orderBy('id')
-            ->get();
+            ->get(); 
+
+        $getid = DB::table('item')
+                ->select('id')
+                ->pluck('id');
+                
+        foreach($getid as $getid){
+                
+
+                $iid = Db::table('item')
+                        ->join('place', 'item.PlaceStartID', '=', 'place.id')
+                        ->where('item.id', '=', $getid)
+                        ->select('place.id')
+                        ->pluck('place.id');
 
 
+                $array[] = DB::table('place')
+                        ->where('id', $iid[0])
+                        ->select('Name')
+                        ->pluck('Name');
+
+                $Before = DB::table('place')
+                        ->where('id', $iid[0])
+                        ->select('BeforeID')
+                        ->pluck('BeforeID');
+
+
+                while($Before[0] != NULL) {
+
+                    $array[] = DB::table('place')
+                        ->where('id', $Before[0])
+                        ->select('Name')
+                        ->pluck('Name');
+
+                    $Before = DB::table('place')
+                        ->where('id', $Before[0])
+                        ->select('BeforeID')
+                        ->pluck('BeforeID');
+                    }; 
+                
+                for($i = sizeof($array)-1; $i > -1; $i-- )
+                {
+                    $arr[] = implode($array[$i]);                  
+                }
+                
+                $return[] = implode(" - ", $arr); 
+                $arr = array();
+                $array = array();
+                $Before = array();
+               
+                
+        }        
+        
+        for($i = 0; $i < sizeof($item); $i++){
+
+            $item[$i] ->Place  = $return[$i];
+        }
+        return $item; 
     }
 
     //===================================================
@@ -134,7 +189,7 @@ class ItemController extends Controller
             ->join('category', 'item.CategoryStartID', '=', 'category.id')
             ->join('place', 'item.PlaceStartID', '=', 'place.id')
             ->where('item.Id', '=', $id)
-            ->select('item.Id', 'item.Name', 'item.State', 'place.name as Place', 'category.name as Category','material.BuildType','item.Description','material.UoM', 'material.UoM_short', 'item.Visible as PublicVisible','item.Deleted as Deactivated', 'material.StorageValue', 'material.CriticalStorageValue','item.created_at as Created_at', 'item.updated_at as Updated_at', 'material.SalePrice as SalePrice', 'item.material_id')
+            ->select('item.Id', 'item.Name', 'item.State', 'place.id as Place', 'category.name as Category','material.BuildType','item.Description','material.UoM', 'material.UoM_short', 'item.Visible as PublicVisible','item.Deleted as Deactivated', 'material.StorageValue', 'material.CriticalStorageValue','item.created_at as Created_at', 'item.updated_at as Updated_at', 'material.SalePrice as SalePrice', 'item.material_id')
             ->get();
     }
 
@@ -148,7 +203,7 @@ class ItemController extends Controller
             ->join('event', 'history.Event_ID', '=', 'event.id')
             ->where('Item_ID',$id)
             ->select('comment.Comment as Comment', 'history.CreatedByID as CreatedByID', 'history.Event_ID as Event_ID', 'event.Name as EventName', 'history.created_at as created_at')
-            ->groupBy('created_at')
+            ->orderBy('created_at', 'desc')
             ->get();
 
 

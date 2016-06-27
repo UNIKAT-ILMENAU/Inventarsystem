@@ -16,24 +16,24 @@ Additionally needed scripts: tree.js(for nesting data from server)
     </ul>  
     </div>
 
-    <!--script creating template like a nested list-->
-    <script type="text/ng-template" id="treeLevel.html">
-      <ul class="list-group">
-        <li ng-repeat="item in items" class="list-group-item">
-          <label>
-            {{item.Name}}
-            <input type="radio" name="Parent" value="{{item.id}}" ng-model="formData.Parent" ng-change="newValue('{{item.Name}}', {{item.children}})">
-          </label>
-          <div ng-include=" 'treeLevel.html'" onload="items = item.children">
-          </div>
-        </li>
-      </ul>
+    <!--recursive template for displaying places as nested list-->
+    <script type="text/ng-template" id="placeTree">
+      <label  class="list-group-item">
+        {{place.Name}}
+        <input type="radio" name="Parent" ng-value="place.id" ng-model="formData.Parent"
+         ng-change="newValue('{{place.Name}}', {{place.children}})">
+      </label>
+        <div class="list-group" ng-repeat="place in place.children" ng-include="'placeTree'"  ng-if="place.children">
+        </div>
     </script>
 
     <!--includes nested list (children is nested Data with all places)-->
-    <div style="margin-top:1em;" ng-include=" 'treeLevel.html' " onload="items = children">
+    <div class="just-padding">
+    <div class="list-group list-group-root well">
+      <div class="list-group" ng-repeat="place in nestedPlaces" ng-include="'placeTree'">
+      </div>  
     </div>
-
+    </div>
     <!--Add new root place-->
     <div ng-if="formData.Parent == null">
       <form role="form">
@@ -101,11 +101,11 @@ Additionally needed scripts: tree.js(for nesting data from server)
       </form>
     </div>
 
-    <!--code for tests    
+    <!--code for tests -->   
     <pre>
         {{ formData }}
     </pre>
-    <pre>
+    <!--<pre>
         {{ places }}
     </pre>
     <pre>

@@ -68,6 +68,8 @@ invControllers.controller('MenuCtrl', function () {
 invControllers.controller('DetailCtrl', ['$scope', '$routeParams', '$location', '$http', 'REST', function($scope, $routeParams, $location, $http, REST) {
   //Gets all informations of a specific item by id
   $scope.detailData = REST.detailLoad({ListItemId: 'item/details/' + $routeParams.ListItemId});
+  //Gets the place as a string
+  $scope.Place_name = REST.detailPlaceLoad({ListItemId: 'place/search/' + $routeParams.ListItemId});
   //Gets all history informations of a specific item by id
   $scope.historyData = REST.historyLoad({ListItemId: 'item/getHistory/' + $routeParams.ListItemId});
 
@@ -200,9 +202,10 @@ invControllers.controller('CreateCtrl', ['$scope', '$routeParams', '$location', 
      var Indata = { 'name': $scope.selectedItems[0].Name, 
                     'state': $scope.selectedItems[0].State,
                     'description': $scope.selectedItems[0].Description,
-                    'category': $scope.selectedItems[0].Category, //NEEDS TO BE IMPLEMENTED
+                    'category': $scope.selectedItems[0].Category, 
                     'visible': $scope.selectedItems[0].PublicVisible,
-                    'place': $scope.selectedItems[0].Place,       //NEEDS TO BE IMPLEMENTED
+                    //'cost': $scope.selectedItems[0].Cost,       //NEEDS TO BE IMPLEMENTED?
+                    'place': $scope.selectedItems[0].Place,       
                     'createdbyid': 1,                             //NEEDS TO BE IMPLEMENTED
                     'comment': $scope.selectedItems[0].Comment
                 };
@@ -217,11 +220,12 @@ invControllers.controller('CreateCtrl', ['$scope', '$routeParams', '$location', 
     {
      var Indata = { 'name': $scope.selectedItems[0].Name, 
                     'state': $scope.selectedItems[0].State,
-                    'category': $scope.selectedItems[0].Category, //NEEDS TO BE IMPLEMENTED
+                    'category': $scope.selectedItems[0].Category, 
                     'description': $scope.selectedItems[0].Description,
                     'visible': $scope.selectedItems[0].PublicVisible,
                     'saleprice': $scope.selectedItems[0].SalePrice,
-                    'place': $scope.selectedItems[0].Place,       //NEEDS TO BE IMPLEMENTED
+                    //'cost': $scope.selectedItems[0].Cost,       //NEEDS TO BE IMPLEMENTED?
+                    'place': $scope.selectedItems[0].Place,       
                     'createdbyid': 1,                             //NEEDS TO BE IMPLEMENTED
                     'buildtype': $scope.selectedItems[0].Buildtype,
                     'uom': $scope.selectedItems[0].UoM,
@@ -239,6 +243,101 @@ invControllers.controller('CreateCtrl', ['$scope', '$routeParams', '$location', 
       });
     }
   };
+
+  //=========================================
+  //Options and default values for dropdowns
+  //=========================================
+
+  //options and default('available') for state in create_device
+  $scope.deviceStates = [{ name: 'Not available', value: 0 },
+                    { name: 'Available', value: 1 },
+                    { name: 'Defective', value: 2 },
+                    { name: 'Missing', value: 3 } 
+  ];
+
+  //options and default('available') for state in create_material
+  $scope.materialStates = [{ name: 'Not available', value: 0 },
+                           { name: 'Available', value: 1 } 
+  ];
+
+  //options and default('Visible') for PublicVisible in create_material/create_device
+  $scope.Visibility = [{ name: 'Not visible', value: 0 },
+                       { name: 'Visible', value: 1 } 
+  ];
+
+  //==============================
+  //Get all places from server
+  //==============================
+
+  //var nesseary for GET places-array and nesting array 
+  var allPlaces = [];
+  var placeResult;
+  var placeTree;
+
+  //GET places-array
+  $http({
+    method: 'GET',
+    url: '/api/v1/restricted/place/allPlace'
+  }).then(function placeSuccess(response) {
+      //handles success
+      allPlaces = response.data;
+
+      //call functions to format query for rendering in html-template as nested list
+      placeResult = _queryTreeSort({q: allPlaces});
+      placeTree = _makeTree({q: placeResult});
+
+      //for rendering nested list --> input is placeTree
+      $scope.nestedPlaces = placeTree;            
+  }, function placeError(response) {
+      //handles error
+      alert("An error occured. Could not load all places.");
+  }); 
+  
+
+  //gets input from newPlaceValue 
+  $scope.places = {name: ""};
+
+  //changes input of places when new radio-button is selected
+  $scope.newPlaceValue = function(n) {
+    $scope.places = {name: n};
+  };
+
+  //==============================
+  //Get all categories from server
+  //==============================
+
+  //var nesseary for GET categories-array and nesting array 
+  var allCategories = [];
+  var categoryResult;
+  var categoryTree;
+
+  //GET categories-array
+  $http({
+    method: 'GET',
+    url: '/api/v1/restricted/category/allCategory'
+  }).then(function categorySuccess(response) {
+      //handles success
+      allCategories = response.data;
+
+      //call functions to format query for rendering in html-template as nested list
+      categoryResult = _queryTreeSort({q: allCategories});
+      categoryTree = _makeTree({q: categoryResult});
+
+      //for rendering nested list --> input is categoryTree
+      $scope.nestedCategories = categoryTree;            
+  }, function categoryError(response) {
+      //handles error
+      alert("An error occured. Could not load all categories.");
+  });
+
+  //gets input from newCategoryValue 
+  $scope.categories = {name: ""};
+
+  //changes input of categories when new radio-button is selected
+  $scope.newCategoryValue = function(n) {
+    $scope.categories = {name: n};
+  };
+
 }]);
 
 //==============================
@@ -248,6 +347,26 @@ invControllers.controller('CreateCtrl', ['$scope', '$routeParams', '$location', 
 invControllers.controller('ItemEditCtrl', ['$scope', '$routeParams', '$location', '$http', 'REST', function($scope, $routeParams, $location, $http, REST) {
   //Gets all informations of a specific item by id
   $scope.detailData = REST.detailLoad({ListItemId: 'item/details/' + $routeParams.ListItemId});
+  
+  //=========================================
+  //Options and default values for dropdowns
+  //=========================================
+  //options and default('available') for state of device in edit_item.html
+  $scope.deviceStates = [{ name: 'Not available', value: 0 },
+                    { name: 'Available', value: 1 },
+                    { name: 'Defective', value: 2 },
+                    { name: 'Missing', value: 3 } 
+  ];
+
+  //options and default('available') for state of material in edit_item.html
+  $scope.materialStates = [{ name: 'Not available', value: 0 },
+                           { name: 'Available', value: 1 } 
+  ];
+
+  //options and default('Visible') for PublicVisible in edit_item.html
+  $scope.Visibility = [{ name: 'Not visible', value: 0 },
+                       { name: 'Visible', value: 1 } 
+  ];
 
   //Update/Edit item to the server
   $scope.saveEdit = function() {
@@ -365,18 +484,9 @@ invControllers.controller('RentalCtrl', ['$scope', '$routeParams', '$location', 
     });
   }
 
-  $scope.sendRental2 = function(){
-    //needs to be like this cause datepicker doesnt work with ng-change
-    $scope.borrow.customer.date = document.getElementById("borrowDate").value;
-
-    //POST device to the server
-    /*$http.post("/api/v1/restricted/device/create", $scope.borrow).success(function(data, status) {
-      //SUCCESSFULL
-      $scope.clearItem(); //clears the selected item
-      $location.path('/list');
-    });*/
-
-
+  //rental.html line 80 needs to be changed
+  $scope.checkAmount = function(default_amount){
+    //if(default_amount < $scope.)
   };
 
   //Datepicker   
@@ -446,6 +556,12 @@ invControllers.controller('RentalDetailCtrl', ['$scope', '$routeParams', '$locat
   //==============================
   //Item rented events
   //==============================
+  //bugfixing modal bug
+  $scope.amount_value;
+
+  $scope.change_amount = function(value) { 
+    $scope.amount_value = value;
+  };
 
   //Lost event
   $scope.lostEvent = function(ItemID, value) { 
@@ -460,10 +576,10 @@ invControllers.controller('RentalDetailCtrl', ['$scope', '$routeParams', '$locat
     //sets the title in the modal 
     $scope.title = "back";
     $scope.amount = value;
-    $scope.itemID = ItemID;
+    $scope.itemID = ItemID; 
   };
 
-  //modal 
+  //modal function for the lost event
   $scope.updateLostEvent = function(itemID, value, comment) { 
 
     var Indata = {'itemid': itemID, 'amount': value,'comment': comment, 'createdbyid': 1}; //NEEDS TO BE IMPLEMENTED
@@ -485,7 +601,7 @@ invControllers.controller('RentalDetailCtrl', ['$scope', '$routeParams', '$locat
     });
   };
 
-  //modal 
+  //modal function for the back event
   $scope.updateBackEvent = function(itemID, value, comment) { 
     var Indata = {'itemid': itemID, 'amount': value,'comment': comment, 'createdbyid': 1}; //NEEDS TO BE IMPLEMENTED
     //Creates the url for the post
@@ -844,26 +960,31 @@ function forgotPasswordCtrl($scope, $http){
   //Category Management controller
   //Used: category.html
   //==============================
-  invControllers.controller('CategoryCtrl', function ($scope) {
+  invControllers.controller('CategoryCtrl', function ($scope, $http, $route) {
 
-    //Data for testing
-    //it might be a proplem if Data from Server is like this {[id: 1, name: "tool", before: null], [...], ...}
-    var test = [
-      {"id": 1, "Name": "Werkzeug", "Description": "Tools you can use with one hand", "BeforeID": null, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 2, "Name": "Bohrer", "Description": "Tools you can use with one hand", "BeforeID": 1, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 3, "Name": "Bohrer A", "Description": "Tools you can use with one hand", "BeforeID": 2, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 4, "Name": "Bohrer B", "Description": "Tools you can use with one hand", "BeforeID": 2, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 5, "Name": "TGA", "Description": "Tools you can use with one hand", "BeforeID": 3, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 6, "Name": "Kondensator", "Description": "Tools you can use with one hand", "BeforeID": 7, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 7, "Name": "elekt. Bauteil", "Description": "Tools you can use with one hand", "BeforeID": null, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"}
-    ];
+    //var nesseary for GET categories-array and nesting array 
+    var allCategories = [];
+    var categoryResult;
+    var categoryTree;
 
-    //call functions to format query for rendering in html-template as nested list
-    var result = _queryTreeSort({q: test});
-    var tree = _makeTree({q: result});
+    //GET categories-array
+    $http({
+      method: 'GET',
+      url: '/api/v1/restricted/category/allCategory'
+    }).then(function categorySuccess(response) {
+        //handles success
+        allCategories = response.data;
 
-    //for rendering nested list --> input is tree
-    $scope.children = tree;
+        //call functions to format query for rendering in html-template as nested list
+        categoryResult = _queryTreeSort({q: allCategories});
+        categoryTree = _makeTree({q: categoryResult});
+
+        //for rendering nested list --> input is categoryTree
+        $scope.nestedCategories = categoryTree;            
+    }, function categoryError(response) {
+        //handles error
+        alert("An error occured. Could not load all categories.");
+    });
 
     //for input fields and radio-buttons
     $scope.formData = {name: "", Parent: null, description: ""};
@@ -881,17 +1002,29 @@ function forgotPasswordCtrl($scope, $http){
     //EVENTS (categoryManagement)
     //==============================
 
-
     //==============================
     //update Category
     //==============================
     //in API erwartet 'Update a Category' die beforeID?
-    $scope.updateCategoryEvent = function(categoryName, beforeID, categoryDescription) { 
+    $scope.updateCategoryEvent = function(categoryID, categoryName, categoryDescription) { 
 
-      alert(categoryName + " | " + beforeID + " | " + categoryDescription);
-      var Indata = {'name': categoryName, 'before': beforeID, 'description': categoryDescription };
-      //POST used material to the server
-      /* $http.post("/api/v1/restricted/device/create", Indata).success(function(data, status) {
+      //alert(categoryName + " | " + categoryID + " | " + categoryDescription);
+      var Indata = {'name': categoryName, 'description': categoryDescription};
+      //POST updated category to server
+      $http({
+        method: 'POST',
+        url: '/api/v1/restricted/category/update/' + categoryID,
+        data: Indata 
+      }).then(function updateSuccess(response) {
+          //handles success
+          alert("Selected category was updated."); 
+          $route.reload();          
+      }, function updateError(response) {
+          //handles error
+          alert("An error occured. Could not update category.");
+      });
+      //POST updated category to server
+      /* $http.post("/api/v1/restricted/category/update/" + categoryID, Indata).success(function(data, status) {
       //SUCCESSFULL
       alert("success");
       });*/
@@ -900,12 +1033,25 @@ function forgotPasswordCtrl($scope, $http){
     //==============================
     //create Category
     //==============================
-    $scope.createCategoryEvent = function(categoryName, beforeID, categoryDescription) { 
+    $scope.createCategoryEvent = function(categoryID, categoryName, categoryDescription) { 
 
-      alert(categoryName + " | " + beforeID + " | " + categoryDescription);
-      var Indata = {'name': categoryName, 'before': beforeID, 'description': categoryDescription };
-      //POST used material to the server
-      /* $http.post("/api/v1/restricted/device/create", Indata).success(function(data, status) {
+      //alert(categoryName + " | " + categoryID + " | " + categoryDescription);
+      var Indata = {'name': categoryName, 'before': beforeID, 'description': categoryDescription, createdbyid: 3 };
+      //POST new category to server
+      $http({
+        method: 'POST',
+        url: '/api/v1/restricted/category/create',
+        data: Indata 
+      }).then(function createSuccess(response) {
+          //handles success
+          alert("New category was created.");
+          $route.reload();           
+      }, function createError(response) {
+          //handles error
+          alert("An error occured. Could not create new category.");
+      });
+      //POST new category to server
+      /* $http.post("/api/v1/restricted/category/create", Indata).success(function(data, status) {
       //SUCCESSFULL
       alert("success");
       });*/
@@ -917,10 +1063,21 @@ function forgotPasswordCtrl($scope, $http){
     //in API überhaupt integriert? -> es ist sichergestellt, dass nur kategorien ohne kinder gelöscht werden
     $scope.deleteCategoryEvent = function(categoryID) { 
 
-      alert(categoryID);
-      var Indata = {'id': categoryID };
-      //POST used material to the server
-      /* $http.post("/api/v1/restricted/device/create", Indata).success(function(data, status) {
+      //alert(categoryID);
+      //DELETE category
+      $http({
+        method: 'DELETE',
+        url: '/api/v1/restricted/category/delete/' + categoryID
+      }).then(function deleteSuccess(response) {
+          //handles success
+          alert("Selected category was deleted.");
+          $route.reload();           
+      }, function deleteError(response) {
+          //handles error
+          alert("An error occured. Could not delete category.");
+      });
+      //DELETE category
+      /* $http.delete("/api/v1/restricted/category/delete" + categoryID).success(function(data, status) {
       //SUCCESSFULL
       alert("success");
       });*/
@@ -933,26 +1090,31 @@ function forgotPasswordCtrl($scope, $http){
   //Place Management controller
   //Used: place.html
   //==============================
-  invControllers.controller('PlaceCtrl', function ($scope) {
+  invControllers.controller('PlaceCtrl', function ($scope, $http, $route) {
 
-    //Data for testing
-    //it might be a proplem if Data from Server is like this {[id: 1, name: "tool", before: null], [...], ...}
-    var test = [
-      {"id": 1, "Name": "Haus M", "CreatedByID": 4, "BeforeID": null, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 2, "Name": "Raum 101", "CreatedByID": 4, "BeforeID": 1, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 3, "Name": "Schrank A", "CreatedByID": 4, "BeforeID": 2, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 4, "Name": "Schrank B", "CreatedByID": 4, "BeforeID": 2, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 5, "Name": "Fach III", "CreatedByID": 4, "BeforeID": 3, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 6, "Name": "Oeconomicum", "CreatedByID": 4, "BeforeID": 7, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"},
-      {"id": 7, "Name": "Raum 118", "CreatedByID": 4, "BeforeID": null, "created_at": "2016-06-07 13:59:31", "updated_at": "2016-06-07 13:59:31"}
-    ];
+    //var nesseary for GET places-array and nesting array 
+    var allPlaces = [];
+    var placeResult;
+    var placeTree;
 
-    //call functions to format query for rendering in html-template as nested list
-    var result = _queryTreeSort({q: test});
-    var tree = _makeTree({q: result});
+    //GET places-array
+    $http({
+      method: 'GET',
+      url: '/api/v1/restricted/place/allPlace'
+    }).then(function placeSuccess(response) {
+        //handles success
+        allPlaces = response.data;
 
-    //for rendering nested list --> input is tree
-    $scope.children = tree;
+        //call functions to format query for rendering in html-template as nested list
+        placeResult = _queryTreeSort({q: allPlaces});
+        placeTree = _makeTree({q: placeResult});
+
+        //for rendering nested list --> input is placeTree
+        $scope.nestedPlaces = placeTree;            
+    }, function placeError(response) {
+        //handles error
+        alert("An error occured. Could not load all places.");
+    });
 
     //for input fields and radio-buttons
     $scope.formData = {name: "", Parent: null};
@@ -974,12 +1136,25 @@ function forgotPasswordCtrl($scope, $http){
     //==============================
     //update Place
     //==============================
-    $scope.updatePlaceEvent = function(placeName, beforeID) { 
+    $scope.updatePlaceEvent = function(placeName, placeID) { 
 
-      alert(placeName + " | " + beforeID);
-      var Indata = {'name': categoryName, 'before': beforeID};
-      //POST used material to the server
-      /* $http.post("/api/v1/restricted/device/create", Indata).success(function(data, status) {
+      //alert(placeName + " | " + palceID);
+      var Indata = {'name': placeName};
+      //POST updated place to server
+      $http({
+        method: 'POST',
+        url: '/api/v1/restricted/place/update/' + placeID,
+        data: Indata 
+      }).then(function placeSuccess(response) {
+          //handles success
+          alert("Selected place was updated.");
+          $route.reload();          
+      }, function placeError(response) {
+          //handles error
+          alert("An error occured. Could not update place.");
+      });
+      //POST updated place to server
+      /* $http.post("/api/v1/restricted/place/update/" + placeID, Indata).success(function(data, status) {
       //SUCCESSFULL
       alert("success");
       });*/
@@ -989,12 +1164,25 @@ function forgotPasswordCtrl($scope, $http){
     //create Place
     //==============================
     //in API erwarted CreatePlace die createdbyID als Input?
-    $scope.createPlaceEvent = function(palceName, beforeID) { 
+    $scope.createPlaceEvent = function(placeName, beforeID) { 
 
-      alert(palceName + " | " + beforeID);
-      var Indata = {'name': placeName, 'before': beforeID};
-      //POST used material to the server
-      /* $http.post("/api/v1/restricted/device/create", Indata).success(function(data, status) {
+      //alert(placeName + " | " + beforeID);
+      var Indata = {'name': placeName, 'before': beforeID, createdbyid: 3};
+      //POST new place to server
+      $http({
+        method: 'POST',
+        url: '/api/v1/restricted/place/create',
+        data: Indata 
+      }).then(function placeSuccess(response) {
+          //handles success
+          alert("New Place was created.");
+          $route.reload();           
+      }, function placeError(response) {
+          //handles error
+          alert("An error occured. Could not create new place.");
+      });
+      //POST new place to server
+      /* $http.post("/api/v1/restricted/place/create", Indata).success(function(data, status) {
       //SUCCESSFULL
       alert("success");
       });*/
@@ -1006,10 +1194,21 @@ function forgotPasswordCtrl($scope, $http){
     //in API überhaupt integriert? -> es ist sichergestellt, dass nur plätze ohne kinder gelöscht werden
     $scope.deletePlaceEvent = function(placeID) { 
 
-      alert(placeID);
-      var Indata = {'id': placeID };
-      //POST used material to the server
-      /* $http.post("/api/v1/restricted/device/create", Indata).success(function(data, status) {
+      //alert(placeID);
+      //DELETE selected place
+      $http({
+        method: 'DELETE',
+        url: '/api/v1/restricted/place/delete/' + placeID,
+      }).then(function placeSuccess(response) {
+          //handles success
+          alert("Place was deleted.");
+          $route.reload();          
+      }, function placeError(response) {
+          //handles error
+          alert("An error occured. Could not delete place.");
+      });
+      //DELETE selected place
+      /* $http.delete("/api/v1/restricted/place/delete/" + placeID).success(function(data, status) {
       //SUCCESSFULL
       alert("success");
       });*/

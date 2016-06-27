@@ -99,7 +99,6 @@ Additionally needed scripts: js/dirPagination.js
 				    <th ng-click="sort('Email')">Email 
 				    	<span class="glyphicon sort-icon" ng-show="sortKey=='Email'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 				    </th>
-				    <!-- There needs to be a ng-if with state and date calculation -->
 				    <th ng-click="sort('EndDate')">EndDate
 				    	<span class="glyphicon sort-icon" ng-show="sortKey=='EndDate'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 				    </th>
@@ -128,7 +127,12 @@ Additionally needed scripts: js/dirPagination.js
 						-->
 				    </td>
 				   	<td>{{rentalData.Created_at}}</td>
-				    <td>{{rentalData.State}}</td>
+				    <td>
+						<div ng-switch="rentalData.State">
+			      			<div ng-switch-when="0" class="text-warning">Still outstanding</div>
+			      			<div ng-switch-when="1" class="text-success">Complete</div>
+			     		</div>
+				    </td>
 				  </tr>
 				</tbody>
 			</table>
