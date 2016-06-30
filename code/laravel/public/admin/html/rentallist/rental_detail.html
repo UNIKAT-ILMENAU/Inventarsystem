@@ -8,7 +8,7 @@ Additionally needed scripts: none
       <!-- Basic/Simple Informations of the selected item-->
       <!--Id & Name with class depending on State-->
       <h2>
-        <!-- Highlight if the item is already rented or available -->
+        <!-- Highlight if the item is already rented or available, State = RentalState -->
         <div ng-switch="detailData[0][0].State">
           <div ng-switch-when="0" class="text-danger">RentalID: {{detailData[0][0].Id}}</div>
           <div ng-switch-when="1" class="text-success">RentalID: {{detailData[0][0].Id}}</div> 
@@ -65,14 +65,14 @@ Additionally needed scripts: none
             <div class="col-sm-2">{{rdata.Place}}</div>
             <div class="col-sm-2">
               <div ng-switch="rdata.State">
-                    <div ng-switch-when="0" class="text-warning">Still outstanding</div>
+                    <div ng-switch-when="4" class="text-warning">Still outstanding</div>
                     <div ng-switch-when="1" class="text-success">Brought back</div>
                     <div ng-switch-when="3" class="text-danger">Lost</div>
                 </div>
             </div>
             <div class="col-sm-2">{{rdata.BroughtBack}}</div>
             <div class="col-sm-2 text-right">
-              <div ng-if="rdata.State == 0">
+              <div ng-if="rdata.State == 4">
                 <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#Modal" ng-click="backEvent(rdata.ItemID, rdata.Amount);">Back</button>
                 <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#Modal" ng-click="lostEvent(rdata.ItemID, rdata.Amount);">Lost</button>
               </div>
