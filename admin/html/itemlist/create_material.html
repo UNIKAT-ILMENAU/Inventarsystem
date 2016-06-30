@@ -8,13 +8,13 @@ HIER NOCH VERBESSERN - KOMMENTARE ETC.
         <div class="panel-body">
         	
           <!--Begin form-->
-          <form id="itemForm" class="form-horizontal">
+          <form id="itemForm" class="form-horizontal" name="itemForm">
 
            	<!--Name input-->
             <div class="form-group" id="formName">
               <label class="col-md-2 control-label" for="name">Name</label>
               <div class="col-md-4">
-                <input type="text" class="form-control" id="name" name="name" placeholder="LM258" ng-model="selectedItems[0].Name"/>
+                <input type="text" class="form-control" id="name" name="name" placeholder="LM258" ng-model="selectedItems[0].Name" required=""/>
               </div>
             </div>
 
@@ -23,7 +23,7 @@ HIER NOCH VERBESSERN - KOMMENTARE ETC.
             <div class="form-group" id="formState">
               <label class="col-md-2 control-label" for="state">State</label>
               <div class="col-md-4">
-                <select class="form-control"  ng-model="selectedItems[0].State"
+                <select class="form-control" name="state" ng-model="selectedItems[0].State"
                   ng-options="option.value as option.name for option in materialStates"
                   ng-init="selectedItems[0].State = selectedItems[0].State || materialStates[1].value">              
                   </select>
@@ -157,7 +157,8 @@ HIER NOCH VERBESSERN - KOMMENTARE ETC.
             <div class="form-group" id="formCost">
               <label class="col-md-2 control-label" for="cost">Cost</label>
               <div class="col-md-4">
-                <input type="number" min="0.00" step="0.01" class="form-control" id="cost" name="cost" placeholder="24.00" ng-model="selectedItems[0].Cost"/>
+                <input type="number" min="0.00" step="0.01" class="form-control" id="cost" name="cost" placeholder="24.00" 
+                ng-model="selectedItems[0].Cost" onkeypress='return event.charCode >= 48 && event.charCode <= 57'/>
               </div>
             </div>-->
 
@@ -166,7 +167,8 @@ HIER NOCH VERBESSERN - KOMMENTARE ETC.
             <div class="form-group" id="formPrice">
               <label class="col-md-2 control-label" for="price">SalePrice</label>
               <div class="col-md-4">
-                <input type="number" min="0.00" step="0.01" class="form-control" id="price" name="price" placeholder="42.00" ng-model="selectedItems[0].SalePrice"/>
+                <input type="number" min="0.00" step="0.01" class="form-control" id="price" name="price" placeholder="42.00" 
+                ng-model="selectedItems[0].SalePrice" required="" onkeypress='return event.charCode >= 48 && event.charCode <= 57'/>
               </div>
             </div>
 
@@ -175,16 +177,17 @@ HIER NOCH VERBESSERN - KOMMENTARE ETC.
             <div class="form-group" id="formStock">
               <label class="col-md-2 control-label" for="stock">Storage value</label>
               <div class="col-md-4">
-                <input type="number" min="0" class="form-control" id="stock" name="stock" placeholder="30" ng-model="selectedItems[0].StorageValue"/>
+                <input type="number" min="0" class="form-control" id="stock" name="stock" placeholder="30" 
+                ng-model="selectedItems[0].StorageValue" required="" onkeypress='return event.charCode >= 48 && event.charCode <= 57'/>
               </div>
             </div>
 
 
             <!--Critical stock input-->
             <div class="form-group" id="formStock">
-              <label class="col-md-2 control-label" for="stock">Critical stock amount</label>
+              <label class="col-md-2 control-label" for="critStock">Critical stock amount</label>
               <div class="col-md-4">
-                <input type="number" min="0" class="form-control" id="stock" name="stock" placeholder="30" ng-model="selectedItems[0].CriticalStorageValue"/>
+                <input type="number" min="0" class="form-control" id="critStock" name="critStock" placeholder="30" ng-model="selectedItems[0].CriticalStorageValue" required="" onkeypress='return event.charCode >= 48 && event.charCode <= 57'\/>
               </div>
             </div>
 
@@ -193,7 +196,7 @@ HIER NOCH VERBESSERN - KOMMENTARE ETC.
             <div class="form-group" id="formType">
               <label class="col-md-2 control-label" for="type">Buildtype</label>
               <div class="col-md-4">
-                <input type="text" class="form-control" id="type" name="type" placeholder="THT" ng-model="selectedItems[0].BuildType"/>
+                <input type="text" class="form-control" id="type" name="type" placeholder="THT" ng-model="selectedItems[0].Buildtype" required=""/>
               </div>
             </div>
 
@@ -202,44 +205,46 @@ HIER NOCH VERBESSERN - KOMMENTARE ETC.
             <div class="form-group" id="formMeasure">
               <label class="col-md-2 control-label" for="measure">UOM</label>
               <div class="col-md-4">
-                <input type="text" class="form-control" id="measure" name="measure" placeholder="Meter" ng-model="selectedItems[0].UoM"/>
+                <input type="text" class="form-control" id="measure" name="measure" placeholder="Meter" ng-model="selectedItems[0].UoM" required=""/>
               </div>
             </div>
 
 
             <!--UOM_short input-->
-            <div class="form-group" id="formMeasure">
-              <label class="col-md-2 control-label" for="measure">UOM short</label>
+            <div class="form-group" id="formSMeasure">
+              <label class="col-md-2 control-label" for="sMeasure">UOM short</label>
               <div class="col-md-4">
-                <input type="text" class="form-control" id="measure" name="measure" placeholder="m" ng-model="selectedItems[0].UoM_short"/>
+                <input type="text" class="form-control" id="sMeasure" name="sMeasure" placeholder="m" ng-model="selectedItems[0].UoM_short" required=""/>
               </div>
             </div>
 
 
             <!--Comment input-->
-            <div class="form-group" id="formDescription">
-              <label class="col-md-2 control-label" for="description">Comment</label>  
+            <div class="form-group" id="formComment">
+              <label class="col-md-2 control-label" for="comment">Comment</label>  
               <div class="col-md-4">
-                <textarea class="form-control" id="description" name="description" placeholder="Created Item..." ng-model="selectedItems[0].Comment"></textarea>
+                <textarea class="form-control" id="comment" name="comment" placeholder="Created Item..." 
+                ng-model="selectedItems[0].Comment" required=""></textarea>
               </div>
             </div>
 
 
             <!--PublicVisible input-->
-            <div class="form-group" id="formState">
-              <label class="col-md-2 control-label" for="state">PublicVisible</label>
+            <div class="form-group" id="formVisible">
+              <label class="col-md-2 control-label" for="publicVisible">PublicVisible</label>
               <div class="col-md-4">  
-                <select class="form-control"  ng-model="selectedItems[0].PublicVisible"
+                <select class="form-control" name="publicVisible"  ng-model="selectedItems[0].PublicVisible"
                   ng-options="option.value as option.name for option in Visibility"
-                  ng-init="selectedItems[0].PublicVisible = selectedItems[0].PublicVisible || Visibility[1].value">
+                  ng-init="selectedItems[0].PublicVisible = selectedItems[0].PublicVisible || Visibility[1].value" required="">
                 </select>   
               </div>
             </div>
               
-            <!--Buttons: link for 'Back to menu' has to be set-->
+            <!--Buttons: Submit(Send to Server) + Back to Itemlist-->
             <div class="form-group">
               <div class="col-md-6 col-md-offset-2">
-                <button id="buttonSubmit" name="buttonSubmit" type="button" class="btn btn-success btn-sm" ng-click="createItemToServer('Material')">Create material</button>
+                <button id="buttonSubmit" name="buttonSubmit" type="button" class="btn btn-success btn-sm" ng-click="createItemToServer('Material')" ng-disabled="itemForm.name.$error.required|| itemForm.state.$error.required || itemForm.price.$error.required || itemForm.stock.$error.required || itemForm.critStock.$error.required || itemForm.type.$error.required || itemForm.measure.$error.required || itemForm.sMeasure.$error.required || itemForm.comment.$error.required || itemForm.publicVisible.$error.required" ...(line truncated)...
+                >Create material</button>
                 <button id="buttonReset" name="buttonReset" type="reset" form="itemForm" class="btn btn-danger btn-sm" ng-click="clearItem()">Reset form</button>
                 <a href="">
                 	<a href="#/list" id="buttonMenu" name="buttonMenu" type="button" class="btn btn-primary btn-sm" ng-click="clearItem()">Back to list</a>

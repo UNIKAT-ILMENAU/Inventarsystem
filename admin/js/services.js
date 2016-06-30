@@ -33,13 +33,15 @@ function($resource){
 }]);
 
 
-//puts JTW-Token in Http-Header
+//==============================================
+//TokenInterceptor. injects token in http-header
+//==============================================
 invServices.factory('tokenInterceptor', tokenInterceptor);
-function tokenInterceptor($window){
+function tokenInterceptor($localStorage){
 	return{
 		request: function(config){
-			if($window.localStorage.token){
-				config.headers.Authorization = 'Bearer ' + $window.localStorage.token;
+			if($localStorage.token){
+				config.headers.Authorization = 'Bearer ' + $localStorage.token;
 			}
 			return config;
 		}
@@ -47,48 +49,29 @@ function tokenInterceptor($window){
 }
 
 
-//returns JWT-Claims (User-nr, session, etc.) by using: token.getTokenClaims();
-invServices.factory('token', tokenClaims);
-function tokenClaims($window){
+//======================================================================
+//authCheck. checks token. used to stop sending views when not logged in
+//====================================================================== 
+invServices.factory('authCheck', authCheck);
+function authCheck($http, $location, $localStorage){
 
-	//fills in bytes, replaces illegal symbols, important for decoding 
-	function urlBase64Decode(str) {
-           var output;
-           output = str.replace('-', '+');
-           output = output.replace('_', '/');
+  function validate(){  
+    $http({
+        method: 'POST', 
+        url: '/api/v1/check', 
+        data: $localStorage.token})
+      .then(function(response){
 
-           switch (output.length % 4) {
-               case 0:
-                   break;
-               case 2:
-                   output += '==';
-                   break;
-               case 3:
-                   output += '=';
-                   break;
-               default:
-                   throw 'Illegal base64url string';
-           }
-           //'atob()' decodes base64
-           return window.atob(output);
-    }
+        //check if token isn't valid
+        if(response.data != $localStorage.token){
+          $location.path("/login");
+        } 
+      }); 
+  }
 
-    function getClaims() {
-        var token = $window.localStorage.token;
-        var user = {};
-        if (typeof token !== 'undefined') {
-        	//get claims-part of token
-            var encoded = token.split('.')[1];
-            user = JSON.parse(urlBase64Decode(encoded));
-        }
-        return user;
-    }
-
-    var tokenClaims = getClaims();
-
-    return {   
-        getTokenClaims: function () {
-           return tokenClaims;
-       }
-    };
+  return{
+    check: function(){
+      validate();    
+    }       
+  }
 }
