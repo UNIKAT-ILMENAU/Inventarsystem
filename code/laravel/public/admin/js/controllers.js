@@ -355,7 +355,8 @@ invControllers.controller('ItemEditCtrl', ['$scope', '$routeParams', '$location'
   $scope.deviceStates = [{ name: 'Not available', value: 0 },
                     { name: 'Available', value: 1 },
                     { name: 'Defective', value: 2 },
-                    { name: 'Missing', value: 3 } 
+                    { name: 'Missing', value: 3 },
+                    { name: 'Rented', value: 4 }  
   ];
 
   //options and default('available') for state of material in edit_item.html

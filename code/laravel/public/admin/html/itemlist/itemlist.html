@@ -80,6 +80,7 @@ Additionally needed scripts: js/dirPagination.js
 										<option value="1">Available</option>
 										<option value="2">Defective</option>
 										<option value="3">Missing</option>
+										<option value="4">Rented</option>
 					                </select>
 								</div>
 							</div><hr>
@@ -149,6 +150,7 @@ Additionally needed scripts: js/dirPagination.js
 			      			<div ng-switch-when="1" class="text-success">Available</div>
 			      			<div ng-switch-when="2" class="text-danger">Defective</div>
 			     			<div ng-switch-when="3" class="text-danger">Missing</div>
+			     			<div ng-switch-when="4" class="text-warning">Rented</div>
 			     		</div>
 		     		</td>
 				    <td>{{listItem.Category}}</td>

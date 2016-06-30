@@ -11,6 +11,7 @@ Additionally needed scripts: none
       			<div ng-switch-when="1" class="text-success">{{detailData[0].Id}} - {{detailData[0].Name}}</div>
       			<div ng-switch-when="2" class="text-danger">{{detailData[0].Id}} - {{detailData[0].Name}}</div>
       			<div ng-switch-when="3" class="text-danger">{{detailData[0].Id}} - {{detailData[0].Name}}</div>
+            <div ng-switch-when="4" class="text-warning">{{detailData[0].Id}} - {{detailData[0].Name}}</div>
       		</div>
       	</h2>	
     </div>
@@ -30,6 +31,9 @@ Additionally needed scripts: none
     	<tr ng-if="detailData[0].State == 3">  
       		<td>State:</td> <td class="text-danger"><b>Missing</b></td>
     	</tr>
+      <tr ng-if="detailData[0].State == 4">  
+          <td>State:</td> <td class="text-warning"><b>Rented</b></td>
+      </tr>
     	<!--Type--> 
     	<tr ng-if="detailData[0].material_id == 1">
     		<td>Type:</td> <td><b>Device</b></td>
