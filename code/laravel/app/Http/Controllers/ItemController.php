@@ -189,7 +189,7 @@ class ItemController extends Controller
             ->join('category', 'item.CategoryStartID', '=', 'category.id')
             ->join('place', 'item.PlaceStartID', '=', 'place.id')
             ->where('item.Id', '=', $id)
-            ->select('item.Id', 'item.Name', 'item.State', 'place.id as Place', 'category.name as Category','material.BuildType','item.Description','material.UoM', 'material.UoM_short', 'item.Visible as PublicVisible','item.Deleted as Deactivated', 'material.StorageValue', 'material.CriticalStorageValue','item.created_at as Created_at', 'item.updated_at as Updated_at', 'material.SalePrice as SalePrice', 'item.material_id')
+            ->select('item.Id', 'item.Name', 'item.State', 'place.id as Place', 'place.name as PlaceName', 'category.name as Category', 'category.id as CategoryID','material.BuildType','item.Description','material.UoM', 'material.UoM_short', 'item.Visible as PublicVisible','item.Deleted as Deactivated', 'material.StorageValue', 'material.CriticalStorageValue','item.created_at as Created_at', 'item.updated_at as Updated_at', 'material.SalePrice as SalePrice', 'item.material_id')
             ->get();
     }
 

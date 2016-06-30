@@ -268,7 +268,7 @@ class RentalController extends Controller
       		//set item "State" in Item to 0
             DB::table('item')->where('id', $ids)->update(
                 [
-                 'State' => 0 //State-ID == not available
+                 'State' => 4 //State-ID == not available
                 ]);
 
             //create rentalrealtion entry
@@ -339,7 +339,7 @@ class RentalController extends Controller
         //updates item state in "item"
         DB::table('item')
             ->where('id', $itemid)
-            ->where('State', 0)
+            ->where('State', 4)
             ->update(['State' => 1, 'updated_at' => $current]); 
 
         //insert Amount_after in rentalrealtion if exist    
@@ -501,7 +501,7 @@ class RentalController extends Controller
         {
         	$message = DB::table('rentalrelation')
             ->where('ItemID', $ids)
-            ->where('State', 0)
+            ->where('State', 4)
             ->update(['State' => 1, 'BroughtBack' => $current]);  
 
             DB::table('item')->where('id', $ids)->update(
@@ -557,7 +557,7 @@ class RentalController extends Controller
         
         DB::table('item')
             ->where('id', $itemid)
-            ->where('State', 0)
+            ->where('State', 4)
             ->update(['State' => 3, 'visible' => 0, 'updated_at' => $current]); 
 
     	if($amount != NULL){
