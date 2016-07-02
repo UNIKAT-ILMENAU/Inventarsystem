@@ -33,15 +33,13 @@ function($resource){
 }]);
 
 
-//==============================================
-//TokenInterceptor. injects token in http-header
-//==============================================
+//puts JTW-Token in Http-Header
 invServices.factory('tokenInterceptor', tokenInterceptor);
-function tokenInterceptor($localStorage){
+function tokenInterceptor($window){
 	return{
 		request: function(config){
-			if($localStorage.token){
-				config.headers.Authorization = 'Bearer ' + $localStorage.token;
+			if($window.localStorage.token){
+				config.headers.Authorization = 'Bearer ' + $window.localStorage.token;
 			}
 			return config;
 		}
@@ -49,29 +47,48 @@ function tokenInterceptor($localStorage){
 }
 
 
-//======================================================================
-//authCheck. checks token. used to stop sending views when not logged in
-//====================================================================== 
-invServices.factory('authCheck', authCheck);
-function authCheck($http, $location, $localStorage){
+//returns JWT-Claims (User-nr, session, etc.) by using: token.getTokenClaims();
+invServices.factory('token', tokenClaims);
+function tokenClaims($window){
 
-  function validate(){  
-    $http({
-        method: 'POST', 
-        url: '/api/v1/check', 
-        data: $localStorage.token})
-      .then(function(response){
+	//fills in bytes, replaces illegal symbols, important for decoding 
+	function urlBase64Decode(str) {
+           var output;
+           output = str.replace('-', '+');
+           output = output.replace('_', '/');
 
-        //check if token isn't valid
-        if(response.data != $localStorage.token){
-          $location.path("/login");
-        } 
-      }); 
-  }
+           switch (output.length % 4) {
+               case 0:
+                   break;
+               case 2:
+                   output += '==';
+                   break;
+               case 3:
+                   output += '=';
+                   break;
+               default:
+                   throw 'Illegal base64url string';
+           }
+           //'atob()' decodes base64
+           return window.atob(output);
+    }
 
-  return{
-    check: function(){
-      validate();    
-    }       
-  }
+    function getClaims() {
+        var token = $window.localStorage.token;
+        var user = {};
+        if (typeof token !== 'undefined') {
+        	//get claims-part of token
+            var encoded = token.split('.')[1];
+            user = JSON.parse(urlBase64Decode(encoded));
+        }
+        return user;
+    }
+
+    var tokenClaims = getClaims();
+
+    return {   
+        getTokenClaims: function () {
+           return tokenClaims;
+       }
+    };
 }

@@ -17,13 +17,13 @@
       </thead>
 
       <tbody>
-        <tr ng-repeat="admin in listOfAdmins | orderBy: '-Activated'" ng-class="{'success': admin.Activated === 1, 'danger': admin.Activated === 0, 'active': admin.ID === 1}"> 
+        <tr ng-repeat="admin in listOfAdmins | orderBy: '-Activated'" ng-class="{'success': admin.Activated === 1, 'danger': admin.Activated === 0}"> 
           <td>{{admin.ID}}</td>
           <td>{{admin.FirstName}}</td>
           <td>{{admin.LastName}}</td>
           <td>{{admin.Email}}</td>  
           <td>{{admin.Activated}}</td>
-          <td> <button class="btn btn-sm btn-info" ng-click="deleteAdmin(admin.ID)" ng-disabled="admin.Activated == 0 || admin.ID == 1"> Delete </button> </td>
+          <td> <button class="btn btn-sm btn-info" ng-click="deleteAdmin(admin.ID)"> Delete </button> </td>
         </tr>
       </tbody>
     </table>

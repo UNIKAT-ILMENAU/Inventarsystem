@@ -17,13 +17,13 @@ attachments werden erstmal vernachlässigt.
             </div>
         	
           <!--Begin form-->
-          <form id="itemForm" class="form-horizontal" name="formInput">
+          <form id="itemForm" class="form-horizontal">
 
            	<!--Name input-->
             <div class="form-group" id="formName">
               <label class="col-md-2 control-label" for="name">Name</label>
               <div class="col-md-4">
-                <input type="text" class="form-control" id="name" name="name" placeholder="Hammer" ng-model="selectedItems[0].Name" required=""/>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Hammer" ng-model="selectedItems[0].Name" />
               </div>
             </div>
 
@@ -153,9 +153,9 @@ attachments werden erstmal vernachlässigt.
             <div class="form-group" id="formState">
               <label class="col-md-2 control-label" for="state">State</label>
               <div class="col-md-4"> 
-                <select class="form-control" name="state" ng-model="selectedItems[0].State"
+                <select class="form-control" ng-model="selectedItems[0].State" 
                   ng-options="option.value as option.name for option in deviceStates"
-                  ng-init="selectedItems[0].State = selectedItems[0].State || deviceStates[1].value" required="">
+                  ng-init="selectedItems[0].State = selectedItems[0].State || deviceStates[1].value">
                 </select>
               </div>
             </div>
@@ -166,41 +166,37 @@ attachments werden erstmal vernachlässigt.
             <div class="form-group" id="formCost">
               <label class="col-md-2 control-label" for="cost">Cost</label>
               <div class="col-md-4">
-                <input type="number" min="0.00" step="0.01" class="form-control" id="cost" name="cost" placeholder="24.00"
-                 ng-model="selectedItems[0].Cost" onkeypress='return event.charCode >= 48 && event.charCode <= 57'/>
+                <input type="number" min="0.00" step="0.01" class="form-control" id="cost" name="cost" placeholder="24.00" ng-model="selectedItems[0].Cost"/>
               </div>
             </div>-->
 
 
             <!--Comment input-->
-            <div class="form-group" id="formComment">
-              <label class="col-md-2 control-label" for="comment">Comment</label>  
+            <div class="form-group" id="formDescription">
+              <label class="col-md-2 control-label" for="description">Comment</label>  
               <div class="col-md-4">
-                <textarea class="form-control" id="comment" name="comment" placeholder="Mf: B1" 
-                ng-model="selectedItems[0].Comment" required=""></textarea>
+                <textarea class="form-control" id="description" name="description" placeholder="Mf: B1" ng-model="selectedItems[0].Comment"></textarea>
               </div>
             </div>
 
             
             <!--PublicVisible input-->
-            <div class="form-group" id="formVisible">
-              <label class="col-md-2 control-label" for="publicVisible">PublicVisible</label>
+            <div class="form-group" id="formState">
+              <label class="col-md-2 control-label" for="state">PublicVisible</label>
               <div class="col-md-4">  
-                <select class="form-control" name="publicVisible"  ng-model="selectedItems[0].PublicVisible"
+                <select class="form-control"  ng-model="selectedItems[0].PublicVisible"
                   ng-options="option.value as option.name for option in Visibility"
-                  ng-init="selectedItems[0].PublicVisible = selectedItems[0].PublicVisible || Visibility[1].value" required="">
+                  ng-init="selectedItems[0].PublicVisible = selectedItems[0].PublicVisible || Visibility[1].value">
                 </select>   
               </div>
             </div>
   
-             <!--Buttons: Submit(Send to Server) + Back to Itemlist--> 
+             <!--Buttons: link for 'Back to menu' has to be set--> 
              <div class="form-group">
               <div class="col-md-6 col-md-offset-2">
-                <button id="buttonSubmit" name="buttonSubmit"type="button" class="btn btn-success btn-sm" ng-click="createItemToServer('Device')" 
-                ng-disabled="formInput.name.$error.required || formInput.state.$error.required || formInput.comment.$error.required || formInput.publicVisible.$error.required || selectedItems[0].Category == null || selectedItems[0].Place == null"
-                >Create device</button>
+                <button id="buttonSubmit" name="buttonSubmit"type="button" class="btn btn-success btn-sm" ng-click="createItemToServer('Device')">Create device</button>
                 <button id="buttonReset" name="buttonReset" type="reset" form="itemForm" class="btn btn-danger btn-sm" ng-click="clearItem()">Reset form</button>
-                <a href="">
+                 <a href="">
                   <a href="#/list" id="buttonMenu" name="buttonMenu" type="button" class="btn btn-primary btn-sm" ng-click="clearItem()">Back to list</a>
                 </a>
               </div>
