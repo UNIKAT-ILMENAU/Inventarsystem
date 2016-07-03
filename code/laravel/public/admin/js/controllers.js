@@ -192,7 +192,7 @@ invControllers.controller('DetailCtrl', ['$scope', '$routeParams', '$location', 
 //Create Item controller
 //Used: create_material.html, create_device.html 
 //==============================
-invControllers.controller('CreateCtrl', ['$scope', '$routeParams', '$location', '$http', function($scope, $routeParams, $location, $http) {
+invControllers.controller('CreateCtrl', ['$scope', '$routeParams', '$location', '$http', 'dataFactory', function($scope, $routeParams, $location, $http, dataFactory) {
 
   //Send create to the server
   $scope.createItemToServer = function(typ) {    
@@ -202,7 +202,7 @@ invControllers.controller('CreateCtrl', ['$scope', '$routeParams', '$location', 
      var Indata = { 'name': $scope.selectedItems[0].Name, 
                     'state': $scope.selectedItems[0].State,
                     'description': $scope.selectedItems[0].Description,
-                    'category': $scope.selectedItems[0].Category, 
+                    'category': $scope.selectedItems[0].CategoryID, 
                     'visible': $scope.selectedItems[0].PublicVisible,
                     //'cost': $scope.selectedItems[0].Cost,       //NEEDS TO BE IMPLEMENTED?
                     'place': $scope.selectedItems[0].Place,       
@@ -220,7 +220,7 @@ invControllers.controller('CreateCtrl', ['$scope', '$routeParams', '$location', 
     {
      var Indata = { 'name': $scope.selectedItems[0].Name, 
                     'state': $scope.selectedItems[0].State,
-                    'category': $scope.selectedItems[0].Category, 
+                    'category': $scope.selectedItems[0].CategoryID, 
                     'description': $scope.selectedItems[0].Description,
                     'visible': $scope.selectedItems[0].PublicVisible,
                     'saleprice': $scope.selectedItems[0].SalePrice,
@@ -250,9 +250,9 @@ invControllers.controller('CreateCtrl', ['$scope', '$routeParams', '$location', 
 
   //options and default('available') for state in create_device
   $scope.deviceStates = [{ name: 'Not available', value: 0 },
-                    { name: 'Available', value: 1 },
-                    { name: 'Defective', value: 2 },
-                    { name: 'Missing', value: 3 } 
+                         { name: 'Available', value: 1 },
+                         { name: 'Defective', value: 2 },
+                         { name: 'Missing', value: 3 } 
   ];
 
   //options and default('available') for state in create_material
@@ -269,73 +269,28 @@ invControllers.controller('CreateCtrl', ['$scope', '$routeParams', '$location', 
   //Get all places from server
   //==============================
 
-  //var nesseary for GET places-array and nesting array 
-  var allPlaces = [];
-  var placeResult;
-  var placeTree;
+  //GET places-array by using dataFactory(in services.js)
+  dataFactory.getAllPlaces().then(function (response){
+      $scope.nestedPlaces = response;
+  });
 
-  //GET places-array
-  $http({
-    method: 'GET',
-    url: '/api/v1/restricted/place/allPlace'
-  }).then(function placeSuccess(response) {
-      //handles success
-      allPlaces = response.data;
-
-      //call functions to format query for rendering in html-template as nested list
-      placeResult = _queryTreeSort({q: allPlaces});
-      placeTree = _makeTree({q: placeResult});
-
-      //for rendering nested list --> input is placeTree
-      $scope.nestedPlaces = placeTree;            
-  }, function placeError(response) {
-      //handles error
-      alert("An error occured. Could not load all places.");
-  }); 
-  
-
-  //gets input from newPlaceValue 
-  $scope.places = {name: ""};
-
-  //changes input of places when new radio-button is selected
+  //changes input of selectedItems[0].PlaceName when new radio-button is selected
   $scope.newPlaceValue = function(n) {
-    $scope.places = {name: n};
+    $scope.selectedItems[0].PlaceName = n;
   };
 
   //==============================
   //Get all categories from server
   //==============================
 
-  //var nesseary for GET categories-array and nesting array 
-  var allCategories = [];
-  var categoryResult;
-  var categoryTree;
-
-  //GET categories-array
-  $http({
-    method: 'GET',
-    url: '/api/v1/restricted/category/allCategory'
-  }).then(function categorySuccess(response) {
-      //handles success
-      allCategories = response.data;
-
-      //call functions to format query for rendering in html-template as nested list
-      categoryResult = _queryTreeSort({q: allCategories});
-      categoryTree = _makeTree({q: categoryResult});
-
-      //for rendering nested list --> input is categoryTree
-      $scope.nestedCategories = categoryTree;            
-  }, function categoryError(response) {
-      //handles error
-      alert("An error occured. Could not load all categories.");
+  //GET categories-array by using dataFactory(in services.js)
+  dataFactory.getAllCategories().then(function (response){
+      $scope.nestedCategories = response;
   });
 
-  //gets input from newCategoryValue 
-  $scope.categories = {name: ""};
-
-  //changes input of categories when new radio-button is selected
+  //changes input of selectedItems[0].Category when new radio-button is selected
   $scope.newCategoryValue = function(n) {
-    $scope.categories = {name: n};
+    $scope.selectedItems[0].Category = n;
   };
 
 }]);
@@ -344,19 +299,39 @@ invControllers.controller('CreateCtrl', ['$scope', '$routeParams', '$location', 
 //ItemEdit controller
 //Used: edit_item.html
 //==============================
-invControllers.controller('ItemEditCtrl', ['$scope', '$routeParams', '$location', '$http', 'REST', function($scope, $routeParams, $location, $http, REST) {
+invControllers.controller('ItemEditCtrl', ['$scope', '$routeParams', '$location', '$http', 'REST', 'dataFactory', function($scope, $routeParams, $location, $http, REST, dataFactory) {
   //Gets all informations of a specific item by id
   $scope.detailData = REST.detailLoad({ListItemId: 'item/details/' + $routeParams.ListItemId});
   
+  //GET categories-array by using dataFactory(in services.js)
+  dataFactory.getAllCategories().then(function (response){
+      $scope.nestedCategories = response;
+  });
+
+  //changes input of detailData[0].Category when new radio-button is selected
+  $scope.newCategoryValue = function(n) {
+    $scope.detailData[0].Category = n;
+  };
+
+  //GET places-array by using dataFactory(in services.js)
+  dataFactory.getAllPlaces().then(function (response){
+      $scope.nestedPlaces = response;
+  });
+
+  //changes input of detailData[0].PlaceName when new radio-button is selected
+  $scope.newPlaceValue = function(n) {
+    $scope.detailData[0].PlaceName = n;
+  };
+
   //=========================================
   //Options and default values for dropdowns
   //=========================================
   //options and default('available') for state of device in edit_item.html
   $scope.deviceStates = [{ name: 'Not available', value: 0 },
-                    { name: 'Available', value: 1 },
-                    { name: 'Defective', value: 2 },
-                    { name: 'Missing', value: 3 },
-                    { name: 'Rented', value: 4 }  
+                         { name: 'Available', value: 1 },
+                         { name: 'Defective', value: 2 },
+                         { name: 'Missing', value: 3 },
+                         { name: 'Rented', value: 4 }  
   ];
 
   //options and default('available') for state of material in edit_item.html
@@ -376,9 +351,9 @@ invControllers.controller('ItemEditCtrl', ['$scope', '$routeParams', '$location'
       var Indata = {'name': $scope.detailData[0].Name, 
                     'state': $scope.detailData[0].State,
                     'description': $scope.detailData[0].Description,
-                    'category': 3,            //NEEDS TO BE IMPLEMENTED
+                    'category': $scope.detailData[0].CategoryID,
                     'visible': $scope.detailData[0].PublicVisible,
-                    'place': 3,               //NEEDS TO BE IMPLEMENTED
+                    'place': $scope.detailData[0].Place, 
                     'createdbyid': 1,         //NEEDS TO BE IMPLEMENTED
                     'comment': $scope.detailData[0].Comment
                     };
@@ -395,11 +370,11 @@ invControllers.controller('ItemEditCtrl', ['$scope', '$routeParams', '$location'
     { 
       var Indata = {'name': $scope.detailData[0].Name, 
                     'state': $scope.detailData[0].State,
-                    'category': 3, //NEEDS TO BE IMPLEMENTED
+                    'category': $scope.detailData[0].CategoryID,
                     'description': $scope.detailData[0].Description,
                     'visible': $scope.detailData[0].PublicVisible,
                     'saleprice': $scope.detailData[0].SalePrice,
-                    'place': 3, //NEEDS TO BE IMPLEMENTED
+                    'place': $scope.detailData[0].Place,
                     'createdbyid': 1, //NEEDS TO BE IMPLEMENTED
                     'buildtype': $scope.detailData[0].Buildtype,
                     'uom': $scope.detailData[0].UoM,
@@ -961,30 +936,11 @@ function forgotPasswordCtrl($scope, $http){
   //Category Management controller
   //Used: category.html
   //==============================
-  invControllers.controller('CategoryCtrl', function ($scope, $http, $route) {
+  invControllers.controller('CategoryCtrl', function ($scope, $http, $route, dataFactory) {
 
-    //var nesseary for GET categories-array and nesting array 
-    var allCategories = [];
-    var categoryResult;
-    var categoryTree;
-
-    //GET categories-array
-    $http({
-      method: 'GET',
-      url: '/api/v1/restricted/category/allCategory'
-    }).then(function categorySuccess(response) {
-        //handles success
-        allCategories = response.data;
-
-        //call functions to format query for rendering in html-template as nested list
-        categoryResult = _queryTreeSort({q: allCategories});
-        categoryTree = _makeTree({q: categoryResult});
-
-        //for rendering nested list --> input is categoryTree
-        $scope.nestedCategories = categoryTree;            
-    }, function categoryError(response) {
-        //handles error
-        alert("An error occured. Could not load all categories.");
+    //GET categories-array by using dataFactory(in services.js)
+    dataFactory.getAllCategories().then(function (response){
+        $scope.nestedCategories = response;
     });
 
     //for input fields and radio-buttons
@@ -1006,7 +962,6 @@ function forgotPasswordCtrl($scope, $http){
     //==============================
     //update Category
     //==============================
-    //in API erwartet 'Update a Category' die beforeID?
     $scope.updateCategoryEvent = function(categoryID, categoryName, categoryDescription) { 
 
       //alert(categoryName + " | " + categoryID + " | " + categoryDescription);
@@ -1018,7 +973,7 @@ function forgotPasswordCtrl($scope, $http){
         data: Indata 
       }).then(function updateSuccess(response) {
           //handles success
-          alert("Selected category was updated."); 
+          //alert("Selected category was updated."); 
           $route.reload();          
       }, function updateError(response) {
           //handles error
@@ -1037,7 +992,7 @@ function forgotPasswordCtrl($scope, $http){
     $scope.createCategoryEvent = function(categoryID, categoryName, categoryDescription) { 
 
       //alert(categoryName + " | " + categoryID + " | " + categoryDescription);
-      var Indata = {'name': categoryName, 'before': beforeID, 'description': categoryDescription, createdbyid: 3 };
+      var Indata = {'name': categoryName, 'before': categoryID, 'description': categoryDescription, createdbyid: 3 };
       //POST new category to server
       $http({
         method: 'POST',
@@ -1045,7 +1000,7 @@ function forgotPasswordCtrl($scope, $http){
         data: Indata 
       }).then(function createSuccess(response) {
           //handles success
-          alert("New category was created.");
+          //alert("New category was created.");
           $route.reload();           
       }, function createError(response) {
           //handles error
@@ -1061,10 +1016,9 @@ function forgotPasswordCtrl($scope, $http){
     //==============================
     //delete Category
     //==============================
-    //in API überhaupt integriert? -> es ist sichergestellt, dass nur kategorien ohne kinder gelöscht werden
     $scope.deleteCategoryEvent = function(categoryID) { 
 
-      //alert(categoryID);
+      //only categories without children and no item has this category
       //DELETE category
       $http({
         method: 'DELETE',
@@ -1075,7 +1029,7 @@ function forgotPasswordCtrl($scope, $http){
           $route.reload();           
       }, function deleteError(response) {
           //handles error
-          alert("An error occured. Could not delete category.");
+          alert("An error occured. Make sure that selected category is not assigned to an item.");
       });
       //DELETE category
       /* $http.delete("/api/v1/restricted/category/delete" + categoryID).success(function(data, status) {
@@ -1091,30 +1045,11 @@ function forgotPasswordCtrl($scope, $http){
   //Place Management controller
   //Used: place.html
   //==============================
-  invControllers.controller('PlaceCtrl', function ($scope, $http, $route) {
+  invControllers.controller('PlaceCtrl', function ($scope, $http, $route, dataFactory) {
 
-    //var nesseary for GET places-array and nesting array 
-    var allPlaces = [];
-    var placeResult;
-    var placeTree;
-
-    //GET places-array
-    $http({
-      method: 'GET',
-      url: '/api/v1/restricted/place/allPlace'
-    }).then(function placeSuccess(response) {
-        //handles success
-        allPlaces = response.data;
-
-        //call functions to format query for rendering in html-template as nested list
-        placeResult = _queryTreeSort({q: allPlaces});
-        placeTree = _makeTree({q: placeResult});
-
-        //for rendering nested list --> input is placeTree
-        $scope.nestedPlaces = placeTree;            
-    }, function placeError(response) {
-        //handles error
-        alert("An error occured. Could not load all places.");
+    //GET places-array by using dataFactory(in services.js)
+    dataFactory.getAllPlaces().then(function (response){
+        $scope.nestedPlaces = response;
     });
 
     //for input fields and radio-buttons
@@ -1133,7 +1068,6 @@ function forgotPasswordCtrl($scope, $http){
     //EVENTS (locationManagement)
     //==============================
 
-
     //==============================
     //update Place
     //==============================
@@ -1148,7 +1082,7 @@ function forgotPasswordCtrl($scope, $http){
         data: Indata 
       }).then(function placeSuccess(response) {
           //handles success
-          alert("Selected place was updated.");
+          //alert("Selected place was updated.");
           $route.reload();          
       }, function placeError(response) {
           //handles error
@@ -1164,7 +1098,6 @@ function forgotPasswordCtrl($scope, $http){
     //==============================
     //create Place
     //==============================
-    //in API erwarted CreatePlace die createdbyID als Input?
     $scope.createPlaceEvent = function(placeName, beforeID) { 
 
       //alert(placeName + " | " + beforeID);
@@ -1176,7 +1109,7 @@ function forgotPasswordCtrl($scope, $http){
         data: Indata 
       }).then(function placeSuccess(response) {
           //handles success
-          alert("New Place was created.");
+          //alert("New Place was created.");
           $route.reload();           
       }, function placeError(response) {
           //handles error
@@ -1192,10 +1125,9 @@ function forgotPasswordCtrl($scope, $http){
     //==============================
     //delete PLace
     //==============================
-    //in API überhaupt integriert? -> es ist sichergestellt, dass nur plätze ohne kinder gelöscht werden
     $scope.deletePlaceEvent = function(placeID) { 
 
-      //alert(placeID);
+      //only places without children and no item is located in this place
       //DELETE selected place
       $http({
         method: 'DELETE',
@@ -1206,7 +1138,7 @@ function forgotPasswordCtrl($scope, $http){
           $route.reload();          
       }, function placeError(response) {
           //handles error
-          alert("An error occured. Could not delete place.");
+          alert("An error occured. Make sure that selected place is not assigned to an item.");
       });
       //DELETE selected place
       /* $http.delete("/api/v1/restricted/place/delete/" + placeID).success(function(data, status) {

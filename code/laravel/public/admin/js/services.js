@@ -32,7 +32,6 @@ function($resource){
   });
 }]);
 
-
 //puts JTW-Token in Http-Header
 invServices.factory('tokenInterceptor', tokenInterceptor);
 function tokenInterceptor($window){
@@ -92,3 +91,46 @@ function tokenClaims($window){
        }
     };
 }
+
+//=========================================================
+//Rest factory for all GET requests of places & categories
+//used in CategoryCtrl, PlaceCtrl, CreateCtrl, ItemEditCtrl
+//=========================================================
+invServices.factory('dataFactory', ['$http',function($http){
+    //obj returned to controller
+    var dataFactory = {};
+    //var nesseary for GET places-array and nesting array
+    var allPlaces = [];
+    var placeResult;
+    var placeTree;
+    //var nesseary for GET categories-array and nesting array 
+    var allCategories = [];
+    var categoryResult;
+    var categoryTree;
+
+    //GET all places from server
+    dataFactory.getAllPlaces = function(){
+      return  $http.get('/api/v1/restricted/place/allPlace').then(function(response){
+        allPlaces = response.data;
+
+        //call functions to format query for rendering in html-template as nested list
+        placeResult = _queryTreeSort({q: allPlaces});
+        placeTree = _makeTree({q: placeResult});
+        return placeTree;
+      });
+    }
+
+    //GET all categories from server
+    dataFactory.getAllCategories = function(){
+      return $http.get('/api/v1/restricted/category/allCategory').then(function(response){
+        allCategories = response.data;
+
+        //call functions to format query for rendering in html-template as nested list
+        categoryResult = _queryTreeSort({q: allCategories});
+        categoryTree = _makeTree({q: categoryResult});
+        return categoryTree;
+      });
+    }
+
+ return dataFactory;
+}]);
