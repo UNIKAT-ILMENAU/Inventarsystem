@@ -244,6 +244,11 @@ invControllers.controller('CreateCtrl', ['$scope', '$routeParams', '$location', 
     }
   };
 
+  //Scope sets selectState[0] when reset-button is pressed
+  $scope.resetItem = function() {
+    $scope.selectedItems[0] = {"State":1,"PublicVisible":1};
+  };
+  
   //=========================================
   //Options and default values for dropdowns
   //=========================================

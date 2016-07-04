@@ -162,7 +162,8 @@ HIER NOCH VERBESSERN - KOMMENTARE ETC.
               <label class="col-md-2 control-label" for="price">SalePrice</label>
               <div class="col-md-4">
                 <input type="number" min="0.00" step="0.01" class="form-control" id="price" name="price" placeholder="42.00" 
-                ng-model="selectedItems[0].SalePrice" required="" onkeypress='return event.charCode >= 48 && event.charCode <= 57'/>
+                ng-model="selectedItems[0].SalePrice" required=""
+                onkeypress='return event.charCode >= 48 && event.charCode <= 57'/>
               </div>
             </div>
 
@@ -239,7 +240,8 @@ HIER NOCH VERBESSERN - KOMMENTARE ETC.
               <div class="col-md-6 col-md-offset-2">
                 <button id="buttonSubmit" name="buttonSubmit" type="button" class="btn btn-success btn-sm" ng-click="createItemToServer('Material')" ng-disabled="itemForm.name.$error.required|| itemForm.state.$error.required || itemForm.price.$error.required || itemForm.stock.$error.required || itemForm.critStock.$error.required || itemForm.type.$error.required || itemForm.measure.$error.required || itemForm.sMeasure.$error.required || itemForm.comment.$error.required || itemForm.publicVisible.$error.required" ...(line truncated)...
                 >Create material</button>
-                <button id="buttonReset" name="buttonReset" type="reset" form="itemForm" class="btn btn-danger btn-sm" ng-click="clearItem()">Reset form</button>
+                <button id="buttonReset" name="buttonReset" type="reset" form="itemForm" class="btn btn-danger btn-sm" 
+                ng-click="resetItem()">Reset form</button>
                 <a href="">
                 	<a href="#/list" id="buttonMenu" name="buttonMenu" type="button" class="btn btn-primary btn-sm" ng-click="clearItem()">Back to list</a>
                 </a>	

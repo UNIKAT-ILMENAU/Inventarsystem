@@ -193,7 +193,8 @@ attachments werden erstmal vernachlässigt.
                 <button id="buttonSubmit" name="buttonSubmit"type="button" class="btn btn-success btn-sm" ng-click="createItemToServer('Device')" 
                 ng-disabled="formInput.name.$error.required || formInput.state.$error.required || formInput.comment.$error.required || formInput.publicVisible.$error.required || selectedItems[0].Category == null || selectedItems[0].Place == null"
                 >Create device</button>
-                <button id="buttonReset" name="buttonReset" type="reset" form="itemForm" class="btn btn-danger btn-sm" ng-click="clearItem()">Reset form</button>
+                <button id="buttonReset" name="buttonReset" type="reset" form="itemForm" class="btn btn-danger btn-sm" 
+                ng-click="resetItem()">Reset form</button>
                 <a href="">
                   <a href="#/list" id="buttonMenu" name="buttonMenu" type="button" class="btn btn-primary btn-sm" ng-click="clearItem()">Back to list</a>
                 </a>
