@@ -33,23 +33,23 @@
 
     #Your Project Folder
     folders:
-        - map: /Users/YOUR_NAME/Desktop/Inventorysystem/code
+        - map: YOUR_PATH/code
         to: /home/vagrant/code
 
     #Your Host
     sites:
         - map: inventorysystem.app
-        to: /Users/YOUR_NAME/Desktop/Inventorysystem/code/public
+        to: /home/vagrant/code/laravel/public
 
     ```
 
 2. Edit your host files C:\Windows\System32\drivers\etc and add:
 
     ```sh
-    192.168.10.10 invetorysystem.app
+    192.168.10.10 inventorysystem.app
     ```
 
-3. Navigate with your console back to the inventorysystem directory and type in:
+3. Open your terminal and type in:
 
     ```sh
     vagrant up
