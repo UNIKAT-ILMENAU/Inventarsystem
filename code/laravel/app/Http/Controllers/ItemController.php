@@ -104,60 +104,75 @@ class ItemController extends Controller
             ->orderBy('id')
             ->get(); 
 
+        //get all item ids in order
         $getid = DB::table('item')
                 ->select('id')
+                ->orderby('id')
                 ->pluck('id');
-                
-        foreach($getid as $getid){
-                
-
+        
+        
+        //creating a place path for each item         
+        foreach($getid as $getids){
+            
+                //get the place start id 
                 $iid = Db::table('item')
                         ->join('place', 'item.PlaceStartID', '=', 'place.id')
-                        ->where('item.id', '=', $getid)
-                        ->select('place.id')
-                        ->pluck('place.id');
+                        ->where('item.id', $getids)
+                        ->select('item.PlaceStartID')
+                        ->pluck('PlaceStartID');
 
-
+                //get the place name        
                 $array[] = DB::table('place')
                         ->where('id', $iid[0])
                         ->select('Name')
                         ->pluck('Name');
 
+                //get the next place id        
                 $Before = DB::table('place')
                         ->where('id', $iid[0])
                         ->select('BeforeID')
                         ->pluck('BeforeID');
 
-
+                //repeat till no before id is given        
                 while($Before[0] != NULL) {
 
+                    //get the place name 
                     $array[] = DB::table('place')
                         ->where('id', $Before[0])
                         ->select('Name')
                         ->pluck('Name');
 
+                    //get the next place id      
                     $Before = DB::table('place')
                         ->where('id', $Before[0])
                         ->select('BeforeID')
                         ->pluck('BeforeID');
                     }; 
                 
-                for($i = sizeof($array)-1; $i > -1; $i-- )
+                //go through the array    
+                for($i = sizeof($array)-1; $i >= 0; $i-- )
                 {
+                    //array to string
                     $arr[] = implode($array[$i]);                  
                 }
                 
+                //array to string, divided by " - "
                 $return[] = implode(" - ", $arr); 
+
+                //clear variables
                 $arr = array();
                 $array = array();
                 $Before = array();
                
                 
-        }        
+        } 
+
+            
         
         for($i = 0; $i < sizeof($item); $i++){
 
             $item[$i] ->Place  = $return[$i];
+
         }
         return $item; 
     }
