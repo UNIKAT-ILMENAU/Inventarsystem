@@ -14,7 +14,7 @@ class EventController extends Controller
     //This methode returns all events
     //=================================================== 
     public function showAllEvents()
-    {
+     {
           
         return DB::table('event')
         ->join('user', 'user.id', '=', 'event.CreatedByID')
