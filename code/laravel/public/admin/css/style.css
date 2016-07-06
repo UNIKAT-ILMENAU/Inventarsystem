@@ -97,7 +97,7 @@ th {
 /* === MENUPOINTS === */
 
 .menu-space{
-  min-height: 500px;   /* the min default height of the menu */
+  min-height: 550px;   /* the min default height of the menu */
 }
 
 .menu-margin{         /* just some top space for the menu buttons */
@@ -107,13 +107,13 @@ th {
 @media (max-width: 991px) { /* Window heigth*/
   .btn-responsive {
     padding:4px 9px;                    /* Font Size*/
-    font-size:70%;
+    font-size:90%;
     line-height: 1.2;
         
     margin-bottom: 10px;
 
     height: 150px;                      /* Button size */
-    width: 150px;
+    min-width: 250px;
     
     line-height: 140px;                 /* line placement */
       }
@@ -122,17 +122,22 @@ th {
 @media (min-width:992px)  { /* Window heigth*/
   .btn-responsive {
     padding:9px 19px;                    /* Font Size*/
-    font-size:90%;
+    font-size:115%;
     line-height: 9;
    
     margin-bottom: 10px;
 
     height: 180px;                      /* Button size */
-    width: 180px;
+    min-width: 280px;
     
     line-height: 160px;                 /* line placement */
       }
 }
+
+.icon {
+  font-size: 2.5em;
+}
+
 /* ========================== */
 /* === Buttoncolor === */
 
