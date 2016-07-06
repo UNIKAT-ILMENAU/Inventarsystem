@@ -94,30 +94,7 @@ th {
  border-color: green;
 }
 /* =========================== */
-/* === DASHBOARD === */
-
-.progress-bar-custom {
-  background-color: #FFB914;
-}
-
-.progress-bar-striped-custom {
-  background-image: linear-gradient(-45deg,#FFC31E 25%,transparent 25%,transparent 50%,#FFC31E 50%,#FFC31E 70%,transparent 45%,transparent); 
-  background-size: 60px 60px;
-}
-
-.left-info{
-  text-align: left;
-}
-
-
-/* =========================== */
 /* === MENUPOINTS === */
-
-
-
-.center-space{
-  margin: 0 auto;
-}
 
 .menu-space{
   min-height: 550px;   /* the min default height of the menu */
@@ -126,8 +103,6 @@ th {
 .menu-margin{         /* just some top space for the menu buttons */
   margin-top: 50px;
 }
-
-
 
 @media (max-width: 991px) { /* Window heigth*/
   .btn-responsive {
@@ -142,10 +117,6 @@ th {
     
     line-height: 140px;                 /* line placement */
       }
-
-  .dashboardInfo{
-  margin: 0 auto; min-height: 300px; width: 100%;
-  }
 }
 
 @media (min-width:992px)  { /* Window heigth*/
@@ -161,10 +132,6 @@ th {
     
     line-height: 160px;                 /* line placement */
       }
-
-  .dashboardInfo{
-  margin: 0 auto; min-height: 300px; max-width: 76%; 
-  }
 }
 
 .icon {
