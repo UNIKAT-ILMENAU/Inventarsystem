@@ -560,6 +560,7 @@ class ItemController extends Controller
         }
         //if variable not NULL -> update value in table
         $message = DB::table('item')->where('id', $id)->update(
+            [  'Visible' => $R_visible ]);
 
         //if variable not NULL -> update value in table
         if($R_criticalstoragevalue != NULL){
