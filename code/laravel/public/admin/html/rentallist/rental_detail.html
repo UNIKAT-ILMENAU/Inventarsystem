@@ -63,16 +63,23 @@ Additionally needed scripts: none
                 <div ng-if="rdata.Amount === null">Device</div>
             </div>
             <div class="col-sm-2">{{rdata.Place}}</div>
-            <div class="col-sm-2">
+            <div class="col-sm-2" ng-if="rdata.Amount == null">
               <div ng-switch="rdata.State">
                     <div ng-switch-when="4" class="text-warning">Still outstanding</div>
                     <div ng-switch-when="1" class="text-success">Brought back</div>
                     <div ng-switch-when="3" class="text-danger">Lost</div>
                 </div>
             </div>
+            <div class="col-sm-2" ng-if="rdata.Amount != null">
+              <div ng-switch="rdata.RState">
+                    <div ng-switch-when="0" class="text-warning">Still outstanding</div>
+                    <div ng-switch-when="1" class="text-success">Brought back</div>
+                    <div ng-switch-when="3" class="text-danger">Lost</div>
+                </div>
+            </div>
             <div class="col-sm-2">{{rdata.BroughtBack}}</div>
             <div class="col-sm-2 text-right">
-              <div ng-if="rdata.State == 4">
+              <div ng-if="rdata.State == 4 && rdata.Amount == null || rdata.RState == 0 && rdata.Amount != null">
                 <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#Modal" ng-click="backEvent(rdata.ItemID, rdata.Amount);">Back</button>
                 <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#Modal" ng-click="lostEvent(rdata.ItemID, rdata.Amount);">Lost</button>
               </div>

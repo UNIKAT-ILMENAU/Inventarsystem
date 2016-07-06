@@ -158,12 +158,12 @@ Additionally needed scripts: js/dirPagination.js
 				    <td>{{listItem.SalePrice}}</td>
 				    <td>
 						<!-- we are under the criticalStorageValue highlight it as red-->
-						<div ng-if="listItem.StorageValue < listItem.CriticalStorageValue"> 
+						<div ng-if="listItem.StorageValue <= listItem.CriticalStorageValue  && listItem.material_id != 1"> 
 							<div style="color:red">{{listItem.StorageValue}} / {{listItem.CriticalStorageValue}} 
 							</div>
 						</div>
 						<!-- StorageValue is normal so just show us the values-->
-						<div ng-if="listItem.StorageValue > listItem.CriticalStorageValue"> 
+						<div ng-if="listItem.StorageValue > listItem.CriticalStorageValue && listItem.material_id != 1"> 
 							{{listItem.StorageValue}} / <type style="color:orange;">{{listItem.CriticalStorageValue}}</type> 	
 						</div>
 				    </td>
