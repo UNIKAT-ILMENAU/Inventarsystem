@@ -17,13 +17,14 @@ attachments werden erstmal vernachlässigt.
             </div>
         	
           <!--Begin form-->
-          <form id="itemForm" class="form-horizontal" name="formInput">
+          <form id="itemForm" class="form-horizontal" name="formInput" novalidate>
 
            	<!--Name input-->
             <div class="form-group" id="formName">
               <label class="col-md-2 control-label" for="name">Name</label>
-              <div class="col-md-4">
+              <div class="col-md-4"  ng-class="{'has-error': formInput.name.$invalid && formInput.name.$touched }">
                 <input type="text" class="form-control" id="name" name="name" placeholder="Hammer" ng-model="selectedItems[0].Name" required=""/>
+                <p ng-show="formInput.name.$invalid && formInput.name.$touched" class="text-danger">The name is required.</p>
               </div>
             </div>
 
@@ -41,9 +42,11 @@ attachments werden erstmal vernachlässigt.
             <div class="form-group" id="formCategory">
               <label class="col-md-2 control-label" for="categoryButton">Category</label>
               <!--show, when no category is selected-->
-              <div class="col-md-4" ng-if="selectedItems[0].CategoryID == null">
-                <button type="button" class="btn btn-default btn-block text-left" data-toggle="modal" data-target="#categoryModal"  name="categoryButton"
+              <div class="col-md-4" ng-if="selectedItems[0].CategoryID == null" ng-class="{'has-error': ctgBtn == true}">
+                <button type="button" class="form-control btn btn-default btn-block text-left" name="categoryButton" id="categoryButton"
+                data-toggle="modal" data-target="#categoryModal" ng-click="ctgBtn = true" ng-init="ctgBtn = false" 
                 style="text-align:left;color:#999;">Select Category</button>
+                <p ng-show="ctgBtn == true" class="text-danger">The category is required.</p>
               </div>
               <!--show, when category is selected-->
               <div class="col-md-4" ng-if="selectedItems[0].CategoryID != null" >
@@ -72,7 +75,7 @@ attachments werden erstmal vernachlässigt.
                       <span class="glyphicon glyphicon-info-sign" data-toggle="collapse" data-target="#description{{category.id}}"
                       ng-if="category.Description != null && category.Description != '' ">
                       </span>
-                      <p id="description{{category.id}}" class="collapse">{{category.Description}}</p> 
+                      <p id="description{{category.id}}" class="collapse help-block">{{category.Description}}</p> 
                       <ul ng-if="category.children">
                         <li ng-repeat="category in category.children" ng-include="'categoryTree'"></li>
                       </ul>
@@ -96,9 +99,11 @@ attachments werden erstmal vernachlässigt.
             <div class="form-group" id="formPlace">
               <label class="col-md-2 control-label" for="placeButton">Place</label>
               <!--show, when no place is selected-->
-              <div class="col-md-4" ng-if="selectedItems[0].Place == null">
-                <button type="button" class="btn btn-default btn-block text-left" data-toggle="modal" data-target="#placeModal" name="placeButton"
+              <div class="col-md-4" ng-if="selectedItems[0].Place == null" ng-class="{'has-error': plcBtn == true}">
+                <button type="button" class="form-control btn btn-default btn-block text-left" name="placeButton" id="placeButton"
+                 data-toggle="modal" data-target="#placeModal" ng-click="plcBtn = true" ng-init="plcBtn = false"
                  style="text-align:left;color:#999;">Select Place</button>
+                 <p ng-show="plcBtn == true" class="text-danger">The place is required.</p>
               </div>
               <!--show, when a place is selected-->
               <div class="col-md-4" ng-if="selectedItems[0].Place != null" >
@@ -147,7 +152,7 @@ attachments werden erstmal vernachlässigt.
             <div class="form-group" id="formState">
               <label class="col-md-2 control-label" for="state">State</label>
               <div class="col-md-4"> 
-                <select class="form-control" name="state" ng-model="selectedItems[0].State"
+                <select class="form-control" name="state" id="state" ng-model="selectedItems[0].State"
                   ng-options="option.value as option.name for option in deviceStates"
                   ng-init="selectedItems[0].State = selectedItems[0].State || deviceStates[1].value" required="">
                 </select>
@@ -169,9 +174,10 @@ attachments werden erstmal vernachlässigt.
             <!--Comment input-->
             <div class="form-group" id="formComment">
               <label class="col-md-2 control-label" for="comment">Comment</label>  
-              <div class="col-md-4">
+              <div class="col-md-4" ng-class="{'has-error': formInput.comment.$invalid && formInput.comment.$touched }">
                 <textarea class="form-control" id="comment" name="comment" placeholder="Mf: B1" 
                 ng-model="selectedItems[0].Comment" required=""></textarea>
+                <p ng-show="formInput.comment.$invalid && formInput.comment.$touched" class="text-danger">A comment is required.</p>
               </div>
             </div>
 
@@ -180,23 +186,23 @@ attachments werden erstmal vernachlässigt.
             <div class="form-group" id="formVisible">
               <label class="col-md-2 control-label" for="publicVisible">PublicVisible</label>
               <div class="col-md-4">  
-                <select class="form-control" name="publicVisible"  ng-model="selectedItems[0].PublicVisible"
+                <select class="form-control" name="publicVisible" id="publicVisible"  ng-model="selectedItems[0].PublicVisible"
                   ng-options="option.value as option.name for option in Visibility"
                   ng-init="selectedItems[0].PublicVisible = selectedItems[0].PublicVisible || Visibility[1].value" required="">
                 </select>   
               </div>
             </div>
   
-             <!--Buttons: Submit(Send to Server) + Back to Itemlist--> 
+             <!--Buttons: Submit(Send to Server) + Reset Form + Back to Itemlist--> 
              <div class="form-group">
               <div class="col-md-6 col-md-offset-2">
-                <button id="buttonSubmit" name="buttonSubmit"type="button" class="btn btn-success btn-sm" ng-click="createItemToServer('Device')" 
-                ng-disabled="formInput.name.$error.required || formInput.state.$error.required || formInput.comment.$error.required || formInput.publicVisible.$error.required || selectedItems[0].Category == null || selectedItems[0].Place == null"
-                >Create device</button>
-                <button id="buttonReset" name="buttonReset" type="reset" form="itemForm" class="btn btn-danger btn-sm" 
-                ng-click="resetItem()">Reset form</button>
+                <button id="buttonSubmit" name="buttonSubmit" type="button" class="btn btn-success btn-md" ng-click="createItemToServer('Device')" 
+                ng-disabled="formInput.name.$invalid || formInput.state.$invalid || formInput.comment.$invalid || formInput.publicVisible.$invalid || selectedItems[0].Category == null || selectedItems[0].Place == null"
+                >Create</button>
+                <button id="buttonReset" name="buttonReset" type="reset" form="itemForm" class="btn btn-danger btn-md" 
+                ng-click="resetItem()">Reset</button>
                 <a href="">
-                  <a href="#/list" id="buttonMenu" name="buttonMenu" type="button" class="btn btn-primary btn-sm" ng-click="clearItem()">Back to list</a>
+                  <a href="#/list" id="buttonMenu" name="buttonMenu" type="button" class="btn btn-primary btn-md" ng-click="clearItem()">Back</a>
                 </a>
               </div>
             </div>
@@ -204,14 +210,3 @@ attachments werden erstmal vernachlässigt.
         </div>
       </div>
     </div>
-
-    
-
-<!-- THIS WILL BE DELETED JUST FOR TESTING-->
-<div class="well">
-  <p>Testing area for backend</p>
-  <p>{{selectedItems[0]}}</p>
-  <p>CreaItem:</p>
-  <p>{{createItem}}</p>
-</div>
-

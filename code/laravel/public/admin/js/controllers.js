@@ -248,7 +248,7 @@ invControllers.controller('CreateCtrl', ['$scope', '$routeParams', '$location', 
   $scope.resetItem = function() {
     $scope.selectedItems[0] = {"State":1,"PublicVisible":1};
   };
-  
+
   //=========================================
   //Options and default values for dropdowns
   //=========================================
@@ -464,11 +464,6 @@ invControllers.controller('RentalCtrl', ['$scope', '$routeParams', '$location', 
       $location.path('/list'); //redirect to inventory list
     });
   }
-
-  //rental.html line 80 needs to be changed
-  $scope.checkAmount = function(default_amount){
-    //if(default_amount < $scope.)
-  };
 
   //Datepicker   
   $('*[id=enddate]').appendDtpicker({ 

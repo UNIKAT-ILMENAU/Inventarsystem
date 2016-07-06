@@ -181,7 +181,9 @@ th {
   color:white; 
   background-color:#F75656;
 }
-/*Layout-test for place-, categorymanagement*/
+
+/* ========================== */
+/*Layout for place-, categorymanagement*/
 .just-padding {
   padding: 15px;
 }
@@ -222,4 +224,16 @@ th {
 
 .list-group.list-group-root > .list-group > .list-group > .list-group > .list-group > .list-group > .list-group-item {
   padding-left: 150px;
+}
+
+/* ========================== */
+/*no arrows for input type number*/
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance:textfield;
 }

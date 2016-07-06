@@ -1,11 +1,11 @@
 <!-- 
 Controller: CategoryCtrl - controllers.js
-Additionally needed scripts: tree.js(for nesting data from server), jQuery & Bootstrap JS for tooltip (see bottom)
+Additionally needed scripts: services.js('dataFactory', 'tree')
 -->
 <div class="container">
   <div class="well page-header">
     <div style="text-align:right;">
-      <a href="#/sysconf" class="btn btn-primary btn-sm" role="button" style="text-align:center;">Back</a>
+      <a href="#/sysconf" class="btn btn-default btn-sm" role="button" style="text-align:center;">Back</a>
     </div>
     <h2> Category Management</h2>
     <p> Each category can be part of another category. Please, pay attention to following rules: </p>
@@ -13,7 +13,7 @@ Additionally needed scripts: tree.js(for nesting data from server), jQuery & Boo
       <li> Select one of the existing categories to edit, delete or add a child. </li>
       <li> If no category is selected you can only add root categories. </li>
       <li> You are only allowed to delete categories without children! </li>
-      <li> Further you can not delete category which are already assigned to an item! </li>
+      <li> Further you can not delete categories which are already assigned to an item! </li>
     </ul>  
     </div>
     
@@ -28,13 +28,13 @@ Additionally needed scripts: tree.js(for nesting data from server), jQuery & Boo
         <span class="glyphicon glyphicon-info-sign" data-toggle="collapse" data-target="#description{{category.id}}"
         ng-if="category.Description != null && category.Description != '' ">
         </span>
-        <p id="description{{category.id}}" class="list-group-item-text collapse">{{category.Description}}</p>
+        <p id="description{{category.id}}" class="list-group-item-text help-block collapse">{{category.Description}}</p>
       </div>    
       <div class="list-group" ng-repeat="category in category.children" ng-include="'categoryTree'" ng-if="category.children">      
       </div>
     </script>
 
-    <!--includes nested list (children is nested Data with all categories)-->
+    <!--includes nested list (nestedCategories is nested Data with all categories)-->
     <div class="just-padding">
       <div class="list-group list-group-root well">
         <div class="list-group" ng-repeat="category in nestedCategories" ng-include="'categoryTree'"></div>
@@ -47,10 +47,10 @@ Additionally needed scripts: tree.js(for nesting data from server), jQuery & Boo
         <div class="well">
           <h4>Add new root category</h4>
             <hr>
-            <div class="form-group">
+            <div class="form-group" ng-class="{'has-error': rootCategory.name.$invalid && rootCategory.name.$touched }">
               <label  for="name">Name</label>
               <input type="text" class="form-control" name="name" id="name" ng-model="formData.name" required>
-              <span style="color:red" ng-show="rootCategory.name.$touched && rootCategory.name.$invalid">The name is required.</span>
+              <span class="text-danger" ng-show="rootCategory.name.$touched && rootCategory.name.$invalid">The name is required.</span>
             </div>
             <div class="form-group">
               <label for="rootDescription">Description</label>
@@ -71,10 +71,10 @@ Additionally needed scripts: tree.js(for nesting data from server), jQuery & Boo
           <h4 data-toggle="collapse" data-target="#addChild">Add new child for <b>{{categories.name}}</b></h4>
           <div id="addChild"  class="collapse">
             <hr>
-            <div class="form-group" >
+            <div class="form-group" ng-class="{'has-error': childCategory.name.$invalid && childCategory.name.$touched }">
               <label for="name">Name</label>
               <input type="text" class="form-control" name="name" id="name" ng-model="formData.name" required>
-              <span style="color:red" ng-show="childCategory.name.$touched && childCategory.name.$invalid">The name is required.</span>
+              <span class="text-danger" ng-show="childCategory.name.$touched && childCategory.name.$invalid">The name is required.</span>
             </div>
             <div class="form-group">
               <label for="childDescription">Description</label>
@@ -96,10 +96,10 @@ Additionally needed scripts: tree.js(for nesting data from server), jQuery & Boo
           <h4 data-toggle="collapse" data-target="#edit">Edit <b>{{categories.name}}</b></h4>
           <div id="edit"  class="collapse">
             <hr>
-            <div class="form-group">
+            <div class="form-group" ng-class="{'has-error': editCategory.name.$invalid && editCategory.name.$touched }">
               <label for="editName">Name</label>
               <input type="text" class="form-control" name="name" id="editName" placeholder="{{categories.name}}" ng-model="formData.name" required>
-              <span style="color:red" ng-show="editCategory.name.$touched && editCategory.name.$invalid">The name is required.</span>
+              <span class="text-danger" ng-show="editCategory.name.$touched && editCategory.name.$invalid">The name is required.</span>
             </div>
             <div class="form-group">
               <label for="editDescription">Description</label>
@@ -126,9 +126,4 @@ Additionally needed scripts: tree.js(for nesting data from server), jQuery & Boo
       </form>
     </div>
 
-    <!--code for tests-->    
-    <pre>
-        {{ formData }}
-    </pre>
-  </div>
 </div>
