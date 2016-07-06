@@ -75,7 +75,7 @@ class RentalController extends Controller
             $item = DB::table('rentalrelation')
             ->join('item', 'item.id', '=', 'rentalrelation.ItemID')
             ->where('rentalrelation.RentalID', $id)
-            ->select('item.id as ItemID', 'item.Name as Itemname', 'item.State as State', 'rentalrelation.Amount as Amount', 'rentalrelation.BroughtBack as BroughtBack')
+            ->select('item.id as ItemID', 'item.Name as Itemname', 'item.State as State', 'rentalrelation.State as RState', 'rentalrelation.Amount as Amount', 'rentalrelation.BroughtBack as BroughtBack')
             ->get();
             
         }
@@ -265,11 +265,30 @@ class RentalController extends Controller
         //for each id given 
         foreach ($ids as $ids)
          {
-      		//set item "State" in Item to 0
-            DB::table('item')->where('id', $ids)->update(
-                [
-                 'State' => 4 //State-ID == not available
-                ]);
+         	$storagecheck = DB::table('item')
+         					->where('item.id', $ids)
+         					->join('material', 'item.material_id', '=', 'material.id')
+         					->select('StorageValue')
+         					->pluck('StorageValue');
+
+         	if($storagecheck[0] != NULL){
+
+         		if($storagecheck[0] == $R_amounts[$i]){
+         			DB::table('item')->where('id', $ids)->update(
+              		[
+                 		'State' => 4 //State-ID == not available
+                	]);
+         		}
+
+         	}else{
+	         		//set item "State" in Item to 4
+		            DB::table('item')->where('id', $ids)->update(
+		                [
+		                 'State' => 4 //State-ID == not available
+		                ]);
+
+         	}
+
 
             //create rentalrealtion entry
             DB::table('rentalrelation')->insert(
@@ -489,7 +508,8 @@ class RentalController extends Controller
 
         return 'Rental complete';
     }
-
+    
+    /*
     public function BringBackMultiple(Request $request, $id) 
     {  
         $ids = $request ->input('ids');
@@ -540,6 +560,7 @@ class RentalController extends Controller
         }
 		return 'RentalComplete';
     }
+    */
 
     public function ItemLost(Request $request, $id) 
     {  
@@ -600,13 +621,12 @@ class RentalController extends Controller
         
 
         DB::table('rental')
-        ->join('rentalrelation', 'rental.id', '=', 'rentalrelation.RentalID')
-        ->where('rental.id', $id )->update(
-        [
-         'rental.State' => 1,
-
-         'rental.updated_at' => $current
-        ]);
+	        ->join('rentalrelation', 'rental.id', '=', 'rentalrelation.RentalID')
+	        ->where('rental.id', $id )
+	        ->update([
+				         'rental.State' => 1,
+				         'rental.updated_at' => $current
+				        ]);
 
         DB::table('comment')->insert(['Comment'=> "$R_comment | Lost: $amount"]); //
 
