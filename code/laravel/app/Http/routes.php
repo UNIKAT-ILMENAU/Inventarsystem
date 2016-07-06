@@ -16,7 +16,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
+//testing prettier dashboard
+Route::get('/api/v1/dashboard/Items', ['uses' =>'ItemController@ItemCount']);
 
 //// Item Controller
 //Item Information API - Public
@@ -49,6 +50,9 @@ Route::post('/api/v1/restricted/comment/update/{id}', ['uses' =>'CommentControll
 //// Place Controller
 Route::get('/api/v1/restricted/place/allPlace', ['uses' =>'PlaceController@showAllPlace']);
 Route::get('/api/v1/restricted/place/{id}', ['uses' =>'PlaceController@getPlace']);
+Route::get('/api/v1/restricted/place/search/{id}', ['uses' =>'PlaceController@PlaceRoute']);
+Route::get('/api/v1/restricted/place', ['uses' =>'PlaceController@showP']);
+Route::get('/api/v1/restricted/place/child/{id}', ['uses' =>'PlaceController@showC']);
 
 Route::post('/api/v1/restricted/place/create', ['uses' =>'PlaceController@PlaceStore']);
 Route::post('/api/v1/restricted/place/update/{id}', ['uses' =>'PlaceController@PlaceUpdate']);
@@ -105,6 +109,4 @@ Route::post('/api/v1/restricted/user/update/{id}', ['uses' =>'UserController@Use
 Route::post('/api/v1/login', ['uses' =>'AuthenticateController@authenticate']);
 
 
-Route::get('/api/v1/restricted/place/search/{id}', ['uses' =>'PlaceController@PlaceRoute']);
-Route::get('/api/v1/restricted/place', ['uses' =>'PlaceController@showP']);
-Route::get('/api/v1/restricted/place/child/{id}', ['uses' =>'PlaceController@showC']);
+

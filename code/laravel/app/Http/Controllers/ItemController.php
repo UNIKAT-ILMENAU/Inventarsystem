@@ -14,6 +14,32 @@ class ItemController extends Controller
 {
     ///////////////////////////////////////////////////////////////////
     //////////////// PUBLIC METHODES
+    public function ItemCount() 
+    {  
+        $items = DB::table('item')->count();
+        $notavailableitems = DB::table('item')->where('State', 0)->count();
+        $devices = DB::table('item')->where('material_id', 1)->count();
+        $materials = DB::table('item')->where('material_id','!=', 1)->count();
+        $missingdevices = DB::table('item')->where('material_id', 1)
+                                           ->where('State', 3) ->count();
+        $visibleitems = DB::table('item')->where('Visible', 1) ->count(); 
+        $invisibleitems = DB::table('item')->where('Visible', 0) ->count(); 
+        $openrentals = DB::table('rental')->where('State', 0)->count();
+        $closedrentals = DB::table('rental')->where('State', 1)->count();
+        $renteditems =  DB::table('rentalrelation')->where('State','=', 0)->count();
+        $renteddevices =  DB::table('rentalrelation')->where('State','=', 0)
+                                                     ->where('Amount', '=', NULL)->count();
+        $admins = DB::table('member')->where('isAdmin', 1)->count();
+        $places = DB::table('place')->count();
+        $category = DB::table('category')->count();
+
+       
+
+        return [$items, $notavailableitems, $devices, $materials, $missingdevices, $visibleitems, $invisibleitems, $openrentals, $closedrentals, 
+                $renteditems, $renteddevices, $admins, $places, $category];
+    }
+
+
 
     //===================================================
     //This methode returns all item id's with visible == 1
@@ -632,5 +658,9 @@ class ItemController extends Controller
             return $id;
     }
 
+
+
 }
+
+
 
