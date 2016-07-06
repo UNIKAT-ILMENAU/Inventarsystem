@@ -35,8 +35,7 @@ class ItemController extends Controller
 
        
 
-        return [$items, $notavailableitems, $devices, $materials, $missingdevices, $visibleitems, $invisibleitems, $openrentals, $closedrentals, 
-                $renteditems, $renteddevices, $admins, $places, $category];
+        return [$items, $notavailableitems, $devices, $materials, $missingdevices, $visibleitems, $invisibleitems, $openrentals, $closedrentals, $renteditems, $renteddevices, $admins, $places, $category];
     }
 
 
@@ -451,10 +450,9 @@ class ItemController extends Controller
                 [  'Name' => $R_name ]);  
         }
         //if variable not NULL -> update value in table
-        if($R_state != NULL){
-            $message = DB::table('item')->where('id', $id)->update(
+        $message = DB::table('item')->where('id', $id)->update(
                 [  'State' => $R_state ]);  
-        }
+
         //if variable not NULL -> update value in table
         if($R_category != NULL){
             $message = DB::table('item')->where('id', $id)->update(
@@ -471,10 +469,9 @@ class ItemController extends Controller
                 [  'Description' => $R_description ]);  
         }
         //if variable not NULL -> update value in table
-        if($R_visible != NULL){
-            $message = DB::table('item')->where('id', $id)->update(
-                [  'visible' => $R_visible ]);  
-        }
+        $message = DB::table('item')->where('id', $id)->update(
+                [  'visible' => $R_visible ]); 
+
         //update "updated_at" with current time
         DB::table('item')->where('id', $id)->update(
             [
@@ -497,7 +494,7 @@ class ItemController extends Controller
                 'Event_ID'=> 3]); //Event-ID == UpdateItem
 
 
-        return $id;
+        return 'Success';
     }
 
 
@@ -534,7 +531,6 @@ class ItemController extends Controller
             'Saleprice'=> 3.50.
             'UoM'=> 'Kilogram'
             'UoM_short'=> 'kg',
-            'StorgaeValue'=> 300,
             'CriticalStorageValue'=> 200,
             'Comment'=> 'Updated a srew'
         */
@@ -545,10 +541,8 @@ class ItemController extends Controller
                 [  'Name' => $R_name ]);  
         }
         //if variable not NULL -> update value in table
-        if($R_state != NULL){
-            $message = DB::table('item')->where('id', $id)->update(
+        $message = DB::table('item')->where('id', $id)->update(
                 [  'State' => $R_state ]);  
-        }
         //if variable not NULL -> update value in table
         if($R_place != NULL){
             $message = DB::table('item')->where('id', $id)->update(
@@ -565,10 +559,8 @@ class ItemController extends Controller
                 [  'Description' => $R_description ]);  
         }
         //if variable not NULL -> update value in table
-        if($R_visible != NULL){
-            $message = DB::table('item')->where('id', $id)->update(
-                [  'Visible' => $R_visible ]);  
-        }
+        $message = DB::table('item')->where('id', $id)->update(
+
         //if variable not NULL -> update value in table
         if($R_criticalstoragevalue != NULL){
             $message = DB::table('item')->join('material', 'item.material_id', '=', 'material.id')->where('item.id', $id)->update(
