@@ -58,7 +58,12 @@ invControllers.controller('ListCtrl', function ($scope, $location, REST) {
 //Menu controller handles menu functions
 //Used in: dashboard.html - adminconf_menu.html - systemconf_menu.html 
 //==============================
-invControllers.controller('MenuCtrl', function () {
+invControllers.controller('MenuCtrl', function($scope, REST) {
+  //Gets all dashboard information
+  $scope.dashData = REST.dashboardLoad();
+
+
+
 }); 
 
 //==============================
