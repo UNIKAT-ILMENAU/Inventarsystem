@@ -36,10 +36,6 @@ footer{
   color:#04B4AE !important;     /*# PERSONALIZE/CHANGE THIS COLOR */
 }
 
-/* Scroll To Top Glyphicon */
-span.glyphicon-large {
-    font-size: 3.2em;
-}
 
 /* Spacemaker */
 hr {
@@ -49,6 +45,9 @@ hr {
   border-top: 1px solid #04B4AE; /*# PERSONALIZE/CHANGE THIS COLOR */
   margin: 1em 0;
   padding: 0; 
+}
+.footer-icon{
+  margin-bottom: 15px;
 }
 
 /* =========================== */
