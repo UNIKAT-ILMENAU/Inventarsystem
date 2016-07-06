@@ -27,7 +27,9 @@ function($resource){
     //Detail user information of the selected rental
     detailRentalUserLoad: {method:'GET', params:{ListItemId: $resource}, isArray:true},
     //Detail item information of the selected rental
-    detailRentalItemLoad: {method:'GET', params:{ListItemId: $resource}, isArray:true}
+    detailRentalItemLoad: {method:'GET', params:{ListItemId: $resource}, isArray:true},
+    //All dashboard information
+    dashboardLoad: {method:'GET', params:{ListItemId: 'dashboard/Items'}, isArray:true}
     //typload: {method:'GET', params:{ListItemId: 'typeahead'}, isArray:true} //not included right now
   });
 }]);

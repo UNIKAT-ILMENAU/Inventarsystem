@@ -16,8 +16,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//testing prettier dashboard
-Route::get('/api/v1/dashboard/Items', ['uses' =>'ItemController@ItemCount']);
+//Dashboard
+Route::get('/api/v1/restricted/dashboard/Items', ['uses' =>'ItemController@ItemCount']);
 
 //// Item Controller
 //Item Information API - Public
