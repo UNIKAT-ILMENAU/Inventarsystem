@@ -1,0 +1,25 @@
+<div class="menu-space top-space">
+	<div class="container well ">
+		<div class="text-center">
+			<h1> Invite Admin </h1>
+			<h4> Send an invitation-link to a person! </h4>
+
+			<form class="form-horizontal" name="emailForm">
+				<div class="form-group">
+					<label class="col-xs-2 col-sm-1 col-sm-offset-1" style="padding-top: 10px"> Email </label>
+					<div class="col-xs-6 col-sm-6"> 
+						<input class="form-control" name="input" type="email" placeholder="Email" ng-model="email" required=""></input>
+					</div>
+					<button class="col-xs-4 col-sm-2 btn btn-danger" ng-click="sendInvitation(email)" ng-disabled="emailForm.input.$error.email || emailForm.input.$error.required"> Send Email </button>
+					<div class="col-sm-2"> </div>
+				</div> 
+			</form>
+		</div>
+		
+		<div class="text-center">
+			<p style="margin-bottom:50px" class="text-warning" ng-show="emailForm.input.$error.email || emailForm.input.$error.required"> Not a valid Email</p>
+			<a class="btn btn-primary" href="#/adminconf"> Back </a>
+		</div>      
+	</div>	
+	<a class="btn btn-danger" href="#/createNewAdmin"> Test --> Verweis auf html Seite des Linkes (createNewAdmin.html) </a>
+</div>

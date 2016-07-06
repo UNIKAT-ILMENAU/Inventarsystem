@@ -1,0 +1,159 @@
+<!-- 
+Controller: DetailCtrl - controllers.js
+Additionally needed scripts: none 
+-->
+<div class="container">
+  <div class="well page-header">
+      
+      <!-- Basic/Simple Informations of the selected item-->
+      <!--Id & Name with class depending on State-->
+      <h2>
+        <!-- Highlight if the item is already rented or available, State = RentalState -->
+        <div ng-switch="detailData[0][0].State">
+          <div ng-switch-when="0" class="text-danger">RentalID: {{detailData[0][0].Id}}</div>
+          <div ng-switch-when="1" class="text-success">RentalID: {{detailData[0][0].Id}}</div> 
+        </div>       
+      </h2> 
+      <div  class="text-right">
+        <em>Created at {{detailData[0][0].Created_at}}</em>
+      </div>
+
+    <div style="background-color:white;">
+      <!--Table shows detailed infos of item depending on material_id-->
+      <!-- 0 = Device | 1 = Material-->
+      <table class="table table-bordered table-responsive">
+        <!--State: 0 = Not available, 1 = Available, 2 = Defective, 3 = Missing-->   
+        <tr ng-if="detailData[0][0].State == 0">
+          <td><b>State:</b> </td><td class="text-danger" >Still outstanding</td>
+        </tr>
+        <tr ng-if="detailData[0][0].State == 1">  
+          <td><b>State:</b></td> <td class="text-success">Complete</td>
+        </tr>
+        
+        <!--Name-->
+        <tr>
+          <td><b>Name:</b></td><td>({{detailData[0][0].UserID}}) {{detailData[0][0].Lastname}} {{detailData[0][0].Firstname}}</td>
+        </tr>        
+        <tr>
+          <td><b>Email:</b></td> <td>{{detailData[0][0].Email}}</td>
+        </tr>
+        <!-- EndDate -->
+        <tr>
+          <td><b>EndDate:</b></td><td>{{detailData[0][0].EndDate}}</td>
+        </tr>
+        <!--Category-->
+        <tr>
+          <td><b>CreatedBy:</b></td> <td>({{detailData[0][0].CreatedByID}}) {{detailData[1][0].Admin_Firstname}} {{detailData[1][0].Admin_Lastname}}</td>
+        </tr>
+        
+        
+      </table>
+    </div>
+  </div>
+    
+  
+    <!-- Item list-->
+    <div class="bot-space">
+      <h4>Items</h4><hr>    
+      <div ng-repeat="rdata in itemData" class="well" style="margin:0px">  
+          <div class="row">
+            <div class="col-sm-2">[{{$index+1}}] {{rdata.Itemname}} (ID:{{rdata.ItemID}})</div>
+            <div  class="col-sm-2">
+                <div ng-if="rdata.Amount > 0">Amount: {{rdata.Amount}}</div>
+                <div ng-if="rdata.Amount === null">Device</div>
+            </div>
+            <div class="col-sm-2">{{rdata.Place}}</div>
+            <div class="col-sm-2" ng-if="rdata.Amount == null">
+              <div ng-switch="rdata.State">
+                    <div ng-switch-when="4" class="text-warning">Still outstanding</div>
+                    <div ng-switch-when="1" class="text-success">Brought back</div>
+                    <div ng-switch-when="3" class="text-danger">Lost</div>
+                </div>
+            </div>
+            <div class="col-sm-2" ng-if="rdata.Amount != null">
+              <div ng-switch="rdata.RState">
+                    <div ng-switch-when="0" class="text-warning">Still outstanding</div>
+                    <div ng-switch-when="1" class="text-success">Brought back</div>
+                    <div ng-switch-when="3" class="text-danger">Lost</div>
+                </div>
+            </div>
+            <div class="col-sm-2">{{rdata.BroughtBack}}</div>
+            <div class="col-sm-2 text-right">
+              <div ng-if="rdata.State == 4 && rdata.Amount == null || rdata.RState == 0 && rdata.Amount != null">
+                <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#Modal" ng-click="backEvent(rdata.ItemID, rdata.Amount);">Back</button>
+                <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#Modal" ng-click="lostEvent(rdata.ItemID, rdata.Amount);">Lost</button>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+
+    <!-- Modal for the device options -->
+    <div class="modal fade" id="Modal" role="dialog">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+          <!-- info what event is selected -->
+            <h4 class="modal-title">Item {{title}}</h4>
+          </div>
+          <div class="modal-body">
+            <div ng-if="amount > 0 && title == 'back'">
+              <label>Amount: {{amount_value}}</label>
+              <input type="text" class="form-control" ng-change="change_amount(amount_value)" ng-model="amount_value">
+            </div>
+            <label>Comment:</label>
+            <input type="text" class="form-control" ng-model="comment">
+          </div>
+          <div class="modal-footer">
+            <!-- Update/Okay send to server -->
+            <div ng-switch="title">
+              <!-- LostEvent -->
+              <div ng-switch-when="lost" class="text-warning">
+                <div ng-if="amount > 0">  <!-- Material -->
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                  <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="updateLostEvent(itemID, amount, comment)">Okay</button>
+                </div>
+                <div ng-if="amount === null"> <!-- Device -->
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                  <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="updateLostEvent(itemID, null, comment)">Okay</button>
+                </div>        
+              </div>
+              <!-- BackEvent -->
+              <div ng-switch-when="back" class="text-success">
+                <div ng-if="amount > 0"> <!-- Material -->
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                  <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="updateBackEvent(itemID, amount_value, comment)">Okay</button>
+                </div>
+                <div ng-if="amount === null"> <!-- Device -->
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                  <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="updateBackEvent(itemID, null, comment)">Okay</button>
+                </div>
+              </div>
+            </div>
+                            
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  
+
+
+
+
+    <!-- Menupoint/Buttons -->
+  <div class="well">
+    <div class="text-center"><hr>
+      <a href="#/rentallist" class="btn btn-primary btn-sm">Back</a>
+    </div>
+    <!-- information/alert message for short info -->
+    <div ng-repeat="news in alert">
+      <div class="alert alert-info">
+        <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        {{news.msg}}
+      </div>
+    </div>
+  </div>
+
+</div>

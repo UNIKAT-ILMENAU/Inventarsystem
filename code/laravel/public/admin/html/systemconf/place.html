@@ -1,0 +1,113 @@
+<!-- 
+Controller: PlaceCtrl - controllers.js
+Additionally needed scripts: services.js('dataFactory', 'tree')
+-->
+<div class="container">
+  <div class="well page-header">
+    <div style="text-align:right;">
+      <a href="#/sysconf" class="btn btn-primary btn-md" role="button" style="text-align:center;">Back</a>
+    </div>
+    <h2> Location Management</h2>
+    <p> Each place can be part of another place. Please, pay attention to following rules: </p>
+    <ul>
+      <li> Select one of the existing places to edit, delete or add a child. </li>
+      <li> If no place is selected you can only add root places. </li>
+      <li> You are only allowed to delete places without children! </li>
+      <li> Further you can not delete places which are already assigned to an item! </li>
+    </ul>  
+    </div>
+
+    <!--recursive template for displaying places as nested list-->
+    <script type="text/ng-template" id="placeTree">
+      <div class="list-group-item">
+        <input type="radio" id="Parent{{place.id}}" ng-value="place.id" ng-model="formData.Parent"
+        ng-change="newValue('{{place.Name}}', {{place.children}})">
+        <label for="Parent{{place.id}}">
+          {{place.Name}}
+        </label>
+      </div>
+      <div class="list-group" ng-repeat="place in place.children" ng-include="'placeTree'"  ng-if="place.children">
+      </div>
+    </script>
+
+    <!--includes nested list (nestedPlaces is nested Data with all places)-->
+    <div class="just-padding">
+      <div class="list-group list-group-root well">
+        <div class="list-group" ng-repeat="place in nestedPlaces" ng-include="'placeTree'"></div>   
+      </div>
+    </div>
+
+    <!--Add new root place-->
+    <div ng-if="formData.Parent == null">
+      <form role="form" name="rootPlace" novalidate>
+        <div class="well">
+          <h4>Add new root place</h4>
+            <hr>
+            <div class="form-group"  ng-class="{'has-error': rootPlace.name.$invalid && rootPlace.name.$touched }">
+              <label  for="rootName">Name</label>
+              <input type="text" class="form-control" name="name" id="rootName" ng-model="formData.name" required>
+              <span class="text-danger" ng-show="rootPlace.name.$touched && rootPlace.name.$invalid">The name is required.</span>
+            </div>
+            <button type="button" class="btn btn-success" ng-click="createPlaceEvent(formData.name, formData.Parent)"
+            ng-disabled="rootPlace.name.$invalid">
+              <span class="glyphicon glyphicon-plus"></span> Add
+            </button>
+        </div>    
+      </form>
+    </div>
+
+    <!--Add new child to existing place-->
+    <div ng-if="formData.Parent != null">
+      <form role="form" name="childPlace" novalidate>
+        <div class="well">
+          <h4 data-toggle="collapse" data-target="#addChild">Add new child for <b>{{places.name}}</b></h4>
+          <div id="addChild"  class="collapse">
+            <hr>
+            <div class="form-group" ng-class="{'has-error': childPlace.name.$invalid && childPlace.name.$touched }">
+              <label for="childName">Name</label>
+              <input type="text" class="form-control" name="name" id="childName" ng-model="formData.name" required>
+              <span class="text-danger" ng-show="childPlace.name.$touched && childPlace.name.$invalid">The name is required.</span>
+            </div>
+            <button type="button" class="btn btn-success" ng-click="createPlaceEvent(formData.name, formData.Parent)"
+            ng-disabled="childPlace.name.$invalid">
+              <span class="glyphicon glyphicon-plus"></span> Add
+            </button>
+          </div>
+        </div>    
+      </form>
+    </div>
+
+    <!--Edit existing place-->
+    <div ng-if="formData.Parent != null">
+      <form role="form" name="editPlace" novalidate>
+        <div class="well">
+          <h4 data-toggle="collapse" data-target="#edit">Edit <b>{{places.name}}</b></h4>
+          <div id="edit"  class="collapse">
+            <hr>
+            <div class="form-group" ng-class="{'has-error': editPlace.name.$invalid && editPlace.name.$touched }">
+              <label for="editName">Name</label>
+              <input type="text" class="form-control" name="name" id="editName" placeholder="{{places.name}}" ng-model="formData.name" required>
+              <span class="text-danger" ng-show="editPlace.name.$touched && editPlace.name.$invalid">The name is required.</span>
+            </div>
+            <button type="button" class="btn btn-primary" ng-click="updatePlaceEvent(formData.name, formData.Parent)"
+            ng-disabled="editPlace.name.$invalid">
+              <span class="glyphicon glyphicon-edit"></span> Edit
+            </button>
+          </div>
+        </div>    
+      </form>
+    </div>
+
+    <!--delete place (shows only when selected place has no children)-->
+    <div ng-if="formData.Parent != null && places.children.length < 1">
+      <form role="form">
+        <div class="well">
+          <h4>Delete <b>{{places.name}}</b></h4>
+          <button type="button" class="btn btn-danger" ng-click="deletePlaceEvent(formData.Parent)">
+            <span class="glyphicon glyphicon-trash"></span> Delete
+          </button>
+        </div>    
+      </form>
+    </div>
+
+</div>

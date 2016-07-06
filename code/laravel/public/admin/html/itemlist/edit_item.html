@@ -1,0 +1,185 @@
+<!-- 
+Controller: ItemEditController - controllers.js
+Additionally needed scripts: none 
+-->
+
+<div class="container">
+
+  <div class="col-lg-3"></div>  
+  <div class="col-lg-6">
+
+  	<div style="float:right">
+    	<!-- Cancel button - redirect to DetailView -->
+    	<a ng-click="viewDetail(detailData[0].Id);" class="btn btn-danger">Cancel</a>
+    	<!-- Save button -->
+    	<button class="btn btn-primary" ng-click="saveEdit()">Save</button>
+   	</div>  
+    <!-- ID and Name preview for the admin-->
+    <h1>{{detailData[0].Id}} - {{detailData[0].Name}}</h1>
+    <hr>
+
+    <!-- All changeable inputs -->
+    <label for="name">Name:</label>
+    <input type="text" class="form-control" name="name" ng-model="detailData[0].Name">
+    <label>State:</label>
+    <form role="form">
+      <!-- if item is device -->
+      <div class="form-group" ng-if="detailData[0].material_id == 1">
+        <select class="form-control"  ng-model="detailData[0].State" 
+          ng-options="option.value as option.name for option in deviceStates"
+          ng-init="detailData[0].State = detailData[0].State || deviceStates[1].value">    
+        </select>
+      </div>
+      <!-- if item is material -->
+      <div class="form-group" ng-if="detailData[0].material_id != 1">
+        <select class="form-control"  ng-model="detailData[0].State" 
+          ng-options="option.value as option.name for option in materialStates"
+          ng-init="detailData[0].State = detailData[0].State || materialStates[1].value">    
+        </select>
+      </div>
+    </form>
+
+    <div>
+    </div>
+    <label>Place:</label>
+  	<!--show, when no place is selected-->
+  	<div ng-if="detailData[0].Place == null">
+  	    <button type="button" class="btn btn-default btn-block text-left" data-toggle="modal" data-target="#placeModal" name="placeButton"
+  	     style="text-align:left;color:#999;">Select Place</button>
+  	</div>
+  	<!--show, when a place is selected-->
+  	<div ng-if="detailData[0].Place != null" >
+  	    <button type="button" class="btn btn-default btn-block text-left" data-toggle="modal" data-target="#placeModal" name="placeButton"
+  	     style="text-align:left;color:#555;">{{detailData[0].PlaceName}}</button>
+  	</div>
+    <label>Category:</label>
+    <!--show, when no category is selected-->
+    <div ng-if="detailData[0].CategoryID == null">
+        <button type="button" class="btn btn-default btn-block text-left" data-toggle="modal" data-target="#categoryModal"  name="categoryButton"
+         style="text-align:left;color:#999;">Select Category</button>
+    </div>
+    <!--show, when category is selected-->
+    <div ng-if="detailData[0].CategoryID != null" >
+        <button type="button" class="btn btn-default btn-block text-left" data-toggle="modal" data-target="#categoryModal" name="categoryButton" 
+       	style="text-align:left;color:#555;">{{detailData[0].Category}}</button>
+    </div>
+    <label>Description:</label>
+    <input type="text" class="form-control" ng-model="detailData[0].Description" >
+    <div ng-if="detailData[0].material_id != 1">
+      <label>SalePrice:</label>
+      <input type="text" class="form-control" ng-model="detailData[0].SalePrice" >
+      <label>BuildType:</label>
+      <input type="text" class="form-control" ng-model="detailData[0].BuildType" >
+      <label>UoM:</label>
+      <input type="text" class="form-control" ng-model="detailData[0].UoM" >
+      <label>UoM_short:</label>
+      <input type="text" class="form-control" ng-model="detailData[0].UoM_short" >
+      <label>CriticalStorageValue:</label>
+      <input type="text" class="form-control" ng-model="detailData[0].CriticalStorageValue" >
+    </div>
+    <label>PublicVisible:</label>
+    <form role="form">
+      <div class="form-group">
+        <select class="form-control"  ng-model="detailData[0].PublicVisible" 
+            ng-options="option.value as option.name for option in Visibility"
+            ng-init="detailData[0].PublicVisible = detailData[0].PublicVisible || Visibility[1].value">
+        </select>
+      </div>
+    </form>
+    <label>Comment:</label>  
+    <textarea class="form-control" ng-model="detailData[0].Comment"></textarea>
+    <hr>
+    <!-- Menupoint/Buttons -->
+    <div class="text-center">   
+      <!-- Cancel button - redirect to DetailView -->
+      <a ng-click="viewDetail(detailData[0].Id);" class="btn btn-danger">Cancel</a> 
+      <!-- Back to list button - redirect to inventory list -->
+      <a href="#/list" class="btn btn-danger">Back to list</a>
+      <!-- Save button, sends update to server -->
+      <button class="btn btn-primary" ng-click="saveEdit()">Save</button> 
+      <hr>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- THIS WILL BE DELETED JUST FOR TESTING-->
+<div class="well">
+  <p>Testing area for backend</p> 
+  <p>{{detailData[0]}}</p>
+</div>
+
+<!--modal for place selection-->
+<div id="placeModal" class="modal fade" role="dialog">
+  	<div class="modal-dialog">
+    	<div class="modal-content">
+      		<div class="modal-header">
+        		<button type="button" class="close" data-dismiss="modal">&times;</button>
+        		<h4 class="modal-title">Select Place</h4>
+      		</div>
+      		<div class="modal-body">
+
+		        <!--recursive template for displaying places as nested list-->
+		        <script type="text/ng-template" id="placeTree">
+              <input type="radio" name="plc" id="plc{{place.id}}" ng-value="place.id" 
+              ng-model="detailData[0].Place" ng-change="newPlaceValue('{{place.Name}}')">
+	          	<label for="plc{{place.id}}">
+	            	{{place.Name}}
+	          	</label>
+	            <ul ng-if="place.children">
+	              <li ng-repeat="place in place.children" ng-include="'placeTree'"></li>
+              </ul>  
+		        </script>
+            
+		        <!--includes nested list (nestedPlaces is nested Data with all places)-->
+		        <ul>
+		            <li ng-repeat="place in nestedPlaces" ng-include="'placeTree'"></li>
+		        </ul>
+
+      		</div>
+      		<div class="modal-footer">
+        		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      		</div>
+    	</div>
+  	</div>
+</div>
+
+<!--modal for category selection-->
+<div id="categoryModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+    	<div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Select Category</h4>
+            </div>
+        	<div class="modal-body">
+
+            	<!--recursive template for displaying categories as nested list-->
+                <script type="text/ng-template" id="categoryTree">
+                  <input type="radio" name="categoryParent" id="ctg{{category.id}}" ng-value="category.id" 
+                  ng-model="detailData[0].CategoryID" ng-change="newCategoryValue('{{category.Name}}')">
+                	<label for="ctg{{category.id}}">
+                      {{category.Name}}
+                	</label>
+                  <span class="glyphicon glyphicon-info-sign" data-toggle="collapse" data-target="#description{{category.id}}"
+                  ng-if="category.Description != null && category.Description != '' ">
+                  </span>
+                  <p id="description{{category.id}}" class="collapse">{{category.Description}}</p>
+                  <ul ng-if="category.children">
+                    <li ng-repeat="category in category.children" ng-include="'categoryTree'"></li>
+                  </ul>
+                </script>
+
+                <!--includes nested list (nestedCategories is nested Data with all categories)-->
+                <ul>
+            		  <li ng-repeat="category in nestedCategories" ng-include="'categoryTree'"></li>
+                </ul>
+
+      		</div>
+      		<div class="modal-footer">
+        		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      		</div>
+    	</div>
+  	</div>
+</div>        
