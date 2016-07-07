@@ -76,7 +76,6 @@ hr {
     width: 200px;
 }
 
-
 /* =========================== */
 /* === TABLE/LIST HEADER STYLE === */
 .sort-icon {
@@ -109,7 +108,6 @@ th {
   text-align: left;
 }
 
-
 /* =========================== */
 /* === MENUPOINTS === */
 
@@ -118,7 +116,7 @@ th {
 }
 
 .menu-space{
-  min-height: 550px;   /* the min default height of the menu */
+  /*min-height: 550px;  */ /* the min default height of the menu */
 }
 
 .menu-margin{         /* just some top space for the menu buttons */
