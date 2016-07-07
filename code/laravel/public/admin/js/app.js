@@ -4,7 +4,7 @@
 /* App Module */
 
 var invApp = angular.module('invApp', [
-  'ngRoute', 'invControllers', 'invServices', 'invFilter'
+  'ngRoute', 'invControllers', 'invServices'
 ]);
 
 //tokenInterceptor bugfix: 
