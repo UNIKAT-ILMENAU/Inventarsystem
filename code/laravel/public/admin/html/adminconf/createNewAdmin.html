@@ -38,6 +38,10 @@
       <div class="col-md-3">
         <input type="text" class="form-control" id="phone" ng-model="phone" required=""></input>
       </div>
+      <label class="col-md-1" for="phone">Email*:</label>
+      <div class="col-md-3">
+        <input type="text" class="form-control" id="email" ng-model="email" required=""></input>
+      </div>
     </div>  
     <p>* are necessary inputs</p> 
   </form>
@@ -64,6 +68,5 @@
   </form>
   <div class="text-center">
    <button style="width: 200px; margin-bottom:10px;" class="btn btn-danger" ng-disabled="credentials.$error.required || credentials2.$error.required || pw != pwAgain" ng-click="sendRegistration()"> Register </button>
-   <button ng-click="sendRegistration()">TEST (avoid validation)</button>
  </div>
 </div>

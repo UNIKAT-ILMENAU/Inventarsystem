@@ -2,7 +2,7 @@
 
 /* AllControllers */
 
-var invControllers = angular.module('invControllers', ['angularUtils.directives.dirPagination', 'ngStorage']); 
+var invControllers = angular.module('invControllers', ['angularUtils.directives.dirPagination']); 
 
 //==============================
 //Request Admin list
@@ -10,7 +10,6 @@ var invControllers = angular.module('invControllers', ['angularUtils.directives.
 //Used in: list.html
 //==============================
 invControllers.controller('ListCtrl', function ($scope, $location, REST) {
-
   //Get all item informations from the server
   $scope.listData = REST.query();
 
@@ -71,7 +70,7 @@ invControllers.controller('MenuCtrl', function($scope, REST) {
 //Request Detail informations from specific item
 //Used in: detail.html 
 //==============================
-invControllers.controller('DetailCtrl', ['$scope','$localStorage', '$routeParams', '$location', '$http', 'REST', function($scope, $routeParams, $location, $http, REST) {
+invControllers.controller('DetailCtrl', ['$scope', '$localStorage', '$routeParams', '$location', '$http', 'REST', function($scope, $localStorage, $routeParams, $location, $http, REST) {
   //Gets all informations of a specific item by id
   $scope.detailData = REST.detailLoad({ListItemId: 'item/details/' + $routeParams.ListItemId});
   //Gets the place as a string
@@ -134,7 +133,7 @@ invControllers.controller('DetailCtrl', ['$scope','$localStorage', '$routeParams
 
   //modal function for the device state update (defect/missing)
   $scope.updateStateEvent = function(itemID, stateID, comment) { 
-    var Indata = {'itemid': itemID, 'comment': comment, 'createdbyid': $localStorage.user_id }; //NEEDS TO BE IMPLEMENTED
+    var Indata = {'itemid': itemID, 'comment': comment, 'createdbyid': angular.fromJson($localStorage.user_id) }; //NEEDS TO BE IMPLEMENTED
     if(stateID == 2){
       //POST state device to the server
       $http.post("/api/v1/restricted/event/8", Indata).success(function(data, status) {
@@ -165,7 +164,7 @@ invControllers.controller('DetailCtrl', ['$scope','$localStorage', '$routeParams
     //check event and if we have a positiv amount
     if(title == "used" && amount > 0 )
     {
-      var Indata = {'amount': amount, 'itemid': itemID, 'createdbyid': createdbyid }; //NEEDS TO BE IMPLEMENTED
+      var Indata = {'amount': amount, 'itemid': itemID, 'createdbyid': angular.fromJson($localStorage.user_id) }; //NEEDS TO BE IMPLEMENTED
       //POST used material to the server
       $http.post("/api/v1/restricted/event/6", Indata).success(function(data, status) {
         //SUCCESSFULL alert("success" + $scope.detailData[0].Id);
@@ -174,7 +173,7 @@ invControllers.controller('DetailCtrl', ['$scope','$localStorage', '$routeParams
     } //check event and if we have a positiv amount
     else if(title == "stock up" && amount > 0 )
     {    
-      var Indata = {'amount': amount, 'itemid': itemID, 'createdbyid': createdbyid };
+      var Indata = {'amount': amount, 'itemid': itemID, 'createdbyid': angular.fromJson($localStorage.user_id) };
       //POST stock up material to the server
       $http.post("/api/v1/restricted/event/7", Indata).success(function(data, status) {
         //SUCCESSFULL alert("success" + $scope.detailData[0].Id);
@@ -183,7 +182,7 @@ invControllers.controller('DetailCtrl', ['$scope','$localStorage', '$routeParams
     }else if(title == "sell" && amount > 0)
     {   
     alert(price); 
-      var Indata = {'amount': amount, 'itemid': itemID, 'createdbyid': createdbyid, 'price': price };
+      var Indata = {'amount': amount, 'itemid': itemID, 'createdbyid': angular.fromJson($localStorage.user_id), 'price': price };
       //POST sell material to the server
       $http.post("/api/v1/restricted/event/10", Indata).success(function(data, status) {
         //SUCCESSFULL alert("success" + $scope.detailData[0].Id);
@@ -198,7 +197,7 @@ invControllers.controller('DetailCtrl', ['$scope','$localStorage', '$routeParams
 //Create Item controller
 //Used: create_material.html, create_device.html 
 //==============================
-invControllers.controller('CreateCtrl', ['$scope','$localStorage', '$routeParams', '$location', '$http', function($scope, $localStorage,$routeParams, $location, $http) {
+invControllers.controller('CreateCtrl', ['$scope','$localStorage', '$routeParams', '$location', '$http', 'dataFactory', function($scope,$localStorage, $routeParams, $location, $http, dataFactory) {
 
   //Send create to the server
   $scope.createItemToServer = function(typ) {    
@@ -208,10 +207,11 @@ invControllers.controller('CreateCtrl', ['$scope','$localStorage', '$routeParams
      var Indata = { 'name': $scope.selectedItems[0].Name, 
                     'state': $scope.selectedItems[0].State,
                     'description': $scope.selectedItems[0].Description,
-                    'category': $scope.selectedItems[0].CategoryID, //NEEDS TO BE IMPLEMENTED
+                    'category': $scope.selectedItems[0].CategoryID, 
                     'visible': $scope.selectedItems[0].PublicVisible,
-                    'place': $scope.selectedItems[0].Place,       //NEEDS TO BE IMPLEMENTED
-                    'createdbyid': $localStorage.user_id,                             //NEEDS TO BE IMPLEMENTED
+                    //'cost': $scope.selectedItems[0].Cost,       //NEEDS TO BE IMPLEMENTED?
+                    'place': $scope.selectedItems[0].Place,       
+                    'createdbyid': angular.fromJson($localStorage.user_id),                             //NEEDS TO BE IMPLEMENTED
                     'comment': $scope.selectedItems[0].Comment
                 };
       //POST device to the server
@@ -225,12 +225,13 @@ invControllers.controller('CreateCtrl', ['$scope','$localStorage', '$routeParams
     {
      var Indata = { 'name': $scope.selectedItems[0].Name, 
                     'state': $scope.selectedItems[0].State,
-                    'category': $scope.selectedItems[0].CategoryID, //NEEDS TO BE IMPLEMENTED
+                    'category': $scope.selectedItems[0].CategoryID, 
                     'description': $scope.selectedItems[0].Description,
                     'visible': $scope.selectedItems[0].PublicVisible,
                     'saleprice': $scope.selectedItems[0].SalePrice,
-                    'place': $scope.selectedItems[0].Place,       //NEEDS TO BE IMPLEMENTED
-                    'createdbyid': $localStorage.user_id,                             //NEEDS TO BE IMPLEMENTED
+                    //'cost': $scope.selectedItems[0].Cost,       //NEEDS TO BE IMPLEMENTED?
+                    'place': $scope.selectedItems[0].Place,       
+                    'createdbyid': angular.fromJson($localStorage.user_id),                             //NEEDS TO BE IMPLEMENTED
                     'buildtype': $scope.selectedItems[0].Buildtype,
                     'uom': $scope.selectedItems[0].UoM,
                     'uom_short': $scope.selectedItems[0].UoM_short,
@@ -259,9 +260,9 @@ invControllers.controller('CreateCtrl', ['$scope','$localStorage', '$routeParams
 
   //options and default('available') for state in create_device
   $scope.deviceStates = [{ name: 'Not available', value: 0 },
-                    { name: 'Available', value: 1 },
-                    { name: 'Defective', value: 2 },
-                    { name: 'Missing', value: 3 } 
+                         { name: 'Available', value: 1 },
+                         { name: 'Defective', value: 2 },
+                         { name: 'Missing', value: 3 } 
   ];
 
   //options and default('available') for state in create_material
@@ -278,73 +279,28 @@ invControllers.controller('CreateCtrl', ['$scope','$localStorage', '$routeParams
   //Get all places from server
   //==============================
 
-  //var nesseary for GET places-array and nesting array 
-  var allPlaces = [];
-  var placeResult;
-  var placeTree;
+  //GET places-array by using dataFactory(in services.js)
+  dataFactory.getAllPlaces().then(function (response){
+      $scope.nestedPlaces = response;
+  });
 
-  //GET places-array
-  $http({
-    method: 'GET',
-    url: '/api/v1/restricted/place/allPlace'
-  }).then(function placeSuccess(response) {
-      //handles success
-      allPlaces = response.data;
-
-      //call functions to format query for rendering in html-template as nested list
-      placeResult = _queryTreeSort({q: allPlaces});
-      placeTree = _makeTree({q: placeResult});
-
-      //for rendering nested list --> input is placeTree
-      $scope.nestedPlaces = placeTree;            
-  }, function placeError(response) {
-      //handles error
-      alert("An error occured. Could not load all places.");
-  }); 
-  
-
-  //gets input from newPlaceValue 
-  $scope.places = {name: ""};
-
-  //changes input of places when new radio-button is selected
+  //changes input of selectedItems[0].PlaceName when new radio-button is selected
   $scope.newPlaceValue = function(n) {
-    $scope.places = {name: n};
+    $scope.selectedItems[0].PlaceName = n;
   };
 
   //==============================
   //Get all categories from server
   //==============================
 
-  //var nesseary for GET categories-array and nesting array 
-  var allCategories = [];
-  var categoryResult;
-  var categoryTree;
-
-  //GET categories-array
-  $http({
-    method: 'GET',
-    url: '/api/v1/restricted/category/allCategory'
-  }).then(function categorySuccess(response) {
-      //handles success
-      allCategories = response.data;
-
-      //call functions to format query for rendering in html-template as nested list
-      categoryResult = _queryTreeSort({q: allCategories});
-      categoryTree = _makeTree({q: categoryResult});
-
-      //for rendering nested list --> input is categoryTree
-      $scope.nestedCategories = categoryTree;            
-  }, function categoryError(response) {
-      //handles error
-      alert("An error occured. Could not load all categories.");
+  //GET categories-array by using dataFactory(in services.js)
+  dataFactory.getAllCategories().then(function (response){
+      $scope.nestedCategories = response;
   });
 
-  //gets input from newCategoryValue 
-  $scope.categories = {name: ""};
-
-  //changes input of categories when new radio-button is selected
+  //changes input of selectedItems[0].Category when new radio-button is selected
   $scope.newCategoryValue = function(n) {
-    $scope.categories = {name: n};
+    $scope.selectedItems[0].Category = n;
   };
 
 }]);
@@ -353,7 +309,7 @@ invControllers.controller('CreateCtrl', ['$scope','$localStorage', '$routeParams
 //ItemEdit controller
 //Used: edit_item.html
 //==============================
-invControllers.controller('ItemEditCtrl', ['$scope', '$routeParams', '$location', '$http', 'REST', 'dataFactory', function($scope, $routeParams, $location, $http, REST, dataFactory) {
+invControllers.controller('ItemEditCtrl', ['$scope', '$localStorage','$routeParams', '$location', '$http', 'REST', 'dataFactory', function($scope, $localStorage, $routeParams, $location, $http, REST, dataFactory) {
   //Gets all informations of a specific item by id
   $scope.detailData = REST.detailLoad({ListItemId: 'item/details/' + $routeParams.ListItemId});
   
@@ -408,7 +364,7 @@ invControllers.controller('ItemEditCtrl', ['$scope', '$routeParams', '$location'
                     'category': $scope.detailData[0].CategoryID,
                     'visible': $scope.detailData[0].PublicVisible,
                     'place': $scope.detailData[0].Place, 
-                    'createdbyid': 1,         //NEEDS TO BE IMPLEMENTED
+                    'createdbyid': angular.fromJson($localStorage.user_id),         //NEEDS TO BE IMPLEMENTED
                     'comment': $scope.detailData[0].Comment
                     };
       
@@ -429,7 +385,7 @@ invControllers.controller('ItemEditCtrl', ['$scope', '$routeParams', '$location'
                     'visible': $scope.detailData[0].PublicVisible,
                     'saleprice': $scope.detailData[0].SalePrice,
                     'place': $scope.detailData[0].Place,
-                    'createdbyid': 1, //NEEDS TO BE IMPLEMENTED
+                    'createdbyid': angular.fromJson($localStorage.user_id), //NEEDS TO BE IMPLEMENTED
                     'buildtype': $scope.detailData[0].Buildtype,
                     'uom': $scope.detailData[0].UoM,
                     'uom_short': $scope.detailData[0].UoM_short,
@@ -495,7 +451,7 @@ invControllers.controller('RentalCtrl', ['$scope', '$localStorage', '$routeParam
                   'phone': $scope.borrow.customer.phone, 
                   'email': $scope.borrow.customer.email, 
                   'enddate': $scope.borrow.customer.enddate,
-                  'createdbyid': $localStorage.user_id,             //NEEDS TO BE IMPLEMENTED
+                  'createdbyid': angular.fromJson($localStorage.user_id),             //NEEDS TO BE IMPLEMENTED
                   'comment': $scope.borrow.customer.comment,
                   'ids': [],
                   'amounts': []
@@ -513,20 +469,6 @@ invControllers.controller('RentalCtrl', ['$scope', '$localStorage', '$routeParam
       $location.path('/list'); //redirect to inventory list
     });
   }
-
-  $scope.sendRental2 = function(){
-    //needs to be like this cause datepicker doesnt work with ng-change
-    $scope.borrow.customer.date = document.getElementById("borrowDate").value;
-
-    //POST device to the server
-    /*$http.post("/api/v1/restricted/device/create", $scope.borrow).success(function(data, status) {
-      //SUCCESSFULL
-      $scope.clearItem(); //clears the selected item
-      $location.path('/list');
-    });*/
-
-
-  };
 
   //Datepicker   
   $('*[id=enddate]').appendDtpicker({ 
@@ -585,7 +527,7 @@ invControllers.controller('RentalListCtrl', ['$scope', '$routeParams', '$locatio
 //Rental detail controller
 //Used: rental_detail.html
 //==============================
-invControllers.controller('RentalDetailCtrl', ['$scope', '$localStorage', '$routeParams', '$location','$http', 'REST', function($scope, $routeParams, $location, $http, REST) {
+invControllers.controller('RentalDetailCtrl', ['$scope', '$localStorage','$routeParams', '$location','$http', 'REST', function($scope, $localStorage, $routeParams, $location, $http, REST) {
   //Gets all user informations of a specific rental by id
   $scope.detailData = REST.detailRentalUserLoad({ListItemId: 'rental/SingleRentals/' + $routeParams.ListItemId});
   //Gets all item informations of the loaded rental
@@ -601,6 +543,7 @@ invControllers.controller('RentalDetailCtrl', ['$scope', '$localStorage', '$rout
   $scope.change_amount = function(value) { 
     $scope.amount_value = value;
   };
+
   //Lost event
   $scope.lostEvent = function(ItemID, value) { 
     //sets the title in the modal 
@@ -614,13 +557,13 @@ invControllers.controller('RentalDetailCtrl', ['$scope', '$localStorage', '$rout
     //sets the title in the modal 
     $scope.title = "back";
     $scope.amount = value;
-    $scope.itemID = ItemID;
+    $scope.itemID = ItemID; 
   };
 
   //modal function for the lost event
   $scope.updateLostEvent = function(itemID, value, comment) { 
 
-    var Indata = {'itemid': itemID, 'amount': value,'comment': comment, 'createdbyid': $localStorage.user_id}; //NEEDS TO BE IMPLEMENTED
+    var Indata = {'itemid': itemID, 'amount': value,'comment': comment, 'createdbyid': angular.fromJson($localStorage.user_id)}; //NEEDS TO BE IMPLEMENTED
     //Creates the url for the post
     var url = "/api/v1/restricted/rental/lost/" +  $scope.detailData[0][0].Id;
   
@@ -641,7 +584,7 @@ invControllers.controller('RentalDetailCtrl', ['$scope', '$localStorage', '$rout
 
   //modal function for the back event
   $scope.updateBackEvent = function(itemID, value, comment) { 
-    var Indata = {'itemid': itemID, 'amount': value,'comment': comment, 'createdbyid': $localStorage.user_id}; //NEEDS TO BE IMPLEMENTED
+    var Indata = {'itemid': itemID, 'amount': value,'comment': comment, 'createdbyid': angular.fromJson($localStorage.user_id)}; //NEEDS TO BE IMPLEMENTED
     //Creates the url for the post
     var url = "/api/v1/restricted/rental/bringBack/" +  $scope.detailData[0][0].Id;
 
@@ -667,9 +610,8 @@ invControllers.controller('RentalDetailCtrl', ['$scope', '$localStorage', '$rout
 //Main-controller
 //Used: overall other controller 
 //==============================
-invControllers.controller('indexCtrl', function ($scope, $location, $anchorScroll, $localStorage, $http) {
-
-  //logout-button
+invControllers.controller('indexCtrl', function ($scope, $location, $anchorScroll) {
+//logout-button
   $scope.logout = function(){
       var tok = { 
         token: $localStorage.token
@@ -686,11 +628,7 @@ invControllers.controller('indexCtrl', function ($scope, $location, $anchorScrol
         function(err) {}    
       );
 
-      //clear storage
-      $localStorage.token = "";
-      delete $localStorage.token;
-      $localStorage.user_Id = "";
-      delete $localStorage.user_id; 
+      window.localStorage.clear(); 
   }
 
   //localwebstorage for the selected items
@@ -745,8 +683,6 @@ invControllers.controller('indexCtrl', function ($scope, $location, $anchorScrol
       $anchorScroll();
     };
 });
-
-
 
 
 //==============================
@@ -804,6 +740,7 @@ function loginCtrl($scope, $localStorage, $location, $http){
 
     var claims;
 
+
     $http({
       method: 'POST',
       url: '/api/v1/login',
@@ -830,7 +767,6 @@ function loginCtrl($scope, $localStorage, $location, $http){
     );
   }
 
-
 }
 
 
@@ -840,9 +776,9 @@ function loginCtrl($scope, $localStorage, $location, $http){
 //==============================
 
 //invite new admin: send email-adress to server
-invControllers.controller('inviteAdminCtrl',['$scope', '$http', inviteAdminCtrl]);
-function inviteAdminCtrl($scope, $http, $location){
-
+invControllers.controller('inviteAdminCtrl',['$scope', '$localStorage',  '$http', inviteAdminCtrl]);
+function inviteAdminCtrl($localStorage, $scope, $http, $location){
+  //send-button
   $scope.sendInvitation = function(email) {
 
     var email_adress = {
@@ -868,6 +804,7 @@ function inviteAdminCtrl($scope, $http, $location){
 
 
 
+
 //==============================
 //create new Admin - Controller
 //used: createNewAdmin.html
@@ -876,6 +813,7 @@ function inviteAdminCtrl($scope, $http, $location){
 //sends sign-up data of new admin to server 
 invControllers.controller('createNewAdminCtrl', createNewAdminCtrl);
 function createNewAdminCtrl($scope, $location, $http){
+  //get token from url
   var tok = location.href.split('token=')[1];
 
   $scope.sendRegistration = function(){
@@ -886,13 +824,15 @@ function createNewAdminCtrl($scope, $location, $http){
       "city": $scope.city, 
       "zip": $scope.zip, 
       "mobilephone": $scope.phone,
-      "matrikel": $scope.StudentID,
-      "password": $scope.pw
+      "matrikel": $scope.studentId,
+      "password": $scope.pw,
+      "email": $scope.email,
+      "reg_token": tok
     };
     
     $http({
       method: 'POST',
-      url: '/api/v1/restricted/admin/create/' + tok, 
+      url: '/api/v1/restricted/admin/create',
       data: newAdmin
     })
     .then(
@@ -903,23 +843,23 @@ function createNewAdminCtrl($scope, $location, $http){
         alert("something went wrong");
       }
     );  
-
   }  
-
 }
+
+
+
 
 
 
 //==============================
 //reset password as admin -Controller
 //used: resetPassword.html
-//####### API missing ########
 //==============================
 
 //change password as signed-in Admin
 invControllers.controller('resetPasswordAsAdminCtrl', resetPasswordCtrl);
-function resetPasswordCtrl($scope, $http){
-  //button
+function resetPasswordCtrl($scope, $http, $location){
+  //change-button
   $scope.changeOldPasswordAsAdmin = function(op, np) {
     var data = {
       oldpassword: op,
@@ -929,11 +869,14 @@ function resetPasswordCtrl($scope, $http){
     //send old and new password
     $http({
       method: 'POST',
-      url: '', 
+      url: '/api/v1/restricted/admin/changePassword', 
       data: data
     })
     .then(
-      function(re){},         
+      function(re){
+        alert("Changed password successfully.");
+        $location.path('/dashboard');
+      },         
       function(er){
         alert("Please enter your correct current password.");
       }
@@ -999,7 +942,6 @@ function deleteAdminCtrl($scope, $http){
         //set admin-status to 0
         allAdmins[getIndex(allAdmins, "ID", id, 1)].Activated = 0;
         //update view-list
-        allAdmins.splice(getIndex(allAdmins, "ID", id), 1);
         $scope.listOfAdmins = allAdmins;
       }
       ok = false;
@@ -1017,7 +959,7 @@ function deleteAdminCtrl($scope, $http){
 
 //used for not logged-in admins to change password via email-adress
 invControllers.controller('forgotPasswordCtrl', forgotPasswordCtrl);
-function forgotPasswordCtrl($scope, $http){
+function forgotPasswordCtrl($scope, $http, $location){
 
   //forgotpassword.html, send a link to email-adress
   $scope.sendEmail = function(mail){
@@ -1028,11 +970,14 @@ function forgotPasswordCtrl($scope, $http){
 
     $http({
       method: 'POST',
-      url: '',
+      url: '/api/v1/admin/SendPasswordEmail',
       data: email
     })
     .then(
-      function(re){},         
+      function(re){
+        $alert('Email sended.');
+        $location.path('/login');
+      },         
       function(er){}
       );          
   }
@@ -1040,63 +985,45 @@ function forgotPasswordCtrl($scope, $http){
   //newPassword.html (will be sent with link to email-adress after using forgotPasswort.html)
   //link has a token in the url
   //sends new password to server
-  $scope.sendPassword = function(newPw){
+  $scope.sendPassword = function(newPw, email){
 
     //take token from url
     var tok = location.href.split('token=')[1];
 
     var data = {
+      'email': email,
       'password': newPw,
       'token': tok
     }; 
 
     $http({
       method: 'POST',
-      url: '',
+      url: '/api/v1/resetPassword',
       data: data
     })
     .then(
       function(re){
-
+        $location.path('/login');
       },         
-      function(er) {
-
-      }
+      function(er) {}
       );          
   }
-
-
 }
+
+
+
+
 
 
   //==============================
   //Category Management controller
   //Used: category.html
   //==============================
-  invControllers.controller('CategoryCtrl', function ($scope, $http, $route) {
+  invControllers.controller('CategoryCtrl', function ($scope, $localStorage, $http, $route, dataFactory) {
 
-    //var nesseary for GET categories-array and nesting array 
-    var allCategories = [];
-    var categoryResult;
-    var categoryTree;
-
-    //GET categories-array
-    $http({
-      method: 'GET',
-      url: '/api/v1/restricted/category/allCategory'
-    }).then(function categorySuccess(response) {
-        //handles success
-        allCategories = response.data;
-
-        //call functions to format query for rendering in html-template as nested list
-        categoryResult = _queryTreeSort({q: allCategories});
-        categoryTree = _makeTree({q: categoryResult});
-
-        //for rendering nested list --> input is categoryTree
-        $scope.nestedCategories = categoryTree;            
-    }, function categoryError(response) {
-        //handles error
-        alert("An error occured. Could not load all categories.");
+    //GET categories-array by using dataFactory(in services.js)
+    dataFactory.getAllCategories().then(function (response){
+        $scope.nestedCategories = response;
     });
 
     //for input fields and radio-buttons
@@ -1118,7 +1045,6 @@ function forgotPasswordCtrl($scope, $http){
     //==============================
     //update Category
     //==============================
-    //in API erwartet 'Update a Category' die beforeID?
     $scope.updateCategoryEvent = function(categoryID, categoryName, categoryDescription) { 
 
       //alert(categoryName + " | " + categoryID + " | " + categoryDescription);
@@ -1130,7 +1056,7 @@ function forgotPasswordCtrl($scope, $http){
         data: Indata 
       }).then(function updateSuccess(response) {
           //handles success
-          alert("Selected category was updated."); 
+          //alert("Selected category was updated."); 
           $route.reload();          
       }, function updateError(response) {
           //handles error
@@ -1149,7 +1075,7 @@ function forgotPasswordCtrl($scope, $http){
     $scope.createCategoryEvent = function(categoryID, categoryName, categoryDescription) { 
 
       //alert(categoryName + " | " + categoryID + " | " + categoryDescription);
-      var Indata = {'name': categoryName, 'before': beforeID, 'description': categoryDescription, createdbyid: 3 };
+      var Indata = {'name': categoryName, 'before': categoryID, 'description': categoryDescription, createdbyid: angular.fromJson($localStorage.user_id) };
       //POST new category to server
       $http({
         method: 'POST',
@@ -1157,7 +1083,7 @@ function forgotPasswordCtrl($scope, $http){
         data: Indata 
       }).then(function createSuccess(response) {
           //handles success
-          alert("New category was created.");
+          //alert("New category was created.");
           $route.reload();           
       }, function createError(response) {
           //handles error
@@ -1173,10 +1099,9 @@ function forgotPasswordCtrl($scope, $http){
     //==============================
     //delete Category
     //==============================
-    //in API überhaupt integriert? -> es ist sichergestellt, dass nur kategorien ohne kinder gelöscht werden
     $scope.deleteCategoryEvent = function(categoryID) { 
 
-      //alert(categoryID);
+      //only categories without children and no item has this category
       //DELETE category
       $http({
         method: 'DELETE',
@@ -1187,7 +1112,7 @@ function forgotPasswordCtrl($scope, $http){
           $route.reload();           
       }, function deleteError(response) {
           //handles error
-          alert("An error occured. Could not delete category.");
+          alert("An error occured. Make sure that selected category is not assigned to an item.");
       });
       //DELETE category
       /* $http.delete("/api/v1/restricted/category/delete" + categoryID).success(function(data, status) {
@@ -1203,30 +1128,11 @@ function forgotPasswordCtrl($scope, $http){
   //Place Management controller
   //Used: place.html
   //==============================
-  invControllers.controller('PlaceCtrl', function ($scope, $http, $route) {
+  invControllers.controller('PlaceCtrl', function ($scope, $http, $localStorage, $route, dataFactory) {
 
-    //var nesseary for GET places-array and nesting array 
-    var allPlaces = [];
-    var placeResult;
-    var placeTree;
-
-    //GET places-array
-    $http({
-      method: 'GET',
-      url: '/api/v1/restricted/place/allPlace'
-    }).then(function placeSuccess(response) {
-        //handles success
-        allPlaces = response.data;
-
-        //call functions to format query for rendering in html-template as nested list
-        placeResult = _queryTreeSort({q: allPlaces});
-        placeTree = _makeTree({q: placeResult});
-
-        //for rendering nested list --> input is placeTree
-        $scope.nestedPlaces = placeTree;            
-    }, function placeError(response) {
-        //handles error
-        alert("An error occured. Could not load all places.");
+    //GET places-array by using dataFactory(in services.js)
+    dataFactory.getAllPlaces().then(function (response){
+        $scope.nestedPlaces = response;
     });
 
     //for input fields and radio-buttons
@@ -1245,7 +1151,6 @@ function forgotPasswordCtrl($scope, $http){
     //EVENTS (locationManagement)
     //==============================
 
-
     //==============================
     //update Place
     //==============================
@@ -1260,7 +1165,7 @@ function forgotPasswordCtrl($scope, $http){
         data: Indata 
       }).then(function placeSuccess(response) {
           //handles success
-          alert("Selected place was updated.");
+          //alert("Selected place was updated.");
           $route.reload();          
       }, function placeError(response) {
           //handles error
@@ -1276,11 +1181,10 @@ function forgotPasswordCtrl($scope, $http){
     //==============================
     //create Place
     //==============================
-    //in API erwarted CreatePlace die createdbyID als Input?
     $scope.createPlaceEvent = function(placeName, beforeID) { 
 
       //alert(placeName + " | " + beforeID);
-      var Indata = {'name': placeName, 'before': beforeID, createdbyid: 3};
+      var Indata = {'name': placeName, 'before': beforeID, createdbyid: angular.fromJson($localStorage.user_id)};
       //POST new place to server
       $http({
         method: 'POST',
@@ -1288,7 +1192,7 @@ function forgotPasswordCtrl($scope, $http){
         data: Indata 
       }).then(function placeSuccess(response) {
           //handles success
-          alert("New Place was created.");
+          //alert("New Place was created.");
           $route.reload();           
       }, function placeError(response) {
           //handles error
@@ -1304,10 +1208,9 @@ function forgotPasswordCtrl($scope, $http){
     //==============================
     //delete PLace
     //==============================
-    //in API überhaupt integriert? -> es ist sichergestellt, dass nur plätze ohne kinder gelöscht werden
     $scope.deletePlaceEvent = function(placeID) { 
 
-      //alert(placeID);
+      //only places without children and no item is located in this place
       //DELETE selected place
       $http({
         method: 'DELETE',
@@ -1318,7 +1221,7 @@ function forgotPasswordCtrl($scope, $http){
           $route.reload();          
       }, function placeError(response) {
           //handles error
-          alert("An error occured. Could not delete place.");
+          alert("An error occured. Make sure that selected place is not assigned to an item.");
       });
       //DELETE selected place
       /* $http.delete("/api/v1/restricted/place/delete/" + placeID).success(function(data, status) {

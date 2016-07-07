@@ -18,8 +18,8 @@ invApp.config(['$routeProvider',
   function($routeProvider) {  
     $routeProvider.
       when('/', {                     
-        templateUrl: 'html/login/login.html',    
-        controller: 'loginCtrl'
+        templateUrl: 'html/itemlist/edit_item.html',    
+        controller: 'ItemEditCtrl'
       }).
       when('/login', {                            //Login
         templateUrl: 'html/login/login.html',
@@ -95,7 +95,7 @@ invApp.config(['$routeProvider',
         controller: 'inviteAdminCtrl',
         resolve: {function(authCheck){authCheck.check()}}
       }).
-      when('/createNewAdmin', {                   //create a new admin after inviting
+      when('/createNewAdmin/:token', {                   //create a new admin after inviting
         templateUrl: 'html/adminconf/createNewAdmin.html',
         controller: 'createNewAdminCtrl'
       }).
@@ -113,7 +113,7 @@ invApp.config(['$routeProvider',
         templateUrl: 'html/login/forgotPassword.html',
         controller: 'forgotPasswordCtrl'
       }).
-      when('/newPassword', {                      //change password when not logged in
+      when('/newPassword/:tmpToken', {                      //change password when not logged in
         templateUrl: 'html/login/newPassword.html',
         controller: 'forgotPasswordCtrl'
       }).
