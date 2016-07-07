@@ -232,7 +232,7 @@ invControllers.controller('CreateCtrl', ['$scope', '$routeParams', '$location', 
                     //'cost': $scope.selectedItems[0].Cost,       //NEEDS TO BE IMPLEMENTED?
                     'place': $scope.selectedItems[0].Place,       
                     'createdbyid': 1,                             //NEEDS TO BE IMPLEMENTED
-                    'buildtype': $scope.selectedItems[0].Buildtype,
+                    'buildtype': $scope.selectedItems[0].BuildType,
                     'uom': $scope.selectedItems[0].UoM,
                     'uom_short': $scope.selectedItems[0].UoM_short,
                     'storagevalue': $scope.selectedItems[0].StorageValue,

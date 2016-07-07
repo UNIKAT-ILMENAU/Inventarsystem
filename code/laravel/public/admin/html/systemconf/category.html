@@ -8,8 +8,13 @@ Additionally needed scripts: services.js('dataFactory', 'tree')
       <a href="#/sysconf" class="btn btn-primary btn-md" role="button" style="text-align:center;">Back</a>
     </div>
     <h2> Category Management</h2>
-    <p> Each category can be part of another category. Please, pay attention to following rules: </p>
-    <ul>
+    <p>
+      Each category can be part of another category. Please, pay attention to these rules. 
+      <a data-toggle="collapse" data-target="#ctgRules">
+        <span class="glyphicon glyphicon-menu-down"></span>
+      </a>
+    </p>
+    <ul id="ctgRules"  class="collapse">
       <li> Select one of the existing categories to edit, delete or add a child. </li>
       <li> If no category is selected you can only add root categories. </li>
       <li> You are only allowed to delete categories without children! </li>

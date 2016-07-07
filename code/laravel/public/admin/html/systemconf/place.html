@@ -8,8 +8,13 @@ Additionally needed scripts: services.js('dataFactory', 'tree')
       <a href="#/sysconf" class="btn btn-primary btn-md" role="button" style="text-align:center;">Back</a>
     </div>
     <h2> Location Management</h2>
-    <p> Each place can be part of another place. Please, pay attention to following rules: </p>
-    <ul>
+    <p>
+      Each place can be part of another place. Please, pay attention to these rules. 
+      <a data-toggle="collapse" data-target="#plcRules">
+        <span class="glyphicon glyphicon-menu-down"></span>
+      </a>
+    </p>
+    <ul id="plcRules"  class="collapse">
       <li> Select one of the existing places to edit, delete or add a child. </li>
       <li> If no place is selected you can only add root places. </li>
       <li> You are only allowed to delete places without children! </li>

@@ -203,7 +203,7 @@ Controller: CreateCtrl - controllers.js
             <div class="form-group" id="formType">
               <label class="col-md-2 control-label" for="type">Buildtype</label>
               <div class="col-md-4" ng-class="{'has-error': itemForm.type.$invalid && itemForm.type.$touched }">
-                <input type="text" class="form-control" id="type" name="type" placeholder="THT" ng-model="selectedItems[0].Buildtype" required=""/>
+                <input type="text" class="form-control" id="type" name="type" placeholder="THT" ng-model="selectedItems[0].BuildType" required=""/>
                 <p ng-show="itemForm.type.$invalid && itemForm.type.$touched" class="text-danger">The build type is required.</p>
               </div>
             </div>
