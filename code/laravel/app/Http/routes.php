@@ -32,7 +32,7 @@ Route::post('/api/v1/restricted/admin/invite', ['uses' =>'AdminController@invite
 
 //JWT AUTH
 Route::post('/api/v1/login', ['uses' =>'AuthenticateController@createToken']);
-Route::get('/api/v1/check', ['uses' =>'AuthenticateController@checkAuth']);
+Route::post('/api/v1/check', ['uses' =>'AuthenticateController@checkAuth']);
 Route::get('/api/v1/test', ['uses' =>'AuthenticateController@Testing']);
 
 //Testing
@@ -126,6 +126,9 @@ Route::post('/api/v1/restricted/user/update/{id}', ['uses' =>'UserController@Use
 
 //Route::post('/api/v1/test', ['uses' =>'AuthenticateController@checkAuth']); <-- Middleware Testing Route
 Route::group(['middleware' => 'JWTCheck'], function () {
+	//Dashboard
+	Route::get('/api/v1/restricted/dashboard/Items', ['uses' =>'ItemController@ItemCount']);
+
     //Item Information API - Restricted
 	Route::get('/api/v1/restricted/item/allItems', 'ItemController@RestrictedshowAllItems');
 	Route::get('/api/v1/restricted/item/allIds', ['uses' =>'ItemController@RestrictedshowAllIds']);
@@ -150,6 +153,9 @@ Route::group(['middleware' => 'JWTCheck'], function () {
 	//// Place Controller
 	Route::get('/api/v1/restricted/place/allPlace', ['uses' =>'PlaceController@showAllPlace']);
 	Route::get('/api/v1/restricted/place/{id}', ['uses' =>'PlaceController@getPlace']);
+	Route::get('/api/v1/restricted/place/search/{id}', ['uses' =>'PlaceController@PlaceRoute']);
+Route::get('/api/v1/restricted/place', ['uses' =>'PlaceController@showP']);
+Route::get('/api/v1/restricted/place/child/{id}', ['uses' =>'PlaceController@showC']);
 
 	Route::post('/api/v1/restricted/place/create', ['uses' =>'PlaceController@PlaceStore']);
 	Route::post('/api/v1/restricted/place/update/{id}', ['uses' =>'PlaceController@PlaceUpdate']);
