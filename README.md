@@ -20,64 +20,31 @@ This project was created as a software project at the Ilmenau University of Tech
 
 #### Installation:
 
-1. Edit homestead.yaml in the new directory vagrant_config and change the following lines:
-
-    ```sh
-    ip: "192.168.10.10"
-    memory: 2048
-    cpus: 1
-    provider: virtualbox
-    
-    #Your SSH Public Key
-    authorize: /Users/YOUR_NAME/.ssh/id_rsa.pub
-    
-    #Your SSH Private Key
-    keys:
-        - /Users/YOUR_NAME/.ssh/id_rsa
-
-    #Your Project Folder
-    folders:
-        - map: YOUR_PATH/code
-        to: /home/vagrant/code
-
-    #Your Host
-    sites:
-        - map: inventorysystem.app
-        to: /home/vagrant/code/laravel/public
-
-    ```
-
-2. Edit your host files C:\Windows\System32\drivers\etc and add:
-
-    ```sh
-    192.168.10.10 inventorysystem.app
-    ```
-
-3. Open your terminal and type in:
+1. Open your terminal, navigate to your repository and type in:
 
     ```sh
     vagrant up
     ```
 
-4. Type in your terminal:
+2. Type in your terminal:
 
     ```sh
     vagrant ssh
     ```
 
-5. Navigate with your console to:
+3. Navigate with your console to:
 
     ```sh
     cd code/laravel
     ```
 
-6. Migrate the database:
+4. Migrate the database:
 
     ```sh
     php artisan migrate
     ```
 
-7. Seed the database:
+5. Seed the database:
 
     ```sh
     php artisan db:seed
