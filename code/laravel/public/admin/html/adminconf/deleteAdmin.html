@@ -17,7 +17,7 @@
       </thead>
 
       <tbody>
-        <tr ng-repeat="admin in listOfAdmins | orderBy: '-Activated'" ng-class="{'success': admin.Activated === 1, 'danger': admin.Activated === 0, 'active': admin.ID === 1}"> 
+        <tr ng-repeat="admin in listOfAdmins | orderBy: 'ID'" ng-class="{'success': admin.Activated === 1, 'danger': admin.Activated === 0, 'active': admin.ID === 1}"> 
           <td>{{admin.ID}}</td>
           <td>{{admin.FirstName}}</td>
           <td>{{admin.LastName}}</td>
