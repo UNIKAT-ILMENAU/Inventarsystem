@@ -3,7 +3,7 @@ Controller: DetailCtrl - controllers.js
 Additionally needed scripts: none 
 -->
 <div class="container">
-  <div class="well page-header">
+  <div class="well page-header" >
       
     <!-- Basic/Simple Informations of the selected item-->
     <!--Id & Name with class depending on State-->
@@ -31,10 +31,19 @@ Additionally needed scripts: none
         </tr>
         <!--Name-->
         <tr>
-          <td><b>Name:</b></td><td>({{detailData[0][0].UserID}}) {{detailData[0][0].Lastname}} {{detailData[0][0].Firstname}}</td>
+          <td><b>Borrower:</b></td><td>({{detailData[0][0].UserID}}) {{detailData[0][0].Lastname}} {{detailData[0][0].Firstname}}</td>
         </tr>        
         <tr>
           <td><b>Email:</b></td> <td>{{detailData[0][0].Email}}</td>
+        </tr>
+        <tr>
+          <td><b>Address:</b></td> <td>{{detailData[0][0].ZIP}} {{detailData[0][0].City}}, {{detailData[0][0].Street}}</td>
+        </tr>
+        <tr>
+          <td><b>Phone:</b></td> <td>+0{{detailData[0][0].Phone}}</td>
+        </tr>
+        <tr>
+          <td><b>Student-ID:</b></td> <td>{{detailData[0][0].Matrikel}}</td>
         </tr>
         <!-- EndDate -->
         <tr ng-if="detailData[0][0].State == 0">
@@ -54,7 +63,7 @@ Additionally needed scripts: none
         </tr>
         <!--Category-->
         <tr>
-          <td><b>CreatedBy:</b></td> <td>({{detailData[0][0].CreatedByID}}) {{detailData[1][0].Admin_Firstname}} {{detailData[1][0].Admin_Lastname}}</td>
+          <td><b>Created by:</b></td> <td>({{detailData[0][0].CreatedByID}}) {{detailData[1][0].Admin_Firstname}} {{detailData[1][0].Admin_Lastname}}</td>
         </tr> 
       </table>
     </div>
