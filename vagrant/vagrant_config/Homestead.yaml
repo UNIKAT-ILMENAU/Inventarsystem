@@ -1,16 +1,11 @@
 ---
-ip: "192.168.10.10"
+ip: 
 memory: 2048
 cpus: 1
 provider: virtualbox
 
-authorize: /Users/YOUR_NAME/.ssh/id_rsa.pub
-
-keys:
-    - /Users/YOUR_NAME/.ssh/id_rsa
-
 folders:
-    - map: VAGRANT_PATH/code
+    - map: code
       to: /home/vagrant/code
 
 sites:
