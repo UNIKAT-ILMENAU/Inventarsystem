@@ -18,8 +18,8 @@ invApp.config(['$routeProvider',
   function($routeProvider) {  
     $routeProvider.
       when('/', {                     
-        templateUrl: 'html/itemlist/edit_item.html',    
-        controller: 'ItemEditCtrl'
+        templateUrl: 'html/login/login.html',    
+        controller: 'loginCtrl'
       }).
       when('/login', {                            //Login
         templateUrl: 'html/login/login.html',

@@ -2,7 +2,7 @@
 
 /* AllControllers */
 
-var invControllers = angular.module('invControllers', ['angularUtils.directives.dirPagination']); 
+var invControllers = angular.module('invControllers', ['angularUtils.directives.dirPagination', 'ngStorage']); 
 
 //==============================
 //Request Admin list
@@ -610,7 +610,7 @@ invControllers.controller('RentalDetailCtrl', ['$scope', '$localStorage','$route
 //Main-controller
 //Used: overall other controller 
 //==============================
-invControllers.controller('indexCtrl', function ($scope, $location, $anchorScroll) {
+invControllers.controller('indexCtrl', function ($scope, $http, $localStorage, $location, $anchorScroll) {
 //logout-button
   $scope.logout = function(){
       var tok = { 
@@ -721,7 +721,6 @@ function loginCtrl($scope, $localStorage, $location, $http){
   function getClaims() {
         var token = $localStorage.token;
         var user = {};
-
         if (typeof token !== 'undefined' || token != "" || token != null) {
           //get claims-part of token
             var encoded = token.split('.')[1];
