@@ -81,13 +81,13 @@ Controller: CreateCtrl - controllers.js
                       </span>
                       <p id="description{{category.id}}" class="collapse help-block">{{category.Description}}</p>
                       <ul ng-if="category.children">
-                        <li ng-repeat="category in category.children" ng-include="'categoryTree'"></li>
+                        <li ng-repeat="category in category.children | orderBy: 'Name'" ng-include="'categoryTree'"></li>
                       </ul>
                     </script>
 
                     <!--includes nested list (nestedCategories is nested Data with all categories)-->
                     <ul>
-                      <li ng-repeat="category in nestedCategories" ng-include="'categoryTree'"></li>
+                      <li ng-repeat="category in nestedCategories | orderBy: 'Name'" ng-include="'categoryTree'"></li>
                     </ul>
 
                   </div>
@@ -134,13 +134,13 @@ Controller: CreateCtrl - controllers.js
                         {{place.Name}}
                       </label>
                       <ul ng-if="place.children">
-                        <li ng-repeat="place in place.children" ng-include="'placeTree'"></li>
+                        <li ng-repeat="place in place.children | orderBy: 'Name'" ng-include="'placeTree'"></li>
                       </ul>
                     </script>
 
                     <!--includes nested list (nestedPlaces is nested Data with all places)-->
                     <ul>
-                      <li ng-repeat="place in nestedPlaces" ng-include="'placeTree'"></li>
+                      <li ng-repeat="place in nestedPlaces | orderBy: 'Name'" ng-include="'placeTree'"></li>
                     </ul>
 
                   </div>

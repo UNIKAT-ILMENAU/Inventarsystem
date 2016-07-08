@@ -96,8 +96,8 @@ Additionally needed scripts: datepicker.js
   </form>
   <hr>
   <div>
-    <button href="#/list" class="btn btn-primary" ng-click="sendRental()" ng-disabled="form.firstname.$error.required || form.lastname.$error.required || 
-    form.email.$error.required || form.email.$error.required || amountForm.$invalid">Accept</button>
+    <button href="#/list" class="btn btn-primary" ng-click="sendRental()" ng-disabled="form.firstname.$invalid || form.lastname.$invalid || 
+    form.email.$invalid || form.email.$invalid || amountForm.$invalid">Accept</button>
     <a href="#/list" class="btn btn-danger">Cancel</a>
   </div> 
   <hr>
