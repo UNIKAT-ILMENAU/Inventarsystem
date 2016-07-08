@@ -520,6 +520,38 @@ invControllers.controller('RentalListCtrl', ['$scope', '$routeParams', '$locatio
     $scope.pageSize = d_pageSize; //resets the items per page size to default
   };
 
+  //Compares EndDate of rental with current date
+  $scope.dateCompare = function(endDate) {
+
+    //set EndDate of rental string in correct format 
+    var partsTimestamp = endDate.split(/[ \/:-]/g);
+    if(partsTimestamp.length < 6) {
+        partsTimestamp = partsTimestamp.concat(['00', '00', '00'].slice(0, 6 - partsTimestamp.length));
+    }
+    var tstring = partsTimestamp.slice(0, 3).join('-');
+    tstring += 'T' + partsTimestamp.slice(3).join(':') + 'Z'; //configure as needed
+
+    //set current date in correct format
+    var currentDate = new Date();
+    currentDate.setHours(0);
+    currentDate.setMinutes(0);
+    currentDate.setSeconds(0);
+
+    //parse dates in milliseconds and subtract them
+    var currentMS = currentDate.getTime();
+    var enddateMS = Date.parse(tstring);
+    var dif = enddateMS - currentMS;
+    
+    if (dif <= 0) {                 //EndDate <= current date
+        var output = 0;
+    } else if (dif < 604800000) {   //EnDate <= current date + one week
+        var output = 1;
+    } else {                        //else
+        var output = 2;
+    }
+ 
+    return output;
+  };
 
 }]);
 
@@ -570,7 +602,7 @@ invControllers.controller('RentalDetailCtrl', ['$scope', '$routeParams', '$locat
     //POST state device to the server
     $http.post(url, Indata).success(function(data, status) {
       //SUCCESSFULL //
-      alert("success");
+      alert("Rented item is lost.");
       //Reset variables
       $scope.amount_value = null;
       $scope.comment = "";
@@ -591,7 +623,7 @@ invControllers.controller('RentalDetailCtrl', ['$scope', '$routeParams', '$locat
     //POST state device to the server
     $http.post(url, Indata).success(function(data, status) {
       //SUCCESSFULL //
-      alert("success");
+      alert("Item brought back successfully.");
       //Reset variables
       $scope.amount_value = null;
       $scope.comment = "";
@@ -601,6 +633,39 @@ invControllers.controller('RentalDetailCtrl', ['$scope', '$routeParams', '$locat
       $scope.detailData = REST.detailRentalUserLoad({ListItemId: 'rental/SingleRentals/' + $routeParams.ListItemId});
   
     });
+  };
+
+  //Compares EndDate of rental with current date
+  $scope.dateCompare = function(endDate) {
+
+    //set EndDate of rental string in correct format 
+    var partsTimestamp = endDate.split(/[ \/:-]/g);
+    if(partsTimestamp.length < 6) {
+        partsTimestamp = partsTimestamp.concat(['00', '00', '00'].slice(0, 6 - partsTimestamp.length));
+    }
+    var tstring = partsTimestamp.slice(0, 3).join('-');
+    tstring += 'T' + partsTimestamp.slice(3).join(':') + 'Z'; //configure as needed
+
+    //set current date in correct format
+    var currentDate = new Date();
+    currentDate.setHours(0);
+    currentDate.setMinutes(0);
+    currentDate.setSeconds(0);
+
+    //parse dates in milliseconds and subtract them
+    var currentMS = currentDate.getTime();
+    var enddateMS = Date.parse(tstring);
+    var dif = enddateMS - currentMS;
+    
+    if (dif <= 0) {                 //EndDate <= current date
+        var output = 0;
+    } else if (dif < 604800000) {   //EnDate <= current date + one week
+        var output = 1;
+    } else {                        //else
+        var output = 2;
+    }
+ 
+    return output;
   };
 
 }]);

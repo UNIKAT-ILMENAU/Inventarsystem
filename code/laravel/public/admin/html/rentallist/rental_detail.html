@@ -37,8 +37,20 @@ Additionally needed scripts: none
           <td><b>Email:</b></td> <td>{{detailData[0][0].Email}}</td>
         </tr>
         <!-- EndDate -->
-        <tr>
-          <td><b>EndDate:</b></td><td>{{detailData[0][0].EndDate}}</td>
+        <tr ng-if="detailData[0][0].State == 0">
+          <td><b>EndDate:</b></td><td>
+                                    <div ng-switch="dateCompare(detailData[0][0].EndDate)">
+                                    <!--return of rental is overdue-->
+                                    <div ng-switch-when="0" style="color:red;"><strong>{{detailData[0][0].EndDate.slice(0,10)}}</strong></div> 
+                                    <!--return in the next week-->
+                                    <div ng-switch-when="1" style="color:orange;">{{detailData[0][0].EndDate.slice(0,10)}}</div>
+                                    <!--return date > 1 week-->
+                                    <div ng-switch-when="2">{{detailData[0][0].EndDate.slice(0,10)}}</div>
+                                    </div>
+                                  </td>
+        </tr>
+        <tr ng-if="detailData[0][0].State == 1">
+          <td><b>EndDate:</b></td> <td>{{detailData[0][0].EndDate.slice(0,10)}}</td>
         </tr>
         <!--Category-->
         <tr>
@@ -54,7 +66,7 @@ Additionally needed scripts: none
     <h4>Items</h4><hr>    
     <div ng-repeat="rdata in itemData" class="well" style="margin:0px">  
         <div class="row">
-          <div class="col-sm-2">[{{$index+1}}] {{rdata.Itemname}} (ID:{{rdata.ItemID}})</div>
+          <div class="col-sm-2">({{rdata.ItemID}}) {{rdata.Itemname}}</div>
           <div  class="col-sm-2">
               <div ng-if="rdata.Amount > 0">Amount: {{rdata.Amount}}</div>
               <div ng-if="rdata.Amount === null">Device</div>
@@ -74,7 +86,9 @@ Additionally needed scripts: none
                   <div ng-switch-when="3" class="text-danger">Lost</div>
               </div>
           </div>
-          <div class="col-sm-2">{{rdata.BroughtBack}}</div>
+          <div class="col-sm-2">
+            <div ng-if="rdata.BroughtBack != '0000-00-00 00:00:00'">{{rdata.BroughtBack}}</div>
+          </div>
           <div class="col-sm-2 text-right">
             <div ng-if="rdata.State == 4 && rdata.Amount == null || rdata.RState == 0 && rdata.Amount != null">
               <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#Modal" ng-click="backEvent(rdata.ItemID, rdata.Amount);">Back</button>
@@ -94,12 +108,23 @@ Additionally needed scripts: none
           <h4 class="modal-title">Item {{title}}</h4>
         </div>
         <div class="modal-body">
+          <form role="form" name="backForm">
           <div ng-if="amount > 0 && title == 'back'">
-            <label>Amount: {{amount_value}}</label>
-            <input type="text" class="form-control" ng-change="change_amount(amount_value)" ng-model="amount_value">
+            <div class="form-group" ng-class="{'has-error': backForm.amt.$invalid && backForm.amt.$touched }">
+              <label for="amt">Amount: {{amount_value}}</label>
+              <input type="number" min="0" step="1" class="form-control" name="amt" id="amt"  required="" max="{{amount}}" 
+              ng-change="change_amount(amount_value)" ng-model="amount_value">
+              <p class="text-danger" ng-show="backForm.amt.$touched && backForm.amt.$error.required">The amount is required.</p>
+              <p ng-show="backForm.amt.$error.number" class="text-danger">Only numbers are allowed.</p>
+              <p ng-show="backForm.amt.$error.max" class="text-danger">You can not bring back more than rental amount.</p>
+            </div> 
           </div>
-          <label>Comment:</label>
-          <input type="text" class="form-control" ng-model="comment">
+          <div class="form-group" ng-class="{'has-error': backForm.cmt.$invalid && backForm.cmt.$touched }">
+            <label for="cmt">Comment:</label>
+            <input type="text" class="form-control" name="cmt" id="cmt"  required="" ng-model="comment">
+            <p class="text-danger" ng-show="backForm.cmt.$touched && backForm.cmt.$invalid">A comment is required.</p>
+          </div>
+          </form>
         </div>
         <div class="modal-footer">
           <!-- Update/Okay send to server -->
@@ -108,22 +133,26 @@ Additionally needed scripts: none
             <div ng-switch-when="lost" class="text-warning">
               <div ng-if="amount > 0">  <!-- Material -->
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="updateLostEvent(itemID, amount, comment)">Okay</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="updateLostEvent(itemID, amount, comment)"
+                ng-disabled="backForm.cmt.$invalid">Okay</button>
               </div>
               <div ng-if="amount === null"> <!-- Device -->
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="updateLostEvent(itemID, null, comment)">Okay</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="updateLostEvent(itemID, null, comment)"
+                ng-disabled="backForm.cmt.$invalid">Okay</button>
               </div>        
             </div>
             <!-- BackEvent -->
             <div ng-switch-when="back" class="text-success">
               <div ng-if="amount > 0"> <!-- Material -->
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="updateBackEvent(itemID, amount_value, comment)">Okay</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="updateBackEvent(itemID, amount_value, comment)"
+                ng-disabled="backForm.cmt.$invalid || backForm.amt.$invalid">Okay</button>
               </div>
               <div ng-if="amount === null"> <!-- Device -->
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="updateBackEvent(itemID, null, comment)">Okay</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="updateBackEvent(itemID, null, comment)"
+                ng-disabled="backForm.cmt.$invalid">Okay</button>
               </div>
             </div>
           </div>
