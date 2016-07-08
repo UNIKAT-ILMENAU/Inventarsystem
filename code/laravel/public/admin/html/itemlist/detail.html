@@ -218,14 +218,28 @@ Additionally needed scripts: none
   <hr>
     <!-- Item history-->
     <div class="top-space text-center">
-      <h4>History</h4><hr>
+      <h4>
+        <a data-toggle="collapse" data-target="#history">
+          History <span class="glyphicon glyphicon-menu-down"></span>
+        </a>
+      </h4>
     </div>
-    <div ng-repeat="hdata in historyData | limitTo:20"> <!-- Just a test to limit history-->
-      <div class="well">
-        {{hdata.EventName}}
-        {{hdata.Comment}}
-        {{hdata.CreatedByID}}
-        {{hdata.created_at}}
-      </div>
+    <div id="history"  class="collapse">
+      <table class="table table-bordered table-responsive table-condensed table-striped">
+        <thead>
+          <tr>
+            <th>Event</th>
+            <th>Comment</th>
+            <th>Creator</th>
+            <th>Time</th>
+          </tr>
+        </thead>
+        <tbody ng-repeat="hdata in historyData | limitTo:20">  <!-- Just a test to limit history-->
+          <td>{{hdata.EventName}}</td>
+          <td>{{hdata.Comment}}</td>
+          <td>{{hdata.CreatedByID}}</td>
+          <td>{{hdata.created_at}}</td>
+        </tbody>
+      </table>      
     </div>
 </div>
