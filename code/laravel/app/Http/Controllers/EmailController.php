@@ -9,7 +9,12 @@ use App\Http\Controllers\Controller;
 
 class EmailController extends Controller
 {
+    //==============================
+    // This methode sends an email 
+    // Used: /send
+    //==============================b
     public function send(Request $request){
+        //sets variables to incomming values by their keys
 	    $title = $request->input('title');
         $content = $request->input('content');
 

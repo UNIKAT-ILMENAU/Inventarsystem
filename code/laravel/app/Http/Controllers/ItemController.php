@@ -14,35 +14,11 @@ class ItemController extends Controller
 {
     ///////////////////////////////////////////////////////////////////
     //////////////// PUBLIC METHODES
-    public function ItemCount() 
-    {  
-        $items = DB::table('item')->count();
-        $notavailableitems = DB::table('item')->where('State', 0)->count();
-        $devices = DB::table('item')->where('material_id', 1)->count();
-        $materials = DB::table('item')->where('material_id','!=', 1)->count();
-        $missingdevices = DB::table('item')->where('material_id', 1)
-                                           ->where('State', 3) ->count();
-        $visibleitems = DB::table('item')->where('Visible', 1) ->count(); 
-        $invisibleitems = DB::table('item')->where('Visible', 0) ->count(); 
-        $openrentals = DB::table('rental')->where('State', 0)->count();
-        $closedrentals = DB::table('rental')->where('State', 1)->count();
-        $renteditems =  DB::table('rentalrelation')->where('State','=', 0)->count();
-        $renteddevices =  DB::table('rentalrelation')->where('State','=', 0)
-                                                     ->where('Amount', '=', NULL)->count();
-        $admins = DB::table('member')->where('isAdmin', 1)->count();
-        $places = DB::table('place')->count();
-        $category = DB::table('category')->count();
 
-       
-
-        return [$items, $notavailableitems, $devices, $materials, $missingdevices, $visibleitems, $invisibleitems, $openrentals, $closedrentals, $renteditems, $renteddevices, $admins, $places, $category];
-    }
-
-
-
-    //===================================================
-    //This methode returns all item id's with visible == 1
-    //===================================================
+    //=====================================================
+    // This methode returns all item id's with visible == 1
+    // Used: /api/v1/item/allIds
+    //=====================================================
     public function showAllIds()
     {
         //return all item ids without keys (only the value)
@@ -51,7 +27,8 @@ class ItemController extends Controller
     }
 
     //===================================================
-    //This methode returns all items with visible == 1
+    // This methode returns all items with visible == 1
+    // Used: /api/v1/item/allItems
     //===================================================
     public function showAllItems()
     {
@@ -69,9 +46,10 @@ class ItemController extends Controller
 
     }
 
-    //===================================================
-    //This methode returns item information for a specific item
-    //===================================================
+    //============================================================
+    // This methode returns item information for a specific item
+    // Used: /api/v1/item/{id}
+    //============================================================
     public function SingleItem($id) 
     {
        
@@ -83,9 +61,10 @@ class ItemController extends Controller
             ->get();
     }
 
-    //===================================================
-    //This methode returns item detailinformation for a specific item
-    //===================================================
+    //==================================================================
+    // This methode returns item detailinformation for a specific item
+    // Used: /api/v1/item/details/{id}
+    //==================================================================
     public function SingleDetailItem($id)
     {
         return DB::table('item')
@@ -101,8 +80,51 @@ class ItemController extends Controller
     ///////////////////////////////////////////////////////////////////
     //////////////// RESTRICTED METHODES
 
+    //================================================================
+    // This methode returns several db information for the dashboard
+    // Used: /api/v1/restricted/dashboard/Items
+    //================================================================
+    public function ItemCount() 
+    {  
+        //counts all items
+        $items = DB::table('item')->count();
+        //counts all items that are not available
+        $notavailableitems = DB::table('item')->where('State', 0)->count();
+        //counts all devices
+        $devices = DB::table('item')->where('material_id', 1)->count();
+        //counts all materials
+        $materials = DB::table('item')->where('material_id','!=', 1)->count();
+        //counts all devices that are currently missing
+        $missingdevices = DB::table('item')->where('material_id', 1)
+                                           ->where('State', 3) ->count();
+        //counts all items that are visible in the public list
+        $visibleitems = DB::table('item')->where('Visible', 1) ->count(); 
+        //counts all items that are invisible in the public list
+        $invisibleitems = DB::table('item')->where('Visible', 0) ->count(); 
+        //counts all currently open rentals
+        $openrentals = DB::table('rental')->where('State', 0)->count();
+        //counts all closed rentals
+        $closedrentals = DB::table('rental')->where('State', 1)->count();
+        //counts all rented items
+        $renteditems =  DB::table('rentalrelation')->where('State','=', 0)->count();
+        //counts all rented devices
+        $renteddevices =  DB::table('rentalrelation')->where('State','=', 0)
+                                                     ->where('Amount', '=', NULL)->count();
+        //counts all admins
+        $admins = DB::table('member')->where('isAdmin', 1)->count();
+        //counts all places
+        $places = DB::table('place')->count();
+        //counts all category
+        $category = DB::table('category')->count();
+        
+        return [$items, $notavailableitems, $devices, $materials, $missingdevices, $visibleitems, 
+                $invisibleitems, $openrentals, $closedrentals, $renteditems, $renteddevices, $admins,
+                $places, $category];
+    }
+
     //===================================================
-    //This methode returns all item id's 
+    // This methode returns all item id's 
+    // Used: /api/v1/restricted/item/allIds
     //===================================================
     public function RestrictedshowAllIds()
     {
@@ -112,7 +134,8 @@ class ItemController extends Controller
     }
 
     //===================================================
-    //This methode returns all items
+    // This methode returns all items
+    // Used: /api/v1/restricted/item/allItems
     //===================================================
     public function RestrictedshowAllItems()
     {
@@ -202,9 +225,10 @@ class ItemController extends Controller
         return $item; 
     }
 
-    //===================================================
-    //This methode returns item information for a specific item
-    //===================================================
+    //============================================================
+    // This methode returns item information for a specific item
+    // Used: /api/v1/restricted/item/{id}
+    //============================================================
     public function RestrictedSingleItem($id)
     {
    
@@ -219,9 +243,10 @@ class ItemController extends Controller
 
     }           
 
-    //===================================================
-    //This methode returns item detailinformation for a specific item
-    //===================================================
+    //==================================================================
+    // This methode returns item detailinformation for a specific item
+    // Used: /api/v1/restricted/item/details/{id}
+    //==================================================================
     public function RestrictedSingleDetailItem($id)
     {
         return DB::table('item')
@@ -233,9 +258,10 @@ class ItemController extends Controller
             ->get();
     }
 
-    //===================================================
-    //This methode returns the item history for a specific item
-    //===================================================
+    //===========================================================
+    // This methode returns the item history for a specific item
+    // Used: /api/v1/restricted/item/getHistory/{id}
+    //===========================================================
     public function History($id)
     {
         return DB::table('history')
@@ -252,11 +278,13 @@ class ItemController extends Controller
     //////////////////////////////////////////////////////////////////////
     //////////////// CREATE DEVICE/MATERIAL
 
-    //===================================================
-    //This methode creates a new device and history entry
-    //===================================================
+    //=====================================================
+    // This methode creates a new device and history entry
+    // Used: /api/v1/restricted/device/create
+    //=====================================================
     public function DeviceStore(Request $request)
     {   
+        //sets variables to incomming values by their keys
         $R_name = $request->input('name');
         $R_state = $request->input('state');
         $R_createdbyid = $request->input('createdbyid'); 
@@ -283,7 +311,7 @@ class ItemController extends Controller
         */
 
         //Create a new device
-        $message = DB::table('item')->insert(
+        DB::table('item')->insert(
             [ 
              'material_id' => 1, 
              'Name' => $R_name, 
@@ -321,12 +349,13 @@ class ItemController extends Controller
         return $item_Id;
     }
 
-    //===================================================
-    //This methode creates a new material and history entry
-    //===================================================
+    //========================================================
+    // This methode creates a new material and history entry
+    // Used: /api/v1/restricted/material/create
+    //========================================================
     public function MaterialStore(Request $request)
     {   
-        
+        //sets variables to incomming values by their keys
         $R_name = $request->input('name');
         $R_state = $request->input('state');
         $R_createdbyid = $request->input('createdbyid');
@@ -364,7 +393,7 @@ class ItemController extends Controller
         */
 
         //creates a new material     
-        $message = DB::table('material')->insert(
+        DB::table('material')->insert(
             [ 
              'StorageValue' => $R_storagevalue, 
              'CriticalStorageValue' => $R_criticalstoragevalue, 
@@ -418,11 +447,13 @@ class ItemController extends Controller
     /////////////////////////////////////////////////////////////////////////
     //////////// UPDATE DEVICE/MATERIAL
 
-    //===================================================
-    //This methode updates a device and creates a history entry
-    //===================================================
+    //============================================================
+    // This methode updates a device and creates a history entry
+    // Used: /api/v1/restricted/device/update/{id}
+    //============================================================
     public function DeviceUpdate(Request $request, $id) 
     {  
+        //sets variables to incomming values by their keys
         $R_name = $request->input('name');
         $R_state = $request->input('state');
         $R_place = $request->input('place');
@@ -498,11 +529,13 @@ class ItemController extends Controller
     }
 
 
-    //===================================================
-    //This methode updates a material and creates a history entry
-    //===================================================
+    //==============================================================
+    // This methode updates a material and creates a history entry
+    // Used: /api/v1/restricted/material/update/{id}
+    //==============================================================
     public function MaterialUpdate(Request $request, $id) 
     {  
+        //sets variables to incomming values by their keys
         $R_name = $request->input('name');
         $R_state = $request->input('state');
         $R_place = $request->input('place');
@@ -619,11 +652,13 @@ class ItemController extends Controller
     /////////////////////////////////////////////////////////////////////////
     //////////// DELETE
 
-    //===================================================
-    //This methode deactivates an item and creates a history entry
-    //=================================================== 
+    //===============================================================
+    // This methode deactivates an item and creates a history entry
+    // Used: /api/v1/restricted/item/deactivate/{id}
+    //===============================================================
     public function ItemDelete(Request $request, $id) 
     {  
+        //sets variables to incomming values by their keys
         $R_comment = $request->input('comment');
         $R_createdbyid = $request->input('createdbyid');
         $current = Carbon::now();
