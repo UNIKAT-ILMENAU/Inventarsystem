@@ -12,14 +12,22 @@ use App\Http\Requests;
 
 class PlaceController extends Controller
 {
-
+    //=======================================================
+    // This methode returns information for all places 
+    // Used: /api/v1/restricted/place/allPlace
+    //=======================================================
     public function showAllPlace()
     { 
+        //returns all place ids, names, beforeids
         return DB::table('place')
             ->select('id', 'Name', 'BeforeID')
             ->get();
     }
 
+    //==============================================================
+    // This methode returns place information for a specific place
+    // Used: /api/v1/restricted/place/{id}
+    //==============================================================
     public function getPlace($id)
     {
         return DB::table('place')
@@ -29,21 +37,26 @@ class PlaceController extends Controller
 
     }
 
-
+    //======================================
+    // This methode creates a new place
+    // Used: /api/v1/restricted/place/create
+    //======================================
     public function PlaceStore(Request $request)
     {   
+        //sets variables to incomming values by their keys
         $R_name = $request->input('name');
         $R_before = $request->input('before');
         $R_createdbyid = $request->input('createdbyid');
         $current = Carbon::now();
-        
-        
+               
         /*
             'Name'=> 'Room X',
             'CreatedByID'=> 1,
             'Before'=> 1,
          */
-        $message = DB::table('place')->insert(
+
+        //creates new place
+        DB::table('place')->insert(
             [ 
              'Name' => $R_name, 
              'CreatedByID' => $R_createdbyid,
@@ -51,17 +64,20 @@ class PlaceController extends Controller
              'created_at'=>  $current]);
         
     
-
+        //gets the latest place id
         $place_Id = DB::table('place')->max('Id');
 
+        //returns place id
         return $place_Id;
     }
 
-
-
-
+    //============================================
+    // This methode updates a place
+    // Used: /api/v1/restricted/place/update/{id}
+    //============================================
     public function PlaceUpdate(Request $request, $id) 
     {  
+        //sets variables to incomming values by their keys
         $R_name = $request->input('name');
         $R_before = $request->input('before');
         $current = Carbon::now();
@@ -71,25 +87,32 @@ class PlaceController extends Controller
             'CreatedByID'=> 1,            'Before'=> 1,
          */
 
+        //if variable not NULL -> update value in table
         if($R_name != NULL){
             $message = DB::table('place')->where('id', $id)->update(
                 [  'Name' => $R_name ]);  
         }
+        //if variable not NULL -> update value in table
         if($R_before != NULL){
             $message = DB::table('place')->where('id', $id)->update(
                 [  'BeforeID' => $R_before ]);  
         }
 
-
-        $message = DB::table('place')->where('id', $id)->update(
+        //sets updated_at to current time
+        DB::table('place')->where('id', $id)->update(
             [
              'updated_at'=>  $current]);   
 
+        //returns place id
         return $id;
     }
 
+    //============================================
+    // This methode deletes a place
+    //============================================
     public function PlaceDelete($id) 
     {  
+        //deletes the place
         DB::table('place')	
         		->where('id', $id)
         		->delete();
