@@ -39,11 +39,11 @@ description: Mainmenu to all other menupoints and direct functions of the app an
               <div class="progress center-space">
                 <!--  devices           -->
                 <div class="progress-bar progress-bar-custom " style="width: {{dashData[10]*100/dashData[9]}}%">
-                  <span class="" style="color: black;">Devices: {{dashData[10]*100/dashData[9]}}% ({{dashData[10]}})</span>
+                  <span class="" style="color: black;">Devices: {{dashData[10]*100/dashData[9] | number:2}}% ({{dashData[10]}})</span>
                 </div>
                 <!--  materials         -->
                 <div class="progress-bar progress-bar-custom progress-bar-striped-custom " style="width: {{(dashData[9] - dashData[10])*100/dashData[9]}}%">
-                  <span class="" style="color: black;">Material: {{(dashData[9] - dashData[10])*100/dashData[9]}}% ({{dashData[9] - dashData[10]}})</span>
+                  <span class="" style="color: black;">Material: {{(dashData[9] - dashData[10])*100/dashData[9] | number:2}}% ({{dashData[9] - dashData[10]}})</span>
                 </div>
               </div>
             </div>
@@ -63,11 +63,11 @@ description: Mainmenu to all other menupoints and direct functions of the app an
               <div class="progress center-space" >
                 <!--  devices           -->
                 <div class="progress-bar progress-bar-primary" style="width: {{dashData[2]*100/dashData[0]}}%">
-                  <span class="" style="color: #5bc0de;">Devices: {{dashData[2]*100/dashData[0]}}% ({{dashData[2]}})</span>
+                  <span class="" style="color: #5bc0de;">Devices: {{dashData[2]*100/dashData[0] | number:2}}% ({{dashData[2]}})</span>
                 </div>
                 <!--  materials         -->
                 <div class="progress-bar progress-bar-info " style="width: {{dashData[3]*100/dashData[0]}}%">
-                  <span class="" style="color: darkblue;">Material: {{dashData[3]*100/dashData[0]}}% ({{dashData[3]}})</span>
+                  <span class="" style="color: darkblue;">Material: {{dashData[3]*100/dashData[0] | number:2}}% ({{dashData[3]}})</span>
                 </div>
               </div>
             </div>
@@ -84,11 +84,11 @@ description: Mainmenu to all other menupoints and direct functions of the app an
               <div class="progress center-space">
                 <!--  items (public visible)           -->
                 <div class="progress-bar progress-bar-primary" style="width: {{dashData[5]*100/dashData[0]}}%">
-                  <span class="" style="color: #5bc0de;">Visible: {{dashData[5]*100/dashData[0]}}% ({{dashData[5]}})</span>
+                  <span class="" style="color: #5bc0de;">Visible: {{dashData[5]*100/dashData[0] | number:2}}% ({{dashData[5]}})</span>
                 </div>
                 <!--  materials         -->
                 <div class="progress-bar progress-bar-info " style="width: {{dashData[6]*100/dashData[0]}}%">
-                  <span class="" style="color: darkblue;">Not Visible: {{dashData[6]*100/dashData[0]}}% ({{dashData[6]}})</span>
+                  <span class="" style="color: darkblue;">Not Visible: {{dashData[6]*100/dashData[0] | number:2 }}% ({{dashData[6]}})</span>
                 </div>
               </div>
             </div>
