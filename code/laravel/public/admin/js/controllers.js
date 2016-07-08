@@ -231,7 +231,7 @@ invControllers.controller('CreateCtrl', ['$scope','$localStorage', '$routeParams
                     'saleprice': $scope.selectedItems[0].SalePrice,
                     //'cost': $scope.selectedItems[0].Cost,       //NEEDS TO BE IMPLEMENTED?
                     'place': $scope.selectedItems[0].Place,       
-                    'createdbyid': 1,                             //NEEDS TO BE IMPLEMENTED
+                    'createdbyid': angular.fromJson($localStorage.user_id),                             //NEEDS TO BE IMPLEMENTED
                     'buildtype': $scope.selectedItems[0].BuildType,
                     'uom': $scope.selectedItems[0].UoM,
                     'uom_short': $scope.selectedItems[0].UoM_short,
