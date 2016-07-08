@@ -35,14 +35,14 @@ Additionally needed scripts: services.js('dataFactory', 'tree')
         </span>
         <p id="description{{category.id}}" class="list-group-item-text help-block collapse">{{category.Description}}</p>
       </div>    
-      <div class="list-group" ng-repeat="category in category.children" ng-include="'categoryTree'" ng-if="category.children">      
+      <div class="list-group" ng-repeat="category in category.children | orderBy: 'Name'" ng-include="'categoryTree'" ng-if="category.children">      
       </div>
     </script>
 
     <!--includes nested list (nestedCategories is nested Data with all categories)-->
     <div class="just-padding">
       <div class="list-group list-group-root well">
-        <div class="list-group" ng-repeat="category in nestedCategories" ng-include="'categoryTree'"></div>
+        <div class="list-group" ng-repeat="category in nestedCategories | orderBy: 'Name'" ng-include="'categoryTree'"></div>
       </div>
     </div>  
 

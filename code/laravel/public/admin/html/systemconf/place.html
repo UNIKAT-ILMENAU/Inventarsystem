@@ -31,14 +31,14 @@ Additionally needed scripts: services.js('dataFactory', 'tree')
           {{place.Name}}
         </label>
       </div>
-      <div class="list-group" ng-repeat="place in place.children" ng-include="'placeTree'"  ng-if="place.children">
+      <div class="list-group" ng-repeat="place in place.children | orderBy: 'Name'" ng-include="'placeTree'"  ng-if="place.children">
       </div>
     </script>
 
     <!--includes nested list (nestedPlaces is nested Data with all places)-->
     <div class="just-padding">
       <div class="list-group list-group-root well">
-        <div class="list-group" ng-repeat="place in nestedPlaces" ng-include="'placeTree'"></div>   
+        <div class="list-group" ng-repeat="place in nestedPlaces | orderBy: 'Name'" ng-include="'placeTree'"></div>   
       </div>
     </div>
 
