@@ -267,8 +267,9 @@ class ItemController extends Controller
         return DB::table('history')
             ->join('comment', 'history.CommentID', '=', 'comment.id')
             ->join('event', 'history.Event_ID', '=', 'event.id')
+            ->join('user', 'user.id', '=', 'history.CreatedByID')
             ->where('Item_ID',$id)
-            ->select('comment.Comment as Comment', 'history.CreatedByID as CreatedByID', 'history.Event_ID as Event_ID', 'event.Name as EventName', 'history.created_at as created_at')
+            ->select('comment.Comment as Comment', 'history.CreatedByID as CreatedByID', 'user.LastName as Lastname', 'user.FirstName as Firstname', 'history.Event_ID as Event_ID', 'event.Name as EventName', 'history.created_at as created_at')
             ->orderBy('created_at', 'desc')
             ->get();
 
