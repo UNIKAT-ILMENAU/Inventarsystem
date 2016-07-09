@@ -1127,15 +1127,16 @@ Route::group(['middleware' => 'JWTCheck'], function () {
     //====================================
 	
 	//=================
-    //	 PLACE GET
+    //	 RENTAL GET
     //=================
 
 	Route::get('/api/v1/restricted/rental/AllRentals', ['uses' =>'RentalController@showAllRentals']);
 	Route::get('/api/v1/restricted/rental/OpenRentals', ['uses' =>'RentalController@showOpenRentals']);
 	Route::get('/api/v1/restricted/rental/SingleRentals/{id}', ['uses' =>'RentalController@showSingleRentals']);
+	Route::get('/api/v1/restricted/rental/SingleRentalsItems/{id}', ['uses' =>'RentalController@showSingleRentalsItems']);
 
 	//=================
-    //	 PLACE POST
+    //	 RENTAL POST
     //=================
 
 	Route::post('/api/v1/restricted/rental/create', ['uses' =>'RentalController@store']);
