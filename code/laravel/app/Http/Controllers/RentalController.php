@@ -38,7 +38,7 @@ class RentalController extends Controller
         ->join('item', 'item.id', '=', 'rentalrelation.ItemID')
         ->join('user', 'user.id', '=', 'rental.User_id')
         ->where('rentalrelation.RentalID', $id)
-        ->select('rental.id as Id', 'rental.User_id as UserID','user.LastName as Lastname', 'user.FirstName as Firstname', 'user.Email as Email', 'rental.EndDate as EndDate','rental.CreatedByID as CreatedByID', 'rental.created_at as Created_at', 'rental.state as State')
+        ->select('rental.id as Id', 'rental.User_id as UserID','user.LastName as Lastname', 'user.FirstName as Firstname', 'user.Email as Email', 'user.Street as Street', 'user.City as City', 'user.ZIP as ZIP', 'user.MobilePhone as Phone', 'user.Matrikel as Matrikel','rental.EndDate as EndDate','rental.CreatedByID as CreatedByID', 'rental.created_at as Created_at', 'rental.state as State')
         ->groupBy('rental.User_id')
         ->get();
 

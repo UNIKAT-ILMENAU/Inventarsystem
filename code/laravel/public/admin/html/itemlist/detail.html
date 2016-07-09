@@ -264,7 +264,7 @@ Additionally needed scripts: none
         <tbody ng-repeat="hdata in historyData | limitTo:20">  <!-- Just a test to limit history-->
           <td>{{hdata.EventName}}</td>
           <td>{{hdata.Comment}}</td>
-          <td>{{hdata.CreatedByID}}</td>
+          <td>{{hdata.Firstname}} {{hdata.Lastname}} ({{hdata.CreatedByID}})</td>
           <td>{{hdata.created_at}}</td>
         </tbody>
       </table>      
