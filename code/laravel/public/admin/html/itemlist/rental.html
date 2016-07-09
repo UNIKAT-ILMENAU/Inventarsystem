@@ -47,7 +47,7 @@ Additionally needed scripts: datepicker.js
       </div>    
     </div>  
     <div class="form-group row">
-      <label class="col-md-1" for="date">EndDate*:</label>
+      <label class="col-md-1" for="enddate">EndDate*:</label>
       <div class="col-md-3">
         <input type="text" class="form-control" id="enddate" name="enddate" value="" placeholder="Please select enddate" ng-model="borrow.customer.enddate" required="">
       </div> 
@@ -58,47 +58,55 @@ Additionally needed scripts: datepicker.js
 
     <!--Comment input-->
     <div class="form-group row">
-      <label class="col-md-1" for="date">Comment:</label>
-      <div class="col-md-11">
-        <textarea class="form-control" id="description" name="description" placeholder="Extra informations..." ng-model="borrow.customer.comment"></textarea>
+      <label class="col-md-1" for="comment">Comment*:</label>
+      <div class="col-md-11" ng-class="{'has-error': form.comment.$invalid && form.comment.$touched }">
+        <textarea class="form-control" id="comment" name="comment" placeholder="Extra informations..." ng-model="borrow.customer.comment" required=""></textarea>
       </div> 
     </div>
   </form>
     
   <hr>
-  <form name="amountForm" role="form" novalidate>
-  <div class="panel panel-default">
-      <div class="panel-body">
-      <div ng-repeat="item in selectedItems">
-        <div class="row">
-          <div class="well" style="margin:0px">
-            <div class="col-sm-2">{{$index+1}}</div>
-            <div class="col-sm-2">{{item.Name}}</div>
-            <div class="col-sm-2" ng-if="item.material_id != 1">
-              <div class="form-group" ng-class="{'has-error': amountForm.amount{{$index}}.$invalid && amountForm.amount{{$index}}.$touched}">
-                <input type="number" name="amount{{$index}}" class="form-control" placeholder="Fill in amount > 0" required="" min="1" 
-                max="{{item.StorageValue}}" ng-pattern="/^[0-9]+/" ng-model="item.amount">
-              </div>
+
+  <!--table shows for rental selected items-->
+  <div class=table-responsive>
+    <form name="amountForm" role="form" novalidate>
+    <table class="table table-condensed table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Amount*</th>
+          <th>Storage</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody ng-repeat="item in selectedItems">
+        <td>{{item.Id}}</td>
+        <td>{{item.Name}}</td>
+        <!--amount input (0 > amount < storageValue)-->
+        <td>
+            <div ng-if="item.material_id != 1" ng-class="{'has-error': amountForm.amount{{$index}}.$invalid && amountForm.amount{{$index}}.$touched}">
+              <input type="number" name="amount{{$index}}" class="form-control" placeholder="Fill in amount > 0" required="" min="1" 
+              max="{{item.StorageValue}}" ng-pattern="/^[0-9]+/" ng-model="item.amount">
             </div>
-            <div class="col-sm-2" ng-if="item.material_id == 1">
+            <div ng-if="item.material_id == 1">
               <input type="text" placeholder="Fill in amount > 0" class="form-control" disabled>
             </div>
-            <div class="col-sm-1">{{item.StorageValue}}</div>
-            <div class="col-sm-1">{{item.BuildType}}</div>
-            <div class="col-sm-1">{{item.Cost}}</div>
-            <div class="col-sm-2">{{item.Place}}</div>
-            <button class="btn btn-sm btn-danger" ng-click="removeItem($index)">X</button>
-          </div>
-        </div>
-      </div>
-      </div>
+        </td>    
+        <td ng-if="item.material_id != 1">{{item.StorageValue}}</td>
+        <td ng-if="item.material_id == 1">1</td>
+        <td>
+          <button class="btn btn-sm btn-danger" ng-click="removeItem($index)">X</button>
+        </td>  
+      </tbody>
+    </table> 
+    </form>
   </div>
-  </form>
-  <hr>
-  <div>
+
+  <div class="well">
     <button href="#/list" class="btn btn-primary" ng-click="sendRental()" ng-disabled="form.firstname.$invalid || form.lastname.$invalid || 
-    form.email.$invalid || form.email.$invalid || amountForm.$invalid">Accept</button>
+    form.email.$invalid || form.email.$invalid || amountForm.$invalid || form.comment.$invalid">Accept</button>
     <a href="#/list" class="btn btn-danger">Cancel</a>
-  </div> 
-  <hr>
+  </div>
+
 </div>

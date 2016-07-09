@@ -264,3 +264,9 @@ input[type=number]::-webkit-inner-spin-button {
 input[type=number] {
     -moz-appearance:textfield;
 }
+
+/*more responsive table*/
+.table-responsive
+{
+    overflow-x: auto;
+}
