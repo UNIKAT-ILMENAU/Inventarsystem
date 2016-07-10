@@ -953,7 +953,7 @@ function resetPasswordCtrl($scope, $http, $location){
 
 
 //==============================
-//delete admin -Controller
+//deactivate admin -Controller
 //used: deleteAdmin.html
 //==============================
 
@@ -995,7 +995,7 @@ function deleteAdminCtrl($scope, $http){
       if(ok){  
   
         $http({
-          method: 'DELETE',
+          method: 'POST',
           url: '/api/v1/restricted/admin/deactivate/'+ id
         })
         .then(

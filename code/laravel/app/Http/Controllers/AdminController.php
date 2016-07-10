@@ -58,19 +58,21 @@ class AdminController extends Controller
         $checkmail = DB::table('user')->select('Email')->where('Email', $R_email)->first();
         $checktoken = DB::table('user')->select('RegistrationToken')->where('Email', $R_email)->where('RegistrationToken', $reg_token)->pluck('RegistrationToken');
 
-        $checkmail = $checkmail->Email;
+        //$checkmail = $checkmail->Email;
         //return $checkmail;
 
         if($checkmail == NULL)
         {
-            return 'Email not found';
+            return response()->json(['error' => 'Email not found']);
+            //return 'Email not found';
             
         }
         else
         {
             if($checktoken == NULL)
             {
-                return 'Email found. But Token invalid';
+                return response()->json(['error' => 'Email found. But Token invalid']);
+                //return 'Email found. But Token invalid';
            
             }
             else
@@ -109,6 +111,7 @@ class AdminController extends Controller
     {  
         DB::table('user')
             ->join('member', 'user.member_id', '=', 'member.id')
+            ->where('user.id', $id)
             ->update(['member.isActivated' => 0]);
 
 

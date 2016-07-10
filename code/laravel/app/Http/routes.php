@@ -1159,7 +1159,7 @@ Route::group(['middleware' => 'JWTCheck'], function () {
 	Route::post('/api/v1/restricted/admin/invite', ['uses' =>'AdminController@invite']);
 
 	//ACTIVATE HERE
-	// Route::post('/api/v1/restricted/admin/create', ['uses' =>'AdminController@store']);
+	Route::post('/api/v1/restricted/admin/create', ['uses' =>'AdminController@store']);
 	Route::post('/api/v1/restricted/admin/deactivate/{id}', ['uses' =>'AdminController@AdminDeactivate']);
 	Route::post('/api/v1/restricted/admin/changePassword', ['uses' =>'AdminController@changePasswordFromCurrentUser']);
 
