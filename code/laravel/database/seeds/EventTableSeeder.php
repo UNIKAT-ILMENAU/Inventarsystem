@@ -33,13 +33,13 @@ class EventTableSeeder extends Seeder
 					'CreatedByID'=> 1
 					],
 					[
-					'Name'=> 'CreateRental',
+					'Name'=> 'ItemRented',
 					'Description'=> 'Create a Rental',
 					'EventValue'=> NULL,
 					'CreatedByID'=> 1
 					],
 					[
-					'Name'=> 'UpdateRental',
+					'Name'=> 'ItemBroughtBack',
 					'Description'=> 'Update a Rental',
 					'EventValue'=> NULL,
 					'CreatedByID'=> 1

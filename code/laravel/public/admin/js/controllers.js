@@ -138,7 +138,7 @@ invControllers.controller('DetailCtrl', ['$scope', '$localStorage', '$routeParam
       //POST state device to the server
       $http.post("/api/v1/restricted/event/8", Indata).success(function(data, status) {
         //SUCCESSFULL 
-        alert("Update success!");
+        alert("Device set to 'defective'!");
         $scope.ReloadDatas();  
       });
     } else if(stateID == 3)
@@ -146,7 +146,7 @@ invControllers.controller('DetailCtrl', ['$scope', '$localStorage', '$routeParam
       //POST state device to the server
       $http.post("/api/v1/restricted/event/9", Indata).success(function(data, status) {
         //SUCCESSFULL
-        alert("Update success!");
+        alert("Device set to 'lost'!");
         $scope.ReloadDatas();
       });
     }
@@ -221,7 +221,8 @@ invControllers.controller('CreateCtrl', ['$scope','$localStorage', '$routeParams
                 };
       //POST device to the server
       $http.post("/api/v1/restricted/device/create", Indata).success(function(data, status) {
-        //SUCCESSFULL alert("success");
+        //SUCCESSFULL alert
+        alert("Device: " + $scope.selectedItems[0].Name + " created");
         $scope.clearItem();       //clears the selected item
         $location.path('/list');  //redirect to the inventory list
       });  
@@ -247,7 +248,8 @@ invControllers.controller('CreateCtrl', ['$scope','$localStorage', '$routeParams
 
       //POST material to the server
       $http.post("/api/v1/restricted/material/create", Indata).success(function(data, status) {
-        //SUCCESSFULL alert("success");
+        //SUCCESSFULL alert 
+        alert("Material: " + $scope.selectedItems[0].Name + " created");
         $scope.clearItem();       //clears the selected item
         $location.path('/list');  //redirect to the inventory list
       });
@@ -377,7 +379,8 @@ invControllers.controller('ItemEditCtrl', ['$scope', '$localStorage','$routePara
       var url = "/api/v1/restricted/device/update/" + $scope.detailData[0].Id;
       //POST device to the server
       $http.post(url, Indata).success(function(data, status) {
-        //SUCCESSFULL alert("success device update");
+        //SUCCESSFULL alert
+        alert('Device edited'); 
         $location.path('/listData/' + $scope.detailData[0].Id); //redirect to detailView
       });
     }
@@ -402,7 +405,8 @@ invControllers.controller('ItemEditCtrl', ['$scope', '$localStorage','$routePara
       var url = '/api/v1/restricted/material/update/' + $scope.detailData[0].Id;
       //POST material to the server 
       $http.post(url, Indata).success(function(data, status) {
-        //SUCCESSFULL alert("success material update");
+        //SUCCESSFULL alert
+        alert('Material edited');
         $location.path('/listData/' + $scope.detailData[0].Id); //redirect to detailView
       });
     }
@@ -469,7 +473,8 @@ invControllers.controller('RentalCtrl', ['$scope', '$localStorage', '$routeParam
     $scope.testvar = Indata;
     //POST rental to the server 
     $http.post("/api/v1/restricted/rental/create", Indata).success(function(data, status) {
-      //SUCCESSFULL alert("success update");
+      //SUCCESSFULL alert
+      alert("Item/s rented!");
       $scope.clearItem();
       $location.path('/list'); //redirect to inventory list
     });
