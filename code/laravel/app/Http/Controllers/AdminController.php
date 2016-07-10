@@ -111,6 +111,7 @@ class AdminController extends Controller
     {  
         DB::table('user')
             ->join('member', 'user.member_id', '=', 'member.id')
+            ->where('user.id', $id)
             ->update(['member.isActivated' => 0]);
 
 
