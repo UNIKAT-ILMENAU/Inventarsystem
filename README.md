@@ -10,13 +10,10 @@ This project was created as a software project at the Ilmenau University of Tech
 ### Setup Requirements:
 - VirtualBox
 - Vagrant
-- you need SSH Keys for vagrant ssh
-    https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/
 
 #### Common Errors:
 - if there is an error while starting the vagrant box (vagrant up), please edit:
   .vagrant/machines/default/virtualbox/creator_uid in for example 0
-- you should have ssh keys to communicate with the vagrant box
 
 #### Installation:
 
