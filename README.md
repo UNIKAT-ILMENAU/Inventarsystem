@@ -21,6 +21,7 @@ Andreas Wehenkel </br>
 ### Setup Requirements:
 - VirtualBox
 - Vagrant
+- Cygwin, MinGV or Git
 
 #### Common Errors:
 - if there is an error while starting the vagrant box (vagrant up), please edit:
