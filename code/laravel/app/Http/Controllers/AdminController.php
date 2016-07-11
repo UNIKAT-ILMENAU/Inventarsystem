@@ -373,7 +373,7 @@ class AdminController extends Controller
 
                 });
         }elseif($title_text == 'New Password'){
-            Mail::send('emails.welcome', ['title' => $title, 'content' => 'http://inventarsystem.app/admin/newPassword.html#/token=' . $reg_token], function ($message) use ($sender, $receiver)
+            Mail::send('emails.welcome', ['title' => $title, 'content' => 'http://inventarsystem.app/admin/index.html#/newPassword/token=' . $reg_token], function ($message) use ($sender, $receiver)
                     {
 
                         $message->from($sender, 'inventarsystem');
