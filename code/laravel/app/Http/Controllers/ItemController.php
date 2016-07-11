@@ -222,6 +222,77 @@ class ItemController extends Controller
             $item[$i] ->Place  = $return[$i];
 
         }
+
+        $return = array();
+
+        //get all item ids in order
+        $getmid = DB::table('item')
+                ->select('id')
+                ->orderby('id')
+                ->pluck('id');
+
+                //creating a category path for each item         
+        foreach($getmid as $getmids){
+            
+                //get the category start id 
+                $iid = Db::table('item')
+                        ->join('category', 'item.CategoryStartID', '=', 'category.id')
+                        ->where('item.id', $getmids)
+                        ->select('item.CategoryStartID')
+                        ->pluck('CategoryStartID');
+
+                //get the category name        
+                $array[] = DB::table('category')
+                        ->where('id', $iid[0])
+                        ->select('Name')
+                        ->pluck('Name');
+
+                //get the next category id        
+                $Before = DB::table('category')
+                        ->where('id', $iid[0])
+                        ->select('BeforeID')
+                        ->pluck('BeforeID');
+
+                //repeat till no before id is given        
+                while($Before[0] != NULL) {
+
+                    //get the category name 
+                    $array[] = DB::table('category')
+                        ->where('id', $Before[0])
+                        ->select('Name')
+                        ->pluck('Name');
+
+                    //get the next category id      
+                    $Before = DB::table('category')
+                        ->where('id', $Before[0])
+                        ->select('BeforeID')
+                        ->pluck('BeforeID');
+                    }; 
+                
+                //go through the array    
+                for($i = sizeof($array)-1; $i >= 0; $i-- )
+                {
+                    //array to string
+                    $arr[] = implode($array[$i]);                  
+                }
+                
+                //array to string, divided by " - "
+                $mat[] = implode(" - ", $arr); 
+
+                //clear variables
+                $arr = array();
+                $array = array();
+                $Before = array();
+
+        } 
+
+        for($i = 0; $i < sizeof($item); $i++){
+
+            $item[$i] ->Category = $mat[$i];
+
+        }
+
+
         return $item; 
     }
 
