@@ -6,12 +6,14 @@
 
 			<form class="form-horizontal" name="emailForm">
 				<div class="form-group">
+
 					<label class="col-xs-2 col-sm-1 col-sm-offset-1" style="padding-top: 10px"> Email </label>
 					<div class="col-xs-6 col-sm-6"> 
 						<input class="form-control" name="input" type="email" placeholder="Email" ng-model="email" required=""></input>
 					</div>
-					<button class="col-xs-4 col-sm-2 btn btn-danger" ng-click="sendInvitation(email)" ng-disabled="emailForm.input.$error.email || emailForm.input.$error.required"> Send Email </button>
+					<button class="col-xs-4 col-sm-2 btn btn-danger" ng-click="sendInvitation()" ng-disabled="emailForm.input.$error.email || emailForm.input.$error.required"> Send Email </button>	
 					<div class="col-sm-2"> </div>
+
 				</div> 
 			</form>
 		</div>
@@ -22,3 +24,4 @@
 		</div>      
 	</div>	
 </div>
+
