@@ -155,12 +155,12 @@ Additionally needed scripts: none
             <div ng-switch-when="back" class="text-success">
               <div ng-if="amount > 0"> <!-- Material -->
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="updateBackEvent(itemID, amount_value, comment)"
+                <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="updateBackEvent(itemID, amount_value, amount, comment)"
                 ng-disabled="backForm.cmt.$invalid || backForm.amt.$invalid">Okay</button>
               </div>
               <div ng-if="amount === null"> <!-- Device -->
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="updateBackEvent(itemID, null, comment)"
+                <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="updateBackEvent(itemID, null, null, comment)"
                 ng-disabled="backForm.cmt.$invalid">Okay</button>
               </div>
             </div>

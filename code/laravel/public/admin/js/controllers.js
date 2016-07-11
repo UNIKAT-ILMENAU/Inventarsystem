@@ -626,7 +626,7 @@ invControllers.controller('RentalDetailCtrl', ['$scope', '$localStorage','$route
   };
 
   //modal function for the back event
-  $scope.updateBackEvent = function(itemID, value, comment) { 
+  $scope.updateBackEvent = function(itemID, value, maxvalue, comment) { 
     var Indata = {'itemid': itemID, 'amount': value,'comment': comment, 'createdbyid': angular.fromJson($localStorage.user_id)}; //NEEDS TO BE IMPLEMENTED
     //Creates the url for the post
     var url = "/api/v1/restricted/rental/bringBack/" +  $scope.detailData[0][0].Id;
@@ -634,7 +634,11 @@ invControllers.controller('RentalDetailCtrl', ['$scope', '$localStorage','$route
     //POST state device to the server
     $http.post(url, Indata).success(function(data, status) {
       //SUCCESSFULL //
-      alert("Item brought back successfully.");
+      if(value == 0){
+        alert("Item brought back successfully.");
+      }else {
+        alert("Back:" + value + " Lost:" + (maxvalue-value));
+      }
       //Reset variables
       $scope.amount_value = null;
       $scope.comment = "";
