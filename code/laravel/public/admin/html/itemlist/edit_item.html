@@ -19,12 +19,14 @@ Additionally needed scripts: none
     <input type="text" class="form-control" name="name" id="name" ng-model="detailData[0].Name" required="">
     </div>
       <!-- if item is device -->
-      <div class="form-group" ng-if="detailData[0].material_id == 1" ng-class="{'has-error': form.state.$invalid && form.state.$touched}">
+      <div class="form-group" ng-if="detailData[0].material_id == 1 && (detailData[0].State != 4 || form.state.$dirty == true)" 
+      ng-class="{'has-error': (form.state.$invalid && form.state.$touched) || detailData[0].State == 4}"}>
       <label for="state">State:</label>
         <select id="state" name="state" required="" class="form-control"  ng-model="detailData[0].State" 
           ng-options="option.value as option.name for option in deviceStates"
           ng-init="detailData[0].State = detailData[0].State || deviceStates[1].value">    
         </select>
+        <p ng-show="detailData[0].State == 4" class="text-danger">Create a rental to set the state to rented.</p>
       </div>
       <!-- if item is material -->
       <div class="form-group" ng-if="detailData[0].material_id != 1" ng-class="{'has-error': form.state.$invalid && form.state.$touched}">
@@ -113,7 +115,7 @@ Additionally needed scripts: none
       <a href="#/list" class="btn btn-primary btn-sm">Back to list</a>
       <!-- Save button, sends update to server -->
       <button class="btn btn-success btn-sm" ng-click="saveEdit()" 
-      ng-disabled="form.$invalid || detailData[0].CategoryID == null || detailData[0].Place == null">
+      ng-disabled="form.$invalid || detailData[0].CategoryID == null || detailData[0].Place == null || detailData[0].State == 4">
       Save</button> 
     </div>
 

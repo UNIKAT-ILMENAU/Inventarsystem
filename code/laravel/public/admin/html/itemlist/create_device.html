@@ -148,17 +148,18 @@ Controller: CreateCtrl - controllers.js
             <!--State input-->
             <div class="form-group" id="formState">
               <label class=" col-md-offset-2 col-md-2 control-label" for="state">State</label>
-              <div class="col-md-4"> 
+              <div class="col-md-4" ng-class="{'has-error': selectedItems[0].State == 4}"> 
                 <select class="form-control" name="state" id="state" ng-model="selectedItems[0].State"
                   ng-options="option.value as option.name for option in deviceStates"
                   ng-init="selectedItems[0].State = selectedItems[0].State || deviceStates[1].value" required="">
                 </select>
+                <p ng-show="selectedItems[0].State == 4" class="text-danger">Create a rental to set the state to rented.</p>
               </div>
             </div>
 
 
             <!--Cost input-->
-            <!-- Eigentlich müsste der Einkaufspreis auch eingegeben werden? -> klären mit Backend
+            <!--Add Cost Input (Einkaufspreis) if needed
             <div class="form-group" id="formCost">
               <label class="col-md-2 control-label" for="cost">Cost</label>
               <div class="col-md-4">
@@ -194,7 +195,7 @@ Controller: CreateCtrl - controllers.js
              <div class="form-group">
               <div class="col-md-offset-4 col-md-6">
                 <button id="buttonSubmit" name="buttonSubmit" type="button" class="btn btn-success btn-md" ng-click="createItemToServer('Device')" 
-                ng-disabled="formInput.name.$invalid || formInput.state.$invalid || formInput.comment.$invalid || formInput.publicVisible.$invalid || selectedItems[0].Category == null || selectedItems[0].Place == null"
+                ng-disabled="formInput.name.$invalid || formInput.state.$invalid || formInput.comment.$invalid || formInput.publicVisible.$invalid || selectedItems[0].Category == null || selectedItems[0].Place == null || selectedItems[0].State == 4"
                 >Create</button>
                 <button id="buttonReset" name="buttonReset" type="reset" form="itemForm" class="btn btn-danger btn-md" 
                 ng-click="resetItem()">Reset</button>
