@@ -6,14 +6,14 @@ This project was created as a software project at the Ilmenau University of Tech
 
 ### Developer
 
-Kevin Bartsch
-Maximilian Rütz
-Franz Stecher
-Martin Werchan
-Oliver Sommer
-Connor Schellhorn
-David Schulz
-Andreas Wehenkel
+Kevin Bartsch </br>
+Maximilian Rütz </br>
+Franz Stecher </br>
+Martin Werchan </br>
+Oliver Sommer </br>
+Connor Schellhorn </br>
+David Schulz </br>
+Andreas Wehenkel </br>
 
 ## Installation
 
