@@ -200,17 +200,6 @@ class AdminController extends Controller
 
         return response()->json(['message' => 'Request completed']);    
             //return "hash is saved in db";
-        }else if($_mail_is_in_db == false){
-            //insert new user with email, and create a hash token
-            //
-            //generate the hash token for registration
-            $reg_hash_token = Hash::make($r_email);
-
-            //insert email and token in the database
-            DB::table('user')
-            ->insert(array('Email' => $r_email, 'RegistrationToken' => $reg_hash_token));
-
-            return response()->json(['message' => 'Request completed']);
         }
     }
 
@@ -374,15 +363,26 @@ class AdminController extends Controller
         //echo "sender: " . $sender . " receiver: " . $receiver;
         //return true;
         //$content = $request->input('content');
-
+        if($title_text == 'Invite'){
         Mail::send('emails.welcome', ['title' => $title, 'content' => 'http://inventarsystem.app/admin/index.html#/createNewAdmin/token=' . $reg_token], function ($message) use ($sender, $receiver)
-        {
+                {
 
-            $message->from($sender, 'inventarsystem');
+                    $message->from($sender, 'inventarsystem');
 
-            $message->to($receiver);
+                    $message->to($receiver);
 
-        });
+                });
+        }elseif($title_text == 'New Password'){
+            Mail::send('emails.welcome', ['title' => $title, 'content' => 'http://inventarsystem.app/admin/newPassword.html#/token=' . $reg_token], function ($message) use ($sender, $receiver)
+                    {
+
+                        $message->from($sender, 'inventarsystem');
+
+                        $message->to($receiver);
+
+                    });
+
+        }
 
         return response()->json(['message' => 'Request completed']);
 
