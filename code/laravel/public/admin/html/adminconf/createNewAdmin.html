@@ -1,19 +1,19 @@
 
 <div class="container menu-space top-space">
 
-  <h3>Register as Admin</h3>
+  <h3>Register as admin</h3>
   <form name="credentials" class="well">
 
     <div class="form-group row">
-      <label class="col-md-1" for="firstname">Firstname*:</label>
+      <label class="col-md-1" for="firstname">First name*:</label>
       <div class="col-md-3">
         <input type="text" class="form-control" id="firstname" ng-model="firstname" required=""></input>
       </div>
-      <label class="col-md-1" for="lastname">Lastname*:</label>
+      <label class="col-md-1" for="lastname">Last name*:</label>
       <div class="col-md-3">
         <input type="text" class="form-control" id="lastname" ng-model="lastname" required=""></input>
       </div>  
-      <label class="col-md-1" for="lastname">Student-ID*:</label>
+      <label class="col-md-1" for="lastname">Student ID*:</label>
       <div class="col-md-3">
         <input type="text" class="form-control" id="matrikel" ng-model="studentId" required=""></input>
       </div>  
@@ -28,13 +28,13 @@
       <div class="col-md-3">
         <input type="text" class="form-control" id="street" ng-model="street" required=""></input>
       </div>
-      <label class="col-md-1" for="zip">Zip*:</label>
+      <label class="col-md-1" for="zip">Zip code*:</label>
       <div class="col-md-2">
         <input type="text" class="form-control" id="zip" ng-model="zip" required=""></input>
       </div>   
     </div>
     <div class="form-group row">
-      <label class="col-md-1" for="phone">Phone*:</label>
+      <label class="col-md-1" for="phone">Mobile phone*:</label>
       <div class="col-md-3">
         <input type="text" class="form-control" id="phone" ng-model="phone" required=""></input>
       </div>
@@ -43,7 +43,7 @@
         <input type="text" class="form-control" id="email" ng-model="email" required=""></input>
       </div>
     </div>  
-    <p>* are necessary inputs</p> 
+    <p>* This field is required.</p> 
     <p>** use the same email you got invited with</p>
   </form>
 
@@ -56,7 +56,7 @@
         <input type="password" name="inputPw" class="form-control"  ng-model="pw" required=""></input>
       </div>
 
-      <label class="col-md-1" >Password again*:</label>
+      <label class="col-md-1" >Confirm password*:</label>
       <div class="col-md-3">
         <input type="password" name="inputPwAgain" class="form-control"  ng-model="pwAgain" required=""></input>
         
@@ -65,7 +65,7 @@
       </div>
     </div>
     
-    <p>* are necessary inputs</p> 
+    <p>* This field is required.</p> 
   </form>
   <div class="text-center">
    <button style="width: 200px; margin-bottom:10px;" class="btn btn-danger" ng-disabled="credentials.$error.required || credentials2.$error.required || pw != pwAgain" ng-click="sendRegistration()"> Register </button>
