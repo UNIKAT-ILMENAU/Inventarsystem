@@ -54,7 +54,7 @@ class AdminController extends Controller
         $R_password = $request->input('password');
         $reg_token = $request->input('reg_token'); //NEW NEED TO BE SEND
         // $R_token = $request->input('token');
-        $current = Carbon::now(); 
+        $current = Carbon::now('Europe/Berlin'); 
         $checkmail = DB::table('user')->select('Email')->where('Email', $R_email)->first();
         $checktoken = DB::table('user')->select('RegistrationToken')->where('Email', $R_email)->where('RegistrationToken', $reg_token)->pluck('RegistrationToken');
 
@@ -116,15 +116,6 @@ class AdminController extends Controller
 
 
         return 'Success';
-    }
-
-
-    public function setPassword(Request $request, $id) 
-    {  
-        $R_oldpassword = $request->input('oldpassword');
-        $R_newpassword = $request->input('newpassword');
-
-        $checkpw = DB::table('user')->join('member', 'user.member_id', '=', 'member.id')->where('user.id', $id)->select('member.password')->get();
     }
 
     public function invite(Request $request)
@@ -246,10 +237,13 @@ class AdminController extends Controller
 
         //return $old_db->password;
 
-        if($oldpwcheck)
+        if($oldpwcheck == true)
         {
             DB::table('member')->where('id', '=', $member_id)
             ->update(array('password' => $r_password));            
+        }else
+        {
+        	return response()->json(['error' => 'Password was not changed']);
         }
 
         return response()->json(['message' => 'Password was changed']);

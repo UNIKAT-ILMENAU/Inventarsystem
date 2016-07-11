@@ -37,7 +37,7 @@ class EventController extends Controller
                     $itemid = $request->input('itemid');
                     $amount = $request->input('amount');
                     $R_createdbyid = $request->input('createdbyid');
-                    $current = Carbon::now();
+                    $current = Carbon::now('Europe/Berlin');
 
                     //returns "StorageValue" before 
                     $before = DB::table('item')->join('material', 'item.material_id', '=', 'material.id')->where('item.id', $itemid)
@@ -79,7 +79,7 @@ class EventController extends Controller
                     $itemid = $request->input('itemid');
                     $amount = $request->input('amount');
                     $R_createdbyid = $request->input('createdbyid');
-                    $current = Carbon::now();
+                    $current = Carbon::now('Europe/Berlin');
 
                     //returns "StorageValue" before 
                     $before = DB::table('item')->join('material', 'item.material_id', '=', 'material.id')->where('item.id', $itemid)
@@ -122,7 +122,7 @@ class EventController extends Controller
                     $itemid = $request->input('itemid');
                     $comment = $request->input('comment');
                     $R_createdbyid = $request->input('createdbyid');
-                    $current = Carbon::now();
+                    $current = Carbon::now('Europe/Berlin');
 
                     //updates item state to 2
                     DB::table('item')->where('id', $itemid)->update(['State' => 2]); //State == Device defectice
@@ -151,7 +151,7 @@ class EventController extends Controller
                     $itemid = $request->input('itemid');
                     $comment = $request->input('comment');
                     $R_createdbyid = $request->input('createdbyid');
-                    $current = Carbon::now();
+                    $current = Carbon::now('Europe/Berlin');
 
                     //updates item state to 2
                     DB::table('item')->where('id', $itemid)->update(['State' => 3]); //State == item lost
@@ -181,7 +181,7 @@ class EventController extends Controller
                     $price = $request->input('price');
                     $amount = $request->input('amount');
                     $R_createdbyid = $request->input('createdbyid');
-                    $current = Carbon::now();
+                    $current = Carbon::now('Europe/Berlin');
 
                     //returns "StorageValue" before 
                     $before = DB::table('item')->join('material', 'item.material_id', '=', 'material.id')->where('item.id', $itemid)

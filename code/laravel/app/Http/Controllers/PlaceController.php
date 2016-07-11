@@ -47,7 +47,7 @@ class PlaceController extends Controller
         $R_name = $request->input('name');
         $R_before = $request->input('before');
         $R_createdbyid = $request->input('createdbyid');
-        $current = Carbon::now();
+        $current = Carbon::now('Europe/Berlin');
                
         /*
             'Name'=> 'Room X',
@@ -80,7 +80,7 @@ class PlaceController extends Controller
         //sets variables to incomming values by their keys
         $R_name = $request->input('name');
         $R_before = $request->input('before');
-        $current = Carbon::now();
+        $current = Carbon::now('Europe/Berlin');
               
         /*
         	'Name'=> 'Room X',

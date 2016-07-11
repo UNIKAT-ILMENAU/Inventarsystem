@@ -295,7 +295,7 @@ class ItemController extends Controller
         $R_attachment = $request->input('attachment');
         $R_comment = $request->input('comment');    
         $R_visible = $request->input('visible');
-        $current = Carbon::now();
+        $current = Carbon::now('Europe/Berlin');
                
         /*
             'Name'=> 'Phillips screwdriver',
@@ -371,7 +371,7 @@ class ItemController extends Controller
         $R_storagevalue = $request->input('storagevalue');
         $R_criticalstoragevalue = $request->input('criticalstoragevalue');
         $R_comment = $request->input('comment');
-        $current = Carbon::now();
+        $current = Carbon::now('Europe/Berlin');
         
         /*
             'Name'=> 'screws',
@@ -463,7 +463,7 @@ class ItemController extends Controller
         $R_comment = $request->input('comment');
         $R_visible = $request->input('visible');
         $R_createdbyid = $request->input('createdbyid');
-        $current = Carbon::now();
+        $current = Carbon::now('Europe/Berlin');
               
         /*
             'Name'=> 'Phillips screwdriver',
@@ -550,7 +550,7 @@ class ItemController extends Controller
         $R_comment = $request->input('comment');
         $R_visible = $request->input('visible');
         $R_createdbyid = $request->input('createdbyid');
-        $current = Carbon::now();
+        $current = Carbon::now('Europe/Berlin');
               
         /*
             'Name'=> 'screws',
@@ -662,7 +662,7 @@ class ItemController extends Controller
         //sets variables to incomming values by their keys
         $R_comment = $request->input('comment');
         $R_createdbyid = $request->input('createdbyid');
-        $current = Carbon::now();
+        $current = Carbon::now('Europe/Berlin');
 
         //update "deleted" -> 1 and "visible" -> 0 (not public visble anymore)
         $message = DB::table('item')->where('id', $id)->update(

@@ -38,7 +38,7 @@ class UserController extends Controller
         $R_mobile = $request->input('mobile');
         $R_email = $request->input('email');
         $R_matrikel = $request->input('matrikel');
-        $current = Carbon::now(); 
+        $current = Carbon::now('Europe/Berlin'); 
 
         $message = DB::table('user')->insert(
             [
@@ -67,7 +67,7 @@ class UserController extends Controller
         $R_mobile = $request->input('mobile');
         $R_email = $request->input('email');
         $R_matrikel = $request->input('matrikel');
-        $current = Carbon::now();
+        $current = Carbon::now('Europe/Berlin');
              
         $message = DB::table('user')->where('id', $id)->update(
             [
