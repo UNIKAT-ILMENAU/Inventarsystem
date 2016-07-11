@@ -34,7 +34,7 @@ description: Mainmenu to all other menupoints and direct functions of the app an
             <div class="panel-heading" style="background-color: #FFA500;">
               <p class="center-space"> <span class="badge">{{dashData[7]}}</span> Open Rentals | Closed Rentals <span class="badge">{{dashData[8]}}</span></p>
             </div>
-            <div class="panel-body">
+            <div ng-if="dashData[10] != '' && dashData[9] != '' " class="panel-body">
               <!--  Rentals compare        -->
               <div class="progress center-space">
                 <!--  devices           -->
