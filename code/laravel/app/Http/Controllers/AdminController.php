@@ -138,8 +138,27 @@ class AdminController extends Controller
             $user_id = DB::table('user')->where('Email', $r_email)->select('id')->get();
 
             //generate the hash token for registration
+            //replaces all / with @ because link bug
             $reg_hash_token = Hash::make($r_email);
 
+            $needle = '/';
+
+            $checkp = false;
+
+            while($checkp == false){
+
+                $pos = strpos($reg_hash_token,$needle);
+
+                if($pos == NULL){
+                    $checkp = true;
+                }else{
+                    $reg_hash_token[$pos] = '@';
+                }
+
+                $pos = NULL;
+
+            }
+            
             //insert the token in the database
             DB::table('user')->where('Email', '=', $r_email)
             ->update(array('RegistrationToken' => $reg_hash_token));
@@ -186,7 +205,26 @@ class AdminController extends Controller
             $user_id = DB::table('user')->where('Email', $r_email)->select('id')->get();
 
             //generate the hash token for registration
+            //replaces all / with @ because link bug
             $reg_hash_token = Hash::make($r_email);
+
+            $needle = '/';
+
+            $checkp = false;
+
+            while($checkp == false){
+
+                $pos = strpos($reg_hash_token,$needle);
+
+                if($pos == NULL){
+                    $checkp = true;
+                }else{
+                    $reg_hash_token[$pos] = '@';
+                }
+
+                $pos = NULL;
+            }
+            
 
             //insert the token in the database
             DB::table('user')->where('Email', '=', $r_email)
