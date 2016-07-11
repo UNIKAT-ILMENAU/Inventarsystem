@@ -26,6 +26,7 @@ Andreas Wehenkel </br>
 #### Common Errors:
 - if there is an error while starting the vagrant box (vagrant up), please edit:
   .vagrant/machines/default/virtualbox/creator_uid in for example 0
+- if there is an error while "vagrant ssh", check your GitHub profile and add your ssh key via edit profil. (SSH Key should be at (/C/Users/<Username>/.ssh/id_rsa) open the file with an Editor and copy the key.)
 
 #### Installation:
 
@@ -58,6 +59,11 @@ Andreas Wehenkel </br>
     ```sh
     php artisan db:seed
     ```
+
+6. Done - Open website:
+
+    Type "localhost:8000" into your browser
+
 
 ### Directory Stuff
 
