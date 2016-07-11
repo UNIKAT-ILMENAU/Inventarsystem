@@ -851,14 +851,15 @@ function loginCtrl($scope, $localStorage, $location, $http){
 //==============================
 
 //invite new admin: send email-adress to server
-invControllers.controller('inviteAdminCtrl',['$scope', '$localStorage',  '$http', inviteAdminCtrl]);
+invControllers.controller('inviteAdminCtrl', inviteAdminCtrl);
 function inviteAdminCtrl($localStorage, $scope, $http, $location){
   //send-button
-  $scope.sendInvitation = function(email) {
+  $scope.sendInvitation = function() { 
 
     var email_adress = {
-      "email" : email
+      "email" : $scope.email
     };
+   
 
     $http({
       method: 'POST',
@@ -874,6 +875,7 @@ function inviteAdminCtrl($localStorage, $scope, $http, $location){
         alert("An error occured. Please check if you used a valid email.");
       }
     );
+
   }
 }
 
@@ -912,7 +914,26 @@ function createNewAdminCtrl($scope, $location, $http){
     })
     .then(
       function(re){
-        $location.path('/login');       
+
+        if(re.data.error == "Email not found")
+          alert("Email not found"); 
+         else         
+          if(re.data.error == "Email found. But Token invalid")
+            alert("Email found. But Token invalid");
+             else
+              $location.path('/login');
+
+        /*
+        if(re.error == "Email not found")
+          alert("Email not found"); 
+         else         
+          if(re.error == "Email found. But Token invalid")
+            alert("Email found. But Token invalid");
+             else
+              $location.path('/login');
+        */    
+          
+      
       },         
       function(er) {
         alert("something went wrong");
@@ -935,10 +956,10 @@ function createNewAdminCtrl($scope, $location, $http){
 invControllers.controller('resetPasswordAsAdminCtrl', resetPasswordCtrl);
 function resetPasswordCtrl($scope, $http, $location){
   //change-button
-  $scope.changeOldPasswordAsAdmin = function(op, np) {
+  $scope.changePasswordAsAdmin = function() {
     var data = {
-      oldpassword: op,
-      newpassword: np
+      oldpassword: $scope.oldPw,
+      password: $scope.newPw
     };  
 
     //send old and new password
@@ -949,8 +970,18 @@ function resetPasswordCtrl($scope, $http, $location){
     })
     .then(
       function(re){
-        alert("Changed password successfully.");
-        $location.path('/dashboard');
+
+        //Debugging, alert response
+        //alert(JSON.stringify(re));
+
+        if(re.data.error == "Password was not changed" )
+          alert("Not changed password. Please enter your correct current password."); 
+
+         else {
+          alert("Successfully changed password.");
+          $location.path('/dashboard');
+         }        
+          
       },         
       function(er){
         alert("Please enter your correct current password.");
@@ -964,7 +995,7 @@ function resetPasswordCtrl($scope, $http, $location){
 
 
 //==============================
-//deactivate admin -Controller
+//delete admin -Controller
 //used: deleteAdmin.html
 //==============================
 
@@ -1037,10 +1068,10 @@ invControllers.controller('forgotPasswordCtrl', forgotPasswordCtrl);
 function forgotPasswordCtrl($scope, $http, $location){
 
   //forgotpassword.html, send a link to email-adress
-  $scope.sendEmail = function(mail){
+  $scope.sendEmail = function(){
 
     var email = {
-      "email": mail
+      "email": $scope.email
     };
 
     $http({
@@ -1050,7 +1081,7 @@ function forgotPasswordCtrl($scope, $http, $location){
     })
     .then(
       function(re){
-        $alert('Email sended.');
+        alert('Email sended.');
         $location.path('/login');
       },         
       function(er){}
@@ -1060,14 +1091,14 @@ function forgotPasswordCtrl($scope, $http, $location){
   //newPassword.html (will be sent with link to email-adress after using forgotPasswort.html)
   //link has a token in the url
   //sends new password to server
-  $scope.sendPassword = function(newPw, email){
+  $scope.sendPassword = function(){
 
     //take token from url
     var tok = location.href.split('token=')[1];
 
     var data = {
-      'email': email,
-      'password': newPw,
+      'email': $scope.mail,
+      'password': $scope.newPw,
       'token': tok
     }; 
 
@@ -1084,9 +1115,6 @@ function forgotPasswordCtrl($scope, $http, $location){
       );          
   }
 }
-
-
-
 
 
 

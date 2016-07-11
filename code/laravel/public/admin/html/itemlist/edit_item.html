@@ -7,97 +7,114 @@ Additionally needed scripts: none
 
   <div class="col-lg-3"></div>  
   <div class="col-lg-6">
-
-  	<div style="float:right">
-    	<!-- Cancel button - redirect to DetailView -->
-    	<a ng-click="viewDetail(detailData[0].Id);" class="btn btn-danger">Cancel</a>
-    	<!-- Save button -->
-    	<button class="btn btn-primary" ng-click="saveEdit()">Save</button>
-   	</div>  
+ 
     <!-- ID and Name preview for the admin-->
     <h1>{{detailData[0].Id}} - {{detailData[0].Name}}</h1>
     <hr>
 
     <!-- All changeable inputs -->
+    <form role="form" name="form" id="form" novalidate="">
+    <div class="form-group" ng-class="{'has-error': form.name.$invalid && form.name.$touched}">
     <label for="name">Name:</label>
-    <input type="text" class="form-control" name="name" ng-model="detailData[0].Name">
-    <label>State:</label>
-    <form role="form">
+    <input type="text" class="form-control" name="name" id="name" ng-model="detailData[0].Name" required="">
+    </div>
       <!-- if item is device -->
-      <div class="form-group" ng-if="detailData[0].material_id == 1">
-        <select class="form-control"  ng-model="detailData[0].State" 
+      <div class="form-group" ng-if="detailData[0].material_id == 1" ng-class="{'has-error': form.state.$invalid && form.state.$touched}">
+      <label for="state">State:</label>
+        <select id="state" name="state" required="" class="form-control"  ng-model="detailData[0].State" 
           ng-options="option.value as option.name for option in deviceStates"
           ng-init="detailData[0].State = detailData[0].State || deviceStates[1].value">    
         </select>
       </div>
       <!-- if item is material -->
-      <div class="form-group" ng-if="detailData[0].material_id != 1">
-        <select class="form-control"  ng-model="detailData[0].State" 
+      <div class="form-group" ng-if="detailData[0].material_id != 1" ng-class="{'has-error': form.state.$invalid && form.state.$touched}">
+        <label for="state">State:</label>
+        <select id="state" name="state" required="" class="form-control" ng-model="detailData[0].State" 
           ng-options="option.value as option.name for option in materialStates"
           ng-init="detailData[0].State = detailData[0].State || materialStates[1].value">    
         </select>
       </div>
-    </form>
 
     <div>
     </div>
-    <label>Place:</label>
   	<!--show, when no place is selected-->
-  	<div ng-if="detailData[0].Place == null">
-  	    <button type="button" class="btn btn-default btn-block text-left" data-toggle="modal" data-target="#placeModal" name="placeButton"
-  	     style="text-align:left;color:#999;">Select Place</button>
+  	<div class="form-group" ng-if="detailData[0].Place == null" ng-class="{'has-error': detailData[0].Place == null">
+        <label for="placeButton">Place:</label>
+  	    <button type="button" class="btn btn-default btn-block text-left form-control" data-toggle="modal" data-target="#placeModal" 
+        name="placeButton" id="placeButton" style="text-align:left;color:#999;">Select Place</button>
   	</div>
   	<!--show, when a place is selected-->
-  	<div ng-if="detailData[0].Place != null" >
+  	<div class="form-group" ng-if="detailData[0].Place != null" >
+        <label for="placeButton">Place:</label>
   	    <button type="button" class="btn btn-default btn-block text-left" data-toggle="modal" data-target="#placeModal" name="placeButton"
-  	     style="text-align:left;color:#555;">{{detailData[0].PlaceName}}</button>
+  	     id="placeButton" style="text-align:left;color:#555;">{{detailData[0].PlaceName}}</button>
   	</div>
-    <label>Category:</label>
     <!--show, when no category is selected-->
-    <div ng-if="detailData[0].CategoryID == null">
-        <button type="button" class="btn btn-default btn-block text-left" data-toggle="modal" data-target="#categoryModal"  name="categoryButton"
-         style="text-align:left;color:#999;">Select Category</button>
+    <div class="form-group" ng-if="detailData[0].CategoryID == null" ng-class="{'has-error': detailData[0].CategoryID == null">
+        <label for="categoryButton">Category:</label>
+        <button type="button" class="btn btn-default btn-block text-left form-control" data-toggle="modal" data-target="#categoryModal"  name="categoryButton"
+         id="categoryButton" style="text-align:left;color:#999;">Select Category</button>
     </div>
     <!--show, when category is selected-->
-    <div ng-if="detailData[0].CategoryID != null" >
+    <div class="form-group" ng-if="detailData[0].CategoryID != null" >
+        <label for="categoryButton">Category:</label>
         <button type="button" class="btn btn-default btn-block text-left" data-toggle="modal" data-target="#categoryModal" name="categoryButton" 
-       	style="text-align:left;color:#555;">{{detailData[0].Category}}</button>
+       	id="categoryButton" style="text-align:left;color:#555;">{{detailData[0].Category}}</button>
     </div>
-    <label>Description:</label>
-    <input type="text" class="form-control" ng-model="detailData[0].Description" >
+    <div class="form-group">
+    <label for="description">Description:</label>
+    <input type="text" id="description" name="description" class="form-control" ng-model="detailData[0].Description" >
+    </div>
     <div ng-if="detailData[0].material_id != 1">
-      <label>SalePrice:</label>
-      <input type="text" class="form-control" ng-model="detailData[0].SalePrice" >
-      <label>BuildType:</label>
-      <input type="text" class="form-control" ng-model="detailData[0].BuildType" >
-      <label>UoM:</label>
-      <input type="text" class="form-control" ng-model="detailData[0].UoM" >
-      <label>UoM_short:</label>
-      <input type="text" class="form-control" ng-model="detailData[0].UoM_short" >
-      <label>CriticalStorageValue:</label>
-      <input type="text" class="form-control" ng-model="detailData[0].CriticalStorageValue" >
+      <div class="form-group" ng-class="{'has-error': form.price.$invalid && form.price.$touched}">
+      <label for="price">SalePrice:</label>
+      <input type="number" min="0.00" step="0.01" id="price" name="price" class="form-control" 
+      ng-model="detailData[0].SalePrice" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" required="">
+      <p ng-show="form.price.$invalid && !(form.price.$error.required)" class="text-danger">Please enter a valid price like 42.00</p> 
+      </div>
+      <div class="form-group" ng-class="{'has-error': form.type.$invalid && form.type.$touched}">
+      <label for="type">BuildType:</label>
+      <input type="text" id="type" name="type" class="form-control" ng-model="detailData[0].BuildType" required="">
+      </div>
+      <div class="form-group" ng-class="{'has-error': form.uom.$invalid && form.uom.$touched}">
+      <label for="uom">UoM:</label>
+      <input type="text" id="uom" name="uom" class="form-control" ng-model="detailData[0].UoM" required="">
+      </div>
+      <div class="form-group" ng-class="{'has-error': form.uom_s.$invalid && form.uom_s.$touched}">
+      <label for="uom_s">UoM_short:</label>
+      <input type="text" id="uom_s" name="uom_s" class="form-control" ng-model="detailData[0].UoM_short" required="">
+      </div>
+      <div class="form-group" ng-class="{'has-error': form.crit.$invalid && form.crit.$touched}">
+      <label for="crit">CriticalStorageValue:</label>
+      <input type="number" min="0" step="1" id="crit" name="crit" class="form-control" ng-model="detailData[0].CriticalStorageValue" required="">
+      <p ng-show="form.crit.$error.number" class="text-danger">Only numbers are allowed.</p>
+      <p ng-show="form.crit.$error.min" class="text-danger">CriticalStorageValue > 0</p>
+      </div>
     </div>
-    <label>PublicVisible:</label>
-    <form role="form">
-      <div class="form-group">
-        <select class="form-control"  ng-model="detailData[0].PublicVisible" 
+    <div class="form-group" ng-class="{'has-error': form.visible.$invalid && form.visible.$touched}">
+      <label for="visible">PublicVisible:</label>
+        <select class="form-control" id="visible" name="visible" required=""  ng-model="detailData[0].PublicVisible" 
             ng-options="option.value as option.name for option in Visibility"
             ng-init="detailData[0].PublicVisible = detailData[0].PublicVisible || Visibility[1].value">
         </select>
-      </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error': form.comment.$invalid && form.comment.$touched}">
+    <label for="comment">Comment:</label>  
+    <textarea id="comment" name="comment" class="form-control" ng-model="detailData[0].Comment" required=""></textarea>
+    <p ng-show="form.comment.$invalid && form.comment.$touched" class="text-error">A comment is reqired.</p>
+    </div>
     </form>
-    <label>Comment:</label>  
-    <textarea class="form-control" ng-model="detailData[0].Comment"></textarea>
     <hr>
     <!-- Menupoint/Buttons -->
-    <div class="text-center">   
+    <div class="text-center well">   
       <!-- Cancel button - redirect to DetailView -->
-      <a ng-click="viewDetail(detailData[0].Id);" class="btn btn-danger">Cancel</a> 
+      <a ng-click="viewDetail(detailData[0].Id);" class="btn btn-danger btn-sm">Cancel</a> 
       <!-- Back to list button - redirect to inventory list -->
-      <a href="#/list" class="btn btn-danger">Back to list</a>
+      <a href="#/list" class="btn btn-primary btn-sm">Back to list</a>
       <!-- Save button, sends update to server -->
-      <button class="btn btn-primary" ng-click="saveEdit()">Save</button> 
-      <hr>
+      <button class="btn btn-success btn-sm" ng-click="saveEdit()" 
+      ng-disabled="form.$invalid || detailData[0].CategoryID == null || detailData[0].Place == null">
+      Save</button> 
     </div>
 
   </div>
