@@ -102,7 +102,7 @@ invControllers.controller('DetailCtrl', ['$scope', '$localStorage', '$routeParam
   //EVENTS (DetailView)
   //==============================
   $scope.rentalAdd = function(data) {
-    $scope.addAlert($scope.addItem(data));
+    $scope.addAlert($scope.addItem(data, false));
   };
 
   //Link to edit item form
@@ -115,7 +115,7 @@ invControllers.controller('DetailCtrl', ['$scope', '$localStorage', '$routeParam
   $scope.copyItem = function(data, info) {  
 
     $scope.clearItem();   //clear the rental cart
-    $scope.addItem(data); //adds the item that we can use it
+    $scope.addItem(data, true); //adds the item that we can use it
 
     //Link to the right create form
     if(info == 'Device'){       $location.path('/create_device');    }
@@ -269,7 +269,8 @@ invControllers.controller('CreateCtrl', ['$scope','$localStorage', '$routeParams
   $scope.deviceStates = [{ name: 'Not available', value: 0 },
                          { name: 'Available', value: 1 },
                          { name: 'Defective', value: 2 },
-                         { name: 'Missing', value: 3 } 
+                         { name: 'Missing', value: 3 },
+                         { name: 'Rented', value: 4} 
   ];
 
   //options and default('available') for state in create_material
@@ -710,9 +711,9 @@ invControllers.controller('indexCtrl', function ($scope, $http, $localStorage, $
   $scope.selectedItems = [];
 
 /* For the list / rental cart*/
-  $scope.addItem = function(data) {  
-    //check if state is not 0 and we dont select item twice   
-    if(data.State == 1)
+  $scope.addItem = function(data, forCopy) {  
+    //check if (state is not 0 or forCopy is true) and we dont select item twice   
+    if(data.State == 1 || forCopy == true)
     {
       for (var i = 0; i < $scope.selectedItems.length; ++i) {    
         if ($scope.selectedItems[i].Id === data.Id) {
