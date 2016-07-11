@@ -78,7 +78,7 @@ class UserTableSeeder extends Seeder
 					'MobilePhone'=>  '0162/779534',
 					'eMail'=>  'andreas@example.com',
 					'Matrikel'=>  '31467',
-					'member_id'=> 1
+					'member_id'=> 0
 					],
 					[
 					'FirstName'=> 'Connor',
