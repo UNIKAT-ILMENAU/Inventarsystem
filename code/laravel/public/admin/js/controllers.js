@@ -762,6 +762,14 @@ invControllers.controller('indexCtrl', function ($scope, $http, $localStorage, $
       // call $anchorScroll() to use the scroll
       $anchorScroll();
     };
+
+  //check if we are on the login page  
+  $scope.isLoginPage =  function() {
+    if ($location.url() == '/') {
+      return true;
+    }
+    return false;  
+  };  
 });
 
 

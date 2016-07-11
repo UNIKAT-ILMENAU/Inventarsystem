@@ -16,7 +16,8 @@ Additionally needed scripts: none
 		</div>
 		<div class="collapse navbar-collapse" id="myNavbar">
 		 	<ul class="nav navbar-nav">
-		      	<li ><a href="#/dashboard" class="maincolor" ng-click="clearItem()">Dashboard</a></li>
+		      	<li ng-if="isLoginPage() == false"><a href="#/dashboard" class="maincolor" ng-click="clearItem()">Dashboard</a></li>
+		      	<li ng-if="isLoginPage() == true"><a href="../../index.html" class="maincolor">PublicList</a></li>
 		    </ul>
 		    <ul class="nav navbar-nav navbar-right">
 	      		<li><a href="#/login" ng-click="logout()"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
