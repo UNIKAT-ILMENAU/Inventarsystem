@@ -15,10 +15,10 @@ class MemberTableSeeder extends Seeder
 
 		$member = [
 					[
-					'isActivated'=> 0,
+					'isActivated'=> 1,
 					'isAdmin'=> 1,
 					'Authorize'=> Hash::make('hash'),
-					'password'=>  Hash::make('12345'),
+					'password'=>  Hash::make('unikat'),
 					],
 					[
 					'isActivated'=> 1,

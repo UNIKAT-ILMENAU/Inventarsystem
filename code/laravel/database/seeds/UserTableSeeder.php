@@ -15,15 +15,15 @@ class UserTableSeeder extends Seeder
 
 		$user = [
 					[
-					'FirstName'=> 'Max',
-					'LastName'=> 'Ruetz',
-					'Street'=> 'Waldstr',
-					'City'=> 'Ilmenau',
-					'ZIP'=>  '98693',
-					'MobilePhone'=>  '0174/234342',
-					'eMail'=>  'max@example.com',
-					'Matrikel'=>  '34567',
-					'member_id'=> NULL
+					'FirstName'=> 'Initial',
+					'LastName'=> 'Admin',
+					'Street'=> NULL,
+					'City'=> NULL,
+					'ZIP'=>  NULL,
+					'MobilePhone'=>  NULL,
+					'eMail'=>  'unikat@example.com',
+					'Matrikel'=>  NULL,
+					'member_id'=> 1
 					],
 					[
 					'FirstName'=> 'Kevin',
