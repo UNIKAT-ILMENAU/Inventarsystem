@@ -21,7 +21,7 @@ class MemberTableSeeder extends Seeder
 					'password'=>  Hash::make('unikat'),
 					],
 					[
-					'isActivated'=> 1,
+					'isActivated'=> 0,
 					'isAdmin'=> 1,
 					'Authorize'=> Hash::make('hash2'),
 					'password'=>  Hash::make('password1'),
@@ -33,7 +33,7 @@ class MemberTableSeeder extends Seeder
 					'password'=>  Hash::make('password3'),
 					],
 					[
-					'isActivated'=> 1,
+					'isActivated'=> 0,
 					'isAdmin'=> 1,
 					'Authorize'=> Hash::make('hash4'),
 					'password'=>  Hash::make('password4'),

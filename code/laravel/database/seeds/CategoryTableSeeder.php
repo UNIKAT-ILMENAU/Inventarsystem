@@ -18,7 +18,7 @@ class CategoryTableSeeder extends Seeder
 					[
 					'Name'=> 'Handtools',
 					'Description'=> 'Tools you can use with one hand',
-					'BeforeID'=> NULL
+					'BeforeID'=> 5
 					],
 					[
 					'Name'=> 'screwdriver',
@@ -40,7 +40,11 @@ class CategoryTableSeeder extends Seeder
 					'Description'=> 'Tools you usally have at home',
 					'BeforeID'=> NULL
 					],
-
+					[
+					'Name'=> 'tools',
+					'Description'=> 'Tools you usally have at home',
+					'BeforeID'=> NULL
+					],
 					
 				  ];
 

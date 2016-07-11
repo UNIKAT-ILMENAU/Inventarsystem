@@ -15,31 +15,51 @@ class CategoryTableSeeder extends Seeder
 
 		$category = [
 					[
-					'Name'=> 'Handtools',
+					'Name'=> 'tools',
 					'Description'=> 'Tools you can use with one hand',
 					'BeforeID'=> NULL
 					],
 					[
+					'Name'=> 'handtools',
+					'Description'=> 'Tools you usally have at home',
+					'BeforeID'=> 1
+					],
+					[
 					'Name'=> 'screwdriver',
 					'Description'=> 'Tool to srew soemthing in or out',
-					'BeforeID'=> 1
+					'BeforeID'=> 2
 					],
 					[
 					'Name'=> 'hammer',
 					'Description'=> 'Tool to hammer something in',
-					'BeforeID'=> 1
+					'BeforeID'=> 2
 					],
 					[
 					'Name'=> 'electro tools',
 					'Description'=> 'Tools which are powered with electric',
-					'BeforeID'=> NULL
+					'BeforeID'=> 1
 					],
 					[
 					'Name'=> 'hometools',
 					'Description'=> 'Tools you usally have at home',
+					'BeforeID'=> 1
+					],
+					[
+					'Name'=> 'communication',
+					'Description'=> 'Tools you usally have at home',
+					'BeforeID'=> 5
+					],
+					[
+					'Name'=> 'garden tool',
+					'Description'=> 'Tools you usally have at home',
+					'BeforeID'=> 6
+					],
+					[
+					'Name'=> 'toolstools',
+					'Description'=> 'Tools you can use with one hand',
 					'BeforeID'=> NULL
 					],
-
+					
 					
 				  ];
 

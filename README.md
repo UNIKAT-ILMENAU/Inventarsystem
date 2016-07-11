@@ -62,8 +62,17 @@ Andreas Wehenkel </br>
 
 6. Done - Open website:
 
-    Type "localhost:8000" into your browser
+    ```sh
+    Type "localhost:8000" into your browser#
+    ```
 
+7. Go to Admin Panel and login:
+
+    ```sh
+    Username: unikat@example.com
+    Password: unikat
+    (password should be changed after first login or in ~\code\laravel\database\seeds\MemberTableSeeder)
+    ```
 
 ### Directory Stuff
 
