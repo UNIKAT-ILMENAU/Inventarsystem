@@ -34,7 +34,7 @@ class CommentController extends Controller
     {  
         //sets variables to incomming values by their keys
         $R_comment = $request->input('comment');
-        $current = Carbon::now();
+        $current = Carbon::now('Europe/Berlin');
 
         //update comment
         DB::table('comment')->where('id', $id)->update(

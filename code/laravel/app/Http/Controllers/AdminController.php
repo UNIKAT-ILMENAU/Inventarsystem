@@ -54,7 +54,7 @@ class AdminController extends Controller
         $R_password = $request->input('password');
         $reg_token = $request->input('reg_token'); //NEW NEED TO BE SEND
         // $R_token = $request->input('token');
-        $current = Carbon::now(); 
+        $current = Carbon::now('Europe/Berlin'); 
         $checkmail = DB::table('user')->select('Email')->where('Email', $R_email)->first();
         $checktoken = DB::table('user')->select('RegistrationToken')->where('Email', $R_email)->where('RegistrationToken', $reg_token)->pluck('RegistrationToken');
 

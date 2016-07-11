@@ -176,7 +176,7 @@ class RentalController extends Controller
         $matrikel = $request ->input('matrikel');
         $phone = $request ->input('phone');
 
-        $current = Carbon::now();
+        $current = Carbon::now('Europe/Berlin');
 
         //for each id given -> check if available
         foreach ($ids as $ids1)
@@ -346,7 +346,7 @@ class RentalController extends Controller
         $amount = $request ->input('amount');
         $R_comment = $request->input('comment');
         $R_createdbyid = $request->input('createdbyid');
-        $current = Carbon::now();
+        $current = Carbon::now('Europe/Berlin');
 
 
         //updates item state in "rentalrelation"
@@ -515,7 +515,7 @@ class RentalController extends Controller
         $ids = $request ->input('ids');
         $R_comment = $request->input('comment');
         $R_createdbyid = $request->input('createdbyid');
-        $current = Carbon::now();
+        $current = Carbon::now('Europe/Berlin');
 
         foreach (json_decode($ids) as $ids)
         {
@@ -569,7 +569,7 @@ class RentalController extends Controller
         $R_comment = $request->input('comment');
         $amount = $request ->input('amount');
         $R_createdbyid = $request->input('createdbyid');
-        $current = Carbon::now();
+        $current = Carbon::now('Europe/Berlin');
 
         DB::table('rentalrelation')
             ->where('ItemID', $itemid)

@@ -49,7 +49,7 @@ class CategoryController extends Controller
         $R_name = $request->input('name');
         $R_before = $request->input('before');
         $R_description = $request->input('description');
-        $current = Carbon::now();
+        $current = Carbon::now('Europe/Berlin');
         
          /*
             'Name'=> 'Tools',
@@ -84,7 +84,7 @@ class CategoryController extends Controller
         $R_name = $request->input('name');
         $R_before = $request->input('before');
         $R_description = $request->input('description');
-        $current = Carbon::now();
+        $current = Carbon::now('Europe/Berlin');
               
         /*
             'Name'=> 'Tools',
