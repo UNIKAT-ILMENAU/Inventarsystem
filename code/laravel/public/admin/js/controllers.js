@@ -765,7 +765,7 @@ invControllers.controller('indexCtrl', function ($scope, $http, $localStorage, $
 
   //check if we are on the login page  
   $scope.isLoginPage =  function() {
-    if ($location.url() == '/') {
+    if ($location.url() == '/' || $location.url() == '/login') {
       return true;
     }
     return false;  
