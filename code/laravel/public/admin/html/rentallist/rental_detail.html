@@ -31,18 +31,18 @@ Additionally needed scripts: none
         </tr>
         <!--Name-->
         <tr>
-          <td><b>Borrower:</b></td><td>({{detailData[0][0].UserID}}) {{detailData[0][0].Lastname}} {{detailData[0][0].Firstname}}</td>
+          <td><b>Borrower:</b></td><td>({{detailData[0][0].UserID}}) {{detailData[0][0].Firstname}} {{detailData[0][0].Lastname}}</td>
         </tr>        
         <tr>
           <td><b>Email:</b></td> <td>{{detailData[0][0].Email}}</td>
         </tr>
-        <tr>
-          <td><b>Address:</b></td> <td>{{detailData[0][0].ZIP}} {{detailData[0][0].City}}, {{detailData[0][0].Street}}</td>
+        <tr ng-if="detailData[0][0].City != '' || detailData[0][0].Street != '' || detailData[0][0].ZIP != '' ">
+          <td><b>Address:</b></td> <td>{{detailData[0][0].ZIP}} {{detailData[0][0].City}} {{detailData[0][0].Street}}</td>
         </tr>
-        <tr>
-          <td><b>Phone:</b></td> <td>+0{{detailData[0][0].Phone}}</td>
+        <tr ng-if="detailData[0][0].Phone != '' ">
+          <td><b>Phone:</b></td> <td>{{detailData[0][0].Phone}}</td>
         </tr>
-        <tr>
+        <tr ng-if="detailData[0][0].Matrikel != '' ">
           <td><b>Student-ID:</b></td> <td>{{detailData[0][0].Matrikel}}</td>
         </tr>
         <!-- EndDate -->
@@ -174,7 +174,7 @@ Additionally needed scripts: none
   <!-- Menupoint/Buttons -->
   <div class="well">
     <div class="text-center"><hr>
-      <a href="#/rentallist" class="btn btn-primary btn-sm">Back</a>
+      <a href="#/rentallist" class="btn btn-primary btn-sm">Back to rental list</a>
     </div>
     <!-- information/alert message for short info -->
     <div ng-repeat="news in alert">

@@ -18,7 +18,7 @@ Controller: CreateCtrl - controllers.js
 
            	<!--Name input-->
             <div class="form-group" id="formName">
-              <label class="col-md-2 control-label" for="name">Name</label>
+              <label class="col-md-offset-2 col-md-2 control-label" for="name">Name</label>
               <div class="col-md-4"  ng-class="{'has-error': formInput.name.$invalid && formInput.name.$touched }">
                 <input type="text" class="form-control" id="name" name="name" placeholder="Hammer" ng-model="selectedItems[0].Name" required=""/>
                 <p ng-show="formInput.name.$invalid && formInput.name.$touched" class="text-danger">The name is required.</p>
@@ -28,7 +28,7 @@ Controller: CreateCtrl - controllers.js
 
             <!--Description input-->
             <div class="form-group" id="formDescription">
-              <label class="col-md-2 control-label" for="description">Description</label>  
+              <label class="col-md-offset-2 col-md-2 control-label" for="description">Description</label>  
               <div class="col-md-4">
                 <textarea class="form-control" id="description" name="description" placeholder="Mf: B1" ng-model="selectedItems[0].Description"></textarea>
               </div>
@@ -37,7 +37,7 @@ Controller: CreateCtrl - controllers.js
 
             <!--Category input (button opens modal with radio buttons)-->
             <div class="form-group" id="formCategory">
-              <label class="col-md-2 control-label" for="categoryButton">Category</label>
+              <label class="col-md-offset-2 col-md-2 control-label" for="categoryButton">Category</label>
               <!--show, when no category is selected-->
               <div class="col-md-4" ng-if="selectedItems[0].CategoryID == null" ng-class="{'has-error': ctgBtn == true}">
                 <button type="button" class="form-control btn btn-default btn-block text-left" name="categoryButton" id="categoryButton"
@@ -94,7 +94,7 @@ Controller: CreateCtrl - controllers.js
 
             <!--Place Input (button opens modal with radio buttons)-->
             <div class="form-group" id="formPlace">
-              <label class="col-md-2 control-label" for="placeButton">Place</label>
+              <label class="col-md-offset-2 col-md-2 control-label" for="placeButton">Place</label>
               <!--show, when no place is selected-->
               <div class="col-md-4" ng-if="selectedItems[0].Place == null" ng-class="{'has-error': plcBtn == true}">
                 <button type="button" class="form-control btn btn-default btn-block text-left" name="placeButton" id="placeButton"
@@ -147,7 +147,7 @@ Controller: CreateCtrl - controllers.js
 
             <!--State input-->
             <div class="form-group" id="formState">
-              <label class="col-md-2 control-label" for="state">State</label>
+              <label class=" col-md-offset-2 col-md-2 control-label" for="state">State</label>
               <div class="col-md-4"> 
                 <select class="form-control" name="state" id="state" ng-model="selectedItems[0].State"
                   ng-options="option.value as option.name for option in deviceStates"
@@ -170,7 +170,7 @@ Controller: CreateCtrl - controllers.js
 
             <!--Comment input-->
             <div class="form-group" id="formComment">
-              <label class="col-md-2 control-label" for="comment">Comment</label>  
+              <label class="col-md-offset-2 col-md-2 control-label" for="comment">Comment</label>  
               <div class="col-md-4" ng-class="{'has-error': formInput.comment.$invalid && formInput.comment.$touched }">
                 <textarea class="form-control" id="comment" name="comment" placeholder="Mf: B1" 
                 ng-model="selectedItems[0].Comment" required=""></textarea>
@@ -181,7 +181,7 @@ Controller: CreateCtrl - controllers.js
             
             <!--PublicVisible input-->
             <div class="form-group" id="formVisible">
-              <label class="col-md-2 control-label" for="publicVisible">PublicVisible</label>
+              <label class=" col-md-offset-2 col-md-2 control-label" for="publicVisible">PublicVisible</label>
               <div class="col-md-4">  
                 <select class="form-control" name="publicVisible" id="publicVisible"  ng-model="selectedItems[0].PublicVisible"
                   ng-options="option.value as option.name for option in Visibility"
@@ -192,7 +192,7 @@ Controller: CreateCtrl - controllers.js
   
              <!--Buttons: Submit(Send to Server) + Reset Form + Back to Itemlist--> 
              <div class="form-group">
-              <div class="col-md-6 col-md-offset-2">
+              <div class="col-md-offset-4 col-md-6">
                 <button id="buttonSubmit" name="buttonSubmit" type="button" class="btn btn-success btn-md" ng-click="createItemToServer('Device')" 
                 ng-disabled="formInput.name.$invalid || formInput.state.$invalid || formInput.comment.$invalid || formInput.publicVisible.$invalid || selectedItems[0].Category == null || selectedItems[0].Place == null"
                 >Create</button>

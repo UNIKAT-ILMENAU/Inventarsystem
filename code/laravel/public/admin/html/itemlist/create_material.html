@@ -13,7 +13,7 @@ Controller: CreateCtrl - controllers.js
 
            	<!--Name input-->
             <div class="form-group" id="formName">
-              <label class="col-md-2 control-label" for="name">Name</label>
+              <label class="col-md-offset-2 col-md-2 control-label" for="name">Name</label>
               <div class="col-md-4"  ng-class="{'has-error': itemForm.name.$invalid && itemForm.name.$touched }">
                 <input type="text" class="form-control" id="name" name="name" placeholder="LM258" ng-model="selectedItems[0].Name" required=""/>
                 <p ng-show="itemForm.name.$invalid && itemForm.name.$touched" class="text-danger">The name is required.</p>
@@ -23,7 +23,7 @@ Controller: CreateCtrl - controllers.js
 
             <!-- State input-->
             <div class="form-group" id="formState">
-              <label class="col-md-2 control-label" for="state">State</label>
+              <label class="col-md-offset-2 col-md-2 control-label" for="state">State</label>
               <div class="col-md-4">
                 <select class="form-control" id="state" name="state" ng-model="selectedItems[0].State"
                   ng-options="option.value as option.name for option in materialStates"
@@ -35,7 +35,7 @@ Controller: CreateCtrl - controllers.js
 
             <!--Description input-->
             <div class="form-group" id="formDescription">
-              <label class="col-md-2 control-label" for="description">Description</label>  
+              <label class="col-md-offset-2 col-md-2 control-label" for="description">Description</label>  
               <div class="col-md-4">
                 <textarea class="form-control" id="description" name="description" placeholder="Mf: B1" ng-model="selectedItems[0].Description"></textarea>
               </div>
@@ -44,7 +44,7 @@ Controller: CreateCtrl - controllers.js
 
             <!--Category input (button opens modal with radio buttons)-->
             <div class="form-group" id="formCategory">
-              <label class="col-md-2 control-label" for="categoryButton">Category</label>
+              <label class="col-md-offset-2 col-md-2 control-label" for="categoryButton">Category</label>
               <!--show, when no category is selected-->
               <div class="col-md-4" ng-if="selectedItems[0].Category == null" ng-class="{'has-error': ctgBtn == true}">
                 <button type="button" class="form-control btn btn-default btn-block text-left" name="categoryButton" id="categoryButton"
@@ -101,7 +101,7 @@ Controller: CreateCtrl - controllers.js
 
             <!--Place Input (button opens modal with radio buttons)-->
             <div class="form-group" id="formPlace">
-              <label class="col-md-2 control-label" for="placeButton">Place</label>
+              <label class="col-md-offset-2 col-md-2 control-label" for="placeButton">Place</label>
               <!--show, when no place is selected-->
               <div class="col-md-4" ng-if="selectedItems[0].Place == null" ng-class="{'has-error': plcBtn == true}">
                 <button type="button" class="form-control btn btn-default btn-block text-left" name="placeButton" id="placeButton"
@@ -165,7 +165,7 @@ Controller: CreateCtrl - controllers.js
 
             <!--Retail price input-->
             <div class="form-group" id="formPrice">
-              <label class="col-md-2 control-label" for="price">SalePrice</label>
+              <label class="col-md-offset-2 col-md-2 control-label" for="price">SalePrice</label>
               <div class="col-md-4" ng-class="{'has-error': itemForm.price.$invalid && itemForm.price.$touched }">
                 <input type="number" min="0.00" step="0.01" class="form-control" id="price" name="price" placeholder="42.00" 
                 ng-model="selectedItems[0].SalePrice" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" required="">
@@ -177,7 +177,7 @@ Controller: CreateCtrl - controllers.js
 
             <!--Stock input-->
             <div class="form-group" id="formStock">
-              <label class="col-md-2 control-label" for="stock">Storage value</label>
+              <label class="col-md-offset-2 col-md-2 control-label" for="stock">Storage value</label>
               <div class="col-md-4" ng-class="{'has-error': itemForm.stock.$invalid && itemForm.stock.$touched }">
                 <input type="number" min="0" step="1" class="form-control" id="stock" name="stock" placeholder="42" 
                 ng-model="selectedItems[0].StorageValue" required="">
@@ -189,7 +189,7 @@ Controller: CreateCtrl - controllers.js
 
             <!--Critical stock input-->
             <div class="form-group" id="formStock">
-              <label class="col-md-2 control-label" for="critStock">Critical stock amount</label>
+              <label class="col-md-offset-2 col-md-2 control-label" for="critStock">Critical stock amount</label>
               <div class="col-md-4" ng-class="{'has-error': itemForm.critStock.$invalid && itemForm.critStock.$touched }">
                 <input type="number" min="0" step="1" class="form-control" id="critStock" name="critStock" placeholder="24"
                  ng-model="selectedItems[0].CriticalStorageValue" ng-pattern="/^[0-9]+$/" required="">
@@ -201,7 +201,7 @@ Controller: CreateCtrl - controllers.js
             
             <!--Type input-->
             <div class="form-group" id="formType">
-              <label class="col-md-2 control-label" for="type">Buildtype</label>
+              <label class="col-md-offset-2 col-md-2 control-label" for="type">Buildtype</label>
               <div class="col-md-4" ng-class="{'has-error': itemForm.type.$invalid && itemForm.type.$touched }">
                 <input type="text" class="form-control" id="type" name="type" placeholder="THT" ng-model="selectedItems[0].BuildType" required=""/>
                 <p ng-show="itemForm.type.$invalid && itemForm.type.$touched" class="text-danger">The build type is required.</p>
@@ -211,7 +211,7 @@ Controller: CreateCtrl - controllers.js
 
             <!--UOM input-->
             <div class="form-group" id="formMeasure">
-              <label class="col-md-2 control-label" for="measure">UOM</label>
+              <label class="col-md-offset-2 col-md-2 control-label" for="measure">UOM</label>
               <div class="col-md-4" ng-class="{'has-error': itemForm.measure.$invalid && itemForm.measure.$touched }">
                 <input type="text" class="form-control" id="measure" name="measure" placeholder="Meter" ng-model="selectedItems[0].UoM" required=""/>
                 <p ng-show="itemForm.measure.$invalid && itemForm.measure.$touched" class="text-danger">UOM is required.</p>
@@ -221,7 +221,7 @@ Controller: CreateCtrl - controllers.js
 
             <!--UOM_short input-->
             <div class="form-group" id="formSMeasure">
-              <label class="col-md-2 control-label" for="sMeasure">UOM short</label>
+              <label class="col-md-offset-2 col-md-2 control-label" for="sMeasure">UOM short</label>
               <div class="col-md-4" ng-class="{'has-error': itemForm.sMeasure.$invalid && itemForm.sMeasure.$touched }">
                 <input type="text" class="form-control" id="sMeasure" name="sMeasure" placeholder="m" ng-model="selectedItems[0].UoM_short" required=""/>
                 <p ng-show="itemForm.sMeasure.$invalid && itemForm.sMeasure.$touched" class="text-danger">UOM short is required.</p>
@@ -231,7 +231,7 @@ Controller: CreateCtrl - controllers.js
 
             <!--Comment input-->
             <div class="form-group" id="formComment">
-              <label class="col-md-2 control-label" for="comment">Comment</label>  
+              <label class="col-md-offset-2 col-md-2 control-label" for="comment">Comment</label>  
               <div class="col-md-4" ng-class="{'has-error': itemForm.comment.$invalid && itemForm.comment.$touched }">
                 <textarea class="form-control" id="comment" name="comment" placeholder="Created Item..." 
                 ng-model="selectedItems[0].Comment" required=""></textarea>
@@ -242,9 +242,9 @@ Controller: CreateCtrl - controllers.js
 
             <!--PublicVisible input-->
             <div class="form-group" id="formVisible">
-              <label class="col-md-2 control-label" for="publicVisible">PublicVisible</label>
+              <label class="col-md-offset-2 col-md-2 control-label" for="publicVisible">PublicVisible</label>
               <div class="col-md-4">  
-                <select class="form-control" name="publicVisible"  ng-model="selectedItems[0].PublicVisible"
+                <select class="form-control" id="publicVisible" name="publicVisible"  ng-model="selectedItems[0].PublicVisible"
                   ng-options="option.value as option.name for option in Visibility"
                   ng-init="selectedItems[0].PublicVisible = selectedItems[0].PublicVisible || Visibility[1].value" required="">
                 </select>   
@@ -253,7 +253,7 @@ Controller: CreateCtrl - controllers.js
               
             <!--Buttons: Submit(Send to Server) + Reset Form + Back to Itemlist-->
             <div class="form-group">
-              <div class="col-md-6 col-md-offset-2">
+              <div class="col-md-offset-4 col-md-6">
                 <button id="buttonSubmit" name="buttonSubmit" type="button" class="btn btn-success btn-md" ng-click="createItemToServer('Material')" 
                 ng-disabled="itemForm.name.$invalid || itemForm.state.$invalid || itemForm.price.$invalid || itemForm.stock.$invalid || itemForm.critStock.$invalid || itemForm.type.$invalid || itemForm.measure.$invalid || itemForm.sMeasure.$invalid || itemForm.comment.$invalid || itemForm.publicVisible.$invalid"
                 >Create</button>
