@@ -7,15 +7,15 @@ Additionally needed scripts: datepicker.js
   <h3>Rental overview:</h3><hr>
   <form class="well" role="form" name="form" novalidate>
     <div class="form-group row">
-      <label class="col-md-1" for="firstname">Firstname*:</label>
+      <label class="col-md-1" for="firstname">First name*:</label>
       <div class="col-md-3" ng-class="{'has-error': form.firstname.$invalid && form.firstname.$touched }">
         <input type="text" class="form-control" id="firstname" name="firstname" ng-model="borrow.customer.firstname" required="">
       </div>
-      <label class="col-md-1" for="lastname">Lastname*:</label>
+      <label class="col-md-1" for="lastname">Last name*:</label>
       <div class="col-md-3" ng-class="{'has-error': form.lastname.$invalid && form.lastname.$touched }">
         <input type="text" class="form-control" id="lastname" name="lastname" ng-model="borrow.customer.lastname" required="">
       </div>
-      <label class="col-md-1" for="matrikel">Matrikel-Nr:</label>
+      <label class="col-md-1" for="matrikel">Student ID:</label>
       <div class="col-md-3">
         <input type="text" class="form-control" id="matrikel" name="matrikel" ng-model="borrow.customer.matrikel" only-digits>
       </div> 
@@ -29,7 +29,7 @@ Additionally needed scripts: datepicker.js
       <div class="col-md-3">
         <input type="text" class="form-control" id="street" name="street" ng-model="borrow.customer.street">
       </div>
-      <label class="col-md-1" for="zip">Zip:</label>
+      <label class="col-md-1" for="zip">Zip code:</label>
       <div class="col-md-2">
         <input type="text" class="form-control" id="zip" name="zip" ng-model="borrow.customer.zip">
       </div>   
@@ -40,7 +40,7 @@ Additionally needed scripts: datepicker.js
       <div class="col-md-3">
         <input type="text" class="form-control" id="phone" name="phone" ng-model="borrow.customer.phone">
       </div>
-      <label class="col-md-1" for="email">E-mail*:</label>
+      <label class="col-md-1" for="email">Email*:</label>
       <div class="col-md-3" ng-class="{'has-error': form.email.$invalid && form.email.$touched }">
         <input type="email" class="form-control" id="email" name="email" ng-model="borrow.customer.email" required="">
         <p ng-show="form.email.$error.email" class="text-danger">Please enter a valid Email</p>
@@ -52,7 +52,7 @@ Additionally needed scripts: datepicker.js
         <input type="text" class="form-control" id="enddate" name="enddate" value="" placeholder="Please select enddate" ng-model="borrow.customer.enddate" required="">
       </div> 
       <div class="col-md-8">
-        <p class="help-block">* are necessary inputs.</p>
+        <p class="help-block">* This field is required.</p>
       </div>
     </div> 
 
@@ -60,7 +60,7 @@ Additionally needed scripts: datepicker.js
     <div class="form-group row">
       <label class="col-md-1" for="comment">Comment*:</label>
       <div class="col-md-11" ng-class="{'has-error': form.comment.$invalid && form.comment.$touched }">
-        <textarea class="form-control" id="comment" name="comment" placeholder="Extra informations..." ng-model="borrow.customer.comment" required=""></textarea>
+        <textarea class="form-control" id="comment" name="comment" placeholder="Extra informations..." ng-model="borrow.customer.comment" required></textarea>
       </div> 
     </div>
   </form>
