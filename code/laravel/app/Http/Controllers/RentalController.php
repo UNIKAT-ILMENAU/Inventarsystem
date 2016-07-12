@@ -312,8 +312,16 @@ class RentalController extends Controller
                  'State' => 0
                 ]);
 
-            //create comment
-            DB::table('comment')->insert(['Comment'=> "$R_comment | Rented: $R_amounts[$i]"]); //
+            if($R_amounts[$i] == 0){
+                    //create comment
+                    DB::table('comment')->insert(['Comment'=> "$R_comment | EndDate: $R_EndDate ($rental_id)"]); //
+
+            }else{
+                //create comment
+            DB::table('comment')->insert(['Comment'=> "$R_comment | Rented: $R_amounts[$i] | EndDate: $R_EndDate ($rental_id)"]); //
+            }
+
+            
 
             //return comment_id
             $Comment_ID = DB::table('comment')->max('Id');
@@ -321,7 +329,7 @@ class RentalController extends Controller
             //create history entry
             DB::table('history')->insert(
                         [ 
-                        'CommentID'=> $Comment_ID,
+                        'CommentID'=> "$Comment_ID ",
                         'CreatedByID'=> $R_CreatedByID,
                         'Item_ID'=> $ids,
                         'created_at'=>  $current,
@@ -393,8 +401,14 @@ class RentalController extends Controller
 
         		//check if everything brought back	
 		        if($amount == $check[0])
-		        {
-		        	DB::table('comment')->insert(['Comment' => "$R_comment | Brought back: $amount (complete)"]); 
+		          {
+                    if($amount == 0){
+                        DB::table('comment')->insert(['Comment' => "$R_comment | Brought back "]);
+
+                    }else{
+                        DB::table('comment')->insert(['Comment' => "$R_comment | Brought back: $amount (complete) "]);
+                    }
+		        	 
 
                		$Comment_ID = DB::table('comment')->max('Id');
 
@@ -411,8 +425,12 @@ class RentalController extends Controller
                 //if something is missing
 		        }else
 		        {
-		        	//BroughtBack HISTORY
-		        	DB::table('comment')->insert(['Comment' => "$R_comment | Brought back: $amount (incomplete)"]); //
+                    if($amount == 0){
+                        DB::table('comment')->insert(['Comment' => "$R_comment | Brought back"]);
+
+                    }else{
+                        DB::table('comment')->insert(['Comment' => "$R_comment | Brought back: $amount (incomplete) "]);
+                    }
 
                		$Comment_ID = DB::table('comment')->max('Id');
 
@@ -461,7 +479,12 @@ class RentalController extends Controller
 
         if($amount == $check[0])
         {
-        	DB::table('comment')->insert(['Comment' => "$R_comment | Brought back: $amount"]); //
+            if($amount == 0){
+                        DB::table('comment')->insert(['Comment' => "$R_comment | Brought back "]);
+
+                    }else{
+                        DB::table('comment')->insert(['Comment' => "$R_comment | Brought back: $amount "]);
+                    }
 
        		$Comment_ID = DB::table('comment')->max('Id');
 
@@ -476,8 +499,13 @@ class RentalController extends Controller
         	
         }else
         {
+            if($amount == 0){
+                        DB::table('comment')->insert(['Comment' => "$R_comment | Brought back"]);
+
+                    }else{
+                        DB::table('comment')->insert(['Comment' => "$R_comment | Brought back: $amount (incomplete)"]);
+                    }
         	//BroughtBack HISTORY
-        	DB::table('comment')->insert(['Comment' => "$R_comment | Brought back: $amount"]); //
 
        		$Comment_ID = DB::table('comment')->max('Id');
 
@@ -598,11 +626,18 @@ class RentalController extends Controller
         {
             $state = DB::table('rentalrelation')->where('RentalID', $id)->where('ItemID', $itemids)->select('State')->pluck('State');
 
-           
+            
 
             if($state == [0])
             {
-                DB::table('comment')->insert(['Comment'=> "$R_comment | Lost: $amount"]); //
+                if($amount == 0){
+                    //create comment
+                    DB::table('comment')->insert(['Comment'=> "$R_comment | Lost "]);//
+
+                }else{
+                    //create comment
+                    DB::table('comment')->insert(['Comment'=> "$R_comment | Lost: $amount "]); //
+                }
 
                 $Comment_ID = DB::table('comment')->max('Id');
 
@@ -628,7 +663,14 @@ class RentalController extends Controller
 				         'rental.updated_at' => $current
 				        ]);
 
-        DB::table('comment')->insert(['Comment'=> "$R_comment | Lost: $amount"]); //
+        if($amount == 0){
+                    //create comment
+                    DB::table('comment')->insert(['Comment'=> "$R_comment | Lost "]);//
+
+                }else{
+                    //create comment
+                    DB::table('comment')->insert(['Comment'=> "$R_comment | Lost: $amount "]); //
+                }
 
         $Comment_ID = DB::table('comment')->max('Id');
 
