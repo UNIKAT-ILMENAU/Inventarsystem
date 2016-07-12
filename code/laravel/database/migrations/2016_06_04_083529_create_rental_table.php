@@ -19,7 +19,7 @@ class CreateRentalTable extends Migration
             $table->integer('CreatedByID')->unsigned();
             $table->foreign('CreatedByID')->references('id')->on('user');
             $table->string('State');
-            $table->timestamp('EndDate');
+            $table->string('EndDate');
             $table->timestamps();
         });
     }
