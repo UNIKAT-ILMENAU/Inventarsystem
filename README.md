@@ -12,7 +12,7 @@ Franz Stecher </br>
 Martin Werchan </br>
 Oliver Sommer </br>
 Connor Schellhorn </br>
-David Schulz </br>
+David Scholz </br>
 Andreas Wehenkel </br>
 
 ## Installation
