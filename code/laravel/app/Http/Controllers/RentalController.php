@@ -276,15 +276,17 @@ class RentalController extends Controller
          		if($storagecheck[0] == $R_amounts[$i]){
          			DB::table('item')->where('id', $ids)->update(
               		[
-                 		'State' => 4 //State-ID == not available
+                 		'State' => 0 //State-ID == not available
                 	]);
+
+
          		}
 
          	}else{
 	         		//set item "State" in Item to 4
 		            DB::table('item')->where('id', $ids)->update(
 		                [
-		                 'State' => 4 //State-ID == not available
+		                 'State' => 4 //State-ID == rented
 		                ]);
 
          	}
