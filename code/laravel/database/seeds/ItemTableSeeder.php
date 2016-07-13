@@ -89,7 +89,7 @@ class ItemTableSeeder extends Seeder
 					'Attachment_ID'=> NULL
 					],
 					[
-					'Name'=> 'nail',
+					'Name'=> 'nail (3cm)',
 					'State' => 0,
 					'Description'=> 'description nail',
 					'deleted'=> 0,
