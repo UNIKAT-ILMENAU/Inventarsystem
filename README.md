@@ -63,7 +63,7 @@ Andreas Wehenkel </br>
 6. Done - Open website:
 
     ```sh
-    Type "localhost:8000" into your browser#
+    Type "localhost:8000" into your browser
     ```
 
 7. Go to Admin Panel and login:
