@@ -6,6 +6,8 @@ use DB;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Carbon\Carbon;
+use App\Http\Controllers\PlaceController;
+use App\Http\Controllers\CategoryController;
 
 
 use App\Http\Requests;
@@ -152,146 +154,27 @@ class ItemController extends Controller
             ->orderBy('id')
             ->get(); 
 
-        //get all item ids in order
-        $getid = DB::table('item')
-                ->select('id')
-                ->orderby('id')
-                ->pluck('id');
+        //calling the PlaceRoute function from PlaceController
+        // to use this function you need to -- use App\Http\Controllers\PlaceController; --
+        $place_route = (new PlaceController)->PlaceRoute();            
         
-        
-        //creating a place path for each item         
-        foreach($getid as $getids){
-            
-                //get the place start id 
-                $iid = Db::table('item')
-                        ->join('place', 'item.PlaceStartID', '=', 'place.id')
-                        ->where('item.id', $getids)
-                        ->select('item.PlaceStartID')
-                        ->pluck('PlaceStartID');
-
-                //get the place name        
-                $array[] = DB::table('place')
-                        ->where('id', $iid[0])
-                        ->select('Name')
-                        ->pluck('Name');
-
-                //get the next place id        
-                $Before = DB::table('place')
-                        ->where('id', $iid[0])
-                        ->select('BeforeID')
-                        ->pluck('BeforeID');
-
-                //repeat till no before id is given        
-                while($Before[0] != NULL) {
-
-                    //get the place name 
-                    $array[] = DB::table('place')
-                        ->where('id', $Before[0])
-                        ->select('Name')
-                        ->pluck('Name');
-
-                    //get the next place id      
-                    $Before = DB::table('place')
-                        ->where('id', $Before[0])
-                        ->select('BeforeID')
-                        ->pluck('BeforeID');
-                    }; 
-                
-                //go through the array    
-                for($i = sizeof($array)-1; $i >= 0; $i-- )
-                {
-                    //array to string
-                    $arr[] = implode($array[$i]);                  
-                }
-                
-                //array to string, divided by " - "
-                $return[] = implode(" - ", $arr); 
-
-                //clear variables
-                $arr = array();
-                $array = array();
-                $Before = array();
-               
-                
-        } 
-
-            
-        
+        //insert $place_route in array
         for($i = 0; $i < sizeof($item); $i++){
 
-            $item[$i] ->Place  = $return[$i];
+            $item[$i] ->Place  = $place_route[$i];
 
         }
 
-        $return = array();
-
-        //get all item ids in order
-        $getmid = DB::table('item')
-                ->select('id')
-                ->orderby('id')
-                ->pluck('id');
-
-                //creating a category path for each item         
-        foreach($getmid as $getmids){
-            
-                //get the category start id 
-                $iid = Db::table('item')
-                        ->join('category', 'item.CategoryStartID', '=', 'category.id')
-                        ->where('item.id', $getmids)
-                        ->select('item.CategoryStartID')
-                        ->pluck('CategoryStartID');
-
-                //get the category name        
-                $array[] = DB::table('category')
-                        ->where('id', $iid[0])
-                        ->select('Name')
-                        ->pluck('Name');
-
-                //get the next category id        
-                $Before = DB::table('category')
-                        ->where('id', $iid[0])
-                        ->select('BeforeID')
-                        ->pluck('BeforeID');
-
-                //repeat till no before id is given        
-                while($Before[0] != NULL) {
-
-                    //get the category name 
-                    $array[] = DB::table('category')
-                        ->where('id', $Before[0])
-                        ->select('Name')
-                        ->pluck('Name');
-
-                    //get the next category id      
-                    $Before = DB::table('category')
-                        ->where('id', $Before[0])
-                        ->select('BeforeID')
-                        ->pluck('BeforeID');
-                    }; 
-                
-                //go through the array    
-                for($i = sizeof($array)-1; $i >= 0; $i-- )
-                {
-                    //array to string
-                    $arr[] = implode($array[$i]);                  
-                }
-                
-                //array to string, divided by " - "
-                $mat[] = implode(" - ", $arr); 
-
-                //clear variables
-                $arr = array();
-                $array = array();
-                $Before = array();
-
-        } 
-
+        //calling the PlaceRoute function from PlaceController
+        // to use this function you need to -- use App\Http\Controllers\CategoryController; --
+        $cat_route = (new CategoryController)->CategoryRoute();
+ 
+        //insert $cat_route in array
         for($i = 0; $i < sizeof($item); $i++){
 
-            $item[$i] ->Category = $mat[$i];
+            $item[$i] ->Category = $cat_route[$i];
 
         }
-
 
         return $item; 
     }

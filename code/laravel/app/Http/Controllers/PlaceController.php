@@ -174,47 +174,75 @@ class PlaceController extends Controller
 		return $array;
     } */ 
 
-    public function PlaceRoute($id) 
+    public function PlaceRoute() 
     {  
         
-    	$iid = Db::table('item')
-    			->join('place', 'item.PlaceStartID', '=', 'place.id')
-    			->where('item.id', '=', $id)
-    			->select('place.id')
-    			->pluck('place.id');
+    	//get all item ids in order
+        $getid = DB::table('item')
+                ->select('id')
+                ->orderby('id')
+                ->pluck('id');
+        
+        
+        //creating a place path for each item         
+        foreach($getid as $getids){
+            
+                //get the place start id 
+                $iid = Db::table('item')
+                        ->join('place', 'item.PlaceStartID', '=', 'place.id')
+                        ->where('item.id', $getids)
+                        ->select('item.PlaceStartID')
+                        ->pluck('PlaceStartID');
 
+                //get the place name        
+                $array[] = DB::table('place')
+                        ->where('id', $iid[0])
+                        ->select('Name')
+                        ->pluck('Name');
 
-    	$array[] = DB::table('place')
-        		->where('id', $iid[0])
-        		->select('Name')
-        		->pluck('Name');
+                //get the next place id        
+                $Before = DB::table('place')
+                        ->where('id', $iid[0])
+                        ->select('BeforeID')
+                        ->pluck('BeforeID');
 
-        $Before = DB::table('place')
-        		->where('id', $iid[0])
-        		->select('BeforeID')
-        		->pluck('BeforeID');
+                //repeat till no before id is given        
+                while($Before[0] != NULL) {
 
+                    //get the place name 
+                    $array[] = DB::table('place')
+                        ->where('id', $Before[0])
+                        ->select('Name')
+                        ->pluck('Name');
 
-        while($Before[0] != NULL) {
+                    //get the next place id      
+                    $Before = DB::table('place')
+                        ->where('id', $Before[0])
+                        ->select('BeforeID')
+                        ->pluck('BeforeID');
+                    }; 
+                
+                //go through the array    
+                for($i = sizeof($array)-1; $i >= 0; $i-- )
+                {
+                    //array to string
+                    $arr[] = implode($array[$i]);                  
+                }
+                
+                //array to string, divided by " - "
+                $return[] = implode(" - ", $arr); 
 
-        	$array[] = DB::table('place')
-        		->where('id', $Before[0])
-        		->select('Name')
-        		->pluck('Name');
+                //clear variables
+                $arr = array();
+                $array = array();
+                $Before = array();
+               
+                
+        } 
 
-    		$Before = DB::table('place')
-        		->where('id', $Before[0])
-        		->select('BeforeID')
-        		->pluck('BeforeID');
-			}; 
-	
-		$arr = [];
-
-		for($i = sizeof($array)-1; $i > -1; $i-- )
-		{
-			array_push($arr, implode($array[$i]));	
-		}
-		return [implode(" - ", $arr)]; 
+        return $return;    
+        
+         
 
     }
     

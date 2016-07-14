@@ -165,7 +165,7 @@ class AdminController extends Controller
 
             //testing some stuff
             $sender = '789d962ab3-169976@inbox.mailtrap.io'; //this should be the unikat email
-            $receiver = '789d962ab3-169976@inbox.mailtrap.io'; //here will be the r_email
+            $receiver = $r_email; //here will be the r_email
             //Here the email with the invite link is created
             AdminController::sendEmail($sender, $receiver, 'Invite', $reg_hash_token);
 
@@ -232,7 +232,7 @@ class AdminController extends Controller
 
             //testing some stuff
             $sender = '789d962ab3-169976@inbox.mailtrap.io'; //this should be the unikat email
-            $receiver = '789d962ab3-169976@inbox.mailtrap.io'; //here will be the r_email
+            $receiver = $r_email; //here will be the r_email
             //Here the email with the invite link is created
             AdminController::sendEmail($sender, $receiver, 'New Password', $reg_hash_token);
 
