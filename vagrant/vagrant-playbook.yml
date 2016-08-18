@@ -1,0 +1,45 @@
+---
+- hosts: all
+  tasks:
+
+    - name: update apt
+      apt:
+        update_cache=yes
+
+    - name: install htop
+      apt:
+        name=htop
+
+    - name: install mysql
+      apt:
+        name=mysql-server
+
+    - name: install apache
+      apt:
+        name={{item}}
+      with_items:
+        - apache2
+
+    - name: install php5 and modules
+      apt:
+        name={{item}}
+      with_items:
+        - php5
+        - php5-mcrypt
+        - php5-gd
+        - php5-mysql
+
+    - name: active rewrite
+      apache2_module:
+        name=rewrite
+        state=present
+
+    - name: set default apache site
+      copy:
+        src=000-default.conf
+        dest=/etc/apache2/sites-enabled/000-default.conf
+
+    - name: restart apache
+      service:
+        name=apache2
+        state=restarted
