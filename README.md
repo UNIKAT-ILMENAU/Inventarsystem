@@ -41,7 +41,7 @@ Andreas Wehenkel </br>
 3. Navigate with your console to:
 
     ```sh
-    cd /vagrant/code/laravel
+    cd /vagrant
     ```
 
 4. Migrate the database:
@@ -69,5 +69,3 @@ Andreas Wehenkel </br>
     Password: unikat
     (password should be changed after first login or in ~\code\laravel\database\seeds\MemberTableSeeder)
     ```
-
-

@@ -1,6 +1,6 @@
 'use strict';
 
-/* Services / RESTful 
+/* Services / RESTful
 Description: Handles all list GET requests to the server.
 */
 
@@ -53,28 +53,28 @@ function tokenInterceptor($localStorage){
 
 //======================================================================
 //authCheck. checks token. used to stop sending views when not logged in
-//====================================================================== 
+//======================================================================
 invServices.factory('authCheck', authCheck);
 function authCheck($http, $location, $localStorage){
 
-  function validate(){  
+  function validate(){
     $http({
-        method: 'POST', 
-        url: '/api/v1/check', 
+        method: 'POST',
+        url: '/api/v1/check',
         data: $localStorage.token})
       .then(function(response){
 
         //check if token isn't valid
         if(response.data != $localStorage.token){
           $location.path("/login");
-        } 
-      }); 
+        }
+      });
   }
 
   return{
     check: function(){
-      validate();    
-    }       
+      validate();
+    }
   }
 }
 
@@ -89,7 +89,7 @@ invServices.factory('dataFactory', ['$http', 'tree', function($http, tree){
     var allPlaces = [];
     var placeResult;
     var placeTree;
-    //var nesseary for GET categories-array and nesting array 
+    //var nesseary for GET categories-array and nesting array
     var allCategories = [];
     var categoryResult;
     var categoryTree;
@@ -101,7 +101,7 @@ invServices.factory('dataFactory', ['$http', 'tree', function($http, tree){
 
         //call functions (in tree factory in services.js) to format query for rendering in html-template as nested list
         placeResult = tree.sortTree({array: allPlaces}); //call tree.sortTree
-        placeTree = tree.makeTree({array: placeResult}); //call tree.makeTree 
+        placeTree = tree.makeTree({array: placeResult}); //call tree.makeTree
 
         return placeTree;
       });
@@ -139,7 +139,7 @@ invServices.factory('tree', function() {
       {"id": 123, "BeforeID": null, "name": "Tools"},
       {"id": 810, "BeforeID": 456, "name": "drilling machine B"},
       {"id": 919, "BeforeID": 456, "name": "drilling machine C"}
-    ] 
+    ]
     to this:
     [
       {"id": 123, "BeforeID": null, "name": "Tools"},
@@ -203,7 +203,7 @@ invServices.factory('tree', function() {
                 "BeforeID": 456,
                 "name": "drilling machine A"
               },
-              { 
+              {
                 "id": 810,
                 "BeforeID": 456,
                 "name": "drilling machine B"

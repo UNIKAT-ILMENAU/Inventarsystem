@@ -23,10 +23,10 @@ class AuthenticateController extends Controller
         try{
             //get the token from the authorization header
             $token = JWTAuth::getToken();
-            
+
             //get the payload from the token
             $payload = JWTAuth::getPayload($token);
-            
+
             //get User id from the token
             $p_user_id = AuthenticateController::getUserIdFromToken();
 
@@ -34,14 +34,14 @@ class AuthenticateController extends Controller
             if(AuthenticateController::isUserAdminAndActive($p_user_id)){
                 return $token;
             }else{
-                return response()->json(['error' => 'you are not an activated user or you dont had administrator rights']);
+                return response()->json(['error' => 'you are not an activated user or you dont had administrator rights', 'test' => $p_user_id]);
             }
-        } 
+        }
         catch(\Exception $e){
             return response()->json(['error' => 'login failed. no or wrong token was founded.']);
         }
     }
-    
+
 
     //this is for logging in
     public function createToken(Request $request)
@@ -60,13 +60,13 @@ class AuthenticateController extends Controller
 
         //Testing Hashing the password
         $password = Hash::make($request);
-        
-        //Try if the user email is in db 
+
+        //Try if the user email is in db
         $db_mail = DB::table('user')
             ->where('Email', $r_email)
             ->select('Email')
             ->pluck('Email');
-        
+
         //when email was founded then change to true
         if($db_mail[0] == $r_email)
         {
@@ -99,12 +99,12 @@ class AuthenticateController extends Controller
 
 
         if($checkpassword&&$checkemail){
-            
+
             //Credentials are right!
             $customClaims = ['User_Id' => $db_userid[0], 'User_Email' => $db_mail[0]];
             $payload = JWTFactory::make($customClaims);
             $token = JWTAuth::encode($payload);
-            
+
             //send token back
             return response()->json(['token' => (string)$token]);
 
@@ -126,10 +126,10 @@ class AuthenticateController extends Controller
 
             //set the token invalid
             JWTAuth::invalidate($token);
-            
+
             //return sucess message
             return response()->json(['success' => 'logout was successful']);
-        } 
+        }
         catch(\Exception $e){
             //return error message
             return response()->json(['error' => 'logout failed. no or wrong token was founded.']);
@@ -140,7 +140,7 @@ class AuthenticateController extends Controller
    /////////////////////
    //Helper Functions //
    /////////////////////
-   
+
 
     public function getUserIdFromToken()
    {
@@ -152,10 +152,10 @@ class AuthenticateController extends Controller
 
         //read the user id from token
         $truth = json_decode($payload);
-        
+
         //get user id back
         return $truth->User_Id;
-        
+
    }
 
    public function getMemberId($userid)
@@ -165,7 +165,7 @@ class AuthenticateController extends Controller
             ->join('member', 'user.member_id', '=', 'member.id')
             ->select('member.id')
             ->where('user.id', $userid)
-            ->first(); 
+            ->first();
 
        //return memberid
        return $member_id->id;
@@ -180,7 +180,7 @@ class AuthenticateController extends Controller
         $db_request = DB::table('member')
             ->select('member.isAdmin', 'member.isActivated')
             ->where('id', $member_id)
-            ->first(); 
+            ->first();
        //check for isAdmin
         $isAdmin = $db_request->isAdmin;
        //check for isActivated
@@ -201,7 +201,7 @@ class AuthenticateController extends Controller
         $db_request = DB::table('user')
             ->select('Email')
             ->where('id', $userid)
-            ->first(); 
+            ->first();
 
         $db_mail = $db_request->Email;
 
@@ -218,13 +218,13 @@ class AuthenticateController extends Controller
     * @return [int/boolean]            [if there is an email it will return an int if       not                                then it returns an false]
     */
    public function getUserIdFromEmail($useremail)
-   {    
+   {
         try
         {
         $db_request = DB::table('user')
             ->select('id')
             ->where('Email', $useremail)
-            ->first(); 
+            ->first();
 
         $id = $db_request->id;
         if($id!=NULL){
@@ -233,8 +233,8 @@ class AuthenticateController extends Controller
         }
         catch(\Exception $Exception)
         {
-            return -1;    
+            return -1;
         }
-        
+
    }
 }

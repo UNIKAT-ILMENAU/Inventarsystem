@@ -9,6 +9,12 @@ Vagrant.configure(2) do |config|
      vb.cpus = 2
    end
 
+   config.vm.synced_folder "code/laravel", "/vagrant",
+       id: "vagrant-root",
+       owner: "vagrant",
+       group: "www-data",
+       mount_options: ["dmode=775,fmode=664"]
+
    # provisioning
    config.vm.provision "ansible" do |ansible|
      ansible.sudo = true
