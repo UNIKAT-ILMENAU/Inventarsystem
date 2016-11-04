@@ -15,6 +15,8 @@ use Tymon\JWTAuth\Facades\JWTFactory;
 use Tymon\JWTAuth\Facades\JWTManager;
 //use Tymon\JWTAuth\JWTManager;
 //invalidate
+use Log;
+
 class AuthenticateController extends Controller
 {
     //check if the token is valid
@@ -34,11 +36,15 @@ class AuthenticateController extends Controller
             if(AuthenticateController::isUserAdminAndActive($p_user_id)){
                 return $token;
             }else{
+                Log::error("User send invalid token");
                 return response()->json(['error' => 'you are not an activated user or you dont had administrator rights', 'test' => $p_user_id]);
             }
         }
         catch(\Exception $e){
-            return response()->json(['error' => 'login failed. no or wrong token was founded.']);
+            Log::error($e);
+            return response()
+                ->json(['error' => 'login failed. no or wrong token was founded.'])
+                ->setStatusCode(404);
         }
     }
 
@@ -58,8 +64,14 @@ class AuthenticateController extends Controller
         $r_email = $request->input('email');
         $r_password = $request->input('password');
 
+        if(!$r_email || !$r_password) {
+            return response()
+                ->json(['error' => 'Invalid request'])
+                ->setStatusCode(400);
+        }
+
         //Testing Hashing the password
-        $password = Hash::make($request);
+//        $password = Hash::make($request);
 
         //Try if the user email is in db
         $db_mail = DB::table('user')
@@ -67,10 +79,12 @@ class AuthenticateController extends Controller
             ->select('Email')
             ->pluck('Email');
 
-        //when email was founded then change to true
-        if($db_mail[0] == $r_email)
+        //when no email was founded then return
+        if(!count($db_mail) > 0)
         {
-            $checkemail = true;
+            return response()
+                ->json(['error' => 'The Email is wrong'])
+                ->setStatusCode(401);
         }
 
         //search for member id in user table with the email address
@@ -91,30 +105,21 @@ class AuthenticateController extends Controller
             ->select('password')
             ->pluck('password');
 
-
-        if(Hash::check($r_password, $db_password[0]))
+        // when password wrong then return
+        if(!Hash::check($r_password, $db_password[0]))
         {
-            $checkpassword = true;
+            return response()
+                ->json(['error' => 'The Password is wrong'])
+                ->setStatusCode(401);
         }
 
+        //Credentials are right!
+        $customClaims = ['User_Id' => $db_userid[0], 'User_Email' => $db_mail[0]];
+        $payload = JWTFactory::make($customClaims);
+        $token = JWTAuth::encode($payload);
 
-        if($checkpassword&&$checkemail){
-
-            //Credentials are right!
-            $customClaims = ['User_Id' => $db_userid[0], 'User_Email' => $db_mail[0]];
-            $payload = JWTFactory::make($customClaims);
-            $token = JWTAuth::encode($payload);
-
-            //send token back
-            return response()->json(['token' => (string)$token]);
-
-        }elseif (!$checkpassword) {
-            return response()->json(['error' => 'The Password is wrong']);
-        }elseif (!$checkemail) {
-            return response()->json(['error' => 'The Email is wrong']);
-        }elseif (!$$checkpassword&&!$checkemail) {
-            return response()->json(['error' => 'The Email and the password are wrong']);
-        }
+        //send token back
+        return response()->json(['token' => (string)$token]);
     }
 
     public function logout(Request $request)
@@ -176,24 +181,23 @@ class AuthenticateController extends Controller
         $userid = AuthenticateController::getUserIdFromToken();
         //get memberid
         $member_id = AuthenticateController::getMemberId($userid);
-       //check for user in database
+        //check for user in database
         $db_request = DB::table('member')
             ->select('member.isAdmin', 'member.isActivated')
             ->where('id', $member_id)
             ->first();
-       //check for isAdmin
+        //check for isAdmin
         $isAdmin = $db_request->isAdmin;
-       //check for isActivated
+        //check for isActivated
         $isActivated = $db_request->isActivated;
 
-        if($isAdmin===1 && $isActivated===1)
+        if($isAdmin==="1" && $isActivated==="1")
         {
             return true;
         }
 
+        Log::error("Login from inactive/non admin user");
         return false;
-       //return true or false
-       // return false;
    }
 
    public function CheckUserEmail($userid, $r_email)
