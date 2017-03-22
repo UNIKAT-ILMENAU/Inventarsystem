@@ -13,31 +13,34 @@ invServices.factory('REST', ['$resource',
     function ($resource) {
         return $resource('/api/v1/restricted/:ListItemId', {}, {
             //All item information
-            query: {method: 'GET', params: {ListItemId: 'item/allItems'}, isArray: true},
+            // query: {method: 'GET', params: {ListItemId: 'item/allItems'}, isArray: true},
             //Detail information of the selected item
-            detailLoad: {method: 'GET', params: {ListItemId: $resource}, isArray: true},
+            // detailLoad: {method: 'GET', params: {ListItemId: $resource}, isArray: true},
             //Detail Place information of the selected item as an string
-            detailPlaceLoad: {method: 'GET', params: {ListItemId: $resource}, isArray: true},
+            // detailPlaceLoad: {method: 'GET', params: {ListItemId: $resource}, isArray: true},
             //Detail information of the selected item
-            historyLoad: {method: 'GET', params: {ListItemId: $resource}, isArray: true},
+            // historyLoad: {method: 'GET', params: {ListItemId: $resource}, isArray: true},
             //All rentals information
-            allRental: {method: 'GET', params: {ListItemId: 'rental/AllRentals'}, isArray: true},
+            // allRental: {method: 'GET', params: {ListItemId: 'rental/AllRentals'}, isArray: true},
             //All open rentals information
-            allOpenRental: {method: 'GET', params: {ListItemId: 'rental/OpenRentals'}, isArray: true},
+            // allOpenRental: {method: 'GET', params: {ListItemId: 'rental/OpenRentals'}, isArray: true},
             //Detail user information of the selected rental
-            detailRentalUserLoad: {method: 'GET', params: {ListItemId: $resource}, isArray: true},
+            // detailRentalUserLoad: {method: 'GET', params: {ListItemId: $resource}, isArray: true},
             //Detail item information of the selected rental
-            detailRentalItemLoad: {method: 'GET', params: {ListItemId: $resource}, isArray: true},
+            // detailRentalItemLoad: {method: 'GET', params: {ListItemId: $resource}, isArray: true},
             //All dashboard information
-            dashboardLoad: {method: 'GET', params: {ListItemId: 'dashboard/Items'}, isArray: true}
+            // dashboardLoad: {method: 'GET', params: {ListItemId: 'dashboard/Items'}, isArray: true}
             //typload: {method:'GET', params:{ListItemId: 'typeahead'}, isArray:true} //not included right now
         });
     }]);
 
 invServices.factory('ItemResource', ['$resource',
     function ($resource) {
-        return $resource('/api/v1/restricted/item/:id', {}, {
-            allItems: {method: 'GET', params: {id: 'allItems'}, isArray: true}
+        return $resource('/api/v1/restricted/item/:id/:subpath', {}, {
+            allItems: {method: 'GET', params: {id: 'allItems'}, isArray: true},
+            detailLoad: {method: 'GET', params: {subpath: "details"}, isArray: true},
+            historyLoad: {method: 'GET', params: {subpath: "history"}, isArray: true},
+            place: {method: 'GET', url: "/api/v1/restricted/place/search/:id", isArray: true}
         });
     }]);
 
@@ -46,6 +49,25 @@ invServices.factory('DashboardResource', ['$resource',
         return $resource('/api/v1/restricted/dashboard/:data', {}, {
             items: {method: 'GET', params: {data: 'Items'}, isArray: true}
         });
+    }]);
+
+invServices.factory('PlaceResource', ['$resource',
+function ($resource) {
+    return $resource('/api/v1/restricted/place/:id', {}, {
+
+    })
+
+}]);
+
+invServices.factory('RentalResource', ['$resource',
+    function ($resource) {
+        return $resource('/api/v1/restricted/rental/:action/:id', {}, {
+            allRental: {method: 'GET', params: {action: 'AllRentals'}, isArray: true},
+            allOpenRental: {method: 'GET', params: {action: 'OpenRentals'}, isArray: true},
+            detailRentalUserLoad: {method: 'GET', params: {action: 'SingleRentals'}, isArray: true},
+            detailRentalItemLoad: {method: 'GET', params: {action: 'SingleRentalsItems'}, isArray: true},
+        })
+
     }]);
 
 

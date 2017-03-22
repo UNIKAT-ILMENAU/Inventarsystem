@@ -9,9 +9,9 @@ var invControllers = angular.module('invControllers', ['angularUtils.directives.
 //Description: The main-site controller, loads the list and controls the pagination, aswell the route to the detailview of an item
 //Used in: list.html
 //==============================
-invControllers.controller('ListCtrl', function ($scope, $location, REST) {
+invControllers.controller('ListCtrl', function ($scope, $location, ItemResource) {
   //Get all item informations from the server
-  $scope.listData = REST.query();
+  $scope.listData = ItemResource.allItems();
 
   /*REST.typload(function(data){          //typeaheadlist request via rest-factory
   $scope.typeaheadData = data;            //NOT INCLUDED, WIP
@@ -68,20 +68,20 @@ invControllers.controller('MenuCtrl', function($scope, DashboardResource) {
 //Request Detail informations from specific item
 //Used in: detail.html 
 //==============================
-invControllers.controller('DetailCtrl', ['$scope', '$localStorage', '$routeParams', '$location', '$http', 'REST', function($scope, $localStorage, $routeParams, $location, $http, REST) {
+invControllers.controller('DetailCtrl', ['$scope', '$localStorage', '$routeParams', '$location', '$http', 'ItemResource', function($scope, $localStorage, $routeParams, $location, $http, ItemResource) {
   //Gets all informations of a specific item by id
-  $scope.detailData = REST.detailLoad({ListItemId: 'item/details/' + $routeParams.ListItemId});
+  $scope.detailData = ItemResource.detailLoad({id: $routeParams.ListItemId});
   //Gets the place as a string
-  $scope.Place_name = REST.detailPlaceLoad({ListItemId: 'place/search/' + $routeParams.ListItemId});
+  $scope.Place_name = ItemResource.place({id: $routeParams.ListItemId});
   //Gets all history informations of a specific item by id
-  $scope.historyData = REST.historyLoad({ListItemId: 'item/getHistory/' + $routeParams.ListItemId});
+  $scope.historyData = ItemResource.historyLoad({id: $routeParams.ListItemId});
 
   //Reloads all the data of a specific item by id (reloads detailView data)
   $scope.ReloadDatas = function() {  
     //Gets all informations of a specific item by id
-    $scope.detailData = REST.detailLoad({ListItemId: 'item/details/' + $routeParams.ListItemId});
+    $scope.detailData = ItemResource.detailLoad({id: $routeParams.ListItemId});
     //Gets all history informations of a specific item by id
-    $scope.historyData = REST.historyLoad({ListItemId: 'item/getHistory/' + $routeParams.ListItemId});
+    $scope.historyData = ItemResource.historyLoad({id: $routeParams.ListItemId});
   };
 
   //==============================
@@ -315,10 +315,15 @@ invControllers.controller('CreateCtrl', ['$scope','$localStorage', '$routeParams
 //ItemEdit controller
 //Used: edit_item.html
 //==============================
-invControllers.controller('ItemEditCtrl', ['$scope', '$localStorage','$routeParams', '$location', '$http', 'REST', 'dataFactory', function($scope, $localStorage, $routeParams, $location, $http, REST, dataFactory) {
+invControllers.controller('ItemEditCtrl', ['$scope', '$localStorage','$routeParams', '$location', '$http', 'ItemResource', 'dataFactory', function($scope, $localStorage, $routeParams, $location, $http, ItemResource, dataFactory) {
+
+    console.log("ItemdEditCtrl");
+
   //Gets all informations of a specific item by id
-  $scope.detailData = REST.detailLoad({ListItemId: 'item/details/' + $routeParams.ListItemId});
-  
+  $scope.detailData = ItemResource.detailLoad({id: $routeParams.ListItemId});
+  console.log($scope.detailData)
+
+
   //GET categories-array by using dataFactory(in services.js)
   dataFactory.getAllCategories().then(function (response){
       $scope.nestedCategories = response;
@@ -343,21 +348,21 @@ invControllers.controller('ItemEditCtrl', ['$scope', '$localStorage','$routePara
   //Options and default values for dropdowns
   //=========================================
   //options and default('available') for state of device in edit_item.html
-  $scope.deviceStates = [{ name: 'Not available', value: 0 },
-                         { name: 'Available', value: 1 },
-                         { name: 'Defective', value: 2 },
-                         { name: 'Missing', value: 3 },
-                         { name: 'Rented', value: 4 }  
+  $scope.deviceStates = [{ name: 'Not available', value: "0" },
+                         { name: 'Available', value: "1" },
+                         { name: 'Defective', value: "2" },
+                         { name: 'Missing', value: "3" },
+                         { name: 'Rented', value: "4" }
   ];
 
   //options and default('available') for state of material in edit_item.html
-  $scope.materialStates = [{ name: 'Not available', value: 0 },
-                           { name: 'Available', value: 1 } 
+  $scope.materialStates = [{ name: 'Not available', value: "0" },
+                           { name: 'Available', value: "1" }
   ];
 
   //options and default('Visible') for PublicVisible in edit_item.html
-  $scope.Visibility = [{ name: 'Not visible', value: 0 },
-                       { name: 'Visible', value: 1 } 
+  $scope.Visibility = [{ name: 'Not visible', value: "0" },
+                       { name: 'Visible', value: "1" }
   ];
 
   //Update/Edit item to the server
@@ -422,7 +427,7 @@ invControllers.controller('ItemEditCtrl', ['$scope', '$localStorage','$routePara
 //Rental controller
 //Used: rental.html 
 //==============================
-invControllers.controller('RentalCtrl', ['$scope', '$localStorage', '$routeParams', '$location', '$http', 'REST', function($scope, $localStorage, $routeParams, $location, $http, REST) {
+invControllers.controller('RentalCtrl', ['$scope', '$localStorage', '$routeParams', '$location', '$http', function($scope, $localStorage, $routeParams, $location, $http) {
 
   //redirect us, when we are accidentally on the rental page
   if($scope.selectedItems[0] == null)
@@ -492,9 +497,9 @@ invControllers.controller('RentalCtrl', ['$scope', '$localStorage', '$routeParam
 //Rental list controller
 //Used: rentallist.html
 //==============================
-invControllers.controller('RentalListCtrl', ['$scope', '$routeParams', '$location', 'REST', function($scope, $routeParams, $location, REST) {
+invControllers.controller('RentalListCtrl', ['$scope', '$routeParams', '$location', 'RentalResource', function($scope, $routeParams, $location, RentalResource) {
   //Get all item informations from the server
-  $scope.listData = REST.allOpenRental(); //need another api request here
+    $scope.listData = RentalResource.allOpenRental();
 
   //Switch beetween AllOpenRentals/AlleRentals
   $scope.switchRentalList = function(listname){
@@ -502,10 +507,10 @@ invControllers.controller('RentalListCtrl', ['$scope', '$routeParams', '$locatio
     if(listname == "open")
     {
       //Get all item informations from the server
-      $scope.listData = REST.allOpenRental(); 
+      $scope.listData = RentalResource.allOpenRental();
     }else if(listname =="all"){
       //Get all item informations from the server
-      $scope.listData = REST.allRental();
+      $scope.listData = RentalResource.allRental();
     }
      
   };
@@ -568,11 +573,11 @@ invControllers.controller('RentalListCtrl', ['$scope', '$routeParams', '$locatio
 //Rental detail controller
 //Used: rental_detail.html
 //==============================
-invControllers.controller('RentalDetailCtrl', ['$scope', '$localStorage','$routeParams', '$location','$http', 'REST', function($scope, $localStorage, $routeParams, $location, $http, REST) {
+invControllers.controller('RentalDetailCtrl', ['$scope', '$localStorage','$routeParams', '$location','$http', 'RentalResource', function($scope, $localStorage, $routeParams, $location, $http, RentalResource) {
   //Gets all user informations of a specific rental by id
-  $scope.detailData = REST.detailRentalUserLoad({ListItemId: 'rental/SingleRentals/' + $routeParams.ListItemId});
+  $scope.detailData = RentalResource.detailRentalUserLoad({id: $routeParams.ListItemId});
   //Gets all item informations of the loaded rental
-  $scope.itemData = REST.detailRentalItemLoad({ListItemId: 'rental/SingleRentalsItems/' + $routeParams.ListItemId});
+  $scope.itemData = RentalResource.detailRentalItemLoad({id: $routeParams.ListItemId});
 
 
   //==============================
@@ -615,10 +620,10 @@ invControllers.controller('RentalDetailCtrl', ['$scope', '$localStorage','$route
       //Reset variables
       $scope.amount_value = null;
       $scope.comment = "";
-      //Gets/Reloads all item information of the loaded rental
-      $scope.itemData = REST.detailRentalItemLoad({ListItemId: 'rental/SingleRentalsItems/' + $routeParams.ListItemId})
-      //Gets/Reloads all user informations of a specific rental by id
-      $scope.detailData = REST.detailRentalUserLoad({ListItemId: 'rental/SingleRentals/' + $routeParams.ListItemId});
+        //Gets all user informations of a specific rental by id
+        $scope.detailData = RentalResource.detailRentalUserLoad({id: $routeParams.ListItemId});
+        //Gets all item informations of the loaded rental
+        $scope.itemData = RentalResource.detailRentalItemLoad({id: $routeParams.ListItemId});
   
     });
   };
@@ -640,10 +645,10 @@ invControllers.controller('RentalDetailCtrl', ['$scope', '$localStorage','$route
       //Reset variables
       $scope.amount_value = null;
       $scope.comment = "";
-      //Gets/Reloads all item information of the loaded rental
-      $scope.itemData = REST.detailRentalItemLoad({ListItemId: 'rental/SingleRentalsItems/' + $routeParams.ListItemId})
-      //Gets/Reloads all user informations of a specific rental by id
-      $scope.detailData = REST.detailRentalUserLoad({ListItemId: 'rental/SingleRentals/' + $routeParams.ListItemId});
+        //Gets all user informations of a specific rental by id
+        $scope.detailData = RentalResource.detailRentalUserLoad({id: $routeParams.ListItemId});
+        //Gets all item informations of the loaded rental
+        $scope.itemData = RentalResource.detailRentalItemLoad({id: $routeParams.ListItemId});
   
     });
   };
