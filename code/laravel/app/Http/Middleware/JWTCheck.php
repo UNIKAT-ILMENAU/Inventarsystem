@@ -47,7 +47,7 @@ class JWTCheck
             return $next($request);
         } 
         catch(\Exception $e){
-            return response()->json(['error' => 'middleware error.']);
+            return response()->json(['error' => 'middleware error.'], 401);
         }
     }
 }
