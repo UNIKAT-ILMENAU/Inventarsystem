@@ -14,7 +14,7 @@ class CreateMaterialTable extends Migration
     {
         Schema::create('material', function (Blueprint $table) {
             $table->increments('id')->unsigned();
-            $table->double('StorageValue', 15, 2);
+            $table->double('StorageValue', 15, 2)->nullable();
             $table->double('CriticalStorageValue', 15, 2)->nullable();
             $table->string('UoM')->nullable();
             $table->string('UoM_short')->nullable();
