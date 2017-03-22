@@ -174,14 +174,24 @@ class PlaceController extends Controller
 		return $array;
     } */ 
 
-    public function PlaceRoute() 
-    {  
-        
-    	//get all item ids in order
-        $getid = DB::table('item')
+    public function PlaceRoute($id = 0)
+    {
+        if($id == 0) {
+            //get all item ids in order
+            $getid = DB::table('item')
                 ->select('id')
                 ->orderby('id')
                 ->pluck('id');
+        } else {
+            //get all item ids in order
+            $getid = DB::table('item')
+                ->select('id')
+                ->where('id', $id)
+                ->orderby('id')
+                ->pluck('id');
+        }
+        
+
         
         
         //creating a place path for each item         
