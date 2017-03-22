@@ -1,6 +1,8 @@
 ---
 - hosts: all
+  sudo: yes
   tasks:
+
 
     - name: update apt
       apt:
@@ -14,11 +16,30 @@
       apt:
         name=mysql-server
 
+    - name: install python-mysqldb
+      apt:
+        name=python-mysqldb
+
+    - name: create inventory database
+      mysql_db:
+        name: inventory
+
     - name: install apache
       apt:
         name={{item}}
       with_items:
         - apache2
+
+    - name: create adminer folder
+      file:
+        path: /home/vagrant/adminer
+        state: directory
+        mode: 0755
+
+    - name: download adminer
+      get_url:
+        url: https://github.com/vrana/adminer/releases/download/v4.3.0/adminer-4.3.0-mysql-en.php
+        dest: /home/vagrant/adminer/adminer.php
 
     - name: install php5 and modules
       apt:

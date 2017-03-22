@@ -22,7 +22,6 @@ Andreas Wehenkel </br>
 - VirtualBox
 - Vagrant
 - Cygwin, MinGV or Git
-- ansible
 
 #### Installation:
 
@@ -41,7 +40,7 @@ Andreas Wehenkel </br>
 3. Navigate with your console to:
 
     ```sh
-    cd /vagrant
+    cd /vagrant/code/laravel
     ```
 
 4. Migrate the database:
