@@ -1,0 +1,66 @@
+---
+- hosts: all
+  sudo: yes
+  tasks:
+
+
+    - name: update apt
+      apt:
+        update_cache=yes
+
+    - name: install htop
+      apt:
+        name=htop
+
+    - name: install mysql
+      apt:
+        name=mysql-server
+
+    - name: install python-mysqldb
+      apt:
+        name=python-mysqldb
+
+    - name: create inventory database
+      mysql_db:
+        name: inventory
+
+    - name: install apache
+      apt:
+        name={{item}}
+      with_items:
+        - apache2
+
+    - name: create adminer folder
+      file:
+        path: /home/vagrant/adminer
+        state: directory
+        mode: 0755
+
+    - name: download adminer
+      get_url:
+        url: https://github.com/vrana/adminer/releases/download/v4.3.0/adminer-4.3.0-mysql-en.php
+        dest: /home/vagrant/adminer/adminer.php
+
+    - name: install php5 and modules
+      apt:
+        name={{item}}
+      with_items:
+        - php5
+        - php5-mcrypt
+        - php5-gd
+        - php5-mysql
+
+    - name: active rewrite
+      apache2_module:
+        name=rewrite
+        state=present
+
+    - name: set default apache site
+      copy:
+        src=000-default.conf
+        dest=/etc/apache2/sites-enabled/000-default.conf
+
+    - name: restart apache
+      service:
+        name=apache2
+        state=restarted

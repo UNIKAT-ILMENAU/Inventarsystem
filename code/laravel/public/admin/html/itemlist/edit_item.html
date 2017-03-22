@@ -40,9 +40,9 @@ Additionally needed scripts: none
     <div>
     </div>
   	<!--show, when no place is selected-->
-  	<div class="form-group" ng-if="detailData[0].Place == null" ng-class="{'has-error': detailData[0].Place == null">
+  	<div class="form-group" ng-if="detailData[0].Place == null" ng-class="{'has-error': detailData[0].Place == null}">
         <label for="placeButton">Place:</label>
-  	    <button type="button" class="btn btn-default btn-block text-left form-control" data-toggle="modal" data-target="#placeModal" 
+  	    <button type="button" class="btn btn-default btn-block text-left form-control" data-toggle="modal" data-target="#placeModal"
         name="placeButton" id="placeButton" style="text-align:left;color:#999;">Select Place</button>
   	</div>
   	<!--show, when a place is selected-->
@@ -52,7 +52,7 @@ Additionally needed scripts: none
   	     id="placeButton" style="text-align:left;color:#555;">{{detailData[0].PlaceName}}</button>
   	</div>
     <!--show, when no category is selected-->
-    <div class="form-group" ng-if="detailData[0].CategoryID == null" ng-class="{'has-error': detailData[0].CategoryID == null">
+    <div class="form-group" ng-if="detailData[0].CategoryID == null" ng-class="{'has-error': detailData[0].CategoryID == null}">
         <label for="categoryButton">Category:</label>
         <button type="button" class="btn btn-default btn-block text-left form-control" data-toggle="modal" data-target="#categoryModal"  name="categoryButton"
          id="categoryButton" style="text-align:left;color:#999;">Select Category</button>
@@ -60,7 +60,7 @@ Additionally needed scripts: none
     <!--show, when category is selected-->
     <div class="form-group" ng-if="detailData[0].CategoryID != null" >
         <label for="categoryButton">Category:</label>
-        <button type="button" class="btn btn-default btn-block text-left" data-toggle="modal" data-target="#categoryModal" name="categoryButton" 
+        <button type="button" class="btn btn-default btn-block text-left" data-toggle="modal" data-target="#categoryModal" name="categoryButton"
        	id="categoryButton" style="text-align:left;color:#555;">{{detailData[0].Category}}</button>
     </div>
     <div class="form-group">

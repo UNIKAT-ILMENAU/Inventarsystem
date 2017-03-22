@@ -18,15 +18,10 @@ Andreas Wehenkel </br>
 ## Installation
 
 
-### Setup Requirements:
+### Setup Requirements (for vagrant box):
 - VirtualBox
 - Vagrant
 - Cygwin, MinGV or Git
-
-#### Common Errors:
-- if there is an error while starting the vagrant box (vagrant up), please edit:
-  .vagrant/machines/default/virtualbox/creator_uid in for example 0
-- if there is an error while "vagrant ssh", check your GitHub profile and add your ssh key via edit profil. (SSH Key should be at (/C/Users/<Username>/.ssh/id_rsa) open the file with an Editor and copy the key.)
 
 #### Installation:
 
@@ -45,7 +40,7 @@ Andreas Wehenkel </br>
 3. Navigate with your console to:
 
     ```sh
-    cd code/laravel
+    cd /vagrant/code/laravel
     ```
 
 4. Migrate the database:
@@ -73,15 +68,3 @@ Andreas Wehenkel </br>
     Password: unikat
     (password should be changed after first login or in ~\code\laravel\database\seeds\MemberTableSeeder)
     ```
-
-### Directory Stuff
-
-The current directory configuartion looks like:
-
-```sh
----code
-------laravel
----vagrant
-------vagrant-config
-```
-
