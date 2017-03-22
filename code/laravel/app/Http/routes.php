@@ -402,7 +402,7 @@ Route::group(['middleware' => 'JWTCheck'], function () {
 	 *       "error": "1"
 	 *     }
 	 */
-	Route::get('/api/v1/restricted/item/details/{id}', ['uses' =>'ItemController@RestrictedSingleDetailItem']);
+	Route::get('/api/v1/restricted/item/{id}/details', ['uses' =>'ItemController@RestrictedSingleDetailItem']);
 
 	/**
 	 * @api {get} /api/v1/restricted/item/getHistory/{id} Request history information 
@@ -430,7 +430,7 @@ Route::group(['middleware' => 'JWTCheck'], function () {
 	 *       "error": "1"
 	 *     }
 	 */
-	Route::get('/api/v1/restricted/item/getHistory/{id}', ['uses' =>'ItemController@History']);
+	Route::get('/api/v1/restricted/item/{id}/history', ['uses' =>'ItemController@History']);
 
 	//============
     //	ITEM POST
