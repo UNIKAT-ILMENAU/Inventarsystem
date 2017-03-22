@@ -271,6 +271,7 @@ class RentalController extends Controller
          					->select('StorageValue')
          					->pluck('StorageValue');
 
+         	// If StorageValue == NULL, this is a device and not material
          	if($storagecheck[0] != NULL){
 
          		if($storagecheck[0] == $R_amounts[$i]){
