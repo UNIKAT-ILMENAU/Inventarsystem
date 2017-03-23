@@ -9,10 +9,10 @@ var invControllers = angular.module('invControllers', ['angularUtils.directives.
 //Description: The main-site controller, loads the list and controls the pagination, aswell the route to the detailview of an item
 //Used in: list.html
 //==============================
-invControllers.controller('ListCtrl', function ($scope, $location, $http, REST) {
+invControllers.controller('ListCtrl', function ($scope, $location, $http, ItemResource) {
 
   //Get all item informations from the server
-  $scope.listData = REST.query();
+  $scope.listData = ItemResource.allItems();
 
   /*REST.typload(function(data){      //typeaheadlist request via rest-factory
   $scope.typeaheadData = data;        //NOT INCLUDED, WIP
@@ -51,7 +51,7 @@ invControllers.controller('DetailCtrl', ['$scope', '$routeParams', 'ItemResource
 //Main-controller
 //Used: overall other controller 
 //==============================
-invControllers.controller('indexCtrl', function ($scope, REST, $location, $anchorScroll) {
+invControllers.controller('indexCtrl', function ($scope, $location, $anchorScroll) {
 
   $scope.scrollTo = function() {
       // set the location.hash to null/top
