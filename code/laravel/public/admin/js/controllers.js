@@ -839,7 +839,7 @@ function loginCtrl($scope, $localStorage, $location, $http){
 
     $http({
       method: 'POST',
-      url: '../../api/v1/login',
+      url: '../api/v1/login',
       data: userData
     })
     .then(
