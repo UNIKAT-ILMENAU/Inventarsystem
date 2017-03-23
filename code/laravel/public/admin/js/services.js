@@ -98,14 +98,10 @@ function authCheck($http, $location, $localStorage) {
             method: 'POST',
             url: '/api/v1/check',
             data: $localStorage.token
-        })
-            .then(function (response) {
-
-                //check if token isn't valid
-                if (response.data != $localStorage.token) {
-                    $location.path("/login");
-                }
-            });
+        }).then(function (response) {}, function (response) {
+            console.log('Auth check failed');
+            $location.path("/login");
+        });
     }
 
     return {
