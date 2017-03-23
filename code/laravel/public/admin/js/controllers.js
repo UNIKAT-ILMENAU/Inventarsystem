@@ -134,7 +134,7 @@ invControllers.controller('DetailCtrl', ['$scope', '$localStorage', '$routeParam
     var Indata = {'itemid': itemID, 'comment': comment, 'createdbyid': angular.fromJson($localStorage.user_id) }; //NEEDS TO BE IMPLEMENTED
     if(stateID == 2){
       //POST state device to the server
-      $http.post("/api/v1/restricted/event/8", Indata).success(function(data, status) {
+      $http.post("../api/v1/restricted/event/8", Indata).success(function(data, status) {
         //SUCCESSFULL 
         alert("Device set to 'defective'!");
         $scope.ReloadDatas();  
@@ -142,7 +142,7 @@ invControllers.controller('DetailCtrl', ['$scope', '$localStorage', '$routeParam
     } else if(stateID == 3)
     {
       //POST state device to the server
-      $http.post("/api/v1/restricted/event/9", Indata).success(function(data, status) {
+      $http.post("../api/v1/restricted/event/9", Indata).success(function(data, status) {
         //SUCCESSFULL
         alert("Device set to 'lost'!");
         $scope.ReloadDatas();
@@ -165,7 +165,7 @@ invControllers.controller('DetailCtrl', ['$scope', '$localStorage', '$routeParam
     {
       var Indata = {'amount': amount, 'itemid': itemID, 'createdbyid': angular.fromJson($localStorage.user_id) }; //NEEDS TO BE IMPLEMENTED
       //POST used material to the server
-      $http.post("/api/v1/restricted/event/6", Indata).success(function(data, status) {
+      $http.post("../api/v1/restricted/event/6", Indata).success(function(data, status) {
         //SUCCESSFULL alert
         alert('Material used!'); 
         $scope.ReloadDatas();
@@ -176,7 +176,7 @@ invControllers.controller('DetailCtrl', ['$scope', '$localStorage', '$routeParam
     {    
       var Indata = {'amount': amount, 'itemid': itemID, 'createdbyid': angular.fromJson($localStorage.user_id) };
       //POST stock up material to the server
-      $http.post("/api/v1/restricted/event/7", Indata).success(function(data, status) {
+      $http.post("../api/v1/restricted/event/7", Indata).success(function(data, status) {
         //SUCCESSFULL alert
         alert('Stock up successful!'); 
         $scope.ReloadDatas();
@@ -186,7 +186,7 @@ invControllers.controller('DetailCtrl', ['$scope', '$localStorage', '$routeParam
 
       var Indata = {'amount': amount, 'itemid': itemID, 'createdbyid': angular.fromJson($localStorage.user_id), 'price': price };
       //POST sell material to the server
-      $http.post("/api/v1/restricted/event/10", Indata).success(function(data, status) {
+      $http.post("../api/v1/restricted/event/10", Indata).success(function(data, status) {
         //SUCCESSFULL alert
         alert('Material sold!'); 
         $scope.ReloadDatas();
@@ -223,7 +223,7 @@ invControllers.controller('CreateCtrl', ['$scope','$localStorage', '$routeParams
                     'comment': $scope.selectedItems[0].Comment
                 };
       //POST device to the server
-      $http.post("/api/v1/restricted/device/create", Indata).success(function(data, status) {
+      $http.post("../api/v1/restricted/device/create", Indata).success(function(data, status) {
         //SUCCESSFULL alert
         alert("Device: " + $scope.selectedItems[0].Name + " created");
         $scope.clearItem();       //clears the selected item
@@ -250,7 +250,7 @@ invControllers.controller('CreateCtrl', ['$scope','$localStorage', '$routeParams
                     };
 
       //POST material to the server
-      $http.post("/api/v1/restricted/material/create", Indata).success(function(data, status) {
+      $http.post("../api/v1/restricted/material/create", Indata).success(function(data, status) {
         //SUCCESSFULL alert
         alert("Material: " + $scope.selectedItems[0].Name + " created");
         $scope.clearItem();       //clears the selected item
@@ -385,7 +385,7 @@ invControllers.controller('ItemEditCtrl', ['$scope', '$localStorage','$routePara
                     };
       
       //create url with the selected item
-      var url = "/api/v1/restricted/device/update/" + $scope.detailData[0].Id;
+      var url = "../api/v1/restricted/device/update/" + $scope.detailData[0].Id;
       //POST device to the server
       $http.post(url, Indata).success(function(data, status) {
         //SUCCESSFULL alert
@@ -411,7 +411,7 @@ invControllers.controller('ItemEditCtrl', ['$scope', '$localStorage','$routePara
                     };
 
       //create url with the selected item
-      var url = '/api/v1/restricted/material/update/' + $scope.detailData[0].Id;
+      var url = '../api/v1/restricted/material/update/' + $scope.detailData[0].Id;
       //POST material to the server 
       $http.post(url, Indata).success(function(data, status) {
         //SUCCESSFULL alert
@@ -481,7 +481,7 @@ invControllers.controller('RentalCtrl', ['$scope', '$localStorage', '$routeParam
     }
     $scope.testvar = Indata;
     //POST rental to the server 
-    $http.post("/api/v1/restricted/rental/create", Indata).success(function(data, status) {
+    $http.post("../api/v1/restricted/rental/create", Indata).success(function(data, status) {
       //SUCCESSFULL alert
       alert("Item/s rented!");
       $scope.clearItem();
@@ -617,7 +617,7 @@ invControllers.controller('RentalDetailCtrl', ['$scope', '$localStorage','$route
 
     var Indata = {'itemid': itemID, 'amount': value,'comment': comment, 'createdbyid': angular.fromJson($localStorage.user_id)}; //NEEDS TO BE IMPLEMENTED
     //Creates the url for the post
-    var url = "/api/v1/restricted/rental/lost/" +  $scope.detailData[0][0].Id;
+    var url = "../api/v1/restricted/rental/lost/" +  $scope.detailData[0][0].Id;
   
     //POST state device to the server
     $http.post(url, Indata).success(function(data, status) {
@@ -638,7 +638,7 @@ invControllers.controller('RentalDetailCtrl', ['$scope', '$localStorage','$route
   $scope.updateBackEvent = function(itemID, value, maxvalue, comment) { 
     var Indata = {'itemid': itemID, 'amount': value,'comment': comment, 'createdbyid': angular.fromJson($localStorage.user_id)}; //NEEDS TO BE IMPLEMENTED
     //Creates the url for the post
-    var url = "/api/v1/restricted/rental/bringBack/" +  $scope.detailData[0][0].Id;
+    var url = "../api/v1/restricted/rental/bringBack/" +  $scope.detailData[0][0].Id;
 
     //POST state device to the server
     $http.post(url, Indata).success(function(data, status) {
@@ -709,7 +709,7 @@ invControllers.controller('indexCtrl', function ($scope, $http, $localStorage, $
       //send token to logout-api
       $http({
         method: 'POST',
-        url: '/api/v1/logout',
+        url: '../api/v1/logout',
         data: tok 
       })
       .then(
@@ -839,7 +839,7 @@ function loginCtrl($scope, $localStorage, $location, $http){
 
     $http({
       method: 'POST',
-      url: '/api/v1/login',
+      url: '../../api/v1/login',
       data: userData
     })
     .then(
@@ -884,7 +884,7 @@ function inviteAdminCtrl($localStorage, $scope, $http, $location){
 
     $http({
       method: 'POST',
-      url: '/api/v1/restricted/admin/invite', 
+      url: '../api/v1/restricted/admin/invite',
       data: email_adress
     })
     .then(
@@ -930,7 +930,7 @@ function createNewAdminCtrl($scope, $location, $http){
     
     $http({
       method: 'POST',
-      url: '/api/v1/restricted/admin/create',
+      url: '../api/v1/restricted/admin/create',
       data: newAdmin
     })
     .then(
@@ -986,7 +986,7 @@ function resetPasswordCtrl($scope, $http, $location){
     //send old and new password
     $http({
       method: 'POST',
-      url: '/api/v1/restricted/admin/changePassword', 
+      url: '../api/v1/restricted/admin/changePassword',
       data: data
     })
     .then(
@@ -1039,7 +1039,7 @@ function deleteAdminCtrl($scope, $http){
    //get admin-array
     $http({
       method: 'GET',
-      url: '/api/v1/restricted/admin/allAdmins'
+      url: '../api/v1/restricted/admin/allAdmins'
     })
     .then(
       function(re){
@@ -1059,7 +1059,7 @@ function deleteAdminCtrl($scope, $http){
   
         $http({
           method: 'POST',
-          url: '/api/v1/restricted/admin/deactivate/'+ id
+          url: '../api/v1/restricted/admin/deactivate/'+ id
         })
         .then(
           function(re){},         
@@ -1097,7 +1097,7 @@ function forgotPasswordCtrl($scope, $http, $location){
 
     $http({
       method: 'POST',
-      url: '/api/v1/admin/SendPasswordEmail',
+      url: '../api/v1/admin/SendPasswordEmail',
       data: email
     })
     .then(
@@ -1125,7 +1125,7 @@ function forgotPasswordCtrl($scope, $http, $location){
 
     $http({
       method: 'POST',
-      url: '/api/v1/resetPassword',
+      url: '../api/v1/resetPassword',
       data: data
     })
     .then(
@@ -1176,7 +1176,7 @@ function forgotPasswordCtrl($scope, $http, $location){
       //POST updated category to server
       $http({
         method: 'POST',
-        url: '/api/v1/restricted/category/update/' + categoryID,
+        url: '../api/v1/restricted/category/update/' + categoryID,
         data: Indata 
       }).then(function updateSuccess(response) {
           //handles success
@@ -1187,7 +1187,7 @@ function forgotPasswordCtrl($scope, $http, $location){
           alert("An error occured. Could not update category.");
       });
       //POST updated category to server
-      /* $http.post("/api/v1/restricted/category/update/" + categoryID, Indata).success(function(data, status) {
+      /* $http.post("../api/v1/restricted/category/update/" + categoryID, Indata).success(function(data, status) {
       //SUCCESSFULL
       alert("success");
       });*/
@@ -1203,7 +1203,7 @@ function forgotPasswordCtrl($scope, $http, $location){
       //POST new category to server
       $http({
         method: 'POST',
-        url: '/api/v1/restricted/category/create',
+        url: '../api/v1/restricted/category/create',
         data: Indata 
       }).then(function createSuccess(response) {
           //handles success
@@ -1214,7 +1214,7 @@ function forgotPasswordCtrl($scope, $http, $location){
           alert("An error occured. Could not create new category.");
       });
       //POST new category to server
-      /* $http.post("/api/v1/restricted/category/create", Indata).success(function(data, status) {
+      /* $http.post("../api/v1/restricted/category/create", Indata).success(function(data, status) {
       //SUCCESSFULL
       alert("success");
       });*/
@@ -1229,7 +1229,7 @@ function forgotPasswordCtrl($scope, $http, $location){
       //DELETE category
       $http({
         method: 'DELETE',
-        url: '/api/v1/restricted/category/delete/' + categoryID
+        url: '../api/v1/restricted/category/delete/' + categoryID
       }).then(function deleteSuccess(response) {
           //handles success
           alert("Selected category was deleted.");
@@ -1239,7 +1239,7 @@ function forgotPasswordCtrl($scope, $http, $location){
           alert("An error occured. Make sure that selected category is not assigned to an item.");
       });
       //DELETE category
-      /* $http.delete("/api/v1/restricted/category/delete" + categoryID).success(function(data, status) {
+      /* $http.delete("../api/v1/restricted/category/delete" + categoryID).success(function(data, status) {
       //SUCCESSFULL
       alert("success");
       });*/
@@ -1285,7 +1285,7 @@ function forgotPasswordCtrl($scope, $http, $location){
       //POST updated place to server
       $http({
         method: 'POST',
-        url: '/api/v1/restricted/place/update/' + placeID,
+        url: '../api/v1/restricted/place/update/' + placeID,
         data: Indata 
       }).then(function placeSuccess(response) {
           //handles success
@@ -1296,7 +1296,7 @@ function forgotPasswordCtrl($scope, $http, $location){
           alert("An error occured. Could not update place.");
       });
       //POST updated place to server
-      /* $http.post("/api/v1/restricted/place/update/" + placeID, Indata).success(function(data, status) {
+      /* $http.post("../api/v1/restricted/place/update/" + placeID, Indata).success(function(data, status) {
       //SUCCESSFULL
       alert("success");
       });*/
@@ -1312,7 +1312,7 @@ function forgotPasswordCtrl($scope, $http, $location){
       //POST new place to server
       $http({
         method: 'POST',
-        url: '/api/v1/restricted/place/create',
+        url: '../api/v1/restricted/place/create',
         data: Indata 
       }).then(function placeSuccess(response) {
           //handles success
@@ -1323,7 +1323,7 @@ function forgotPasswordCtrl($scope, $http, $location){
           alert("An error occured. Could not create new place.");
       });
       //POST new place to server
-      /* $http.post("/api/v1/restricted/place/create", Indata).success(function(data, status) {
+      /* $http.post("../api/v1/restricted/place/create", Indata).success(function(data, status) {
       //SUCCESSFULL
       alert("success");
       });*/
@@ -1338,7 +1338,7 @@ function forgotPasswordCtrl($scope, $http, $location){
       //DELETE selected place
       $http({
         method: 'DELETE',
-        url: '/api/v1/restricted/place/delete/' + placeID,
+        url: '../api/v1/restricted/place/delete/' + placeID,
       }).then(function placeSuccess(response) {
           //handles success
           alert("Place was deleted.");
@@ -1348,7 +1348,7 @@ function forgotPasswordCtrl($scope, $http, $location){
           alert("An error occured. Make sure that selected place is not assigned to an item.");
       });
       //DELETE selected place
-      /* $http.delete("/api/v1/restricted/place/delete/" + placeID).success(function(data, status) {
+      /* $http.delete("../api/v1/restricted/place/delete/" + placeID).success(function(data, status) {
       //SUCCESSFULL
       alert("success");
       });*/

@@ -11,7 +11,7 @@ var invServices = angular.module('invServices', ['ngResource', 'ngStorage']);
 //==============================
 invServices.factory('REST', ['$resource',
     function ($resource) {
-        return $resource('/api/v1/restricted/:ListItemId', {}, {
+        return $resource('../api/v1/restricted/:ListItemId', {}, {
             //All item information
             // query: {method: 'GET', params: {ListItemId: 'item/allItems'}, isArray: true},
             //Detail information of the selected item
@@ -36,24 +36,24 @@ invServices.factory('REST', ['$resource',
 
 invServices.factory('ItemResource', ['$resource',
     function ($resource) {
-        return $resource('/api/v1/restricted/item/:id/:subpath', {}, {
+        return $resource('../api/v1/restricted/item/:id/:subpath', {}, {
             allItems: {method: 'GET', params: {id: 'allItems'}, isArray: true},
             detailLoad: {method: 'GET', params: {subpath: "details"}, isArray: true},
             historyLoad: {method: 'GET', params: {subpath: "history"}, isArray: true},
-            place: {method: 'GET', url: "/api/v1/restricted/place/search/:id", isArray: true}
+            place: {method: 'GET', url: "../api/v1/restricted/place/search/:id", isArray: true}
         });
     }]);
 
 invServices.factory('DashboardResource', ['$resource',
     function ($resource) {
-        return $resource('/api/v1/restricted/dashboard/:data', {}, {
+        return $resource('../api/v1/restricted/dashboard/:data', {}, {
             items: {method: 'GET', params: {data: 'Items'}, isArray: true}
         });
     }]);
 
 invServices.factory('PlaceResource', ['$resource',
 function ($resource) {
-    return $resource('/api/v1/restricted/place/:id', {}, {
+    return $resource('../api/v1/restricted/place/:id', {}, {
 
     })
 
@@ -61,7 +61,7 @@ function ($resource) {
 
 invServices.factory('RentalResource', ['$resource',
     function ($resource) {
-        return $resource('/api/v1/restricted/rental/:action/:id', {}, {
+        return $resource('../api/v1/restricted/rental/:action/:id', {}, {
             allRental: {method: 'GET', params: {action: 'AllRentals'}, isArray: true},
             allOpenRental: {method: 'GET', params: {action: 'OpenRentals'}, isArray: true},
             detailRentalUserLoad: {method: 'GET', params: {action: 'SingleRentals'}, isArray: true},
@@ -96,7 +96,7 @@ function authCheck($http, $location, $localStorage) {
     function validate() {
         $http({
             method: 'POST',
-            url: '/api/v1/check',
+            url: '../api/v1/check',
             data: $localStorage.token
         }).then(function (response) {}, function (response) {
             console.log('Auth check failed');
@@ -129,7 +129,7 @@ invServices.factory('dataFactory', ['$http', 'tree', function ($http, tree) {
 
     //GET all places from server
     dataFactory.getAllPlaces = function () {
-        return $http.get('/api/v1/restricted/place/allPlace').then(function (response) {
+        return $http.get('../api/v1/restricted/place/allPlace').then(function (response) {
             allPlaces = response.data;
 
             //call functions (in tree factory in services.js) to format query for rendering in html-template as nested list
@@ -142,7 +142,7 @@ invServices.factory('dataFactory', ['$http', 'tree', function ($http, tree) {
 
     //GET all categories from server
     dataFactory.getAllCategories = function () {
-        return $http.get('/api/v1/restricted/category/allCategory').then(function (response) {
+        return $http.get('../api/v1/restricted/category/allCategory').then(function (response) {
             allCategories = response.data;
 
             //call functions (in tree factory in services.js) to format query for rendering in html-template as nested list
