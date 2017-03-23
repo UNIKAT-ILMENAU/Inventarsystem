@@ -202,18 +202,23 @@ invControllers.controller('DetailCtrl', ['$scope', '$localStorage', '$routeParam
 //==============================
 invControllers.controller('CreateCtrl', ['$scope','$localStorage', '$routeParams', '$location', '$http', 'dataFactory', function($scope,$localStorage, $routeParams, $location, $http, dataFactory) {
 
+    if($scope.selectedItems.length == 0) {
+        $scope.selectedItems[0] = {};
+    }
+    $scope.selectedItems[0].Comment = "Neu angelegt";
+
   //Send create to the server
-  $scope.createItemToServer = function(typ) {    
-    
+  $scope.createItemToServer = function(typ) {
+
     if(typ == "Device") //Create Device
-    { 
-     var Indata = { 'name': $scope.selectedItems[0].Name, 
+    {
+     var Indata = { 'name': $scope.selectedItems[0].Name,
                     'state': $scope.selectedItems[0].State,
                     'description': $scope.selectedItems[0].Description,
-                    'category': $scope.selectedItems[0].CategoryID, 
+                    'category': $scope.selectedItems[0].CategoryID,
                     'visible': $scope.selectedItems[0].PublicVisible,
                     //'cost': $scope.selectedItems[0].Cost,       //NEEDS TO BE IMPLEMENTED?
-                    'place': $scope.selectedItems[0].Place,       
+                    'place': $scope.selectedItems[0].Place,
                     'createdbyid': angular.fromJson($localStorage.user_id),                             //NEEDS TO BE IMPLEMENTED
                     'comment': $scope.selectedItems[0].Comment
                 };
@@ -223,18 +228,18 @@ invControllers.controller('CreateCtrl', ['$scope','$localStorage', '$routeParams
         alert("Device: " + $scope.selectedItems[0].Name + " created");
         $scope.clearItem();       //clears the selected item
         $location.path('/list');  //redirect to the inventory list
-      });  
+      });
     }
     else  //Create Material
     {
-     var Indata = { 'name': $scope.selectedItems[0].Name, 
+     var Indata = { 'name': $scope.selectedItems[0].Name,
                     'state': $scope.selectedItems[0].State,
-                    'category': $scope.selectedItems[0].CategoryID, 
+                    'category': $scope.selectedItems[0].CategoryID,
                     'description': $scope.selectedItems[0].Description,
                     'visible': $scope.selectedItems[0].PublicVisible,
                     'saleprice': $scope.selectedItems[0].SalePrice,
                     //'cost': $scope.selectedItems[0].Cost,       //NEEDS TO BE IMPLEMENTED?
-                    'place': $scope.selectedItems[0].Place,       
+                    'place': $scope.selectedItems[0].Place,
                     'createdbyid': angular.fromJson($localStorage.user_id),                             //NEEDS TO BE IMPLEMENTED
                     'buildtype': $scope.selectedItems[0].BuildType,
                     'uom': $scope.selectedItems[0].UoM,
@@ -246,7 +251,7 @@ invControllers.controller('CreateCtrl', ['$scope','$localStorage', '$routeParams
 
       //POST material to the server
       $http.post("/api/v1/restricted/material/create", Indata).success(function(data, status) {
-        //SUCCESSFULL alert 
+        //SUCCESSFULL alert
         alert("Material: " + $scope.selectedItems[0].Name + " created");
         $scope.clearItem();       //clears the selected item
         $location.path('/list');  //redirect to the inventory list
@@ -256,7 +261,7 @@ invControllers.controller('CreateCtrl', ['$scope','$localStorage', '$routeParams
 
   //Scope sets selectState[0] when reset-button is pressed
   $scope.resetItem = function() {
-    $scope.selectedItems[0] = {"State":1,"PublicVisible":1};
+    $scope.selectedItems[0] = {"State":"1","PublicVisible":"1"};
   };
 
   //=========================================
@@ -264,21 +269,21 @@ invControllers.controller('CreateCtrl', ['$scope','$localStorage', '$routeParams
   //=========================================
 
   //options and default('available') for state in create_device
-  $scope.deviceStates = [{ name: 'Not available', value: 0 },
-                         { name: 'Available', value: 1 },
-                         { name: 'Defective', value: 2 },
-                         { name: 'Missing', value: 3 },
-                         { name: 'Rented', value: 4} 
+  $scope.deviceStates = [{ name: 'Not available', value: "0" },
+                         { name: 'Available', value: "1" },
+                         { name: 'Defective', value: "2" },
+                         { name: 'Missing', value: "3" },
+                         { name: 'Rented', value: "4"}
   ];
 
   //options and default('available') for state in create_material
-  $scope.materialStates = [{ name: 'Not available', value: 0 },
-                           { name: 'Available', value: 1 } 
+  $scope.materialStates = [{ name: 'Not available', value: "0" },
+                           { name: 'Available', value: "1" }
   ];
 
   //options and default('Visible') for PublicVisible in create_material/create_device
-  $scope.Visibility = [{ name: 'Not visible', value: 0 },
-                       { name: 'Visible', value: 1 } 
+  $scope.Visibility = [{ name: 'Not visible', value: "0" },
+                       { name: 'Visible', value: "1" }
   ];
 
   //==============================
@@ -447,7 +452,7 @@ invControllers.controller('RentalCtrl', ['$scope', '$localStorage', '$routeParam
         'email': '',
         'enddate': '',
         'createdbyid': '',
-        'comment': ''
+        'comment': 'Normale Ausleihe'
     } 
    };
 
@@ -480,7 +485,7 @@ invControllers.controller('RentalCtrl', ['$scope', '$localStorage', '$routeParam
       //SUCCESSFULL alert
       alert("Item/s rented!");
       $scope.clearItem();
-      $location.path('/list'); //redirect to inventory list
+      $location.path('/rentallist');
     });
   }
 
@@ -602,6 +607,7 @@ invControllers.controller('RentalDetailCtrl', ['$scope', '$localStorage','$route
   $scope.backEvent = function(ItemID, value) { 
     //sets the title in the modal 
     $scope.title = "back";
+    $scope.comment = "Heile zurück";
     $scope.amount = value;
     $scope.itemID = ItemID; 
   };
