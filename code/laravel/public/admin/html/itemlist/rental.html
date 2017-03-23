@@ -90,7 +90,7 @@ Additionally needed scripts: datepicker.js
               max="{{item.StorageValue}}" ng-pattern="/^[0-9]+/" ng-model="item.amount">
             </div>
             <div ng-if="item.material_id == 1">
-              <input type="text" placeholder="Fill in amount > 0" class="form-control" disabled>
+              <p>--</p>
             </div>
         </td>    
         <td ng-if="item.material_id != 1">{{item.StorageValue}}</td>
