@@ -24,7 +24,7 @@ class ItemTableSeeder extends Seeder
 					'PlaceStartID'=> 5,
 					'CategoryStartID'=> 2,
 					'material_id'=> 1,
-					'Attachment_ID'=> 1
+					'Attachment_ID'=> NULL
 					],
 					[
 					'Name'=> 'Claw hammer',
@@ -48,7 +48,7 @@ class ItemTableSeeder extends Seeder
 					'PlaceStartID'=> 5,
 					'CategoryStartID'=> 1,
 					'material_id'=> 1,
-					'Attachment_ID'=> 2
+					'Attachment_ID'=> NULL
 				    
 					],
 					[
@@ -74,7 +74,7 @@ class ItemTableSeeder extends Seeder
 					'PlaceStartID'=> 3,
 					'CategoryStartID'=> 4,
 					'material_id'=> 3,
-					'Attachment_ID'=> 4
+					'Attachment_ID'=> NULL
 					],
 					[
 					'Name'=> 'Saw',
@@ -98,7 +98,7 @@ class ItemTableSeeder extends Seeder
 					'PlaceStartID'=> 3,
 					'CategoryStartID'=> 4,
 					'material_id'=> 4,
-					'Attachment_ID'=> 5
+					'Attachment_ID'=> NULL
 					],
 					[
 					'Name'=> 'door knop',
@@ -134,7 +134,7 @@ class ItemTableSeeder extends Seeder
 					'PlaceStartID'=> 5,
 					'CategoryStartID'=> 6,
 					'material_id'=> 1,
-					'Attachment_ID'=> 3
+					'Attachment_ID'=> NULL
 					],
 										[
 					'Name'=> 'Phillips screwdriver',
@@ -146,7 +146,7 @@ class ItemTableSeeder extends Seeder
 					'PlaceStartID'=> 5,
 					'CategoryStartID'=> 7,
 					'material_id'=> 1,
-					'Attachment_ID'=> 1
+					'Attachment_ID'=> NULL
 					],
 					[
 					'Name'=> 'Claw hammer',
@@ -170,7 +170,7 @@ class ItemTableSeeder extends Seeder
 					'PlaceStartID'=> 5,
 					'CategoryStartID'=> 4,
 					'material_id'=> 1,
-					'Attachment_ID'=> 2
+					'Attachment_ID'=> NULL
 				    
 					],
 					[
@@ -207,7 +207,7 @@ class ItemTableSeeder extends Seeder
 					'PlaceStartID'=> 3,
 					'CategoryStartID'=> 5,
 					'material_id'=> 8,
-					'Attachment_ID'=> 4
+					'Attachment_ID'=> NULL
 					],
 					[
 					'Name'=> 'nail',
@@ -219,7 +219,7 @@ class ItemTableSeeder extends Seeder
 					'PlaceStartID'=> 3,
 					'CategoryStartID'=> 6,
 					'material_id'=> 9,
-					'Attachment_ID'=> 5
+					'Attachment_ID'=> NULL
 					],
 					[
 					'Name'=> 'wooden plate',
@@ -255,7 +255,7 @@ class ItemTableSeeder extends Seeder
 					'PlaceStartID'=> 5,
 					'CategoryStartID'=> 4,
 					'material_id'=> 1,
-					'Attachment_ID'=> 3
+					'Attachment_ID'=> NULL
 					],
 					
 				  ];

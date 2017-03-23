@@ -16,8 +16,6 @@ class CreateEventTable extends Migration
             $table->increments('id')->unsigned();
             $table->string('Name');
             $table->string('Description');
-            $table->integer('CreatedByID')->unsigned();
-            $table->foreign('CreatedByID')->references('id')->on('user');
             $table->string('EventValue')->nullable();
             $table->timestamps();
         });

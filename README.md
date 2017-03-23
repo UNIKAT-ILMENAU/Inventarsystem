@@ -68,3 +68,11 @@ Andreas Wehenkel </br>
     Password: unikat
     (password should be changed after first login or in ~\code\laravel\database\seeds\MemberTableSeeder)
     ```
+
+#### For Production
+```$xslt
+php artisan migrate
+php artisan jwt:generat
+php artisan db:seed --env=prod
+php artisan admin:create
+```
