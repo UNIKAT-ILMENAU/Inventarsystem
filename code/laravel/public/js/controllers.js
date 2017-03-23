@@ -42,9 +42,9 @@ invControllers.controller('ListCtrl', function ($scope, $location, $http, REST) 
 //Request Detail informations from specific item
 //Used in: detail.html 
 //==============================
-invControllers.controller('DetailCtrl', ['$scope', '$routeParams', 'REST', function($scope, $routeParams, REST) {
+invControllers.controller('DetailCtrl', ['$scope', '$routeParams', 'ItemResource', function($scope, $routeParams, ItemResource) {
   //Gets all informations of a specific item by id
-  $scope.detailData = REST.detailLoad({ListItemId: 'details/' + $routeParams.ListItemId});
+  $scope.detailData = ItemResource.detailLoad({id: $routeParams.ListItemId});
 }]);
 
 //==============================

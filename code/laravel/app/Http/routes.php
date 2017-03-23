@@ -164,7 +164,7 @@ Route::get('/api/v1/item/{id}', ['uses' =>'ItemController@SingleItem']);
  *     }
  */
 
-Route::get('/api/v1/item/details/{id}', ['uses' =>'ItemController@SingleDetailItem']);
+Route::get('/api/v1/item/{id}/details', ['uses' =>'ItemController@SingleDetailItem']);
 
 //==============================
 // Invite Admin API
