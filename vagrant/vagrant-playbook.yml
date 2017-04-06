@@ -12,6 +12,19 @@
       apt:
         name=htop
 
+    - name: add mysql key
+      apt_key:
+        keyserver=pgp.mit.edu
+        id=5072E1F5
+
+    - name: add mysql repository
+      apt_repository:
+        repo='deb http://repo.mysql.com/apt/debian/ jessie mysql-5.7'
+
+    - name: update apt
+      apt:
+        update_cache=yes
+
     - name: install mysql
       apt:
         name=mysql-server
@@ -48,7 +61,7 @@
         - php5
         - php5-mcrypt
         - php5-gd
-        - php5-mysql
+        - php5-mysqlnd
 
     - name: active rewrite
       apache2_module:
