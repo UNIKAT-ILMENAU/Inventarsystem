@@ -1,0 +1,79 @@
+<!-- 
+Controller: DetailCtrl - controllers.js
+Additionally needed scripts: none 
+-->
+<div class="container">
+	<!--Id & Name with class depending on State-->
+	<div class="text-center page-header well">
+  		<h2>
+    		<div ng-switch="detailData.State">
+      			<div ng-switch-when="0" class="text-warning">{{detailData.Id}} - {{detailData.Name}}</div>
+      			<div ng-switch-when="1" class="text-success">{{detailData.Id}} - {{detailData.Name}}</div>
+      			<div ng-switch-when="2" class="text-danger">{{detailData.Id}} - {{detailData.Name}}</div>
+      			<div ng-switch-when="3" class="text-danger">{{detailData.Id}} - {{detailData.Name}}</div>
+            <div ng-switch-when="4" class="text-warning">{{detailData.Id}} - {{detailData.Name}}</div>
+      		</div>
+      	</h2>	
+    </div>
+    <!--Table shows detailed infos of item depending on Type -->
+    <!-- 0 = Device | 1 = Material--> 
+  	<table class="table table-bordered table-responsive">
+  		<!--State: 0 = Not available, 1 = Available, 2 = Defective, 3 = Missing-->   
+    	<tr ng-if="detailData.State == 0">
+      		<td>State: </td><td class="text-warning" ><b>Not available</b></td>
+    	</tr>
+    	<tr ng-if="detailData.State == 1">
+      		<td>State:</td> <td class="text-success"><b>Available</b></td>
+    	</tr>
+    	<tr ng-if="detailData.State == 2">
+      		<td>State:</td> <td class="text-danger"><b>Defective</b></td>
+    	</tr>
+    	<tr ng-if="detailData.State == 3">
+      		<td>State:</td> <td class="text-danger"><b>Missing</b></td>
+    	</tr>
+      <tr ng-if="detailData.State == 4">
+          <td>State:</td> <td class="text-warning"><b>Rented</b></td>
+      </tr>
+    	<!--Type--> 
+    	<tr ng-if="detailData.Type == 'DEVICE'">
+    		<td>Type:</td> <td><b>Device</b></td>
+    	</tr>
+  		<tr ng-if="detailData.Type == 'MATERIAL'">
+  			<td>Type:</td> <td><b>Material</b></td>
+  		</tr>
+  		<!--Description-->
+  		<tr>
+  			<td>Description:</td><td><b>{{detailData.Description}}</b></td>
+  		</tr>
+  		<!--Category-->
+  		<tr>
+  			<td>Category:</td> <td><b>{{detailData.Category}}</b></td>
+  		</tr>
+  		<!--BuildType--> 
+  		<tr ng-if="detailData.Type == 'Material'">
+  			<td>Build Type:</td> <td><b>{{detailData.BuildType}}</b></td>
+  		</tr>
+  		<!--Measure: UoM_short(UoM)-->
+  		<tr ng-if="detailData.UoM_short != null && detailData.Type == 'MATERIAL'">
+  			<td>Measure:</td> <td><b>{{detailData.UoM_short}}
+				<span ng-if="detailData.UoM != null"> ({{detailData.UoM}}) </span></b>
+			</td>
+  		</tr>
+  		<!--Measure: UoM-->  	
+  		<tr ng-if="detailData.UoM_short == null && detailData.UoM != null && detailData.Type == 'MATERIAL'">
+   			<td>Measure:</td> <td><b>{{detailData.UoM}}</b></td>
+  		</tr>
+  		<!--StorageValue-->
+  		<tr ng-if="detailData.Type == 'MATERIAL'">
+  			<td>Stock:</td> <td><b>{{detailData.StorageValue}}</b></td>
+  		</tr>
+  		<!--SalePrice--> 
+  		<tr ng-if="detailData.Type == 'MATERIAL'">
+  			<td>Sale Price:</td> <td><b>{{detailData.SalePrice | number:2}} €</b></td>
+  		</tr>
+  	</table>
+  	<!--back to main page-->
+  	<div class="text-center well">
+  		<a href="#/" class="btn btn-primary">Back to menu</a>
+  	</div>
+</div>

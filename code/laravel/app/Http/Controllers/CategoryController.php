@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Material;
+use App\Category;
 use Illuminate\Http\Request;
 
-class MaterialController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class MaterialController extends Controller
      */
     public function index()
     {
-        //
+        return Category::all()->where('parent', NULL)->each->getChildTree()->flatten();
     }
 
     /**
@@ -35,16 +35,20 @@ class MaterialController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $category = new Category();
+        $category->name = $request->name;
+        $category->parent = $request->parent;
+        $category->description = $request->description;
+        $category->save();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Material  $material
+     * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function show(Material $material)
+    public function show(Category $category)
     {
         //
     }
@@ -52,10 +56,10 @@ class MaterialController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Material  $material
+     * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function edit(Material $material)
+    public function edit(Category $category)
     {
         //
     }
@@ -64,22 +68,32 @@ class MaterialController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Material  $material
+     * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Material $material)
+    public function update(Request $request, Category $category)
     {
-        //
+        $category->name = $request->name;
+        $category->description = $request->description;
+        $category->save();
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Material  $material
+     * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Material $material)
+    public function destroy(Category $category)
     {
-        //
+        if($category->children->count() > 0) {
+            $returnData = array(
+                'status' => 'error',
+                'message' => 'Category has children'
+            );
+            return response($returnData, 500);
+        } else {
+            $category->delete();
+        }
     }
 }

@@ -2,10 +2,16 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Mail\InviteMail;
 use App\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Auth\Passwords\PasswordBroker;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {
@@ -20,14 +26,6 @@ class RegisterController extends Controller
     |
     */
 
-    use RegistersUsers;
-
-    /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
 
     /**
      * Create a new controller instance.
@@ -36,7 +34,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+
     }
 
     /**
@@ -57,15 +55,43 @@ class RegisterController extends Controller
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
-     * @return User
      */
-    protected function create(array $data)
+    protected function create(Request $request)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
+        $token = $request->input('token');
+        $mail = $request->input('email');
+        $user = User::where('email', $mail)->firstOrFail();
+
+        if(Password::broker()->tokenExists($user, $token)) {
+            // Update user
+            $user->name = $request->input('name');
+            $user->password = Hash::make($request->input('password'));
+            $user->active = 1;
+            $user->save();
+
+            Password::broker()->deleteToken($user);
+        } else {
+            // Return invalid token error
+            $returnData = array(
+                'status' => 'error',
+                'message' => 'Invalid token'
+            );
+            return response($returnData, 401);
+        }
+    }
+
+    protected function invite(Request $request) {
+        $mail = $request->input('email');
+
+        $user = new User;
+        $user->email = $mail;
+        $user->save();
+
+        $token = Password::broker()->createToken($user);
+
+        $signup_url = URL::to("/admin/index.html#/createNewAdmin/token=" . $token);
+
+        Mail::to($mail)->send(new InviteMail($signup_url));
+
     }
 }

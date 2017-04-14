@@ -1,0 +1,1 @@
+Click here to set your new password: <a href="{{$reset_url}}">{{$reset_url}}</a>

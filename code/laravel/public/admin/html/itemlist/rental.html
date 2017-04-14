@@ -1,0 +1,112 @@
+<!-- 
+Controller: RentalCtrl - controllers.js
+Additionally needed scripts: datepicker.js 
+-->
+<div class="container">
+    
+  <h3>Rental overview:</h3><hr>
+  <form class="well" role="form" name="form" novalidate>
+    <div class="form-group row">
+      <label class="col-md-1" for="firstname">First name*:</label>
+      <div class="col-md-3" ng-class="{'has-error': form.firstname.$invalid && form.firstname.$touched }">
+        <input type="text" class="form-control" id="firstname" name="firstname" ng-model="borrow.customer.firstname" required="">
+      </div>
+      <label class="col-md-1" for="lastname">Last name*:</label>
+      <div class="col-md-3" ng-class="{'has-error': form.lastname.$invalid && form.lastname.$touched }">
+        <input type="text" class="form-control" id="lastname" name="lastname" ng-model="borrow.customer.lastname" required="">
+      </div>
+      <label class="col-md-1" for="matrikel">Student ID:</label>
+      <div class="col-md-3">
+        <input type="text" class="form-control" id="matrikel" name="matrikel" ng-model="borrow.customer.matrikel" only-digits>
+      </div> 
+    </div>  
+    <div class="form-group row">
+      <label class="col-md-1" for="city">City:</label>
+      <div class="col-md-3">
+        <input type="text" class="form-control" id="city" name="city" ng-model="borrow.customer.city">
+      </div>
+      <label class="col-md-1" for="street">Street:</label>
+      <div class="col-md-3">
+        <input type="text" class="form-control" id="street" name="street" ng-model="borrow.customer.street">
+      </div>
+      <label class="col-md-1" for="zip">Zip code:</label>
+      <div class="col-md-2">
+        <input type="text" class="form-control" id="zip" name="zip" ng-model="borrow.customer.zip">
+      </div>   
+    </div>
+    <br>
+    <div class="form-group row">
+      <label class="col-md-1" for="phone">Phone:</label>
+      <div class="col-md-3">
+        <input type="text" class="form-control" id="phone" name="phone" ng-model="borrow.customer.phone">
+      </div>
+      <label class="col-md-1" for="email">Email*:</label>
+      <div class="col-md-3" ng-class="{'has-error': form.email.$invalid && form.email.$touched }">
+        <input type="email" class="form-control" id="email" name="email" ng-model="borrow.customer.email" required="">
+        <p ng-show="form.email.$error.email" class="text-danger">Please enter a valid Email</p>
+      </div>    
+    </div>  
+    <div class="form-group row">
+      <label class="col-md-1" for="enddate">EndDate*:</label>
+      <div class="col-md-3">
+        <input type="text" class="form-control" id="enddate" name="enddate" value="" placeholder="Please select enddate" ng-model="borrow.customer.enddate" required="">
+      </div> 
+      <div class="col-md-8">
+        <p class="help-block">* This field is required.</p>
+      </div>
+    </div> 
+
+    <!--Comment input-->
+    <div class="form-group row">
+      <label class="col-md-1" for="comment">Comment*:</label>
+      <div class="col-md-11" ng-class="{'has-error': form.comment.$invalid && form.comment.$touched }">
+        <textarea class="form-control" id="comment" name="comment" placeholder="Extra informations..." ng-model="borrow.customer.comment" required></textarea>
+      </div> 
+    </div>
+  </form>
+    
+  <hr>
+
+  <!--table shows for rental selected items-->
+  <div class=table-responsive>
+    <form name="amountForm" role="form" novalidate>
+    <table class="table table-condensed table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Amount*</th>
+          <th>Storage</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody ng-repeat="item in selectedItems">
+        <td>{{item.Id}}</td>
+        <td>{{item.Name}}</td>
+        <!--amount input (0 > amount < storageValue)-->
+        <td>
+            <div ng-if="item.material_id != 1" ng-class="{'has-error': amountForm.amount{{$index}}.$invalid && amountForm.amount{{$index}}.$touched}">
+              <input type="number" name="amount{{$index}}" class="form-control" placeholder="Fill in amount > 0" required="" min="1" 
+              max="{{item.StorageValue}}" ng-pattern="/^[0-9]+/" ng-model="item.amount">
+            </div>
+            <div ng-if="item.material_id == 1">
+              <p>--</p>
+            </div>
+        </td>    
+        <td ng-if="item.material_id != 1">{{item.StorageValue}}</td>
+        <td ng-if="item.material_id == 1">1</td>
+        <td>
+          <button class="btn btn-sm btn-danger" ng-click="removeItem($index)">X</button>
+        </td>  
+      </tbody>
+    </table> 
+    </form>
+  </div>
+
+  <div class="well">
+    <button href="#/list" class="btn btn-primary" ng-click="sendRental()" ng-disabled="form.firstname.$invalid || form.lastname.$invalid || 
+    form.email.$invalid || form.email.$invalid || amountForm.$invalid || form.comment.$invalid">Accept</button>
+    <a href="#/list" class="btn btn-danger">Cancel</a>
+  </div>
+
+</div>

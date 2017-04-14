@@ -4,9 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Item;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 class ItemController extends Controller
 {
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function publicIndex()
+    {
+        return \App\Item::getAllPublic();
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +26,7 @@ class ItemController extends Controller
      */
     public function index()
     {
-        //
+        return \App\Item::all();
     }
 
     /**
@@ -35,7 +47,19 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $item = Item::create($request->all());
+        $item->save();
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Item  $item
+     * @return \Illuminate\Http\Response
+     */
+    public function publicShow(Item $item)
+    {
+        return $item->publicData();
     }
 
     /**
@@ -46,7 +70,16 @@ class ItemController extends Controller
      */
     public function show(Item $item)
     {
-        //
+        $resp = $item;
+        $resp['place'] = $item->place;
+        $resp['category'] = $item->category;
+
+        return $resp;
+    }
+
+    public function history(Item $item)
+    {
+        return $item->history->each->user;
     }
 
     /**
@@ -69,7 +102,8 @@ class ItemController extends Controller
      */
     public function update(Request $request, Item $item)
     {
-        //
+        $item->update($request->all());
+        // TODO find changes, add history
     }
 
     /**

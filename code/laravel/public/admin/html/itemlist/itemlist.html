@@ -1,0 +1,238 @@
+<!-- 
+Controller: ListCtrl - controllers.js
+Additionally needed scripts: js/dirPagination.js 
+-->
+<div class="menu-space">
+	<!-- Create Item buttons-->
+	<div class="container top-space bot-space">
+		<div class="row">
+			<div class="col-md-12">
+				<button class="btn btn-success" ng-click="createNewItem('Device')">Create Device +</button>
+				<button class="btn btn-success" ng-click="createNewItem('Material')">Create Material +</button>
+				<hr>
+			</div>
+		</div>
+	</div>
+
+	<!-- Basic common filter -->
+	<div class="container-fluid">
+	 	<div class="row">
+	 		<div class="col-lg-4 col-xs-12"></div>
+	 		<div class="col-lg-4 col-xs-12 text-center">
+				<form class="form-inline" role="form">
+					<div class="form-group" id="the-basics">
+						<label for="search">Search:</label>
+						<input ng-model="search.$" class="form-control" placeholder="Search Text" list="mylist">	<!-- common search filters, filters every entrys and attributes-->
+					</div>
+					<button type="button" class="btn btn-default btn-sm" data-toggle="collapse" href="#collapse1">Advanced Filters</button>
+				</form>
+	 		</div>
+	 		<div class="col-lg-4 col-xs-12"></div>
+	 	</div>
+
+		<!-- Collapsible filter -->
+		<div class="row">
+			<div class="col-lg-4 col-md-3 col-xs-12"></div>
+			<div class="col-lg-4 col-md-6 col-xs-12 panel-group">
+				<div class="panel panel-default">				
+					<div id="collapse1" class="panel-collapse collapse">
+						<div class="panel-body">							
+								<hr>
+								<div class="row">
+									<label for="search" class="col-lg-4 col-md-4 col-xs-12">Items per page:</label>		<!-- controls the items per page -->
+									<input ng-model="pageSize" type="text" class="col-lg-6 col-md-8 col-xs-12">
+								</div>	<!-- Advanced filter options for specific filtering-->
+								<hr>
+								<div class="row">
+									<label for="search" class="col-lg-2 col-md-2 col-xs-12">ID:</label>
+									<input ng-model="search.id" type="text" class="col-lg-4 col-md-4 col-xs-12">
+									<label for="search" class="col-lg-2 col-md-2 col-xs-12">Name:</label>
+									<input ng-model="search.name" type="text" class="col-lg-4 col-md-4 col-xs-12">
+								</div>
+								<div class="row">
+									<label for="search" class="col-lg-2 col-md-2 col-xs-12">BType.:</label>
+									<input ng-model="search.build_type" type="text" class="col-lg-4 col-md-4 col-xs-12">
+									<label for="search" class="col-lg-2 col-md-2 col-xs-12">Price:</label>
+									<input ng-model="search.sale_price" type="text" class="col-lg-4 col-md-4 col-xs-12">
+								</div>
+								<div class="row">
+									<label for="search" class="col-lg-2 col-md-2 col-xs-12">StoValue:</label>
+									<input ng-model="search.storage_value" type="text" class="col-lg-4 col-md-4 col-xs-12">
+									<label for="search" class="col-lg-2 col-md-2 col-xs-12">CritSto:</label>
+									<input ng-model="search.critical_storage_value" type="text" class="col-lg-4 col-md-4 col-xs-12">
+								</div>
+								<br>
+								<div class="row">
+									<label for="search" class="col-lg-2 col-md-2 col-xs-12">Cate.:</label>
+									<input ng-model="search.category.name" type="text" class="col-lg-10 col-md-10 col-xs-12">
+								</div>
+								<div class="row">
+									<label for="search" class="col-lg-2 col-md-2 col-xs-12">Place.:</label>
+									<input ng-model="search.place.name" type="text" class="col-lg-10 col-md-10 col-xs-12">
+								</div>
+								<br>
+								<div class="row">
+									<label for="search" class="col-lg-2 col-md-2 col-xs-12">State:</label>
+									<div class="col-lg-4 col-md-4 col-xs-12">
+										<select class="form-control"  ng-model="search.state" >
+											<option value="">No Filter</option>
+											<option value="0">Not available</option>
+											<option value="1">Available</option>
+											<option value="2">Defective</option>
+											<option value="3">Missing</option>
+											<option value="4">Rented</option>
+						                </select>
+									</div>
+								</div><hr>
+								<div>
+									<!-- Reset filter options -->
+									<button type="button" class=" col-lg-12 col-xs-12 btn btn-info btn-sm" ng-click="resetFilter()">Reset Filter</button>						
+								</div>
+						</div>
+						<div class="panel-footer"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Inventory List--> 
+	<div class="container" >
+		<div class="col-md-12">       
+			<!-- Table -->
+			<div class="container table-responsive">        <!-- responsive, striped table-->  
+				<table  class="table table-hover table-striped">			
+					<thead>
+					  <tr>
+					    <th ng-click="sort('id')">ID		<!-- Uses the function sort in controller.js to handle the orderBy -->
+							<span class="glyphicon sort-icon" ng-show="sortKey=='id'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+					    </th>
+					    <th ng-click="sort('name')">Name
+					    	<span class="glyphicon sort-icon" ng-show="sortKey=='name'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+					    </th>
+					    <th ng-click="sort('state')">State
+					    	<span class="glyphicon sort-icon" ng-show="sortKey=='state'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+					    </th>
+					    <th ng-click="sort('category.name')">Category
+							<span class="glyphicon sort-icon" ng-show="sortKey=='category.name'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+					    </th>
+					    <th ng-click="sort('build_type')">BuildType
+					    	<span class="glyphicon sort-icon" ng-show="sortKey=='build_type'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+					    </th>
+					    <th ng-click="sort('sale_price')">SalePrice
+					    	<span class="glyphicon sort-icon" ng-show="sortKey=='sale_price'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+					    </th>
+					    <th ng-click="sort('storage_value')">Storage
+					    	<span class="glyphicon sort-icon" ng-show="sortKey=='storage_value'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+					    </th>
+					    <th ng-click="sort('place.name')">Place
+					    	<span class="glyphicon sort-icon" ng-show="sortKey=='place.name'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+					    </th>
+					    <th ng-click="sort('visible')">PublicVisible
+					    	<span class="glyphicon sort-icon" ng-show="sortKey=='visible'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+					    </th>
+					    <th ng-click="sort('material_id')">Dev/Mat
+					    	<span class="glyphicon sort-icon" ng-show="sortKey=='material_id'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+					    </th>
+					    <th>Add
+					    </th>
+					    <th>DetailView
+					    </th>
+					  </tr>
+					</thead>
+					<tbody>
+					<!-- List items in table -->
+					  <tr ng-dblclick="viewDetail(listItem.id);" dir-paginate="listItem in listData| orderBy:sortKey:reverse | filter: search | itemsPerPage:pageSize">	<!-- detailview via double leftmouse click on the item or the show button-->
+					    <td>{{listItem.id}}</td>
+					    <td>{{listItem.name}}</td>
+					    <td>
+						    <div ng-switch="listItem.state">
+				      			<div ng-switch-when="0" class="text-warning">Not available</div>
+				      			<div ng-switch-when="1" class="text-success">Available</div>
+				      			<div ng-switch-when="2" class="text-danger">Defective</div>
+				     			<div ng-switch-when="3" class="text-danger">Missing</div>
+				     			<div ng-switch-when="4" class="text-warning">Rented</div>
+				     		</div>
+			     		</td>
+					    <td>{{listItem.category.name}}</td>
+					    <td>{{listItem.build_type}}</td>
+					    <td>{{listItem.sale_price}}</td>
+					    <td>
+							<!-- we are under the critical_storage_value highlight it as red-->
+							<div ng-if="listItem.storage_value <= listItem.critical_storage_value  && listItem.type == 'MATERIAL'">
+								<div style="color:red">{{listItem.storage_value}} / [{{listItem.critical_storage_value}}]
+								</div>
+							</div>
+							<!-- storage_value is normal so just show us the values-->
+							<div ng-if="listItem.storage_value > listItem.critical_storage_value && listItem.type == 'MATERIAL'">
+								{{listItem.storage_value}} / [{{listItem.critical_storage_value}}]
+							</div>
+					    </td>
+					    <td>{{listItem.place.name}}</td>
+					    <td>
+					    	<div ng-switch="listItem.visible">
+				      			<div ng-switch-when="0" class="text-danger">not visible</div>
+				      			<div ng-switch-when="1" class="text-success">visible</div>			  
+				     		</div>
+					    </td>
+					    <td>
+					    	<!-- Filter Device and Material -->
+					    	<div ng-if="listItem.type == 'DEVICE'">
+					    		<p>Device</p> 
+					    	</div>
+					    	<div ng-if="listItem.type == 'MATERIAL'">
+					    		Material 
+					    	</div>
+				    	</td>    
+					    <td>
+						    <button  class="btn btn-sm btn-info" ng-click="addItem(listItem);">+</button>
+						</td>
+					    <td><button class="btn btn-sm btn-default" ng-click="viewDetail(listItem.id);">Show</button></td>
+					  </tr>
+					</tbody>
+				</table>
+			</div>
+				
+		    
+		    <!-- Pageination --> 
+			<div class="text-center">
+				<dir-pagination-controls direction-links="true" boundary-links="true" ></dir-pagination-controls>
+			</div>
+		</div>
+	</div>
+
+	<div class="container bot-space" style="padding-top: 0px;">
+		<div class="row">
+			<div class="col-md-12">
+				
+			<div class="panel panel-default">
+	  		<div class="panel-body">
+				<h4>Rental list:</h4>
+				
+				<div ng-repeat="item in selectedItems">
+					<div class="row">
+						<div class="well" style="margin:0px">
+							<div class="col-sm-2">{{$index+1}}</div>
+							<div class="col-sm-2">{{item.name}}</div>
+							<div class="col-sm-2">{{item.category.name}}</div>
+							<div class="col-sm-1">{{item.build_type}}</div>
+							<div class="col-sm-1">{{item.sale_price}}</div>
+							<div class="col-sm-2">{{item.place.name}}</div>
+							<button class="btn btn-sm btn-danger" ng-click="removeItem($index)">X</button>
+							
+						</div>
+					</div>
+				</div>
+				
+			</div>
+			</div>
+				<button class="btn btn-lg btn-danger" ng-disabled="!selectedItems[0]" ng-click="loadRental()">Rent</button>
+				<button class="btn btn-lg btn-warning" ng-click="clearItem()">Clear</button>	
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Typeahead List, loaded from the db //NOT INCLUDED, WIP
+<datalist id="mylist">
+	<option ng-repeat="x in typeaheadData">{{x.data}}</option>
+</datalist> -->

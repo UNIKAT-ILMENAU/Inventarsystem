@@ -1,0 +1,53 @@
+<div class="container menu-space top-space">
+
+    <h3>Register as admin</h3>
+    <form name="credentials" class="well">
+
+        <div class="form-group row">
+            <label class="col-md-1" for="name">Name*:</label>
+            <div class="col-md-3">
+                <input type="text" class="form-control" id="name" ng-model="name" required=""></input>
+            </div>
+
+        </div>
+
+
+        <div class="form-group row">
+
+            <label class="col-md-1" for="phone">Email* **:</label>
+            <div class="col-md-3">
+                <input type="text" class="form-control" id="email" ng-model="email" required=""></input>
+            </div>
+        </div>
+        <p>* This field is required.</p>
+        <p>** use the same email you got invited with</p>
+    </form>
+
+    <form name="credentials2" class="well">
+
+        <div class="form-group row">
+
+            <label class="col-md-1">Password*:</label>
+            <div class="col-md-3">
+                <input type="password" name="inputPw" class="form-control" ng-model="pw" required=""></input>
+            </div>
+
+            <label class="col-md-1">Confirm password*:</label>
+            <div class="col-md-3">
+                <input type="password" name="inputPwAgain" class="form-control" ng-model="pwAgain" required=""></input>
+
+                <p class="text-success" ng-show="pw == pwAgain && !credentials2.inputPwAgain.$error.required"> Passwords
+                    are equal.</p>
+                <p class="text-danger" ng-show="pw != pwAgain">Passwords aren't equal</p>
+            </div>
+        </div>
+
+        <p>* This field is required.</p>
+    </form>
+    <div class="text-center">
+        <button style="width: 200px; margin-bottom:10px;" class="btn btn-danger"
+                ng-disabled="credentials.$error.required || credentials2.$error.required || pw != pwAgain"
+                ng-click="sendRegistration()"> Register
+        </button>
+    </div>
+</div>

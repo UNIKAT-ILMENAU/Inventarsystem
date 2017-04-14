@@ -14,7 +14,7 @@ class PlaceController extends Controller
      */
     public function index()
     {
-        //
+        return Place::all()->where('parent', NULL)->each->getChildTree()->flatten();
     }
 
     /**
@@ -35,7 +35,10 @@ class PlaceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $place = new Place;
+        $place->name = $request->name;
+        $place->parent = $request->parent;
+        $place->save();
     }
 
     /**
@@ -69,7 +72,8 @@ class PlaceController extends Controller
      */
     public function update(Request $request, Place $place)
     {
-        //
+        $place->name = $request->name;
+        $place->save();
     }
 
     /**
@@ -80,6 +84,14 @@ class PlaceController extends Controller
      */
     public function destroy(Place $place)
     {
-        //
+        if($place->children->count() > 0) {
+            $returnData = array(
+                'status' => 'error',
+                'message' => 'Place has children'
+            );
+            return response($returnData, 500);
+        } else {
+            $place->delete();
+        }
     }
 }
