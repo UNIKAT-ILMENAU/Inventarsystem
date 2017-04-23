@@ -60,5 +60,13 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('/categories', 'CategoryController@store');
         Route::put('/categories/{category}', 'CategoryController@update');
         Route::delete('/categories/{category}', 'CategoryController@destroy');
+
+        Route::get('/rentals', 'RentalController@index');
+        Route::post('/rentals', 'RentalController@store');
+        Route::put('/rentals/{rental}', 'RentalController@update');
+        Route::get('/rentals/{rental}', 'RentalController@show');
+        Route::post('/rentals/{rental}/return', 'RentalController@returnItem');
+        Route::post('/rentals/{rental}/lost', 'RentalController@lostItem');
+
     });
 });

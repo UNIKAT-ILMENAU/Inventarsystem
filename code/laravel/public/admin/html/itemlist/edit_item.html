@@ -24,18 +24,16 @@ Additionally needed scripts: none
                  ng-class="{'has-error': (form.state.$invalid && form.state.$touched) || detailData.state == 4}" }>
                 <label for="state">State:</label>
                 <select id="state" name="state" required="" class="form-control" ng-model="detailData.state"
-                        ng-options="option.value as option.name for option in deviceStates"
-                        ng-init="detailData.state = detailData.state || deviceStates[1].value">
+                        ng-options="option.value as option.name for option in deviceStates">
                 </select>
                 <p ng-show="detailData.state == 4" class="text-danger">Create a rental to set the state to rented.</p>
             </div>
             <!-- if item is material -->
             <div class="form-group" ng-if="detailData.type == 'MATERIAL'"
                  ng-class="{'has-error': form.state.$invalid && form.state.$touched}">
-                <label for="state">State:</label>
+                <label for="state">State {{detailData.state}}:</label>
                 <select id="state" name="state" required="" class="form-control" ng-model="detailData.state"
-                        ng-options="option.value as option.name for option in materialStates"
-                        ng-init="detailData.state = detailData.state || materialStates[1].value">
+                        ng-options="option.value as option.name for option in materialStates">
                 </select>
             </div>
 
@@ -55,7 +53,7 @@ Additionally needed scripts: none
                 <label for="placeButton">Place:</label>
                 <button type="button" class="btn btn-default btn-block text-left" data-toggle="modal"
                         data-target="#placeModal" name="placeButton"
-                        id="placeButton" style="text-align:left;color:#555;">{{detailData.place_name}} ({{detailData.place_id}})
+                        id="placeButton" style="text-align:left;color:#555;">{{detailData.place_id | idToPlace:nestedPlaces}}
                 </button>
             </div>
             <!--show, when no category is selected-->
@@ -72,7 +70,7 @@ Additionally needed scripts: none
                 <label for="categoryButton">Category:</label>
                 <button type="button" class="btn btn-default btn-block text-left" data-toggle="modal"
                         data-target="#categoryModal" name="categoryButton"
-                        id="categoryButton" style="text-align:left;color:#555;">{{detailData.category_name}} ({{detailData.category_id}})
+                        id="categoryButton" style="text-align:left;color:#555;">{{detailData.category_id | idToCategory:nestedCategories}}
                 </button>
             </div>
             <div class="form-group">

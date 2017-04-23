@@ -23,7 +23,7 @@ invControllers.controller('ListCtrl', function ($scope, $location, ItemResource)
     $scope.sort = function (keyname) {    //sort option on click, call by reference
         $scope.sortKey = keyname;         //set the sortKey to the param passed
         $scope.reverse = !$scope.reverse; //if true make it false and vice versa
-    }
+    };
 
     //Creates a new Item without an copy
     $scope.createNewItem = function (typ) {
@@ -36,12 +36,12 @@ invControllers.controller('ListCtrl', function ($scope, $location, ItemResource)
         else {
             $location.path('/create_material');
         }
-    }
+    };
 
     //Loads the rental form
     $scope.loadRental = function () {
         $location.path('/rental');
-    }
+    };
 
     //Loads the detailView form
     $scope.viewDetail = function (listID) {    //tr clickable, change to detailview view, activated via 1click
@@ -166,8 +166,9 @@ invControllers.controller('DetailCtrl', ['$scope', '$localStorage', '$routeParam
     //modal function for the material used / stockup function
     $scope.updateMaterialEvent = function (title, amount, itemID, createdbyid, price) {
         //check event and if we have a positiv amount
+        var Indata = {};
         if (title == "used" && amount > 0) {
-            var Indata = {'amount': amount, 'itemid': itemID, 'createdbyid': angular.fromJson($localStorage.user_id)}; //NEEDS TO BE IMPLEMENTED
+            Indata = {'amount': amount, 'itemid': itemID, 'createdbyid': angular.fromJson($localStorage.user_id)}; //NEEDS TO BE IMPLEMENTED
             //POST used material to the server
             $http.post("../api/v1/restricted/event/6", Indata).success(function (data, status) {
                 //SUCCESSFULL alert
@@ -177,7 +178,7 @@ invControllers.controller('DetailCtrl', ['$scope', '$localStorage', '$routeParam
 
         } //check event and if we have a positiv amount
         else if (title == "stock up" && amount > 0) {
-            var Indata = {'amount': amount, 'itemid': itemID, 'createdbyid': angular.fromJson($localStorage.user_id)};
+            Indata = {'amount': amount, 'itemid': itemID, 'createdbyid': angular.fromJson($localStorage.user_id)};
             //POST stock up material to the server
             $http.post("../api/v1/restricted/event/7", Indata).success(function (data, status) {
                 //SUCCESSFULL alert
@@ -186,7 +187,7 @@ invControllers.controller('DetailCtrl', ['$scope', '$localStorage', '$routeParam
             });
         } else if (title == "sell" && amount > 0) {
 
-            var Indata = {
+            Indata = {
                 'amount': amount,
                 'itemid': itemID,
                 'createdbyid': angular.fromJson($localStorage.user_id),
@@ -211,9 +212,12 @@ invControllers.controller('CreateCtrl',
     ['$scope', '$localStorage', '$routeParams', '$location', '$http', 'dataFactory', 'PlaceResource', 'CategoryResource', 'ItemResource',
         function ($scope, $localStorage, $routeParams, $location, $http, dataFactory, PlaceResource, CategoryResource, ItemResource) {
 
+    console.log($scope.selectedItems);
+
     if ($scope.selectedItems.length == 0) {
         $scope.selectedItems[0] = {};
     }
+
     $scope.selectedItems[0].Comment = "Neu angelegt";
 
     //Send create to the server
@@ -222,12 +226,12 @@ invControllers.controller('CreateCtrl',
         if (typ == "Device") //Create Device
         {
             var Indata = {
-                'name': $scope.selectedItems[0].Name,
-                'state': $scope.selectedItems[0].State,
-                'description': $scope.selectedItems[0].Description,
-                'category_id': $scope.selectedItems[0].CategoryID,
-                'visible': $scope.selectedItems[0].PublicVisible,
-                'place_id': $scope.selectedItems[0].Place,
+                'name': $scope.selectedItems[0].name,
+                'state': $scope.selectedItems[0].state,
+                'description': $scope.selectedItems[0].description,
+                'category_id': $scope.selectedItems[0].category_id,
+                'visible': $scope.selectedItems[0].visible,
+                'place_id': $scope.selectedItems[0].place_id,
                 'comment': $scope.selectedItems[0].Comment,
                 'type': 'DEVICE'
             };
@@ -239,18 +243,18 @@ invControllers.controller('CreateCtrl',
         else  //Create Material
         {
             var Indata = {
-                'name': $scope.selectedItems[0].Name,
-                'state': $scope.selectedItems[0].State,
-                'category_id': $scope.selectedItems[0].CategoryID,
-                'description': $scope.selectedItems[0].Description,
-                'visible': $scope.selectedItems[0].PublicVisible,
-                'sale_price': $scope.selectedItems[0].SalePrice,
-                'place_id': $scope.selectedItems[0].Place,
-                'build_type': $scope.selectedItems[0].BuildType,
-                'uom': $scope.selectedItems[0].UoM,
-                'uom_short': $scope.selectedItems[0].UoM_short,
-                'storage_value': $scope.selectedItems[0].StorageValue,
-                'critical_storage_value': $scope.selectedItems[0].CriticalStorageValue,
+                'name': $scope.selectedItems[0].name,
+                'state': $scope.selectedItems[0].state,
+                'category_id': $scope.selectedItems[0].category_id,
+                'description': $scope.selectedItems[0].description,
+                'visible': $scope.selectedItems[0].visible,
+                'sale_price': $scope.selectedItems[0].sale_price,
+                'place_id': $scope.selectedItems[0].place_id,
+                'build_type': $scope.selectedItems[0].build_type,
+                'uom': $scope.selectedItems[0].uom,
+                'uom_short': $scope.selectedItems[0].uom_short,
+                'storage_value': $scope.selectedItems[0].storage_value,
+                'critical_storage_value': $scope.selectedItems[0].critical_storage_value,
                 'comment': $scope.selectedItems[0].Comment,
                 'type': 'MATERIAL'
             };
@@ -264,7 +268,7 @@ invControllers.controller('CreateCtrl',
 
     //Scope sets selectState[0] when reset-button is pressed
     $scope.resetItem = function () {
-        $scope.selectedItems[0] = {"State": "1", "PublicVisible": "1"};
+        $scope.selectedItems[0] = {"State": 1, "PublicVisible": 1};
     };
 
     //=========================================
@@ -272,21 +276,21 @@ invControllers.controller('CreateCtrl',
     //=========================================
 
     //options and default('available') for state in create_device
-    $scope.deviceStates = [{name: 'Not available', value: "0"},
-        {name: 'Available', value: "1"},
-        {name: 'Defective', value: "2"},
-        {name: 'Missing', value: "3"},
-        {name: 'Rented', value: "4"}
+    $scope.deviceStates = [{name: 'Not available', value: 0},
+        {name: 'Available', value: 1},
+        {name: 'Defective', value: 2},
+        {name: 'Missing', value: 3},
+        {name: 'Rented', value: 4}
     ];
 
     //options and default('available') for state in create_material
-    $scope.materialStates = [{name: 'Not available', value: "0"},
-        {name: 'Available', value: "1"}
+    $scope.materialStates = [{name: 'Not available', value: 0},
+        {name: 'Available', value: 1}
     ];
 
     //options and default('Visible') for PublicVisible in create_material/create_device
-    $scope.Visibility = [{name: 'Not visible', value: "0"},
-        {name: 'Visible', value: "1"}
+    $scope.Visibility = [{name: 'Not visible', value: 0},
+        {name: 'Visible', value: 1}
     ];
 
     //==============================
@@ -336,7 +340,7 @@ invControllers.controller('ItemEditCtrl', ['$scope', '$localStorage', '$routePar
     //Options and default values for dropdowns
     //=========================================
     //options and default('available') for state of device in edit_item.html
-    $scope.deviceStates = [{name: 'Not available', value: "0"},
+    $scope.deviceStates = [{name: 'Not available', value: 0},
         {name: 'Available', value: 1},
         {name: 'Defective', value: 2},
         {name: 'Missing', value: 3},
@@ -352,50 +356,6 @@ invControllers.controller('ItemEditCtrl', ['$scope', '$localStorage', '$routePar
     $scope.Visibility = [{name: 'Not visible', value: 0},
         {name: 'Visible', value: 1}
     ];
-
-    $scope.$watch('detailData.place_id', function (newValue) {
-        $scope.nestedPlaces.$promise.then(function () {
-            $scope.detailData.place_name = $scope.getPlaceName($scope.nestedPlaces, newValue);
-        });
-    });
-
-    $scope.$watch('detailData.category_id', function (newValue) {
-        $scope.nestedCategories.$promise.then(function () {
-            $scope.detailData.category_name = $scope.getCategoryName($scope.nestedCategories, newValue);
-        });
-    });
-
-    // Get name to place_id
-    $scope.getPlaceName = function (nestedPlaces, placeId) {
-        var name = "";
-        for(var place of nestedPlaces) {
-            if(place.id == placeId) {
-                name = place.name;
-            } else {
-                if(place.children.length > 0) {
-                    name = $scope.getPlaceName(place.children, placeId);
-                }
-            }
-        }
-
-        return name;
-    };
-
-    // Get name to category_id
-    $scope.getCategoryName = function (nestedCategories, categoryId) {
-        var name = "";
-        for(var category of nestedCategories) {
-            if(category.id == categoryId) {
-                name = category.name;
-            } else {
-                if(category.children.length > 0) {
-                    name = $scope.getCategoryName(category.children, categoryId);
-                }
-            }
-        }
-
-        return name;
-    };
 
     //Update/Edit item to the server
     $scope.saveEdit = function () {
@@ -451,7 +411,7 @@ invControllers.controller('ItemEditCtrl', ['$scope', '$localStorage', '$routePar
 //Rental controller
 //Used: rental.html 
 //==============================
-invControllers.controller('RentalCtrl', ['$scope', '$localStorage', '$routeParams', '$location', '$http', function ($scope, $localStorage, $routeParams, $location, $http) {
+invControllers.controller('RentalCtrl', ['$scope', '$localStorage', '$routeParams', '$location', '$http', 'RentalResource', function ($scope, $localStorage, $routeParams, $location, $http, RentalResource) {
 
     //redirect us, when we are accidentally on the rental page
     if ($scope.selectedItems[0] == null) {
@@ -462,16 +422,10 @@ invControllers.controller('RentalCtrl', ['$scope', '$localStorage', '$routeParam
     $scope.borrow =
         {
             'customer': {
-                'firstname': '',
-                'lastname': '',
-                'matrikel': '',
-                'city': '',
-                'street': '',
-                'zip': '',
+                'name': '',
                 'phone': '',
                 'email': '',
                 'enddate': '',
-                'createdbyid': '',
                 'comment': 'Normale Ausleihe'
             }
         };
@@ -481,34 +435,27 @@ invControllers.controller('RentalCtrl', ['$scope', '$localStorage', '$routeParam
         $scope.borrow.customer.enddate = document.getElementById("enddate").value;
 
         var Indata = {
-            'firstname': $scope.borrow.customer.firstname,
-            'lastname': $scope.borrow.customer.lastname,
-            'city': $scope.borrow.customer.city,
-            'street': $scope.borrow.customer.street,
-            'zip': $scope.borrow.customer.zip,
-            'matrikel': $scope.borrow.customer.matrikel,
+            'name': $scope.borrow.customer.name,
             'phone': $scope.borrow.customer.phone,
             'email': $scope.borrow.customer.email,
             'enddate': $scope.borrow.customer.enddate,
-            'createdbyid': angular.fromJson($localStorage.user_id),             //NEEDS TO BE IMPLEMENTED
             'comment': $scope.borrow.customer.comment,
-            'ids': [],
-            'amounts': []
+            'items': []
         };
 
         for (var i = 0; i < $scope.selectedItems.length; i++) {
-            Indata.ids.push($scope.selectedItems[i].Id);
-            Indata.amounts.push($scope.selectedItems[i].amount);
+            var item = {};
+            item.id = $scope.selectedItems[i].id;
+            item.amount = $scope.selectedItems[i].amount;
+
+            Indata.items.push(item);
         }
-        $scope.testvar = Indata;
-        //POST rental to the server
-        $http.post("../api/v1/restricted/rental/create", Indata).success(function (data, status) {
-            //SUCCESSFULL alert
-            alert("Item/s rented!");
-            $scope.clearItem();
+
+        RentalResource.create(Indata).$promise.then(function () {
             $location.path('/rentallist');
         });
-    }
+
+    };
 
     //Datepicker
     $('*[id=enddate]').appendDtpicker({
@@ -525,20 +472,7 @@ invControllers.controller('RentalCtrl', ['$scope', '$localStorage', '$routeParam
 //==============================
 invControllers.controller('RentalListCtrl', ['$scope', '$routeParams', '$location', 'RentalResource', function ($scope, $routeParams, $location, RentalResource) {
     //Get all item informations from the server
-    $scope.listData = RentalResource.allOpenRental();
-
-    //Switch beetween AllOpenRentals/AlleRentals
-    $scope.switchRentalList = function (listname) {
-
-        if (listname == "open") {
-            //Get all item informations from the server
-            $scope.listData = RentalResource.allOpenRental();
-        } else if (listname == "all") {
-            //Get all item informations from the server
-            $scope.listData = RentalResource.allRental();
-        }
-
-    };
+    $scope.listData = RentalResource.all();
 
     var d_pageSize = 10;                    //default pageSize limit
     $scope.pageSize = d_pageSize;           //Item limit per page
@@ -546,7 +480,7 @@ invControllers.controller('RentalListCtrl', ['$scope', '$routeParams', '$locatio
     $scope.sort = function (keyname) {    //sort option on click, call by reference
         $scope.sortKey = keyname;         //set the sortKey to the param passed
         $scope.reverse = !$scope.reverse; //if true make it false and vice versa
-    }
+    };
 
     //Loads the detailView form
     $scope.viewDetail = function (rentalID) {    //tr clickable, change to detailview view, activated via 1click
@@ -599,11 +533,8 @@ invControllers.controller('RentalListCtrl', ['$scope', '$routeParams', '$locatio
 //Used: rental_detail.html
 //==============================
 invControllers.controller('RentalDetailCtrl', ['$scope', '$localStorage', '$routeParams', '$location', '$http', 'RentalResource', function ($scope, $localStorage, $routeParams, $location, $http, RentalResource) {
-    //Gets all user informations of a specific rental by id
-    $scope.detailData = RentalResource.detailRentalUserLoad({id: $routeParams.ListItemId});
-    //Gets all item informations of the loaded rental
-    $scope.itemData = RentalResource.detailRentalItemLoad({id: $routeParams.ListItemId});
 
+    $scope.detailData = RentalResource.detailLoad({id: $routeParams.ListItemId});
 
     //==============================
     //Item rented events
@@ -619,6 +550,7 @@ invControllers.controller('RentalDetailCtrl', ['$scope', '$localStorage', '$rout
     $scope.lostEvent = function (ItemID, value) {
         //sets the title in the modal
         $scope.title = "lost";
+        $scope.comment = "";
         $scope.amount = value;
         $scope.itemID = ItemID;
     };
@@ -638,54 +570,26 @@ invControllers.controller('RentalDetailCtrl', ['$scope', '$localStorage', '$rout
         var Indata = {
             'itemid': itemID,
             'amount': value,
-            'comment': comment,
-            'createdbyid': angular.fromJson($localStorage.user_id)
-        }; //NEEDS TO BE IMPLEMENTED
-        //Creates the url for the post
-        var url = "../api/v1/restricted/rental/lost/" + $scope.detailData[0][0].Id;
+            'comment': comment
+        };
 
-        //POST state device to the server
-        $http.post(url, Indata).success(function (data, status) {
-            //SUCCESSFULL //
-            alert("Rented item is lost.");
-            //Reset variables
-            $scope.amount_value = null;
-            $scope.comment = "";
-            //Gets all user informations of a specific rental by id
-            $scope.detailData = RentalResource.detailRentalUserLoad({id: $routeParams.ListItemId});
-            //Gets all item informations of the loaded rental
-            $scope.itemData = RentalResource.detailRentalItemLoad({id: $routeParams.ListItemId});
-
+        RentalResource.lostItem({id: $routeParams.ListItemId}, Indata).$promise.then(function () {
+            $scope.detailData = RentalResource.detailLoad({id: $routeParams.ListItemId});
         });
+
+
     };
 
     //modal function for the back event
-    $scope.updateBackEvent = function (itemID, value, maxvalue, comment) {
+    $scope.updateBackEvent = function (itemID, value, comment) {
         var Indata = {
             'itemid': itemID,
             'amount': value,
             'comment': comment,
-            'createdbyid': angular.fromJson($localStorage.user_id)
-        }; //NEEDS TO BE IMPLEMENTED
-        //Creates the url for the post
-        var url = "../api/v1/restricted/rental/bringBack/" + $scope.detailData[0][0].Id;
+        };
 
-        //POST state device to the server
-        $http.post(url, Indata).success(function (data, status) {
-            //SUCCESSFULL //
-            if (value == 0) {
-                alert("Item brought back successfully.");
-            } else {
-                alert("Back:" + value + " Lost:" + (maxvalue - value));
-            }
-            //Reset variables
-            $scope.amount_value = null;
-            $scope.comment = "";
-            //Gets all user informations of a specific rental by id
-            $scope.detailData = RentalResource.detailRentalUserLoad({id: $routeParams.ListItemId});
-            //Gets all item informations of the loaded rental
-            $scope.itemData = RentalResource.detailRentalItemLoad({id: $routeParams.ListItemId});
-
+        RentalResource.returnItem({id: $routeParams.ListItemId}, Indata).$promise.then(function () {
+            $scope.detailData = RentalResource.detailLoad({id: $routeParams.ListItemId});
         });
     };
 

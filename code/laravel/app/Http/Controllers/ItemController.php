@@ -29,15 +29,6 @@ class ItemController extends Controller
         return \App\Item::all();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -80,17 +71,6 @@ class ItemController extends Controller
     public function history(Item $item)
     {
         return $item->history->each->user;
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Item  $item
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Item $item)
-    {
-        //
     }
 
     /**

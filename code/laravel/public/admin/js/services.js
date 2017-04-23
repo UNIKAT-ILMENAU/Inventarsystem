@@ -77,11 +77,15 @@ invServices.factory('CategoryResource', ['$resource',
 
 invServices.factory('RentalResource', ['$resource',
     function ($resource) {
-        return $resource('../api/v1/restricted/rental/:action/:id', {}, {
-            allRental: {method: 'GET', params: {action: 'AllRentals'}, isArray: true},
-            allOpenRental: {method: 'GET', params: {action: 'OpenRentals'}, isArray: true},
-            detailRentalUserLoad: {method: 'GET', params: {action: 'SingleRentals'}, isArray: true},
-            detailRentalItemLoad: {method: 'GET', params: {action: 'SingleRentalsItems'}, isArray: true},
+        return $resource('../api/v1/restricted/rentals/:id/:action', {}, {
+            all: {method: 'GET', isArray: true},
+            create: {method: 'POST'},
+            detailLoad: {method: 'GET'},
+            lostItem: {method: 'POST', params: {action: 'lost'}},
+            returnItem: {method: 'POST', params: {action: 'return'}}
+            // allOpenRental: {method: 'GET', params: {action: 'OpenRentals'}, isArray: true},
+            // detailRentalUserLoad: {method: 'GET', params: {action: 'SingleRentals'}, isArray: true},
+            // detailRentalItemLoad: {method: 'GET', params: {action: 'SingleRentalsItems'}, isArray: true},
         })
 
     }]);
@@ -308,3 +312,47 @@ invServices.factory('tree', function () {
 
     return tree;
 });
+
+invServices.filter('idToPlace', function () {
+    return function idToPlace(id, nestedPlaces) {
+        if(!id || !nestedPlaces) {
+            return;
+        }
+
+        var name = "";
+        for(var place of nestedPlaces) {
+            if(place.id == id) {
+                name = place.name;
+                break;
+            } else {
+                if(place.children.length > 0) {
+                    name = idToPlace(id, place.children);
+                }
+            }
+        }
+
+        return name;
+    }
+});
+
+invServices.filter('idToCategory', function () {
+    return function idToCat(id, nestedCategories) {
+        if(!id || !nestedCategories) {
+            return;
+        }
+
+        var name = "";
+        for(var category of nestedCategories) {
+            if(category.id == id) {
+                name = category.name;
+                break;
+            } else {
+                if(category.children.length > 0) {
+                    name = idToCat(id, category.children);
+                }
+            }
+        }
+
+        return name;
+    }
+})

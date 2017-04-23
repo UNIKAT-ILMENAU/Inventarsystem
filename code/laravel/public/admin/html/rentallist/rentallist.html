@@ -3,16 +3,6 @@ Controller: RentalListCtrl - controllers.js
 Additionally needed scripts: js/dirPagination.js 
 -->
 <div class="menu-space">
-	<!-- Create Item buttons-->
-	<div class="container top-space bot-space">
-		<div class="row">
-			<div class="col-md-12">
-				<button class="btn btn-success" ng-click="switchRentalList('open')">AllOpenRentals</button>
-				<button class="btn btn-success" ng-click="switchRentalList('all')">AllRentals</button>			
-				<hr>
-			</div>
-		</div>
-	</div>
 
 	<!-- Basic Common Filter -->
 	<div class="container-fluid">
@@ -45,26 +35,24 @@ Additionally needed scripts: js/dirPagination.js
 							<hr>
 							<div class="row">
 								<label for="search" class="col-lg-2 col-md-2 col-xs-12">ID:</label>
-								<input ng-model="search.Id" type="text" class="col-lg-4 col-md-4 col-xs-12">
+								<input ng-model="search.id" type="text" class="col-lg-4 col-md-4 col-xs-12">
 								
 							</div>
 							<div class="row">
-								<label for="search" class="col-lg-2 col-md-2 col-xs-12">LastN.:</label>
-								<input ng-model="search.Lastname" type="text" class="col-lg-4 col-md-4 col-xs-12">
-								<label for="search" class="col-lg-2 col-md-2 col-xs-12">FirstN.:</label>
-								<input ng-model="search.Firstname" type="text" class="col-lg-4 col-md-4 col-xs-12">				
+								<label for="search" class="col-lg-2 col-md-2 col-xs-12">Name:</label>
+								<input ng-model="search.borrower.name" type="text" class="col-lg-4 col-md-4 col-xs-12">
 							</div>
 							<div class="row">
 								<label for="search" class="col-lg-2 col-md-2 col-xs-12">Email:</label>
-								<input ng-model="search.Email" type="text" class="col-lg-10 col-md-10 col-xs-12">	
+								<input ng-model="search.borrower.email" type="text" class="col-lg-10 col-md-10 col-xs-12">
 							</div><br>
 							<div class="row">
 								<label for="search" class="col-lg-2 col-md-2 col-xs-12">EndD.:</label>
-								<input ng-model="search.EndDate" type="text" class="col-lg-10 col-md-10 col-xs-12">									
+								<input ng-model="search.end_date" type="text" class="col-lg-10 col-md-10 col-xs-12">
 							</div>
 							<div class="row">								
 								<label for="search" class="col-lg-2 col-md-2 col-xs-12">CreateD.:</label>
-								<input ng-model="search.Created_at" type="text" class="col-lg-10 col-md-10 col-xs-12">	
+								<input ng-model="search.created_at" type="text" class="col-lg-10 col-md-10 col-xs-12">
 							</div>
 							<hr>
 							<div>
@@ -88,51 +76,47 @@ Additionally needed scripts: js/dirPagination.js
 					<thead>
 					  <tr>
 					    <th ng-click="sort('Id')">ID		<!-- Uses the function sort in controller.js to handle the orderBy -->
-							<span class="glyphicon sort-icon" ng-show="sortKey=='Id'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+							<span class="glyphicon sort-icon" ng-show="sortKey=='id'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 					    </th>				    
-					    <th ng-click="sort('Lastname')">Lastname 
-					    	<span class="glyphicon sort-icon" ng-show="sortKey=='Lastname'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-					    </th>
-					    <th ng-click="sort('Firstname')">Firstname
-							<span class="glyphicon sort-icon" ng-show="sortKey=='Firstname'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+					    <th ng-click="sort('name')">name 
+					    	<span class="glyphicon sort-icon" ng-show="sortKey=='borrower.name'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 					    </th>
 					    <th ng-click="sort('Email')">Email 
-					    	<span class="glyphicon sort-icon" ng-show="sortKey=='Email'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+					    	<span class="glyphicon sort-icon" ng-show="sortKey=='borrower.email'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 					    </th>
-					    <th ng-click="sort('EndDate')">EndDate
-					    	<span class="glyphicon sort-icon" ng-show="sortKey=='EndDate'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+					    <th ng-click="sort('end_date')">end_date
+					    	<span class="glyphicon sort-icon" ng-show="sortKey=='end_date'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 					    </th>
 					    <th ng-click="sort('Created_at')">CreateDate
-					    	<span class="glyphicon sort-icon" ng-show="sortKey=='Created_at'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+					    	<span class="glyphicon sort-icon" ng-show="sortKey=='created_at'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 					    </th>
 					    <th ng-click="sort('State')">State
-					    	<span class="glyphicon sort-icon" ng-show="sortKey=='State'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+					    	<span class="glyphicon sort-icon" ng-show="sortKey=='state'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 					    </th>		    
 					  </tr>
 					</thead>
 					<tbody>	<!-- List items in table -->
-					  <tr ng-click="viewDetail(rentalData.Id);" dir-paginate="rentalData in listData| orderBy:sortKey:reverse | filter: search | itemsPerPage:pageSize">	<!-- detailview via leftmouse click on the item -->
-					    <td>{{rentalData.Id}}</td>
-					    <td>{{rentalData.Lastname}}</td>
-					    <td>{{rentalData.Firstname}}</td>
-					    <td>{{rentalData.Email}}</td>
-					    <!--highlight EndDate if State is still outstanding-->				    
-					    <td ng-if="rentalData.State == 0">
-					    	<div ng-switch="dateCompare(rentalData.EndDate)">
+					  <tr ng-click="viewDetail(rentalData.id);" dir-paginate="rentalData in listData| orderBy:sortKey:reverse | filter: search | itemsPerPage:pageSize">	<!-- detailview via leftmouse click on the item -->
+					    <td>{{rentalData.id}}</td>
+					    <td>{{rentalData.borrower.name}}</td>
+					    <td>{{rentalData.borrower.email}}</td>
+					    <!--highlight end_date if State is still outstanding-->				    
+					    <td ng-if="rentalData.completed == 'false'">
+					    	<div ng-switch="dateCompare(rentalData.end_date)">
 					    		<!--return of rental is overdue-->
-				      			<div ng-switch-when="0" style="color:red;"><strong>{{rentalData.EndDate.slice(0,10)}}</strong></div> 
+				      			<div ng-switch-when="0" style="color:red;"><strong>{{rentalData.end_date}}</strong></div>
 				      			<!--return in the next week-->
-				      			<div ng-switch-when="1" style="color:orange;">{{rentalData.EndDate.slice(0,10)}}</div>
+				      			<div ng-switch-when="1" style="color:orange;">{{rentalData.end_date}}</div>
 				      			<!--return date > 1 week-->
-				      			<div ng-switch-when="2">{{rentalData.EndDate.slice(0,10)}}</div>
+				      			<div ng-switch-when="2">{{rentalData.end_date}}</div>
 				     		</div>
 					    </td>
-					    <td ng-if="rentalData.State == 1">{{rentalData.EndDate.slice(0,10)}}</td>
-					   	<td>{{rentalData.Created_at}}</td>
+					    <td ng-if="rentalData.completed == 'true'">{{rentalData.end_date}}</td>
+					   	<td>{{rentalData.created_at}}</td>
 					    <td>
-							<div ng-switch="rentalData.State">
-				      			<div ng-switch-when="0" class="text-warning">Still outstanding</div>
-				      			<div ng-switch-when="1" class="text-success">Complete</div>
+							<div ng-switch="rentalData.completed">
+				      			<div ng-switch-when="false" class="text-warning">Still outstanding</div>
+				      			<div ng-switch-when="true" class="text-success">Complete</div>
 				     		</div>
 					    </td>
 					  </tr>

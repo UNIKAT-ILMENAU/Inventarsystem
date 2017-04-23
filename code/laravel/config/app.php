@@ -179,6 +179,7 @@ return [
 
 
         'Tymon\JWTAuth\Providers\JWTAuthServiceProvider',
+        \App\Providers\ResponseMacroServiceProvider::class
 
     ],
 

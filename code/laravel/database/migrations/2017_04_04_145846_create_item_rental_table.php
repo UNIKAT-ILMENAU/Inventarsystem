@@ -19,6 +19,7 @@ class CreateItemRentalTable extends Migration
             $table->integer('rental_id')->unsigned();
             $table->foreign('rental_id')->references('id')->on('rentals');
             $table->float('amount')->unsigned();
+            $table->float('returned')->unsigned()->default(0);
             $table->timestamps();
         });
     }
