@@ -11,37 +11,28 @@ class PlaceTableSeeder extends Seeder
      */
     public function run()
     {
-		DB:: table('place')->delete();
+        $placeA = new \App\Place;
+        $placeA->name = "Building A";
+        $placeA->save();
 
-		$place = [
-					[
-					'Name'=> 'House M',
-					'CreatedByID'=> 4,
-					'BeforeID'=> NULL
-					],
-					[
-					'Name'=> 'House L',
-					'CreatedByID'=> 3,
-					'BeforeID'=> NULL
-					],
-					[
-					'Name'=> 'Room 201',
-					'CreatedByID'=> 5,
-					'BeforeID'=> 1
-					],
-					[
-					'Name'=> 'Room 203',
-					'CreatedByID'=> 1,
-					'BeforeID'=> 2
-					],
-					[
-					'Name'=> 'Locker 5',
-					'CreatedByID'=> 2,
-					'BeforeID'=> 4
-					],
-					
-				  ];
+        $placeB = new \App\Place;
+        $placeB->name = "Building B";
+        $placeB->save();
 
-		DB::table('place')->insert($place);
+        $placeA1 = new \App\Place;
+        $placeA1->name = "Room A1";
+        $placeA1->parent = $placeA->id;
+        $placeA1->save();
+
+        $placeA2 = new \App\Place;
+        $placeA2->name = "Room A2";
+        $placeA2->parent = $placeA->id;
+        $placeA2->save();
+
+        $placeA11 = new \App\Place;
+        $placeA11->name = "Room A11";
+        $placeA11->parent = $placeA1->id;
+        $placeA11->save();
+
     }
 }

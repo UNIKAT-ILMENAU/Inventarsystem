@@ -2,10 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\User;
 use Illuminate\Console\Command;
-use DB;
 use Illuminate\Support\Facades\Hash;
-
 
 class CreateAdmin extends Command
 {
@@ -21,7 +20,7 @@ class CreateAdmin extends Command
      *
      * @var string
      */
-    protected $description = 'Create an admin user';
+    protected $description = 'Create new admin';
 
     /**
      * Create a new command instance.
@@ -41,28 +40,20 @@ class CreateAdmin extends Command
     public function handle()
     {
         $mail = $this->ask('Mail');
-        $firstName = $this->ask('First Name');
-        $lastName = $this->ask('Last Name');
-        $password = $this->secret('Password');
+        $name = $this->ask('Name');
+        $password = $this->ask('Password');
 
         $default = 1;
         $confirm = $this->choice('Confirm?', ['n', 'y'], $default);
 
         if($confirm === 'y') {
-            DB::transaction(function () use ($password, $firstName, $lastName, $mail) {
-                $id = DB::table('member')->insertGetId([
-                    'isActivated' => 1,
-                    'isAdmin' => 1,
-                    'password' => Hash::make($password)
-                ]);
+            $user = new User();
+            $user->name = $name;
+            $user->email = $mail;
+            $user->password = Hash::make($password);
+            $user->active = 1;
 
-                DB::table('user')->insert([
-                    'member_id' => $id,
-                    'FirstName' =>$firstName,
-                    'LastName' =>$lastName,
-                    'Email' =>$mail
-                ]);
-            });
+            $user->save();
         }
     }
 }

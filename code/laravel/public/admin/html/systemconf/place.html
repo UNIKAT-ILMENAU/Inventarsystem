@@ -9,7 +9,9 @@ Additionally needed scripts: services.js('dataFactory', 'tree')
     </div>
     <h2> Location Management</h2>
     <p>
-      Each place can be part of another place. Please, pay attention to these rules. 
+      Each place can be part of another place. Please, pay attention to these rules.
+
+
       <a data-toggle="collapse" data-target="#plcRules">
         <span class="glyphicon glyphicon-menu-down"></span>
       </a>
@@ -26,9 +28,9 @@ Additionally needed scripts: services.js('dataFactory', 'tree')
     <script type="text/ng-template" id="placeTree">
       <div class="list-group-item">
         <input type="radio" id="Parent{{place.id}}" ng-value="place.id" ng-model="formData.Parent"
-        ng-change="newValue('{{place.Name}}', {{place.children}})">
+        ng-change="newValue('{{place.name}}', {{place.children}})">
         <label for="Parent{{place.id}}">
-          {{place.Name}}
+          {{place.name}}
         </label>
       </div>
       <div class="list-group" ng-repeat="place in place.children | orderBy: 'Name'" ng-include="'placeTree'"  ng-if="place.children">
@@ -38,7 +40,7 @@ Additionally needed scripts: services.js('dataFactory', 'tree')
     <!--includes nested list (nestedPlaces is nested Data with all places)-->
     <div class="just-padding">
       <div class="list-group list-group-root well">
-        <div class="list-group" ng-repeat="place in nestedPlaces | orderBy: 'Name'" ng-include="'placeTree'"></div>   
+        <div class="list-group" ng-repeat="place in nestedPlaces | orderBy: 'Name'" ng-include="'placeTree'"></div>
       </div>
     </div>
 
@@ -104,7 +106,7 @@ Additionally needed scripts: services.js('dataFactory', 'tree')
     </div>
 
     <!--delete place (shows only when selected place has no children)-->
-    <!--
+
     <div ng-if="formData.Parent != null && places.children.length < 1">
       <form role="form">
         <div class="well">
@@ -112,9 +114,9 @@ Additionally needed scripts: services.js('dataFactory', 'tree')
           <button type="button" class="btn btn-danger" ng-click="deletePlaceEvent(formData.Parent)">
             <span class="glyphicon glyphicon-trash"></span> Delete
           </button>
-        </div>    
+        </div>
       </form>
     </div>
-    //-->
+
 
 </div>

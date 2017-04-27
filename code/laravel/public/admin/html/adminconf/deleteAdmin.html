@@ -17,11 +17,14 @@
 
       <tbody>
         <tr ng-repeat="admin in listOfAdmins | orderBy: 'ID'" ng-class="{'success': admin.Activated === 1, 'danger': admin.Activated === 0, 'active': admin.ID === 1}"> 
-          <td>{{admin.ID}}</td>
-          <td>{{admin.FirstName}} {{admin.LastName}}</td>
-          <td>{{admin.Email}}</td>  
-          <td>{{admin.Activated}}</td>
-          <td> <button class="btn btn-sm btn-danger" ng-click="deleteAdmin(admin.ID)" ng-disabled="admin.Activated == 0 || admin.ID == 1"> Deactivate </button> </td>
+          <td>{{admin.id}}</td>
+          <td>{{admin.name}}</td>
+          <td>{{admin.email}}</td>
+          <td>{{admin.active}}</td>
+          <td>
+            <button class="btn btn-sm btn-danger" ng-click="deleteAdmin(admin.id)" ng-if="admin.active == 1 && admin.id != 1"> Deactivate </button>
+            <button class="btn btn-sm btn-confirm" ng-click="enableAdmin(admin.id)" ng-if="admin.active == 0 && admin.id != 1"> Activate </button>
+          </td>
         </tr>
       </tbody>
     </table>

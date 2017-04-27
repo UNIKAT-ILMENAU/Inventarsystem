@@ -123,16 +123,16 @@ Additionally needed scripts: js/dirPagination.js
 				    <td>{{listItem.BuildType}}</td>
 				    <td>{{listItem.SalePrice}}</td>
 				    <td><!-- Show StorageValue when it is a material-->
-						<div ng-if="listItem.material_id != 1"> 
+						<div ng-if="listItem.Type == 'MATERIAL'">
 							{{listItem.StorageValue}} 	
 						</div>
 					</td>
 				    <td>
 				    	<!-- Filter Device and Material -->
-				    	<div ng-if="listItem.material_id == 1"> 
+				    	<div ng-if="listItem.Type == 'DEVICE'">
 				    		<p>Device</p> 
 				    	</div>
-				    	<div ng-if="listItem.material_id != 1"> 
+				    	<div ng-if="listItem.Type == 'MATERIAL'">
 				    		<p>Material</p>
 				    	</div>
 			    	</td>

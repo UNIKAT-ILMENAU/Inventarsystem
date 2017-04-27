@@ -26,23 +26,23 @@ Additionally needed scripts: services.js('dataFactory', 'tree')
     <script type="text/ng-template" id="categoryTree">
       <div class="list-group-item">
         <input type="radio" id="Parent{{category.id}}" ng-value="category.id" ng-model="formData.Parent"
-           ng-change="newValue('{{category.Name}}', '{{category.Description}}', {{category.children}})">
+           ng-change="newValue('{{category.name}}', '{{category.description}}', {{category.children}})">
         <label for="Parent{{category.id}}">
-          {{category.Name}}
+          {{category.name}}
         </label>  
         <span class="glyphicon glyphicon-info-sign" data-toggle="collapse" data-target="#description{{category.id}}"
-        ng-if="category.Description != null && category.Description != '' ">
+        ng-if="category.description != null && category.description != '' ">
         </span>
-        <p id="description{{category.id}}" class="list-group-item-text help-block collapse">{{category.Description}}</p>
+        <p id="description{{category.id}}" class="list-group-item-text help-block collapse">{{category.description}}</p>
       </div>    
-      <div class="list-group" ng-repeat="category in category.children | orderBy: 'Name'" ng-include="'categoryTree'" ng-if="category.children">      
+      <div class="list-group" ng-repeat="category in category.children | orderBy: 'name'" ng-include="'categoryTree'" ng-if="category.children">
       </div>
     </script>
 
     <!--includes nested list (nestedCategories is nested Data with all categories)-->
     <div class="just-padding">
       <div class="list-group list-group-root well">
-        <div class="list-group" ng-repeat="category in nestedCategories | orderBy: 'Name'" ng-include="'categoryTree'"></div>
+        <div class="list-group" ng-repeat="category in nestedCategories | orderBy: 'name'" ng-include="'categoryTree'"></div>
       </div>
     </div>  
 
@@ -119,9 +119,7 @@ Additionally needed scripts: services.js('dataFactory', 'tree')
       </form>
     </div>
 
-    
-    <!--delete category (shows only when selected category has no children)-->
-    <!--
+
     <div ng-if="formData.Parent != null && categories.children.length < 1">
       <form role="form">
         <div class="well">
@@ -132,5 +130,5 @@ Additionally needed scripts: services.js('dataFactory', 'tree')
         </div>    
       </form>
     </div>
-    //-->
+
 </div>

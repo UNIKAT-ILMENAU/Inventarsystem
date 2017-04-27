@@ -11,30 +11,48 @@ var invControllers = angular.module('invControllers', ['angularUtils.directives.
 //==============================
 invControllers.controller('ListCtrl', function ($scope, $location, $http, ItemResource) {
 
-  //Get all item informations from the server
-  $scope.listData = ItemResource.allItems();
+    //Get all item informations from the server
+    var allItems = ItemResource.allItems(function () {
+        var newAllItems = allItems.map(function (element) {
 
-  /*REST.typload(function(data){      //typeaheadlist request via rest-factory
-  $scope.typeaheadData = data;        //NOT INCLUDED, WIP
-  });*/
-  
-  var d_pageSize = 10;                //default pageSize limit
-  $scope.pageSize = d_pageSize;       //Item limit per page
+            return {
+                Id: element.id,
+                Name: element.name,
+                State: element.state,
+                // material_id: element.type,
+                Category: element.category ? element.category.name : null,
+                BuildType: element.build_type,
+                SalePrice: element.sale_price,
+                StorageValue: element.storage_value,
+                Type: element.type
+            }
+        });
 
-  $scope.sort = function(keyname){    //sort option on click, call by reference
-    $scope.sortKey = keyname;         //set the sortKey to the param passed
-    $scope.reverse = !$scope.reverse; //if true make it false and vice versa
-  }
+        $scope.listData = newAllItems;
+    });
 
 
-  $scope.viewDetail = function(listID) {    //tr clickable, change to detailview view, activated via 1click
-    $location.path('/listData/' + listID); 
-  };
+    /*REST.typload(function(data){      //typeaheadlist request via rest-factory
+     $scope.typeaheadData = data;        //NOT INCLUDED, WIP
+     });*/
 
-  $scope.resetFilter = function(){
-    $scope.search = "";   //resets the filter options
-    $scope.pageSize = d_pageSize; //resets the items per page size to default
-  };
+    var d_pageSize = 10;                //default pageSize limit
+    $scope.pageSize = d_pageSize;       //Item limit per page
+
+    $scope.sort = function (keyname) {    //sort option on click, call by reference
+        $scope.sortKey = keyname;         //set the sortKey to the param passed
+        $scope.reverse = !$scope.reverse; //if true make it false and vice versa
+    };
+
+
+    $scope.viewDetail = function (listID) {    //tr clickable, change to detailview view, activated via 1click
+        $location.path('/listData/' + listID);
+    };
+
+    $scope.resetFilter = function () {
+        $scope.search = "";   //resets the filter options
+        $scope.pageSize = d_pageSize; //resets the items per page size to default
+    };
 
 });
 
@@ -42,9 +60,25 @@ invControllers.controller('ListCtrl', function ($scope, $location, $http, ItemRe
 //Request Detail informations from specific item
 //Used in: detail.html 
 //==============================
-invControllers.controller('DetailCtrl', ['$scope', '$routeParams', 'ItemResource', function($scope, $routeParams, ItemResource) {
-  //Gets all informations of a specific item by id
-  $scope.detailData = ItemResource.detailLoad({id: $routeParams.ListItemId});
+invControllers.controller('DetailCtrl', ['$scope', '$routeParams', 'ItemResource', function ($scope, $routeParams, ItemResource) {
+    //Gets all informations of a specific item by id
+    var detailData = ItemResource.detailLoad({id: $routeParams.ListItemId}, function () {
+
+        var newAllItems = {
+            Id: detailData.id,
+            Name: detailData.name,
+            State: detailData.state,
+            material_id: detailData.type,
+            Category: detailData.category ? detailData.category.name : null,
+            BuildType: detailData.build_type,
+            SalePrice: detailData.sale_price,
+            StorageValue: detailData.storage_value,
+            Description: detailData.description,
+            Type: detailData.type
+        };
+
+        $scope.detailData = newAllItems;
+    });
 }]);
 
 //==============================
@@ -53,12 +87,12 @@ invControllers.controller('DetailCtrl', ['$scope', '$routeParams', 'ItemResource
 //==============================
 invControllers.controller('indexCtrl', function ($scope, $location, $anchorScroll) {
 
-  $scope.scrollTo = function() {
-      // set the location.hash to null/top
-      $location.hash();			
+    $scope.scrollTo = function () {
+        // set the location.hash to null/top
+        $location.hash();
 
-      // call $anchorScroll() to use the scroll
-      $anchorScroll();
+        // call $anchorScroll() to use the scroll
+        $anchorScroll();
     };
 });
 

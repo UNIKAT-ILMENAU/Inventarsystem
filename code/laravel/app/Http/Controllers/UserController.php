@@ -2,85 +2,88 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
+use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
-use DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
-use App\Http\Requests;
 
 class UserController extends Controller
 {
-    public function showAllUser()
-    { 
-        return DB::table('user')
-            ->select('user.Id as ID', 'user.Firstname as Firstname', 'user.Lastname as Lastname', 'user.Email as Email', 'user.created_at as CreatedAt', ' user.updated_at as LastUpdated')
-            ->get();
-    }
-
-    public function showDetailUser($id)
-     {
-      
-        return DB::table('user')
-            ->where('user.id', $id)
-            ->select('user.id as ID','member_id', 'user.FirstName as FirstName', 'user.LastName as LastName', 'user.Email as Email', 'user.Street as Street', 'user.City as City', 'user.ZIP as ZIP', 'user.MobilePhone as Phone', 'user.Matrikel as Matrikel', 'created_at as UserCreated', 'updated_at as UserLastUpdated ' )
-            ->get();
-
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        return User::all();
     }
 
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request)
-    {   
-        $R_firstname = $request->input('firstname');
-        $R_lastname = $request->input('lastname');
-        $R_street = $request->input('street');
-        $R_city = $request->input('city');
-        $R_zip = $request->input('zip');
-        $R_mobile = $request->input('mobile');
-        $R_email = $request->input('email');
-        $R_matrikel = $request->input('matrikel');
-        $current = Carbon::now('Europe/Berlin'); 
+    {
 
-        $message = DB::table('user')->insert(
-            [
-            'FirstName' => $R_firstname, 
-            'LastName' => $R_lastname,
-            'Street' => $R_street,
-            'City' => $R_city,
-            'ZIP' => $R_zip,
-            'MobilePhone' => $R_mobile,
-            'Email' => $R_email,
-            'Matrikel' => $R_matrikel,            
-            'created_at' => $current]);
-
-        
-         $user_Id = DB::table('user')->max('Id');
-        return $user_Id;
     }
 
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function show(User $user)
+    {
+        //
+    }
 
-    public function UserUpdate(Request $request, $id) 
-    { 
-        $R_name = $request->input('lastname');
-        $R_street = $request->input('street');
-        $R_city= $request->input('city');
-        $R_zip = $request->input('zip');
-        $R_mobile = $request->input('mobile');
-        $R_email = $request->input('email');
-        $R_matrikel = $request->input('matrikel');
-        $current = Carbon::now('Europe/Berlin');
-             
-        $message = DB::table('user')->where('id', $id)->update(
-            [
-             'LastName' => $R_name, 
-             'Street' => $R_street,
-             'City' => $R_city,
-             'ZIP' => $R_zip, 
-             'MobilePhone'=>  $R_mobile,
-             'Email'=>  $R_email,
-             'Matrikel'=>  $R_matrikel,
-             'updated_at'=>  $current,
-             ]);   
+    public function showMe(Request $request) {
+        return Auth::user();
+    }
 
-        return $id;
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, User $user)
+    {
+
+        if(Hash::check($request->input('currentpassword'), $user->password)) {
+            $user->update($request->all());
+        } else {
+            return response()->json(['message' => 'Invalid password'], 401);
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(User $user)
+    {
+        //
+    }
+
+    public function disable(User $user) {
+        $user->active = 0;
+        $user->save();
+    }
+
+    public function enable(User $user) {
+        $user->active = 1;
+        $user->save();
     }
 }
+

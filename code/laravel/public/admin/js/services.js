@@ -36,38 +36,72 @@ invServices.factory('REST', ['$resource',
 
 invServices.factory('ItemResource', ['$resource',
     function ($resource) {
-        return $resource('../api/v1/restricted/item/:id/:subpath', {}, {
-            allItems: {method: 'GET', params: {id: 'allItems'}, isArray: true},
-            detailLoad: {method: 'GET', params: {subpath: "details"}, isArray: true},
+        return $resource('../api/v1/restricted/items/:id/:subpath', {}, {
+            allItems: {method: 'GET'},
+            detailLoad: {method: 'GET'},
             historyLoad: {method: 'GET', params: {subpath: "history"}, isArray: true},
-            place: {method: 'GET', url: "../api/v1/restricted/place/search/:id", isArray: true}
+            place: {method: 'GET', url: "../api/v1/restricted/place/search/:id", isArray: true},
+            create: {method: 'POST'},
+            update: {method: 'PUT'},
+            defective: {method: 'POST', params: {subpath: 'defective'}},
+            missing: {method: 'POST', params: {subpath: 'missing'}},
+            available: {method: 'POST', params: {subpath: 'available'}}
         });
     }]);
 
 invServices.factory('DashboardResource', ['$resource',
     function ($resource) {
-        return $resource('../api/v1/restricted/dashboard/:data', {}, {
-            items: {method: 'GET', params: {data: 'Items'}, isArray: true}
+        return $resource('../api/v1/restricted/dashboard', {}, {
+            items: {method: 'GET'}
         });
     }]);
 
 invServices.factory('PlaceResource', ['$resource',
 function ($resource) {
-    return $resource('../api/v1/restricted/place/:id', {}, {
-
+    return $resource('../api/v1/restricted/places/:id', {}, {
+        all: {method: 'GET', isArray: true},
+        create: {method: 'POST'},
+        update: {method: 'PUT'},
+        delete: {method: 'DELETE'}
     })
 
 }]);
 
-invServices.factory('RentalResource', ['$resource',
+invServices.factory('CategoryResource', ['$resource',
     function ($resource) {
-        return $resource('../api/v1/restricted/rental/:action/:id', {}, {
-            allRental: {method: 'GET', params: {action: 'AllRentals'}, isArray: true},
-            allOpenRental: {method: 'GET', params: {action: 'OpenRentals'}, isArray: true},
-            detailRentalUserLoad: {method: 'GET', params: {action: 'SingleRentals'}, isArray: true},
-            detailRentalItemLoad: {method: 'GET', params: {action: 'SingleRentalsItems'}, isArray: true},
+        return $resource('../api/v1/restricted/categories/:id', {}, {
+            all: {method: 'GET', isArray: true},
+            create: {method: 'POST'},
+            update: {method: 'PUT'},
+            delete: {method: 'DELETE'}
         })
 
+    }]);
+
+invServices.factory('RentalResource', ['$resource',
+    function ($resource) {
+        return $resource('../api/v1/restricted/rentals/:id/:action', {}, {
+            all: {method: 'GET', isArray: true},
+            create: {method: 'POST'},
+            detailLoad: {method: 'GET'},
+            lostItem: {method: 'POST', params: {action: 'lost'}},
+            returnItem: {method: 'POST', params: {action: 'return'}}
+            // allOpenRental: {method: 'GET', params: {action: 'OpenRentals'}, isArray: true},
+            // detailRentalUserLoad: {method: 'GET', params: {action: 'SingleRentals'}, isArray: true},
+            // detailRentalItemLoad: {method: 'GET', params: {action: 'SingleRentalsItems'}, isArray: true},
+        })
+
+    }]);
+
+invServices.factory('UserResource', ['$resource',
+    function ($resource) {
+        return $resource('../api/v1/restricted/users/:id/:action', {}, {
+            all: {method: 'GET', isArray: true},
+            activate: {method: 'POST', params: {action: 'enable'}},
+            deactivate: {method: 'POST', params: {action: 'disable'}},
+            me: {method: 'GET', params: {id: "me"}},
+            update: {method: 'POST'}
+        });
     }]);
 
 
@@ -96,7 +130,7 @@ function authCheck($http, $location, $localStorage) {
     function validate() {
         $http({
             method: 'POST',
-            url: '../api/v1/check',
+            url: '../api/v1/restricted/check',
             data: $localStorage.token
         }).then(function (response) {}, function (response) {
             console.log('Auth check failed');
@@ -127,18 +161,6 @@ invServices.factory('dataFactory', ['$http', 'tree', function ($http, tree) {
     var categoryResult;
     var categoryTree;
 
-    //GET all places from server
-    dataFactory.getAllPlaces = function () {
-        return $http.get('../api/v1/restricted/place/allPlace').then(function (response) {
-            allPlaces = response.data;
-
-            //call functions (in tree factory in services.js) to format query for rendering in html-template as nested list
-            placeResult = tree.sortTree({array: allPlaces}); //call tree.sortTree
-            placeTree = tree.makeTree({array: placeResult}); //call tree.makeTree
-
-            return placeTree;
-        });
-    }
 
     //GET all categories from server
     dataFactory.getAllCategories = function () {
@@ -278,4 +300,109 @@ invServices.factory('tree', function () {
     };
 
     return tree;
+});
+
+invServices.filter('idToPlace', function () {
+    return function idToPlace(id, nestedPlaces) {
+        if(!id || !nestedPlaces) {
+            return;
+        }
+
+        var name = "";
+        for(var place of nestedPlaces) {
+            if(place.id == id) {
+                name = place.name;
+                break;
+            } else {
+                if(place.children.length > 0) {
+                    name = idToPlace(id, place.children);
+                }
+            }
+        }
+
+        return name;
+    }
+});
+
+invServices.filter('idToCategory', function () {
+    return function idToCat(id, nestedCategories) {
+        if(!id || !nestedCategories) {
+            return;
+        }
+
+        var name = "";
+        for(var category of nestedCategories) {
+            if(category.id == id) {
+                name = category.name;
+                break;
+            } else {
+                if(category.children.length > 0) {
+                    name = idToCat(id, category.children);
+                }
+            }
+        }
+
+        return name;
+    }
+});
+
+invServices.filter('colorRentalDate', function ($sce) {
+    return function (date) {
+
+        //set EndDate of rental string in correct format
+        var partsTimestamp = date.split(/[ \/:-]/g);
+        if (partsTimestamp.length < 6) {
+            partsTimestamp = partsTimestamp.concat(['00', '00', '00'].slice(0, 6 - partsTimestamp.length));
+        }
+        var tstring = partsTimestamp.slice(0, 3).join('-');
+        tstring += 'T' + partsTimestamp.slice(3).join(':') + 'Z'; //configure as needed
+
+        //set current date in correct format
+        var currentDate = new Date();
+        currentDate.setHours(0);
+        currentDate.setMinutes(0);
+        currentDate.setSeconds(0);
+
+        //parse dates in milliseconds and subtract them
+        var currentMS = currentDate.getTime();
+        var enddateMS = Date.parse(tstring);
+        var dif = enddateMS - currentMS;
+
+        if (dif <= 0) {                 //EndDate <= current date
+            var output = "<div class='text-danger'><strong>" + date + "</strong></div>";
+        } else if (dif < 604800000) {   //EnDate <= current date + one week
+            var output = "<div class='text-warning'>" + date + "</div>";
+        } else {                        //else
+            var output = date;
+        }
+
+        return $sce.trustAsHtml(output);
+    }
+});
+
+invServices.filter('itemStateIdToName', function () {
+    return function (id) {
+        var name = "";
+        switch(id) {
+            case 0:
+                name = 'Not available';
+                break;
+            case 1:
+                name = 'Available';
+                break;
+            case 2:
+                name = 'Defective';
+                break;
+            case 3:
+                name = 'Missing';
+                break;
+            case 4:
+                name = 'Rented';
+                break;
+            default:
+                name = 'Unknown Item State';
+        }
+
+        return name;
+    }
 });

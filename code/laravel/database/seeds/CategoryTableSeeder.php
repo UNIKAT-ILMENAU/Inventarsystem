@@ -11,43 +11,31 @@ class CategoryTableSeeder extends Seeder
      */
     public function run()
     {
-        //
-        DB:: table('category')->delete();
+        $categoryA = new \App\Category;
+        $categoryA->name = 'CategroyA';
+        $categoryA->save();
 
-		$category = [
-					[
-					'Name'=> 'Handtools',
-					'Description'=> 'Tools you can use with one hand',
-					'BeforeID'=> 5
-					],
-					[
-					'Name'=> 'screwdriver',
-					'Description'=> 'Tool to srew soemthing in or out',
-					'BeforeID'=> 1
-					],
-					[
-					'Name'=> 'hammer',
-					'Description'=> 'Tool to hammer something in',
-					'BeforeID'=> 1
-					],
-					[
-					'Name'=> 'electro tools',
-					'Description'=> 'Tools which are powered with electric',
-					'BeforeID'=> NULL
-					],
-					[
-					'Name'=> 'hometools',
-					'Description'=> 'Tools you usally have at home',
-					'BeforeID'=> NULL
-					],
-					[
-					'Name'=> 'tools',
-					'Description'=> 'Tools you usally have at home',
-					'BeforeID'=> NULL
-					],
-					
-				  ];
+        $categoryB = new \App\Category;
+        $categoryB->name = 'CategroyB';
+        $categoryB->description = 'Categroy B description text';
+        $categoryB->save();
 
-		DB::table('category')->insert($category);
+        $categoryB1 = new \App\Category;
+        $categoryB1->name = 'CategroyB1';
+        $categoryB1->description = 'Categroy B1 description text';
+        $categoryB1->parent = $categoryB->id;
+        $categoryB1->save();
+
+        $categoryB2 = new \App\Category;
+        $categoryB2->name = 'CategroyB2';
+        $categoryB2->parent = $categoryB->id;
+        $categoryB2->save();
+
+        $categoryB11 = new \App\Category;
+        $categoryB11->name = 'CategroyB11';
+        $categoryB11->description = 'Categroy B11 description text';
+        $categoryB11->parent = $categoryB1->id;
+        $categoryB11->save();
+
     }
 }

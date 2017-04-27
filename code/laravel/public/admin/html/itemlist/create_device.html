@@ -3,208 +3,233 @@ Create Device
 Controller: CreateCtrl - controllers.js
 -->
 
-    <div class="container top-space bot-space">
-      <div class="panel panel-default">
+<div class="container top-space bot-space">
+    <div class="panel panel-default">
         <div class="panel-heading text-center"><h2>Create new device</h2></div>
         <div class="panel-body">
 
-        <div id="messages" class="hide" role="alert">
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <div id="messages_content"></div>
-            </div>
-        	
-          <!--Begin form-->
-          <form id="itemForm" class="form-horizontal" name="formInput" novalidate>
-
-           	<!--Name input-->
-            <div class="form-group" id="formName">
-              <label class="col-md-offset-2 col-md-2 control-label" for="name">Name</label>
-              <div class="col-md-4"  ng-class="{'has-error': formInput.name.$invalid && formInput.name.$touched }">
-                <input type="text" class="form-control" id="name" name="name" placeholder="Hammer" ng-model="selectedItems[0].Name" required=""/>
-                <p ng-show="formInput.name.$invalid && formInput.name.$touched" class="text-danger">The name is required.</p>
-              </div>
+            <div id="messages" class="hide" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <div id="messages_content"></div>
             </div>
 
+            <!--Begin form-->
+            <form id="itemForm" class="form-horizontal" name="formInput" novalidate>
 
-            <!--Description input-->
-            <div class="form-group" id="formDescription">
-              <label class="col-md-offset-2 col-md-2 control-label" for="description">Description</label>  
-              <div class="col-md-4">
-                <textarea class="form-control" id="description" name="description" placeholder="Mf: B1" ng-model="selectedItems[0].Description"></textarea>
-              </div>
-            </div>
+                <!--Name input-->
+                <div class="form-group" id="formName">
+                    <label class="col-md-offset-2 col-md-2 control-label" for="name">Name</label>
+                    <div class="col-md-4" ng-class="{'has-error': formInput.name.$invalid && formInput.name.$touched }">
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Hammer"
+                               ng-model="selectedItems[0].name" required=""/>
+                        <p ng-show="formInput.name.$invalid && formInput.name.$touched" class="text-danger">The name is
+                            required.</p>
+                    </div>
+                </div>
 
 
-            <!--Category input (button opens modal with radio buttons)-->
-            <div class="form-group" id="formCategory">
-              <label class="col-md-offset-2 col-md-2 control-label" for="categoryButton">Category</label>
-              <!--show, when no category is selected-->
-              <div class="col-md-4" ng-if="selectedItems[0].CategoryID == null" ng-class="{'has-error': ctgBtn == true}">
-                <button type="button" class="form-control btn btn-default btn-block text-left" name="categoryButton" id="categoryButton"
-                data-toggle="modal" data-target="#categoryModal" ng-click="ctgBtn = true" ng-init="ctgBtn = false" 
-                style="text-align:left;color:#999;">Select Category</button>
-                <p ng-show="ctgBtn == true" class="text-danger">The category is required.</p>
-              </div>
-              <!--show, when category is selected-->
-              <div class="col-md-4" ng-if="selectedItems[0].CategoryID != null" >
-                <button type="button" class="btn btn-default btn-block text-left" data-toggle="modal" data-target="#categoryModal" name="categoryButton" 
-                style="text-align:left;color:#555;">{{selectedItems[0].Category}}</button>
-              </div>
-            </div>
+                <!--Description input-->
+                <div class="form-group" id="formDescription">
+                    <label class="col-md-offset-2 col-md-2 control-label" for="description">Description</label>
+                    <div class="col-md-4">
+                        <textarea class="form-control" id="description" name="description" placeholder="Mf: B1"
+                                  ng-model="selectedItems[0].description"></textarea>
+                    </div>
+                </div>
 
-            <!--modal for category selection-->
-            <div id="categoryModal" class="modal fade" role="dialog">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Select Category</h4>
-                  </div>
-                  <div class="modal-body">
 
-                    <!--recursive template for displaying categories as nested list-->
-                    <script type="text/ng-template" id="categoryTree">
-                      <input type="radio" id="ctg{{category.id}}" name="ctg" ng-value="category.id" ng-model="selectedItems[0].CategoryID"
-                      ng-change="newCategoryValue('{{category.Name}}')">
-                      <label for="ctg{{category.id}}">
-                        {{category.Name}}
-                      </label>
-                      <span class="glyphicon glyphicon-info-sign" data-toggle="collapse" data-target="#description{{category.id}}"
-                      ng-if="category.Description != null && category.Description != '' ">
+                <!--Category input (button opens modal with radio buttons)-->
+                <div class="form-group" id="formCategory">
+                    <label class="col-md-offset-2 col-md-2 control-label" for="categoryButton">Category </label>
+                    <!--show, when no category is selected-->
+                    <div class="col-md-4" ng-if="selectedItems[0].category_id == null"
+                         ng-class="{'has-error': ctgBtn == true}">
+                        <button type="button" class="form-control btn btn-default btn-block text-left"
+                                name="categoryButton" id="categoryButton"
+                                data-toggle="modal" data-target="#categoryModal" ng-click="ctgBtn = true"
+                                ng-init="ctgBtn = false"
+                                style="text-align:left;color:#999;">Select Category
+                        </button>
+                        <p ng-show="ctgBtn == true" class="text-danger">The category is required.</p>
+                    </div>
+                    <!--show, when category is selected-->
+                    <div class="col-md-4" ng-if="selectedItems[0].category_id != null">
+                        <button type="button" class="btn btn-default btn-block text-left" data-toggle="modal"
+                                data-target="#categoryModal" name="categoryButton"
+                                style="text-align:left;color:#555;">{{selectedItems[0].category_id |
+                            idToCategory:nestedCategories}}
+                        </button>
+                    </div>
+                </div>
+
+                <!--modal for category selection-->
+                <div id="categoryModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Select Category</h4>
+                            </div>
+                            <div class="modal-body">
+
+                                <!--recursive template for displaying categories as nested list-->
+                                <script type="text/ng-template" id="categoryTree">
+                                    <input type="radio" id="ctg{{category.id}}" name="ctg" ng-value="category.id"
+                                           ng-model="selectedItems[0].category_id"
+                                           ng-change="newCategoryValue('{{category.name}}')">
+                                    <label for="ctg{{category.id}}">
+                                        {{category.name}}
+                                    </label>
+                                    <span class="glyphicon glyphicon-info-sign" data-toggle="collapse"
+                                          data-target="#description{{category.id}}"
+                                          ng-if="category.Description != null && category.Description != '' ">
                       </span>
-                      <p id="description{{category.id}}" class="collapse help-block">{{category.Description}}</p> 
-                      <ul ng-if="category.children">
-                        <li ng-repeat="category in category.children | orderBy: 'Name'" ng-include="'categoryTree'"></li>
-                      </ul>
-                    </script>
+                                    <p id="description{{category.id}}" class="collapse help-block">
+                                        {{category.description}}</p>
+                                    <ul ng-if="category.children">
+                                        <li ng-repeat="category in category.children | orderBy: 'name'"
+                                            ng-include="'categoryTree'"></li>
+                                    </ul>
+                                </script>
 
-                    <!--includes nested list (nestedCategories is nested Data with all categories)-->
-                    <ul>
-                      <li ng-repeat="category in nestedCategories | orderBy: 'Name'" ng-include="'categoryTree'"></li>
-                    </ul>
+                                <!--includes nested list (nestedCategories is nested Data with all categories)-->
+                                <ul>
+                                    <li ng-repeat="category in nestedCategories | orderBy: 'name'"
+                                        ng-include="'categoryTree'"></li>
+                                </ul>
 
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                  </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
-            </div>
 
 
-            <!--Place Input (button opens modal with radio buttons)-->
-            <div class="form-group" id="formPlace">
-              <label class="col-md-offset-2 col-md-2 control-label" for="placeButton">Place</label>
-              <!--show, when no place is selected-->
-              <div class="col-md-4" ng-if="selectedItems[0].Place == null" ng-class="{'has-error': plcBtn == true}">
-                <button type="button" class="form-control btn btn-default btn-block text-left" name="placeButton" id="placeButton"
-                 data-toggle="modal" data-target="#placeModal" ng-click="plcBtn = true" ng-init="plcBtn = false"
-                 style="text-align:left;color:#999;">Select Place</button>
-                 <p ng-show="plcBtn == true" class="text-danger">The place is required.</p>
-              </div>
-              <!--show, when a place is selected-->
-              <div class="col-md-4" ng-if="selectedItems[0].Place != null" >
-                <button type="button" class="btn btn-default btn-block text-left" data-toggle="modal" data-target="#placeModal" name="placeButton"
-                 style="text-align:left;color:#555;">{{selectedItems[0].PlaceName}}</button>
-              </div>
-            </div>
-
-            <!--modal for place selection-->
-            <div id="placeModal" class="modal fade" role="dialog">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Select Place</h4>
-                  </div>
-                  <div class="modal-body">
-
-                    <!--recursive template for displaying places as nested list-->
-                    <script type="text/ng-template" id="placeTree">
-                      <input type="radio" name="plc" id="plc{{place.id}}" ng-value="place.id" ng-model="selectedItems[0].Place"
-                      ng-change="newPlaceValue('{{place.Name}}')">
-                      <label for="plc{{place.id}}">
-                        {{place.Name}}
-                      </label>
-                      <ul ng-if="place.children">
-                        <li ng-repeat="place in place.children | orderBy: 'Name'" ng-include="'placeTree'"></li>
-                      </ul>
-                    </script>
-
-                    <!--includes nested list (nestedPlaces is nested Data with all places)-->
-                    <ul>
-                      <li ng-repeat="place in nestedPlaces | orderBy: 'Name'" ng-include="'placeTree'"></li>
-                    </ul>
-
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                  </div>
+                <!--Place Input (button opens modal with radio buttons)-->
+                <div class="form-group" id="formPlace">
+                    <label class="col-md-offset-2 col-md-2 control-label" for="placeButton">Place</label>
+                    <!--show, when no place is selected-->
+                    <div class="col-md-4" ng-if="selectedItems[0].place_id == null"
+                         ng-class="{'has-error': plcBtn == true}">
+                        <button type="button" class="form-control btn btn-default btn-block text-left"
+                                name="placeButton" id="placeButton"
+                                data-toggle="modal" data-target="#placeModal" ng-click="plcBtn = true"
+                                ng-init="plcBtn = false"
+                                style="text-align:left;color:#999;">Select Place
+                        </button>
+                        <p ng-show="plcBtn == true" class="text-danger">The place is required.</p>
+                    </div>
+                    <!--show, when a place is selected-->
+                    <div class="col-md-4" ng-if="selectedItems[0].place_id != null">
+                        <button type="button" class="btn btn-default btn-block text-left" data-toggle="modal"
+                                data-target="#placeModal" name="placeButton"
+                                style="text-align:left;color:#555;">{{selectedItems[0].place_id |
+                            idToPlace:nestedPlaces}}
+                        </button>
+                    </div>
                 </div>
-              </div>
-            </div>  
+
+                <!--modal for place selection-->
+                <div id="placeModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Select Place</h4>
+                            </div>
+                            <div class="modal-body">
+
+                                <!--recursive template for displaying places as nested list-->
+                                <script type="text/ng-template" id="placeTree">
+                                    <input type="radio" name="plc" id="plc{{place.id}}" ng-value="place.id"
+                                           ng-model="selectedItems[0].place_id"
+                                           ng-change="newPlaceValue('{{place.name}}')">
+                                    <label for="plc{{place.id}}">
+                                        {{place.name}}
+                                    </label>
+                                    <ul ng-if="place.children">
+                                        <li ng-repeat="place in place.children | orderBy: 'Name'"
+                                            ng-include="'placeTree'"></li>
+                                    </ul>
+                                </script>
+
+                                <!--includes nested list (nestedPlaces is nested Data with all places)-->
+                                <ul>
+                                    <li ng-repeat="place in nestedPlaces | orderBy: 'Name'"
+                                        ng-include="'placeTree'"></li>
+                                </ul>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
-            <!--State input-->
-            <div class="form-group" id="formState">
-              <label class=" col-md-offset-2 col-md-2 control-label" for="state">State</label>
-              <div class="col-md-4" ng-class="{'has-error': selectedItems[0].State == 4}"> 
-                <select class="form-control" name="state" id="state" ng-model="selectedItems[0].State"
-                  ng-options="option.value as option.name for option in deviceStates"
-                  ng-init="selectedItems[0].State = selectedItems[0].State || deviceStates[1].value" required="">
-                </select>
-                <p ng-show="selectedItems[0].State == 4" class="text-danger">Create a rental to set the state to rented.</p>
-              </div>
-            </div>
+                <!--State input-->
+                <div class="form-group" id="formState">
+                    <label class=" col-md-offset-2 col-md-2 control-label" for="state">State</label>
+                    <div class="col-md-4" ng-class="{'has-error': selectedItems[0].state == 4}">
+                        <select class="form-control" name="state" id="state" ng-model="selectedItems[0].state"
+                                ng-options="option.value as option.name for option in deviceStates"
+                                ng-init="selectedItems[0].state = selectedItems[0].state || deviceStates[1].value"
+                                required="">
+                        </select>
+                        <p ng-show="selectedItems[0].state == 4" class="text-danger">Create a rental to set the state to
+                            rented.</p>
+                    </div>
+                </div>
+
+                <!--Comment input-->
+                <div class="form-group" id="formComment">
+                    <label class="col-md-offset-2 col-md-2 control-label" for="comment">Comment</label>
+                    <div class="col-md-4"
+                         ng-class="{'has-error': formInput.comment.$invalid && formInput.comment.$touched }">
+                <textarea class="form-control" id="comment" name="comment" placeholder="Mf: B1"
+                          ng-model="selectedItems[0].Comment" required=""></textarea>
+                        <p ng-show="formInput.comment.$invalid && formInput.comment.$touched" class="text-danger">A
+                            comment is required.</p>
+                    </div>
+                </div>
 
 
-            <!--Cost input-->
-            <!--Add Cost Input (Einkaufspreis) if needed
-            <div class="form-group" id="formCost">
-              <label class="col-md-2 control-label" for="cost">Cost</label>
-              <div class="col-md-4">
-                <input type="number" min="0.00" step="0.01" class="form-control" id="cost" name="cost" placeholder="24.00"
-                 ng-model="selectedItems[0].Cost" onkeypress='return event.charCode >= 48 && event.charCode <= 57'/>
-              </div>
-            </div>-->
+                <!--PublicVisible input-->
+                <div class="form-group" id="formVisible">
+                    <label class=" col-md-offset-2 col-md-2 control-label" for="publicVisible">PublicVisible</label>
+                    <div class="col-md-4">
+                        <select class="form-control" name="publicVisible" id="publicVisible"
+                                ng-model="selectedItems[0].visible"
+                                ng-options="option.value as option.name for option in Visibility"
+                                ng-init="selectedItems[0].visible = selectedItems[0].visible || Visibility[1].value"
+                                required="">
+                        </select>
+                    </div>
+                </div>
 
-
-            <!--Comment input-->
-            <div class="form-group" id="formComment">
-              <label class="col-md-offset-2 col-md-2 control-label" for="comment">Comment</label>  
-              <div class="col-md-4" ng-class="{'has-error': formInput.comment.$invalid && formInput.comment.$touched }">
-                <textarea class="form-control" id="comment" name="comment" placeholder="Mf: B1" 
-                ng-model="selectedItems[0].Comment" required=""></textarea>
-                <p ng-show="formInput.comment.$invalid && formInput.comment.$touched" class="text-danger">A comment is required.</p>
-              </div>
-            </div>
-
-            
-            <!--PublicVisible input-->
-            <div class="form-group" id="formVisible">
-              <label class=" col-md-offset-2 col-md-2 control-label" for="publicVisible">PublicVisible</label>
-              <div class="col-md-4">  
-                <select class="form-control" name="publicVisible" id="publicVisible"  ng-model="selectedItems[0].PublicVisible"
-                  ng-options="option.value as option.name for option in Visibility"
-                  ng-init="selectedItems[0].PublicVisible = selectedItems[0].PublicVisible || Visibility[1].value" required="">
-                </select>   
-              </div>
-            </div>
-  
-             <!--Buttons: Submit(Send to Server) + Reset Form + Back to Itemlist--> 
-             <div class="form-group">
-              <div class="col-md-offset-4 col-md-6">
-                <button id="buttonSubmit" name="buttonSubmit" type="button" class="btn btn-success btn-md" ng-click="createItemToServer('Device')" 
-                ng-disabled="formInput.name.$invalid || formInput.state.$invalid || formInput.comment.$invalid || formInput.publicVisible.$invalid || selectedItems[0].Category == null || selectedItems[0].Place == null || selectedItems[0].State == 4"
-                >Create</button>
-                <button id="buttonReset" name="buttonReset" type="reset" form="itemForm" class="btn btn-danger btn-md" 
-                ng-click="resetItem()">Reset</button>
-                <a href="">
-                  <a href="#/list" id="buttonMenu" name="buttonMenu" type="button" class="btn btn-primary btn-md" ng-click="clearItem()">Back</a>
-                </a>
-              </div>
-            </div>
-          </form>
+                <!--Buttons: Submit(Send to Server) + Reset Form + Back to Itemlist-->
+                <div class="form-group">
+                    <div class="col-md-offset-4 col-md-6">
+                        <button id="buttonSubmit" name="buttonSubmit" type="button" class="btn btn-success btn-md"
+                                ng-click="createItemToServer('Device')"
+                                ng-disabled="formInput.name.$invalid || formInput.state.$invalid || formInput.comment.$invalid || formInput.publicVisible.$invalid || selectedItems[0].category_id == null || selectedItems[0].place_id == null || selectedItems[0].state == 4"
+                        >Create
+                        </button>
+                        <button id="buttonReset" name="buttonReset" type="reset" form="itemForm"
+                                class="btn btn-danger btn-md"
+                                ng-click="resetItem()">Reset
+                        </button>
+                        <a href="">
+                            <a href="#/list" id="buttonMenu" name="buttonMenu" type="button"
+                               class="btn btn-primary btn-md" ng-click="clearItem()">Back</a>
+                        </a>
+                    </div>
+                </div>
+            </form>
         </div>
-      </div>
     </div>
+</div>

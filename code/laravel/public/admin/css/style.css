@@ -222,6 +222,8 @@ th {
 
 .list-group.list-group-root .list-group {
   margin-bottom: 0;
+  padding-left: 20px;
+  background-color: white;
 }
 
 .list-group.list-group-root .list-group-item {
@@ -233,25 +235,6 @@ th {
   border-top-width: 0;
 }
 
-.list-group.list-group-root > .list-group > .list-group-item {
-  padding-left: 30px;
-}
-
-.list-group.list-group-root > .list-group > .list-group > .list-group-item {
-  padding-left: 60px;
-}
-
-.list-group.list-group-root > .list-group > .list-group > .list-group > .list-group-item {
-  padding-left: 90px;
-}
-
-.list-group.list-group-root > .list-group > .list-group > .list-group > .list-group > .list-group-item {
-  padding-left: 120px;
-}
-
-.list-group.list-group-root > .list-group > .list-group > .list-group > .list-group > .list-group > .list-group-item {
-  padding-left: 150px;
-}
 
 /* ========================== */
 /*no arrows for input type number*/
@@ -270,3 +253,5 @@ input[type=number] {
 {
     overflow-x: auto;
 }
+
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
