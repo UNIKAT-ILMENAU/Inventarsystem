@@ -102,14 +102,7 @@ Additionally needed scripts: js/dirPagination.js
 					    <td>{{rentalData.borrower.email}}</td>
 					    <!--highlight end_date if State is still outstanding-->				    
 					    <td ng-if="rentalData.completed == 'false'">
-					    	<div ng-switch="dateCompare(rentalData.end_date)">
-					    		<!--return of rental is overdue-->
-				      			<div ng-switch-when="0" style="color:red;"><strong>{{rentalData.end_date}}</strong></div>
-				      			<!--return in the next week-->
-				      			<div ng-switch-when="1" style="color:orange;">{{rentalData.end_date}}</div>
-				      			<!--return date > 1 week-->
-				      			<div ng-switch-when="2">{{rentalData.end_date}}</div>
-				     		</div>
+							<div ng-bind-html="rentalData.end_date | colorRentalDate"></div>
 					    </td>
 					    <td ng-if="rentalData.completed == 'true'">{{rentalData.end_date}}</td>
 					   	<td>{{rentalData.created_at}}</td>

@@ -24,9 +24,24 @@ class ItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return \App\Item::all();
+        $items = \App\Item::query();
+
+        if($request->search) {
+            $items = $items
+                ->where('name', 'like', "%$request->search%")
+                ->orWhere('description', 'like', "%$request->search%");
+        }
+
+        if($request->orderBy && $request->reverse) {
+            $order = $request->reverse == 'true' ? 'desc' : 'asc';
+            $items = $items->orderBy($request->orderBy, $order);
+        }
+
+        $items = $items->paginate(5);
+
+        return $items;
     }
 
 
@@ -40,6 +55,8 @@ class ItemController extends Controller
     {
         $item = Item::create($request->all());
         $item->save();
+
+        HistoryController::addCreatedEntry($item, $request->comment);
     }
 
     /**
@@ -95,5 +112,41 @@ class ItemController extends Controller
     public function destroy(Item $item)
     {
         //
+    }
+
+    public function defective(Request $request, Item $item) {
+        if($item->type == "MATERIAL") {
+            return response()->error('Not allowed on materials');
+        }
+
+        $old_state = $item->state;
+        $item->setStateToDefective($request->comment);
+        $item->save();
+
+        HistoryController::addStateChangedEntry($item, $request->comment, $old_state, $item->state);
+    }
+
+    public function missing(Request $request, Item $item) {
+        if($item->type == "MATERIAL") {
+            return response()->error('Not allowed on materials');
+        }
+
+        $old_state = $item->state;
+        $item->setStateToMissing($request->comment);
+        $item->save();
+
+        HistoryController::addStateChangedEntry($item, $request->comment, $old_state, $item->state);
+    }
+
+    public function available(Request $request, Item $item) {
+        if($item->type == "MATERIAL") {
+            return response()->error('Not allowed on materials');
+        }
+
+        $old_state = $item->state;
+        $item->setStateToAvailable($request->comment);
+        $item->save();
+
+        HistoryController::addStateChangedEntry($item, $request->comment, $old_state, $item->state);
     }
 }

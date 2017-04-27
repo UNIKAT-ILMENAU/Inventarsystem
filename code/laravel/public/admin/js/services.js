@@ -37,12 +37,15 @@ invServices.factory('REST', ['$resource',
 invServices.factory('ItemResource', ['$resource',
     function ($resource) {
         return $resource('../api/v1/restricted/items/:id/:subpath', {}, {
-            allItems: {method: 'GET', isArray: true},
+            allItems: {method: 'GET'},
             detailLoad: {method: 'GET'},
             historyLoad: {method: 'GET', params: {subpath: "history"}, isArray: true},
             place: {method: 'GET', url: "../api/v1/restricted/place/search/:id", isArray: true},
             create: {method: 'POST'},
-            update: {method: 'PUT'}
+            update: {method: 'PUT'},
+            defective: {method: 'POST', params: {subpath: 'defective'}},
+            missing: {method: 'POST', params: {subpath: 'missing'}},
+            available: {method: 'POST', params: {subpath: 'available'}}
         });
     }]);
 
@@ -158,20 +161,6 @@ invServices.factory('dataFactory', ['$http', 'tree', function ($http, tree) {
     var categoryResult;
     var categoryTree;
 
-    //GET all places from server
-    // dataFactory.getAllPlaces =
-
-    //     function () {
-    //     return $http.get('../api/v1/restricted/place/allPlace').then(function (response) {
-    //         allPlaces = response.data;
-    //
-    //         //call functions (in tree factory in services.js) to format query for rendering in html-template as nested list
-    //         placeResult = tree.sortTree({array: allPlaces}); //call tree.sortTree
-    //         placeTree = tree.makeTree({array: placeResult}); //call tree.makeTree
-    //
-    //         return placeTree;
-    //     });
-    // }
 
     //GET all categories from server
     dataFactory.getAllCategories = function () {
@@ -355,4 +344,65 @@ invServices.filter('idToCategory', function () {
 
         return name;
     }
-})
+});
+
+invServices.filter('colorRentalDate', function ($sce) {
+    return function (date) {
+
+        //set EndDate of rental string in correct format
+        var partsTimestamp = date.split(/[ \/:-]/g);
+        if (partsTimestamp.length < 6) {
+            partsTimestamp = partsTimestamp.concat(['00', '00', '00'].slice(0, 6 - partsTimestamp.length));
+        }
+        var tstring = partsTimestamp.slice(0, 3).join('-');
+        tstring += 'T' + partsTimestamp.slice(3).join(':') + 'Z'; //configure as needed
+
+        //set current date in correct format
+        var currentDate = new Date();
+        currentDate.setHours(0);
+        currentDate.setMinutes(0);
+        currentDate.setSeconds(0);
+
+        //parse dates in milliseconds and subtract them
+        var currentMS = currentDate.getTime();
+        var enddateMS = Date.parse(tstring);
+        var dif = enddateMS - currentMS;
+
+        if (dif <= 0) {                 //EndDate <= current date
+            var output = "<div class='text-danger'><strong>" + date + "</strong></div>";
+        } else if (dif < 604800000) {   //EnDate <= current date + one week
+            var output = "<div class='text-warning'>" + date + "</div>";
+        } else {                        //else
+            var output = date;
+        }
+
+        return $sce.trustAsHtml(output);
+    }
+});
+
+invServices.filter('itemStateIdToName', function () {
+    return function (id) {
+        var name = "";
+        switch(id) {
+            case 0:
+                name = 'Not available';
+                break;
+            case 1:
+                name = 'Available';
+                break;
+            case 2:
+                name = 'Defective';
+                break;
+            case 3:
+                name = 'Missing';
+                break;
+            case 4:
+                name = 'Rented';
+                break;
+            default:
+                name = 'Unknown Item State';
+        }
+
+        return name;
+    }
+});

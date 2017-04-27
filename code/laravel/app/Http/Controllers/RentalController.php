@@ -75,6 +75,8 @@ class RentalController extends Controller
         $rental->returnItem($item_entry, $request->amount);
 
         $item_entry->bringBack($request->amount);
+
+        // TODO add history
     }
 
     public function lostItem(Rental $rental, Request $request) {
@@ -84,6 +86,8 @@ class RentalController extends Controller
         $rental->returnItem($item_entry, $request->amount);
 
         $item_entry->lost($request->amount);
+
+        // TODO add history
     }
 
     /**
@@ -110,14 +114,4 @@ class RentalController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Rental  $rental
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Rental $rental)
-    {
-        //
-    }
 }

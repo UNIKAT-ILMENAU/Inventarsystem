@@ -50,6 +50,9 @@ Route::group(['prefix' => 'v1'], function () {
         Route::put('/items/{item}', 'ItemController@update');
         Route::get('/items/{item}', 'ItemController@show');
         Route::get('/items/{item}/history', 'ItemController@history');
+        Route::post('/items/{item}/defective', 'ItemController@defective');
+        Route::post('/items/{item}/missing', 'ItemController@missing');
+        Route::post('/items/{item}/available', 'ItemController@available');
 
         Route::get('/places', 'PlaceController@index');
         Route::post('/places', 'PlaceController@store');

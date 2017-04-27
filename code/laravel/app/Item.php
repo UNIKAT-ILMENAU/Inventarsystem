@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Http\Controllers\HistoryController;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Item extends Model
@@ -88,7 +90,7 @@ class Item extends Model
         }
     }
 
-    public function setStateToNoAvailable() {
+    public function setStateToNotAvailable() {
         $this->state = 0;
     }
 
@@ -113,14 +115,14 @@ class Item extends Model
         if($this->isMaterial()) {
             $this->storage_value -= $amount;
             if($this->storage_value == 0) {
-                $this->setStateToNoAvailable();
+                $this->setStateToNotAvailable();
             }
         } else if($this->isDevice()) {
             $this->setStateToRented();
         }
 
         $this->save();
-
+        // todo add history?
     }
 
     public function bringBack($amount) {

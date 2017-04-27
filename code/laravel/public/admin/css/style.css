@@ -253,3 +253,5 @@ input[type=number] {
 {
     overflow-x: auto;
 }
+
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }

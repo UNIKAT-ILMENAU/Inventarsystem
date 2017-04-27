@@ -25,31 +25,7 @@ description: Mainmenu to all other menupoints and direct functions of the app an
     </a>
     <!-- Dashboard Informations -->
     <div class="dashboardInfo">
-      <div class="row">
-      
-        <div class="col-sm-12 col-xs-12" >
-          <div class="panel panel-default" style="border-color: #FFA500;">
-            <!--  allitems          -->
-            <div class="panel-heading" style="background-color: #FFA500;">
-              <p class="center-space"> <span class="badge">{{dashData[7]}}</span> Open Rentals | Closed Rentals <span class="badge">{{dashData[8]}}</span></p>
-            </div>
-            <div ng-if="dashData[10] != '' && dashData[9] != '' " class="panel-body">
-              <!--  Rentals compare        -->
-              <div class="progress center-space">
-                <!--  devices           -->
-                <div class="progress-bar progress-bar-custom " style="width: {{dashData[10]*100/dashData[9]}}%">
-                  <span class="" style="color: black;">Devices: {{dashData[10]*100/dashData[9] | number:2}}% ({{dashData[10]}})</span>
-                </div>
-                <!--  materials         -->
-                <div class="progress-bar progress-bar-custom progress-bar-striped-custom " style="width: {{(dashData[9] - dashData[10])*100/dashData[9]}}%">
-                  <span class="" style="color: black;">Material: {{(dashData[9] - dashData[10])*100/dashData[9] | number:2}}% ({{dashData[9] - dashData[10]}})</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
+
       <div class="row">
         <div class="col-sm-6 col-xs-12">
           <div class="panel panel-primary">

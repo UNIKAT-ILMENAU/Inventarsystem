@@ -10,19 +10,53 @@ var invControllers = angular.module('invControllers', ['angularUtils.directives.
 //Used in: list.html
 //==============================
 invControllers.controller('ListCtrl', function ($scope, $location, ItemResource) {
-    //Get all item informations from the server
-    $scope.listData = ItemResource.allItems();
+    $scope.currentPage = 1;
 
-    /*REST.typload(function(data){          //typeaheadlist request via rest-factory
-     $scope.typeaheadData = data;            //NOT INCLUDED, WIP
-     });*/
+    reloadData();
 
-    var d_pageSize = 10;                    //default pageSize limit
-    $scope.pageSize = d_pageSize;           //Item limit per page
+    function reloadData() {
+        //Get all item informations from the server
+        ItemResource.allItems({"page": $scope.currentPage, "orderBy": $scope.sortKey, "reverse": $scope.reverse, "search": $scope.searchQuery}, function success(result) {
+            $scope.paginationData = result;
+            $scope.listData = $scope.paginationData.data;
+
+            $scope.pageList = [];
+            for(var i = 1; i <= $scope.paginationData.last_page ; i++) {
+                $scope.pageList.push({"index": i});
+            }
+        });
+    }
+
+    $scope.search = function () {
+        reloadData();
+    };
 
     $scope.sort = function (keyname) {    //sort option on click, call by reference
         $scope.sortKey = keyname;         //set the sortKey to the param passed
         $scope.reverse = !$scope.reverse; //if true make it false and vice versa
+
+        reloadData();
+    };
+
+    $scope.nextPage = function () {
+        if($scope.currentPage == $scope.paginationData.last_page) {
+            return;
+        }
+        $scope.currentPage += 1;
+        reloadData();
+    };
+
+    $scope.previousPage = function () {
+        if($scope.currentPage == 1) {
+            return;
+        }
+        $scope.currentPage -= 1;
+        reloadData();
+    };
+
+    $scope.loadPage = function (i) {
+        $scope.currentPage = i;
+        reloadData();
     };
 
     //Creates a new Item without an copy
@@ -137,19 +171,22 @@ invControllers.controller('DetailCtrl', ['$scope', '$localStorage', '$routeParam
 
     //modal function for the device state update (defect/missing)
     $scope.updateStateEvent = function (itemID, stateID, comment) {
-        var Indata = {'itemid': itemID, 'comment': comment, 'createdbyid': angular.fromJson($localStorage.user_id)}; //NEEDS TO BE IMPLEMENTED
+        var Indata = {
+            'comment': comment
+        };
+
         if (stateID == 2) {
-            //POST state device to the server
-            $http.post("../api/v1/restricted/event/8", Indata).success(function (data, status) {
-                //SUCCESSFULL
-                alert("Device set to 'defective'!");
+
+            ItemResource.defective({id: itemID}, Indata).$promise.then(function () {
                 $scope.ReloadDatas();
             });
+
         } else if (stateID == 3) {
-            //POST state device to the server
-            $http.post("../api/v1/restricted/event/9", Indata).success(function (data, status) {
-                //SUCCESSFULL
-                alert("Device set to 'lost'!");
+            ItemResource.missing({id: itemID}, Indata).$promise.then(function () {
+                $scope.ReloadDatas();
+            });
+        } else if (stateID == 1) {
+            ItemResource.available({id: itemID}, Indata).$promise.then(function () {
                 $scope.ReloadDatas();
             });
         }
@@ -168,7 +205,7 @@ invControllers.controller('DetailCtrl', ['$scope', '$localStorage', '$routeParam
         //check event and if we have a positiv amount
         var Indata = {};
         if (title == "used" && amount > 0) {
-            Indata = {'amount': amount, 'itemid': itemID, 'createdbyid': angular.fromJson($localStorage.user_id)}; //NEEDS TO BE IMPLEMENTED
+            Indata = {'amount': amount, 'itemid': itemID}; //NEEDS TO BE IMPLEMENTED
             //POST used material to the server
             $http.post("../api/v1/restricted/event/6", Indata).success(function (data, status) {
                 //SUCCESSFULL alert
@@ -178,7 +215,7 @@ invControllers.controller('DetailCtrl', ['$scope', '$localStorage', '$routeParam
 
         } //check event and if we have a positiv amount
         else if (title == "stock up" && amount > 0) {
-            Indata = {'amount': amount, 'itemid': itemID, 'createdbyid': angular.fromJson($localStorage.user_id)};
+            Indata = {'amount': amount, 'itemid': itemID};
             //POST stock up material to the server
             $http.post("../api/v1/restricted/event/7", Indata).success(function (data, status) {
                 //SUCCESSFULL alert
@@ -190,7 +227,6 @@ invControllers.controller('DetailCtrl', ['$scope', '$localStorage', '$routeParam
             Indata = {
                 'amount': amount,
                 'itemid': itemID,
-                'createdbyid': angular.fromJson($localStorage.user_id),
                 'price': price
             };
             //POST sell material to the server
