@@ -4,24 +4,7 @@
 
 This project was created as a software project at the Ilmenau University of Technology. Its goal is to develop an inventory system for "UNIKAT", which is a FabLab organized by students. The inventory system has 2 main functions: The first one is to provide a database that contains all devices and materials belonging to UNIKAT as well as their current location and state. In addition to that, the inventory system is capable of creating and managing rentals of items, making it much easier to keep track of who rented something, when he rented it and also when he has to give it back.
 
-### Developers
-
-Kevin Bartsch </br>
-Maximilian Rütz </br>
-Franz Stecher </br>
-Martin Werchan </br>
-Oliver Sommer </br>
-Connor Schellhorn </br>
-David Scholz </br>
-Andreas Wehenkel </br>
-
 ## Installation
-
-
-### Setup Requirements (for vagrant box):
-- VirtualBox
-- Vagrant
-- Cygwin, MinGV or Git
 
 #### Installation:
 
@@ -43,16 +26,23 @@ Andreas Wehenkel </br>
     cd /vagrant/code/laravel
     ```
 
+4. Copy settings and set `app` and `jwt` key 
+
+    ```sh
+    cp .env.example .env
+    nano .env
+    ```
+
 4. Migrate the database:
 
     ```sh
     php artisan migrate
     ```
 
-5. Seed the database:
+5. Create a admin:
 
     ```sh
-    php artisan db:seed
+    php artisan admin:create
     ```
 
 6. Done - Open website:
@@ -61,18 +51,16 @@ Andreas Wehenkel </br>
     Type "localhost:8000" into your browser
     ```
 
-7. Go to Admin Panel and login:
-
-    ```sh
-    Username: unikat@example.com
-    Password: unikat
-    (password should be changed after first login or in ~\code\laravel\database\seeds\MemberTableSeeder)
-    ```
-
 #### For Production
-```$xslt
-php artisan migrate
-php artisan jwt:generat
-php artisan db:seed --env=prod
-php artisan admin:create
+Set APP_DEBUG to `false` and APP_ENV to `production`.
+If you have deployed this to a subfolder, add the `RewriteBase` to the `code/laracel/public/.htaccess`:
 ```
+    RewriteEngine On
+    RewriteBase /your/sub/path/
+    # Redirect Trailing Slashes If Not A Folder...
+```
+
+## Customization
+
+  1. Change constants in code/laravel/public/js/app.js
+  2. Replace code/laravel/public/img/logo.png

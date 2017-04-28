@@ -85,7 +85,9 @@ invControllers.controller('DetailCtrl', ['$scope', '$routeParams', 'ItemResource
 //Main-controller
 //Used: overall other controller 
 //==============================
-invControllers.controller('indexCtrl', function ($scope, $location, $anchorScroll) {
+invControllers.controller('indexCtrl', function ($scope, $location, $anchorScroll, customData) {
+
+    $scope.custom = customData;
 
     $scope.scrollTo = function () {
         // set the location.hash to null/top

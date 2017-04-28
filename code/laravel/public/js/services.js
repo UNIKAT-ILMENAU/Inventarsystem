@@ -17,3 +17,9 @@ invServices.factory('ItemResource', ['$resource',
             detailLoad: {method: 'GET'},
         });
     }]);
+
+invServices.filter('to_trusted', ['$sce', function($sce){
+        return function(text) {
+            return $sce.trustAsHtml(text);
+        };
+    }]);
