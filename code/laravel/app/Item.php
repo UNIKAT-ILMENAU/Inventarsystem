@@ -19,10 +19,9 @@ class Item extends Model
         return $items;
     }
 
-    public static function getAllPublic() {
+    public static function getAllPublicQuery() {
         $items = Item::with('category')
-            ->select('id', 'name', 'type', 'state', 'storage_value', 'sale_price', 'category_id')
-            ->get();
+            ->select('id', 'name', 'type', 'state', 'storage_value', 'sale_price', 'category_id');
         return $items;
     }
 

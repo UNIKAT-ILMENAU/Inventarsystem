@@ -13,7 +13,7 @@ var invServices = angular.module('invServices', ['ngResource']);
 invServices.factory('ItemResource', ['$resource',
     function ($resource) {
         return $resource('api/v1/items/:id', {}, {
-            allItems: {method: 'GET', isArray: true},
+            allItems: {method: 'GET'},
             detailLoad: {method: 'GET'},
         });
     }]);

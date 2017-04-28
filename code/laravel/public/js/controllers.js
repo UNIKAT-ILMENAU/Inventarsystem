@@ -11,47 +11,77 @@ var invControllers = angular.module('invControllers', ['angularUtils.directives.
 //==============================
 invControllers.controller('ListCtrl', function ($scope, $location, $http, ItemResource) {
 
-    //Get all item informations from the server
-    var allItems = ItemResource.allItems(function () {
-        var newAllItems = allItems.map(function (element) {
+    $scope.currentPage = 1;
 
-            return {
-                Id: element.id,
-                Name: element.name,
-                State: element.state,
-                // material_id: element.type,
-                Category: element.category ? element.category.name : null,
-                BuildType: element.build_type,
-                SalePrice: element.sale_price,
-                StorageValue: element.storage_value,
-                Type: element.type
+    reloadData();
+
+    function reloadData() {
+        //Get all item informations from the server
+        ItemResource.allItems({"page": $scope.currentPage, "orderBy": $scope.sortKey, "reverse": $scope.reverse, "search": $scope.searchQuery}, function success(result) {
+            $scope.paginationData = result;
+            $scope.listData = $scope.paginationData.data;
+
+            $scope.pageList = [];
+            for(var i = 1; i <= $scope.paginationData.last_page ; i++) {
+                $scope.pageList.push({"index": i});
             }
         });
+    }
 
-        $scope.listData = newAllItems;
-    });
-
-
-    /*REST.typload(function(data){      //typeaheadlist request via rest-factory
-     $scope.typeaheadData = data;        //NOT INCLUDED, WIP
-     });*/
-
-    var d_pageSize = 10;                //default pageSize limit
-    $scope.pageSize = d_pageSize;       //Item limit per page
+    $scope.search = function () {
+        reloadData();
+    };
 
     $scope.sort = function (keyname) {    //sort option on click, call by reference
         $scope.sortKey = keyname;         //set the sortKey to the param passed
         $scope.reverse = !$scope.reverse; //if true make it false and vice versa
+
+        reloadData();
     };
 
+    $scope.nextPage = function () {
+        if($scope.currentPage == $scope.paginationData.last_page) {
+            return;
+        }
+        $scope.currentPage += 1;
+        reloadData();
+    };
+
+    $scope.previousPage = function () {
+        if($scope.currentPage == 1) {
+            return;
+        }
+        $scope.currentPage -= 1;
+        reloadData();
+    };
+
+    $scope.loadPage = function (i) {
+        $scope.currentPage = i;
+        reloadData();
+    };
+
+    // //Get all item informations from the server
+    // var allItems = ItemResource.allItems(function () {
+    //     var newAllItems = allItems.map(function (element) {
+    //
+    //         return {
+    //             Id: element.id,
+    //             Name: element.name,
+    //             State: element.state,
+    //             // material_id: element.type,
+    //             Category: element.category ? element.category.name : null,
+    //             BuildType: element.build_type,
+    //             SalePrice: element.sale_price,
+    //             StorageValue: element.storage_value,
+    //             Type: element.type
+    //         }
+    //     });
+    //
+    //     $scope.listData = newAllItems;
+    // });
 
     $scope.viewDetail = function (listID) {    //tr clickable, change to detailview view, activated via 1click
         $location.path('/listData/' + listID);
-    };
-
-    $scope.resetFilter = function () {
-        $scope.search = "";   //resets the filter options
-        $scope.pageSize = d_pageSize; //resets the items per page size to default
     };
 
 });

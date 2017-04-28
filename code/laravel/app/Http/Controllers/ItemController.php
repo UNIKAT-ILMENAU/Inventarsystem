@@ -14,9 +14,24 @@ class ItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function publicIndex()
+    public function publicIndex(Request $request)
     {
-        return \App\Item::getAllPublic();
+        $items = \App\Item::getAllPublicQuery();
+
+        if($request->search) {
+            $items = $items
+                ->where('name', 'like', "%$request->search%")
+                ->orWhere('description', 'like', "%$request->search%");
+        }
+
+        if($request->orderBy && $request->reverse) {
+            $order = $request->reverse == 'true' ? 'desc' : 'asc';
+            $items = $items->orderBy($request->orderBy, $order);
+        }
+
+        $items = $items->paginate(5);
+
+        return $items;
     }
 
     /**
