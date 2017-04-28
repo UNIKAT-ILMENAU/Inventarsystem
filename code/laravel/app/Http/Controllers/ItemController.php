@@ -20,8 +20,9 @@ class ItemController extends Controller
 
         if($request->search) {
             $items = $items
-                ->where('name', 'like', "%$request->search%")
-                ->orWhere('description', 'like', "%$request->search%");
+                ->where('items.name', 'like', "%$request->search%")
+                ->orWhere('items.description', 'like', "%$request->search%")
+                ->orWhere('categories.name', 'like', "%$request->search%");
         }
 
         if($request->orderBy && $request->reverse) {
@@ -43,10 +44,13 @@ class ItemController extends Controller
     {
         $items = \App\Item::query();
 
+        $items = $items->join('categories', 'items.category_id', '=', 'categories.id');
+
         if($request->search) {
             $items = $items
-                ->where('name', 'like', "%$request->search%")
-                ->orWhere('description', 'like', "%$request->search%");
+                ->where('items.name', 'like', "%$request->search%")
+                ->orWhere('items.description', 'like', "%$request->search%")
+                ->orWhere('categories.name', 'like', "%$request->search%");
         }
 
         if($request->orderBy && $request->reverse) {
@@ -54,7 +58,7 @@ class ItemController extends Controller
             $items = $items->orderBy($request->orderBy, $order);
         }
 
-        $items = $items->paginate(5);
+        $items = $items->paginate(5, ['items.*']);
 
         return $items;
     }

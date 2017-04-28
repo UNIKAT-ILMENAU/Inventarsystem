@@ -21,7 +21,8 @@ class Item extends Model
 
     public static function getAllPublicQuery() {
         $items = Item::with('category')
-            ->select('id', 'name', 'type', 'state', 'storage_value', 'sale_price', 'category_id');
+            ->select('items.id', 'items.name', 'type', 'state', 'storage_value', 'sale_price', 'category_id')
+            ->join('categories', 'items.category_id', '=', 'categories.id');
         return $items;
     }
 
