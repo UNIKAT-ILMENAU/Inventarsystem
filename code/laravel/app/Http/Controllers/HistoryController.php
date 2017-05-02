@@ -25,4 +25,20 @@ class HistoryController extends Controller
         $history->setTypeStateChanged($comment, $oldState, $newState);
         $history->save();
     }
+
+    public static function addMaterialUsedEntry(Item $item, $comment, $amount) {
+        $history = new History();
+        $history->user()->associate(Auth::user());
+        $history->item()->associate($item);
+        $history->setTypeMaterialUsed($comment, $amount);
+        $history->save();
+    }
+
+    public static function addMaterialRestockedEntry(Item $item, $comment, $amount) {
+        $history = new History();
+        $history->user()->associate(Auth::user());
+        $history->item()->associate($item);
+        $history->setTypeMaterialRestocked($comment, $amount);
+        $history->save();
+    }
 }

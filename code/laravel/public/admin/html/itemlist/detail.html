@@ -179,11 +179,7 @@ Additionally needed scripts: none
                         ng-click="materialEvent('stock up')">
                     <span class="glyphicon glyphicon-plus"></span> Stock up
                 </button>
-                <!-- Sell material by value, opens up a modal -->
-                <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#MaterialModal2"
-                        ng-click="materialEvent('sell')">
-                    <span class="glyphicon glyphicon-minus"></span> Sell
-                </button>
+
 
                 <!-- Modal for the material options -->
                 <div class="modal fade" id="MaterialModal" role="dialog">
@@ -199,8 +195,13 @@ Additionally needed scripts: none
                                     <div class="form-group"
                                          ng-class="{'has-error': materialForm.matAmt.$invalid && materialForm.matAmt.$touched }">
                                         <label for="matAmt">Amount:</label>
+                                        <input type="number" min="1" step="1"
+                                               ng-show="title=='stock up'"
+                                               id="matAmta" name="matAmt" class="form-control" ng-model="$parent.amount"
+                                               required="">
                                         <input type="number" min="1" step="1" max="{{detailData.storage_value}}"
-                                               id="matAmt" name="matAmt" class="form-control" ng-model="amount"
+                                               ng-if="title=='used'"
+                                               id="matAmt" name="matAmt" class="form-control" ng-model="$parent.amount"
                                                required="">
                                         <p ng-show="materialForm.matAmt.$error.required && materialForm.matAmt.$touched"
                                            class="text-danger">The amount is required.</p>
@@ -208,6 +209,16 @@ Additionally needed scripts: none
                                             are allowed.</p>
                                         <p ng-show="materialForm.matAmt.$error.min || materialForm.matAmt.$error.max"
                                            class="text-danger">0 < amount <= StorageValue</p>
+                                    </div>
+
+                                    <div class="form-group"
+                                         ng-class="{'has-error': deviceForm.devCmt.$invalid && deviceForm.matCmt.$touched }">
+                                        <label for="matCmt">Comment:</label>
+                                        <input ng-class="{'has-error': deviceForm.matCmt.$invalid && deviceForm.matCmt.$touched }"
+                                               type="text" id="matCmt" name="matCmt" class="form-control"
+                                               ng-model="mat_comment" required="">
+                                        <p ng-show="materialForm.matCmt.$invalid && materialForm.matCmt.$touched"
+                                           class="text-danger">A comment is required.</p>
                                     </div>
                                 </form>
                             </div>
@@ -218,64 +229,15 @@ Additionally needed scripts: none
                                         ng-click="amount = '';">Cancel
                                 </button>
                                 <button type="button" class="btn btn-success" data-dismiss="modal"
-                                        ng-disabled="materialForm.matAmt.$invalid"
-                                        ng-click="updateMaterialEvent(title, amount, detailData.id, 1, 0)">Send update
-                                </button> <!-- needs to be implemented -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Modal for the material option sell -->
-                <div class="modal fade" id="MaterialModal2" role="dialog">
-                    <div class="modal-dialog modal-sm">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <!-- info what event is selected -->
-                                <h4 class="modal-title">Material {{title}}</h4>
-                            </div>
-                            <div class="modal-body">
-                                <form role="form" name="sellForm">
-                                    <!-- amount input -->
-                                    <div class="form-group"
-                                         ng-class="{'has-error': sellForm.sellAmt.$invalid && sellForm.sellAmt.$touched }">
-                                        <label for="sellAmt">Amount:</label>
-                                        <input type="number" min="1" step="1" max="{{detailData.storage_value}}"
-                                               id="sellAmt" name="sellAmt" class="form-control"
-                                               ng-model="amount" required="">
-                                        <p ng-show="sellForm.sellAmt.$error.required && sellForm.sellAmt.$touched"
-                                           class="text-danger">The amount is required.</p>
-                                        <p ng-show="sellForm.sellAmt.$error.number" class="text-danger">Only numbers are
-                                            allowed.</p>
-                                        <p ng-show="sellForm.sellAmt.$error.min || sellForm.sellAmt.$error.max"
-                                           class="text-danger">0 < amount <= StorageValue</p>
-                                    </div>
-                                    <!-- Price -->
-                                    <div class="form-group"
-                                         ng-class="{'has-error': sellForm.sellPrc.$invalid && sellForm.matAmt.$touched }">
-                                        <label for="sellPrc">Price:</label>
-                                        <input type="number" id="sellPrc" name="sellPrc" min="0.00" step="0.01"
-                                               placeholder="42,00" class="form-control"
-                                               ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" ng-model="price">
-                                        <p ng-show="sellForm.sellPrc.$invalid && sellForm.sellPrc.$touched"
-                                           class="text-danger">Please enter a valid price like 42.00.</p>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <!-- Cancel / Send the material update to the server -->
-                                <button type="button" class="btn btn-default" data-dismiss="modal"
-                                        ng-click="amount = '';">Cancel
+                                        ng-disabled="materialForm.matAmt.$invalid || materialForm.matCmt.$invalid"
+                                        ng-click="updateMaterialEvent(detailData.id, title, amount, mat_comment)">Send update
                                 </button>
-                                <button type="button" class="btn btn-success" data-dismiss="modal"
-                                        ng-disabled="sellForm.sellAmt.$invalid || sellForm.sellPrc.$invalid"
-                                        ng-click="updateMaterialEvent(title, amount, detailData.id, 1, price)">Send
-                                    update
-                                </button> <!-- needs to be implemented -->
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
     <!-- Menupoint/Buttons -->
@@ -325,7 +287,9 @@ Additionally needed scripts: none
                     <div ng-switch="hdata.entry_type">
                         <div ng-switch-when="1" class="text-success">Created Event</div>
                         <div ng-switch-when="2" class="text-success">State Changed Event</div>
-                        <div ng-switch-default class="text-error">Unknown Event Type</div>
+                        <div ng-switch-when="3" class="text-success">Material Used</div>
+                        <div ng-switch-when="4" class="text-success">Material Restocked</div>
+                        <div ng-switch-default class="text-error">Unknown Event Type ({{hdata.entry_type}})</div>
                     </div>
                 </td>
 
@@ -333,6 +297,8 @@ Additionally needed scripts: none
                     <div ng-switch="hdata.entry_type">
                         <div ng-switch-when="1">{{hdata.data.comment}}</div>
                         <div ng-switch-when="2">{{hdata.data.comment}} <br> {{hdata.data.old_state | itemStateIdToName}} => {{hdata.data.new_state | itemStateIdToName}}</div>
+                        <div ng-switch-when="3">{{hdata.data.comment}} <br> Amount: {{hdata.data.amount}}</div>
+                        <div ng-switch-when="4">{{hdata.data.comment}} <br> Amount: {{hdata.data.amount}}</div>
                         <div ng-switch-default>{{hdata.data}}</div>
                     </div>
                 </td>

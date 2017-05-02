@@ -53,6 +53,8 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('/items/{item}/defective', 'ItemController@defective');
         Route::post('/items/{item}/missing', 'ItemController@missing');
         Route::post('/items/{item}/available', 'ItemController@available');
+        Route::post('/items/{item}/use', 'ItemController@useMaterial');
+        Route::post('/items/{item}/restock', 'ItemController@restockMaterial');
 
         Route::get('/places', 'PlaceController@index');
         Route::post('/places', 'PlaceController@store');

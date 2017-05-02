@@ -118,6 +118,9 @@ invControllers.controller('DetailCtrl', ['$scope', '$localStorage', '$routeParam
         $scope.detailData = ItemResource.detailLoad({id: $routeParams.ListItemId});
         //Gets all history informations of a specific item by id
         $scope.historyData = ItemResource.historyLoad({id: $routeParams.ListItemId});
+
+        $scope.amount = '';
+        $scope.comment = '';
     };
 
     //==============================
@@ -201,38 +204,22 @@ invControllers.controller('DetailCtrl', ['$scope', '$localStorage', '$routeParam
     };
 
     //modal function for the material used / stockup function
-    $scope.updateMaterialEvent = function (title, amount, itemID, createdbyid, price) {
+    $scope.updateMaterialEvent = function (itemID, title, amount, comment) {
         //check event and if we have a positiv amount
+        console.log("bla", itemID, title, amount, comment)
         var Indata = {};
         if (title == "used" && amount > 0) {
-            Indata = {'amount': amount, 'itemid': itemID}; //NEEDS TO BE IMPLEMENTED
-            //POST used material to the server
-            $http.post("../api/v1/restricted/event/6", Indata).success(function (data, status) {
-                //SUCCESSFULL alert
-                alert('Material used!');
+            Indata = {'amount': amount, 'comment': comment};
+
+            ItemResource.use({id: itemID}, Indata).$promise.then(function () {
                 $scope.ReloadDatas();
             });
 
         } //check event and if we have a positiv amount
         else if (title == "stock up" && amount > 0) {
-            Indata = {'amount': amount, 'itemid': itemID};
-            //POST stock up material to the server
-            $http.post("../api/v1/restricted/event/7", Indata).success(function (data, status) {
-                //SUCCESSFULL alert
-                alert('Stock up successful!');
-                $scope.ReloadDatas();
-            });
-        } else if (title == "sell" && amount > 0) {
+            Indata = {'amount': amount, 'comment': comment};
 
-            Indata = {
-                'amount': amount,
-                'itemid': itemID,
-                'price': price
-            };
-            //POST sell material to the server
-            $http.post("../api/v1/restricted/event/10", Indata).success(function (data, status) {
-                //SUCCESSFULL alert
-                alert('Material sold!');
+            ItemResource.restock({id: itemID}, Indata).$promise.then(function () {
                 $scope.ReloadDatas();
             });
         }

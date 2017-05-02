@@ -139,7 +139,7 @@ class ItemController extends Controller
         }
 
         $old_state = $item->state;
-        $item->setStateToDefective($request->comment);
+        $item->setStateToDefective();
         $item->save();
 
         HistoryController::addStateChangedEntry($item, $request->comment, $old_state, $item->state);
@@ -151,7 +151,7 @@ class ItemController extends Controller
         }
 
         $old_state = $item->state;
-        $item->setStateToMissing($request->comment);
+        $item->setStateToMissing();
         $item->save();
 
         HistoryController::addStateChangedEntry($item, $request->comment, $old_state, $item->state);
@@ -163,9 +163,39 @@ class ItemController extends Controller
         }
 
         $old_state = $item->state;
-        $item->setStateToAvailable($request->comment);
+        $item->setStateToAvailable();
         $item->save();
 
         HistoryController::addStateChangedEntry($item, $request->comment, $old_state, $item->state);
+    }
+
+    public function useMaterial(Request $request, Item $item) {
+        $this->validate($request, [
+            'amount' => 'required|numeric',
+            'comment' => 'required|string'
+        ]);
+
+        if($item->type == "DEVICE") {
+            return response()->error('Not allowed on devices');
+        }
+
+        $item->useMaterial($request->amount);
+
+        HistoryController::addMaterialUsedEntry($item, $request->comment, $request->amount);
+    }
+
+    public function restockMaterial(Request $request, Item $item) {
+        $this->validate($request, [
+            'amount' => 'required|numeric',
+            'comment' => 'required|string'
+        ]);
+
+        if($item->type == "DEVICE") {
+            return response()->error('Not allowed on devices');
+        }
+
+        $item->restock($request->amount);
+
+        HistoryController::addMaterialRestockedEntry($item, $request->comment, $request->amount);
     }
 }

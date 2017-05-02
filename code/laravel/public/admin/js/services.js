@@ -45,7 +45,9 @@ invServices.factory('ItemResource', ['$resource',
             update: {method: 'PUT'},
             defective: {method: 'POST', params: {subpath: 'defective'}},
             missing: {method: 'POST', params: {subpath: 'missing'}},
-            available: {method: 'POST', params: {subpath: 'available'}}
+            available: {method: 'POST', params: {subpath: 'available'}},
+            use: {method: 'POST', params: {subpath: 'use'}},
+            restock: {method: 'POST', params: {subpath: 'restock'}}
         });
     }]);
 

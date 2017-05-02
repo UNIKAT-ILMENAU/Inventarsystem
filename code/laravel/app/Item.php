@@ -13,6 +13,18 @@ class Item extends Model
 
     protected $with = ['place', 'category'];
 
+    public function place() {
+        return $this->belongsTo(Place::class);
+    }
+
+    public function category() {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function history() {
+        return $this->hasMany(History::class);
+    }
+
     public static function all($columns = ['*'])
     {
         $items = Item::with(['category', 'place'])->get();
@@ -152,16 +164,22 @@ class Item extends Model
         //todo add history to item
     }
 
+    public function useMaterial($amount) {
+        if(! ($this->storage_value - $amount >= 0)) {
+            return false;
+        }
 
-    public function place() {
-        return $this->belongsTo(Place::class);
+        $this->storage_value -= $amount;
+
+        $this->save();
+
+        return true;
     }
 
-    public function category() {
-        return $this->belongsTo(Category::class);
+    public function restock($amount) {
+        $this->storage_value += $amount;
+        $this->save();
     }
 
-    public function history() {
-        return $this->hasMany(History::class);
-    }
+
 }

@@ -32,4 +32,14 @@ class History extends Model
         $this->data = array('comment' => $comment, 'old_state' => $oldState, 'new_state' => $newState);
     }
 
+    public function setTypeMaterialUsed($comment, $amount) {
+        $this->entry_type = 3;
+        $this->data = array('comment' => $comment, 'amount' => $amount);
+    }
+
+    public function setTypeMaterialRestocked($comment, $amount) {
+        $this->entry_type = 4;
+        $this->data = array('comment' => $comment, 'amount' => $amount);
+    }
+
 }
