@@ -12,22 +12,10 @@
       apt:
         name=htop
 
-    - name: add mysql key
-      apt_key:
-        keyserver=pgp.mit.edu
-        id=5072E1F5
-
-    - name: add mysql repository
-      apt_repository:
-        repo='deb http://repo.mysql.com/apt/debian/ jessie mysql-5.7'
-
-    - name: update apt
-      apt:
-        update_cache=yes
 
     - name: install mysql
       apt:
-        name=mysql-server
+        name=mariadb-server
 
     - name: install python-mysqldb
       apt:
@@ -36,6 +24,13 @@
     - name: create inventory database
       mysql_db:
         name: inventory
+
+    - name: Set root user password
+      mysql_user: 
+        name=root
+        password="root"
+        check_implicit_admin=yes
+        state=present
 
     - name: install apache
       apt:
@@ -58,10 +53,8 @@
       apt:
         name={{item}}
       with_items:
-        - php5
-        - php5-mcrypt
-        - php5-gd
-        - php5-mysqlnd
+        - php7.3
+        - php7.3-mysqlnd
 
     - name: active rewrite
       apache2_module:
@@ -76,4 +69,9 @@
     - name: restart apache
       service:
         name=apache2
+        state=restarted
+
+    - name: restart mysql
+      service:
+        name=mysqld
         state=restarted
