@@ -30,7 +30,7 @@ class ItemController extends Controller
             $items = $items->orderBy($request->orderBy, $order);
         }
 
-        $items = $items->paginate(5);
+        $items = $items->paginate(100);
 
         return $items;
     }
@@ -58,7 +58,7 @@ class ItemController extends Controller
             $items = $items->orderBy($request->orderBy, $order);
         }
 
-        $items = $items->paginate(5, ['items.*']);
+        $items = $items->paginate(100, ['items.*']);
 
         return $items;
     }
